@@ -1,0 +1,25 @@
+body {
+    padding-top: 50px;
+}
+
+.amalia {
+    padding: 40px 15px;
+}
+
+.row-centered {
+    text-align:center;
+}
+
+.col-centered {
+    display:inline-block;
+    float:none;
+    /* reset the text-align */
+    text-align:left;
+    /* inline-block space fix */
+    margin-right:-4px;
+}
+
+.footer-border {
+	border-top: 1px solid #eee;
+	margin-top: 40px;
+}
