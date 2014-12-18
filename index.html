@@ -13,11 +13,6 @@
     <link href="static/css/amalia-site.css" rel="stylesheet" type="text/css" />
     <!-- // -->
     
-    <!-- amalia.js player stuff -->
-    <!-- <link rel="stylesheet" href="dist/amalia-1.0.0.min.css"> -->
-	<!-- <script src="dist/amalia-1.0.0.min.js" type="text/javascript"></script> -->
-	<!-- // -->
-	
     <title>amalia.js - Metadata enriched HTML5 video player</title>
   </head>
   
@@ -67,176 +62,30 @@
 	</div>
 	
 	<p>amalia.js is a new extensible and versatile HTML5 multimedia player that allows you to view any type of metadata along with your video or audio streams.
-	It follows the responsive design guidelines.
-	Although initially designed as a tool to visualize the metadatas extracted automatically by our algorithms (<a href="http://recherche.ina.fr/eng/">you can see some prototypes online</a>), we believe it can be useful more broadly.
-	Thus, we choose to share it as an open-source project under a GPL license. 
-	This web page is a first step, we are currently working on a more appropriate way to collaborate with the community.
-	If you already find amalia.js usefull, plan to use it, or even modify it, don't hesitate to contact us.
 	</p>
 	
-	<p>amalia.js is composed of three main parts :</p>
-	<ul>
-		<li>the core player</li>
-		<li>the unified metadata format</li>
-		<li>the visualization plugins</li>
-	</ul>
+	<p>amalia.js will be available shortly</p>
 
-	
-	<p>amalia.js is developed and maintained by the Research Department and the IT Department of <a href="http://www.institut-national-audiovisuel.fr/en/home" target="_blank">Ina (the French National Audiovisual Institute)</a>.</p>
-	
 	<!-- DOWNLOAD -->
 	<div class="page-header">
 		<h1 id="download">Download</h1>
 	</div>
-	
-	<p>amalia.js is currently only available as bulk downloads. We plan to make it available through an online source code management platform soon.</p>
 
-	<h3>Last stable version - v1.0.0</h3>
-	<div class="row">
-	<div class="col-md-4">
-		<h4>amalia.js alone</h4>
-		<p>Compiled and minified javascript and css for amalia.js video player and the main plugins</p>
-		<p><a class="btn btn-lg btn-outline" role="button" href="">Download amalia.js</a></p>
-	</div>
-	<div class="col-md-4">
-		<h4>amalia.js packaged</h4>
-		<p>amalia.js video player packaged with all javascipt and css third party libraries</p>
-		<p><a class="btn btn-lg btn-outline" href="">Download full package</a></p>
-	</div> 
-	<div class="col-md-4">
-		<h4>amalia.js source code</h4>
-		<p>All source code and build scripts, allowing you to modify the plugins and learn how to create your own</p>
-		<p><a class="btn btn-lg btn-outline" href="">Download source</a></p>
-	</div>    
-	</div>
-
-	<h3>Previous versions</h3>
-	<div class="row">
-		<ul>
-			<li>v0.0.9 : <a href="">amalia.js</a> | <a href="">packaged</a> | <a href="">source</a></li>
-			<li>v0.0.8 : <a href="">amalia.js</a> | <a href="">packaged</a> | <a href="">source</a></li>
-			<li>v0.0.7 : <a href="">amalia.js</a> | <a href="">packaged</a> | <a href="">source</a></li>
-		</ul>
-	</div>
 	
 	<!-- TUTORIAL -->
 	<div class="page-header">
 		<h1 id="tutorial">Tutorial</h1>
 	</div>
-	<p>The easiest way to integrate the amalia.js player in your application is to use the packaged version.
-	All the third party libraries are provided along with the player code in two simple files for javascript and css parts.
-	Add the following two lines in the <code>&lt;header&gt;</code> section of your HTML page :</p>
-<pre>
-&lt;link rel="stylesheet" href="amalia-1.0.0.min.css"&gt;
-&lt;script src="amalia-1.0.0.min.js" type="text/javascript"&gt;&lt;/script&gt;
-</pre>
-	<p>In the <code>&lt;body&gt;</code> section of your HTML page, you need a <code>&lt;div&gt;</code> that will be used to instantiate the player. 
-	The only requirement for that div is to have an id.
-	In our example, we choose to limit the global height of the player.
-	</p>
-<pre>
-&lt;div style="height: 350px;"&gt;
-    &lt;div id="myplayer"&gt;&lt;/div&gt;
-&lt;/div&gt;
-</pre>	
-	<p>Once this container is there, we can call the javascript function that will create the player.
-	The only mandatory parameter is the multimedia stream that will be played.
-	You can use any media format that is compatible with the targeted browsers of your application.
-	Typically, for videos, you have to encode your files with h.264 and use mp4 container.
-	For a complete list of initialization parameters of amalia.js, see the <a href="#documentation">documentation</a>.
-	</p>
-<pre>
-$("#myplayer").mediaPlayer({
-        autoplay : false,
-        src : "/path/to/myvideo.mp4",
-});	
-</pre>
-	<p>For testing purposes, we generate a demonstration video with all types of metadata attached to it.
-	We will use this video along all the examples in this documentation.
-	Here is the result of the three previous steps, providing a simple player :</p>
-	
-	<div style="height: 350px;">
-		<div id="myplayer"></div>
-    </div>
+
 	
 	<!-- DOCUMENTATION -->
 	<div class="page-header">
 		<h1 id="documentation">Documentation</h1>
 	</div>
-	<h3>Global architecture</h3>
-	<p>The player core component is a framework capable of providing real-time synchronization between the viewing window of the video and a set of plugins.
-	As well as this core, each plugin has a set of parameters that define its behavior for a given application.</p>
-	<p>The main principle of amalia.js is to have a unified metadata model.
-	Ensuring that all the metadata types are consistent and use the same standards will facilitate their use and enable us to design generic visualization plugins.
-	A typical usage of amalia.js is to have a video file with a few metadata blocks.
-	When instantiating the player, a binding has to be done between the metadata blocks and the visualization plugins so as to decide which metadata is displayed and in which way.
-	</p>
-
-	<h3>Metadata format</h3>
-	<p>There are two main types of metadata that the player will have to manage. 
-	We have on one side the metadata of media streams that are described in this section and on the other side, settings of the player, plugins and interactions with the applications that are discussed in the following sections.
-	A generic metadata model has been designed, it is intended to represent all the metadata of a media stream. 
-	It is able to describe both the audio and video of a content, technical stuff, any documentary notes and all the results of automatic metadata extraction algorithms. 
-	Currently, this model is only able to manage metadata of a single stream.
-	For analysis results of a corpus, involving links between streams (clustering, mining, similarity detection ...), a specific data model extension has to be created and is currently investigated.</p>
-	<p>The metadata model is generic and extensible. It is formated in JSon and is able to represent any metadata that is :</p>
-	<ul>
-		<li>localized temporally in the stream : at a given timecode (TC) or during a specific time segment (TCIn, TCOut)</li>
-		<li>localized spatially in a video frame : currently ellipses and rectangles bounding boxes are available</li>
-		<li>hierarchical : each metadata is associated to a specific level (TCLevel)</li>
-		<li>labeled : each metadata may have a label</li>
-		<li>scored : each metadata may have a confidence score</li>
-		<li>extended : each metadata can have its own additionnal data that is not represented in this model</li>
-	</ul>
-	<p>Each metadata block has a unique id that is used for the binding with the visualization plugins.</p>
-	<p>TODO a simple json example</p>
-	
-	<h3>Player options</h3>
-	<p>TODO</p>
-	
-	<h3>Timeline plugin</h3>
-	<p>TODO</p>
-	
-	<h3>Text synchronization plugin</h3>
-	<p>TODO</p>
-	
-	<h3>Overlay plugin</h3>
-	<p>TODO</p>
-	
-	<div id="myplayer-overlay-container">
-		<div style="height: 350px;">
-			<div id="myplayer-overlay"></div>
-		</div>
-		<div id="myplayer-overlay-timeline" style="height:265px;"></div>
-		<div style="clear: both;"></div>
-    </div>
 
 	<!-- EXAMPLES -->
 	<div class="page-header">
 		<h1 id="examples">Examples</h1>
-	</div>
-	
-	<p>We list here applications and web sites that use amalia.js. If you integrate this player and want to be listed here, let us know !</p>
-	
-	<div class="row">
-		<div class="col-md-4">
-			<h4>Simple player</h4>
-			<p>Even if it's not it's primary goal, amalia.js can also be used as a simple HTML5 video player, without any metadata provided</p>
-			<p>We used it, with a sticky control bar, for the <a href="http://recherche.ina.fr/eng?projet=saphir" target="_blank">video presentation of the Saphir project</a>.</p>
-		</div>
-		<div class="col-md-4">
-			<h4>Timeline plugin</h4>
-			<p>This plugin is used in <a href="http://diginpix.ina.fr/en" target="_blank">DigInPix</a> to visualize the keyframes in which some objects are automatically detected</p>
-			<p>Here are some links to nice exemples of this application :</p>
-			<ul>
-				<li><a href="http://diginpix.ina.fr/en/documents/2305848667564670976/stade-2-emission-du-30-mai-2010.html" target="_blank">video 1</a></li>
-				<li><a href="http://diginpix.ina.fr/en/documents/2305848721520197632/roland-garros-elimination-des-joueuses-francaises.html" target="_blank">video 2</a></li>
-			</ul>
-		</div> 
-		<div class="col-md-4">
-			<h4>Text synchronization plugin</h4>
-			<p>This plugin is used in <a href="http://syncnotes.ina.fr/en" target="_blank">SyncNotes</a> to synchronize a news broadcast video with it's manually annotated documentation</p>
-		</div>    
 	</div>
 
 	<!-- ABOUT -->
@@ -244,39 +93,9 @@ $("#myplayer").mediaPlayer({
 		<h1 id="about">About</h1>
 	</div>
 
-	<h3>License</h3>
-	<p>amalia.js and all it's plugins are released under the <a href="http://www.gnu.org/licenses/gpl-3.0.en.html">GPL license</a>.</p>
-	
-	<h3>Third party libraries</h3>
-	<p>The following libraries are used by amalia.js and/or its plugins : </p>
-	<ul>
-		<li>jQuery : easy DOM manipulation framework (<a href="http://jquery.com">web site</a>)</li>
-		<li>jQueryClass : simulated inheritance in javascript (<a href="http://v3.javascriptmvc.com/docs/jQuery.Class.html#&who=jQuery.Class">web site</a>)</li>
-		<li>jQueryUI : user interface stuff on top of jQuery (<a href="http://jqueryui.com">web site</a>)</li>
-		<li>jQueryUI Touch Punch : touch event support for jQuery UI (<a href="http://touchpunch.furf.com">web site</a>)</li>
-		<li>jQuery knob : a knob for jQuery (<a href="http://anthonyterrien.com/knob">web site</a>)</li>
-		<li>Raphaël : a vector graphics Javascript library (<a href="http://raphaeljs.com">web site</a>)</li>
-		<li>Bootstrap : responsive design library (<a href="http://getbootstrap.com">web site</a>)</li>
-		<li>Font Awesome : iconic font (<a href="http://fortawesome.github.io/Font-Awesome/">web site</a>)</li>
-	</ul>
-	
-	<h3>Future work</h3>
-	<p>TODO : dynamic data binding, metadata streaming, edition mode for all plugins, server side (PHP and Java) components, performance optimizations (especially with huge metadata blocks)</p>
-	
-	<h3>Contact</h3>
-	<p>For any information, you can contact us at	
-		<script type="text/javascript">
-			tmp=('a' + 'ma' + 'lia' + '.' + 'js' + '@' + 'ina.fr');
-			document.write('<a href' + '="' + 'mai' + 'lto' + ':' + tmp + '">' + tmp + '</a>');
-		</script>
-		<noscript>
-			<em>Email address protected. Please enable JavaScript to contact us.</em>
-		</noscript>
-	</p>
-		  
 	<!-- FOOTER -->
 	<div class="page-footer row footer-border">
-		<div class="col-md-6">Last updated : December 15 2014</div>
+		<div class="col-md-6">Last updated : December 18 2014</div>
 		<div class="col-md-6 text-right"><a href="http://www.institut-national-audiovisuel.fr/en/home">Institut National de l'Audiovisuel - INA</a> © 2015</div>
 	</div>	
 	
@@ -287,65 +106,5 @@ $("#myplayer").mediaPlayer({
 <script src="static/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="static/js/jquery-2.1.1.min.js" type="text/javascript"></script>
 
-	<!-- Tutorial - simple player -->
-	<script type="text/javascript">
-		$(function() {
-			$("#myplayer").mediaPlayer({
-				autoplay : false,
-				src : "static/vid/amalia01.mp4"
-			});
-		});
-	</script>
-	  
-	<!-- Tutorial - overlay plugin -->
-	<script type="text/javascript">
-		$(function() {
-			$("#myplayer-overlay").mediaPlayer({
-				autoplay : false,
-				src : "static/vid/amalia01.mp4",
-				plugins: {
-                        dataServices: [
-                            'static/json/amalia01.json'
-                        ],
-                        list: [
-                            {
-                                'className': 'com.ina.media.player.plugins.OverlayPlugin',
-                                'debug': true,
-                                'metadataId': 'tracks-amalia01',
-                                'parameters':
-                                        {
-                                            demo: false,
-                                            labels: false,
-                                            style: {
-                                                'fill': '#000',
-                                                'strokeWidth': 1,
-                                                'stroke': '#000',
-                                                'fillOpacity': 0,
-                                                'strokeDasharray': '- '
-                                            }
-                                        }
-                            },
-                            {
-                                'className': 'com.ina.media.player.plugins.TimelinePlugin',
-                                'container': '#myplayer-overlay-timeline',
-                                'debug': false,
-                                'parameters': {
-                                    listOfLines: [
-                                        {
-                                            title: 'The ball',
-                                            type: 'segment',
-                                            'metadataId': 'tracks-amalia01',
-                                            color: '#3CF',
-                                            pointNav: true
-                                        },
-                                    ]
-                                }
-                            }
-                        ]
-                    }
-			});
-		});
-	</script>	  
-	  
   </body>
 </html>
