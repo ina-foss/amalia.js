@@ -1,0 +1,935 @@
+/**
+ * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ * 
+ * This file is part of amalia.js
+ * 
+ * amalia.js is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version.
+ * 
+ * Redistributions of source code, javascript and css minified versions 
+ * must retain the above copyright notice, this list of conditions and
+ * the following disclaimer.
+ * 
+ * Neither the name of the copyright holder nor the names of its 
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with amalia.js. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * amalia.js is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ */
+/**
+* Plugin time line
+*/
+@modulesSizeListNames: lg, md, sm, xs;
+@modulesSizeList: 110px, 80px, 60px, 25px;
+
+.ajs-plugin.plugin-timeline
+{
+    position: relative;
+    background-color:#000;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    .timeline-cursor
+    {
+        border-left: 1px solid @mainColor;
+        display: block;
+        height: 100%;
+        width: 1px;
+        left: 0%;
+        position: absolute;
+        z-index: 100;
+        bottom: 30px;
+    }
+
+    .timeline-progress-container
+    {
+        position: absolute;
+        width: 100%;
+        height: 102px;
+        background-color: @mainBackgroundColor;
+        z-index: 90;
+        right: 100%;
+    }
+
+    .timeaxis
+    {
+        /* tools bar */
+        .toolsbar
+        {
+            background-color: #3f3f3f;
+            padding: 10px 10px 0 10px;
+            height: 40px;
+            .ajs-row
+            {
+                .ajs-col
+                {
+                    float: left;
+                    position: relative;
+                    min-height: 1px;
+                    padding: 0px;
+                    margin: 0px;
+                    &:after
+                        {
+                        clear: both;
+                    }
+                }
+                .leftContainer
+                {
+                    width: 16.66666667%;
+                    text-align: left;
+                }
+                .middleContainer
+                {
+                    width: 66.66666667%;
+                    text-align: center;
+                }
+                .rightContainer
+                {
+                    width: 16.66666667%;
+                    text-align: right;
+                }
+            }
+            button.ajs-icon
+            {
+                display:inline-block;
+                color: white;
+                background-color: #333;
+                border-radius: 50%;
+                border: none;
+                box-shadow: none;
+                padding: px;
+                width: 30px;
+                height: 30px;
+                padding: 0 2px 0 1px;
+                line-height: 36px;
+                font-size: 20px;
+                &:hover {
+                    background-color: @mainColor;
+                }
+            }
+        }
+        /**Module TimeAxe**/
+        .module-timeaxis
+        {
+            position: relative;
+            background-color: #333;
+            height: 100px;
+            margin-top: 2px;         
+            .line
+            {
+                height: 20px;
+                position: absolute;
+                top: 30px;
+                width: 100%;
+                margin-top: 5px;
+                z-index: 99;
+                border-bottom: 1px solid white;
+            }
+
+            .line-content
+            {
+                text-align: center;
+                position: absolute;
+                top: 50%;
+                width: 100%;
+                height: auto;
+                z-index: 99;
+            }
+
+            .time-grid
+            {
+                height: 10px;
+                width: 1px;
+                padding-top: 2px;
+                display: block;
+                position: absolute;
+                border-right: 1px solid #FFF;
+            }
+
+            .time-grid span.time
+            {
+                display: block;
+                width: 55px;
+                font-size: 12px;
+                position: relative;
+                top: -20px;
+                line-height: 15px;
+                left: 50%;
+                margin-left: -27px;
+                cursor: pointer;
+            }
+        }
+
+        .timeaxis-label
+        {
+            display: none;
+        }
+        .toolbar-container 
+        {
+            position: absolute;
+            top: 0;
+            right: 20px;   
+            .plugin-btn
+            {
+                border: none;
+                box-shadow: none;
+                background: none;
+                color: #6c6c6c;
+                font-size: 17px;
+                line-height: 25px;
+            }
+        }
+        &.off
+        {
+            height: 25px;
+            background-color: #333;
+            .toolsbar
+            {
+                display: none;
+            }
+            .module-timeaxis
+            {
+                display: none;
+            }
+            .timeaxis-label
+            {
+                position: absolute;
+                top: 0;
+                display: block;
+                .label
+                {
+                    font-size: 11px;
+                    padding: 0px 0px 0px 5px;
+                    margin: 0;
+                }
+            }
+        }
+
+    }
+
+    /**Composants du timeline**/
+    .components
+    {
+        display: block;
+        position: relative;
+        width: 100%;
+        overflow : hidden;
+
+        .cuepoints-component,
+        .segments-component,
+        .images-component,
+        .histogram-component,
+        .visual-component
+        {
+            position: relative;
+        }
+
+        .cuepoints-component .module-cuepoints,
+        .segments-component .module-segments,
+        .images-component .module-images,
+        .histogram-component .module-histogram,
+        .visual-component .module-visual
+        {
+            position: relative;
+            background-color:#333;
+            height: 100px;
+            margin-top: 2px;
+            text-align: left;
+        }
+        .cuepoints-component.activated .module-cuepoints,
+        .segments-component.activated .module-segments,
+        .images-component.activated .module-images,
+        .histogram-component.activated .module-histogram,
+        .visual-component.activated .module-visual        
+        {
+            background-color:#3f3f3f;         
+        }
+
+        .cuepoints-component .module-cuepoints .line-content,
+        .segments-component .module-segments .line-content,
+        .images-component .module-images .line-content,
+        .visual-component .module-visual .line-content
+        {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            height: auto;
+            z-index: 99;
+        }
+
+        .generate-theme(4);
+
+        .generate-theme(@n, @i: 1) when (@i =< @n) 
+            {
+            @sizeName:extract(@modulesSizeListNames, @i);
+            .component.cuepoints-component.@{sizeName} .module-cuepoints,
+            .component.segments-component.@{sizeName} .module-segments,
+            .component.images-component.@{sizeName} .module-images,
+            .component.histogram-component.@{sizeName} .module-histogram,
+            .component.visual-component.@{sizeName} .module-visual
+            {
+                height: extract(@modulesSizeList, @i);
+            }
+
+            .@{sizeName} .focus-container
+            {
+                .ui-resizable-handle {
+                    &.ui-resizable-e:before{
+                        line-height: extract(@modulesSizeList, @i);
+                    }
+                    &.ui-resizable-w:before{
+                        line-height: extract(@modulesSizeList, @i);
+                    }
+                }
+            }
+            .generate-theme(@n, (@i + 1));
+        }
+
+        @sizeName:extract(@modulesSizeListNames, 4);
+
+        .cuepoints-component.@{sizeName} .module-cuepoints .line-content,
+        .segments-component.@{sizeName} .module-segments .line-content,
+        .images-component.@{sizeName} .module-images .line-content,
+        .histogram-component.@{sizeName} .module-histogram .line-content,
+        .visual-component.@{sizeName} .module-visual .line-content
+        {
+            display: none;
+        }
+        .component.@{sizeName} .sub,
+        .component.@{sizeName} .bottom-toolbar-container,
+        .component.@{sizeName} .focus-container
+        {
+            display: none;
+        }
+        .cuepoints-component .module-cuepoints .line,
+        .segments-component .module-segments .line,
+        .images-component .module-images .line,
+        .histogram-component .module-images .line,
+        .visual-component .module-visual .line
+        {
+            background-color: #fff;
+            height: 1px;
+            position: absolute;
+            z-index:98;
+            top: 2px;
+            width: 100%;
+        }
+
+        .cuepoints-component .module-cuepoints .cuepoint 
+        {
+            position: absolute;
+            vertical-align: middle;
+            cursor: pointer;
+            font-size: 20px;
+            line-height: 13px;
+            z-index: 98;
+            margin-left: -10px;
+            &.selected
+            {
+                animation-name: ajs-bounce;
+                -webkit-animation-name: ajs-bounce;
+                animation-duration: 1.6s;	
+                -webkit-animation-duration: 1.6s;
+                animation-timing-function: ease;	
+                -webkit-animation-timing-function: ease;	
+                transform-origin: 50% 100%;
+                -ms-transform-origin: 50% 100%;
+                -webkit-transform-origin: 50% 100%;
+                animation-iteration-count: infinite;
+                -webkit-animation-iteration-count: infinite; 
+            }
+        }
+
+        .segments-component .module-segments .segment 
+        {
+            position: absolute;
+            height: 7px;
+            width: 1px;
+            float: left;
+            z-index: 99;
+            background-color: @mainColor;
+            cursor: pointer;
+            border: none;
+            margin: 0;
+            padding: 0;
+            .ui-resizable-e {
+                cursor: e-resize;
+                width: 7px;
+                right: -5px;
+                top: 0;
+                height: 100%;
+            }
+            .ui-resizable-w {
+                cursor: w-resize;
+                width: 7px;
+                left: -5px;
+                top: 0;
+                height: 100%;
+            }
+            .ui-resizable-handle {
+                position: absolute;
+                font-size: .1px;
+                z-index: 99999;
+                display: block;
+            }
+            &.selected
+            {
+                /**hatch**/
+                animation-name: ajs-hatch;
+                -webkit-animation-name: ajs-hatch;	
+                animation-duration: 2s;	
+                -webkit-animation-duration: 2s;
+                animation-timing-function: ease-in-out;	
+                -webkit-animation-timing-function: ease-in-out;
+                transform-origin: 50% 100%;
+                -ms-transform-origin: 50% 100%;
+                -webkit-transform-origin: 50% 100%; 
+                animation-iteration-count: infinite;
+                -webkit-animation-iteration-count: infinite;
+                visibility: visible !important;		
+
+            }
+            &.marker
+            {
+                height: 2px;
+                margin: 0px;
+                padding: 0px;
+                top: 2px;
+                .ui-resizable-w 
+                {
+                    cursor: w-resize;
+                    width: 7px;
+                    left: -5px;
+                    top: -3px;
+                    height: 8px;
+                    background-color: inherit;
+                }
+                .ui-resizable-e 
+                {
+                    cursor: e-resize;
+                    width: 7px;
+                    right: -5px;
+                    top: -3px;
+                    height: 8px;
+                    background-color: inherit;
+                }
+            }
+
+        }
+        .visual-component .module-visual
+        {
+            .cuepoint 
+            {
+                position: absolute;
+                vertical-align: middle;
+                cursor: pointer;
+                font-size: 20px;
+                line-height: 13px;
+                z-index: 98;
+                margin-left: -10px;
+                top: -2px;
+                &.selected
+                {
+                    animation-name: ajs-bounce;
+                    -webkit-animation-name: ajs-bounce;	
+                    animation-duration: 1.6s;	
+                    -webkit-animation-duration: 1.6s;
+                    animation-timing-function: ease;	
+                    -webkit-animation-timing-function: ease;	
+                    transform-origin: 50% 100%;
+                    -ms-transform-origin: 50% 100%;
+                    -webkit-transform-origin: 50% 100%;
+                    animation-iteration-count: infinite;
+                    -webkit-animation-iteration-count: infinite; 
+                }
+            }
+            .segment 
+            {
+                position: absolute;
+                height: 7px;
+                width: 1px;
+                float: left;
+                z-index: 99;
+                background-color: @mainColor;
+                cursor: pointer;
+                .cuepoint
+                {
+                    top: -7px;
+                    margin-right: -10px;
+                }
+                &.selected
+                {
+                    /**hatch**/
+                    animation-name: ajs-hatch;
+                    -webkit-animation-name: ajs-hatch;	
+                    animation-duration: 2s;	
+                    -webkit-animation-duration: 2s;
+                    animation-timing-function: ease-in-out;	
+                    -webkit-animation-timing-function: ease-in-out;
+                    transform-origin: 50% 100%;
+                    -ms-transform-origin: 50% 100%;
+                    -webkit-transform-origin: 50% 100%; 
+                    animation-iteration-count: infinite;
+                    -webkit-animation-iteration-count: infinite;
+                    visibility: visible !important;		
+
+                }
+                &.marker
+                {
+                    height: 2px;
+                    margin: 0px;
+                    padding: 0px;
+                    top: 2px;
+                    .ui-resizable-w 
+                    {
+                        cursor: w-resize;
+                        width: 15px;
+                        left: 0px;
+                        top: -6px;
+                        height: 15px;
+                        background-color: inherit;
+                        position: absolute;                        
+                    }
+                    .ui-resizable-e 
+                    {
+                        cursor: e-resize;
+                        width: 15px;
+                        right: 0px;
+                        top: -6px;
+                        height: 15px;
+                        background-color: inherit;
+                        position: absolute;
+                    }
+                }
+            }
+        }
+        .images-component .module-images .image
+        {
+            position: absolute;
+            float: left;
+            z-index: 99;
+            background-color: none;
+            height: 50px;
+            top: -25px;
+            background-repeat: no-repeat;
+            line-height: 50px;            
+            cursor: pointer;
+            &.on
+            {
+                z-index: 100;			
+                .content
+                {
+                }
+                &.segment
+                {
+                    z-index: 100;		
+                    border: solid 1px @mainColor;
+                    margin-top: -1px;
+                    .content
+                    {
+                        /*height: 45px;*/
+                    }
+                }
+            }
+
+            .content
+            {
+                height: 30px;
+                z-index: 1;
+                position: absolute;
+                top: 15px;
+            }
+
+            hr.flow 
+            {
+                border-color:#FFF;
+                color:#FFF;
+                display:block;
+                margin:0;
+                padding:0;
+                position:relative;    
+                height: 0px;
+                top: 28px;
+                z-index: 0;
+                border-style: double;
+                border-width: 1px;
+                width: 100%;
+                &:after,
+                    &:before 
+                    {
+
+                    display:inline-block;
+                    font-family:FontAwesome;
+                    font-size:1.1em;
+                    position:absolute;
+                    top: -25px;
+                }
+                &:after 
+                    {
+                    right:-6px;
+                    content:"\f111";
+                }
+
+                &:before 
+                    {
+                    left:-3px;
+                    content:"\f142";
+                }
+            }
+        }
+        .histogram-component .module-histogram .cuepoint 
+        {
+            position: absolute;
+            vertical-align: middle;
+            cursor: pointer;
+            font-size: 16px;
+            line-height: 8px;
+            z-index: 98;
+            margin-left: -5px;
+        }
+        .histogram-component .module-histogram .label
+        {
+            display: block;
+            position: absolute;
+            top: 0px;
+        }
+        .histogram-component .module-histogram .line-content   
+        {
+            position: relative;
+            height: 100%;
+        }
+
+        .cuepoints-component .module-cuepoints .label,
+        .segments-component .module-segments .label,
+        .images-component .module-images .label,
+        .histogram-component .module-histogram .label,
+        .visual-component .module-visual .label
+        {
+            background-color: transparent;
+            -webkit-touch-callout: text;
+            -webkit-user-select: text;
+            -khtml-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+            padding: 0px 0px 0px 5px;
+            margin: 0;
+        }
+
+        .sub.cuepoints-component .module-cuepoints,
+        .sub.segments-component .module-segments,
+        .sub.images-component .module-images,
+        .sub.images-histogram .module-histogram,
+        .sub.visual-histogram .module-visual        
+        {
+            background-color: rgba(100, 100, 100, 0.68);
+        }
+        .focus-container
+        {
+            left: 0%;
+            width: 222px;
+            display: block;
+            background-color: rgba(100, 100, 100, 0.68);
+            height: 50%;
+            border: 0px solid #333;
+            box-shadow: none;
+            position: absolute;
+            top: 0px;
+            display: block;
+            z-index: 100;
+            min-width: 41px;
+            &.zoom
+            {
+                background-color:@mainBackgroundColor;
+                height: 100%;
+            }
+            .ui-resizable-handle {
+                background-color: #6c6c6c;
+                width: 20px;
+                height: 100%;
+                text-align: center;
+                vertical-align: middle;
+                display: inline-block;
+                margin-left: 0px;
+                margin-right: 0px;
+                &.ui-resizable-w
+                {
+                    float: left;
+                    font-size: 20px;
+                    &:before{
+                        filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+                        -webkit-transform: rotate(90deg);
+                        -ms-transform: rotate(90deg);
+                        display: block;
+                        transform: rotate(90deg);
+                        margin: 0px 7px 0px 0px;
+                        padding: 0px 0px 0px 0px;
+                        text-align: left;
+                    }
+                }
+                &.ui-resizable-e
+                {
+                    float: right;
+                    font-size: 20px;
+                    &:before{
+                        filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+                        -webkit-transform: rotate(90deg);
+                        -ms-transform: rotate(90deg);
+                        display: block;
+                        transform: rotate(90deg);
+                        margin: 0px 7px 0px 0px;
+                        padding: 0px 0px 0px 0px;
+                        text-align: left;
+                    }
+                }
+            }
+        }
+        .bottom-toolbar-container
+        {
+            position: absolute;
+            bottom: 5px;
+            left: 5px;
+            display: block;
+            .focus-btn
+            {
+                background-color: transparent;
+                border: none;
+                color: white;
+                font-size: 20px;
+                line-height: 20px;
+            }
+        }
+        .component.focus-off
+        {
+            .focus-container
+            {
+                display: none;
+            }
+            .bottom-toolbar-container
+            {
+                display:block;
+            }
+            .sub
+            {
+                display: none;
+            }
+        }
+        .component.focus-on
+        {
+            .focus-container
+            {
+                display: block;
+            }
+            .bottom-toolbar-container
+            {
+                display:none;
+            }
+            .sub
+            {
+                display: block;
+            }
+        }
+
+        @smallSizeName:extract(@modulesSizeListNames, 4);
+
+        .component.@{smallSizeName} .sub,
+        .component.@{smallSizeName} .bottom-toolbar-container,
+        .component.@{smallSizeName} .focus-container
+        {
+            display: none;
+        }
+
+        .timecursor
+        {
+            left: 0%;
+            position: absolute;
+            top: 0px;
+            width: 1px;
+            border-left: 1px solid @mainColor;
+            height: 100%;
+        }
+
+
+        .toolbar-container
+        {
+            position: absolute;
+            top: 0;
+            right: 20px;
+
+            .plugin-btn
+            {
+                border: none;
+                box-shadow: none;
+                background: none;
+                color: #6c6c6c;
+                font-size: 17px;
+                line-height: 25px;
+            }
+
+            .close-btn,
+            .sort-btn,
+            .expand-btn
+            {
+                color: @BtToolContColor;
+                height: 28px;
+                line-height: 28px;
+                text-align: center;
+                width: 28px;
+                cursor: pointer;
+                border: none;
+                background: transparent;
+                font-size: 20px;
+            }
+            .nav-controls
+            {
+                color: @BtToolContColor;
+                display: inline-block;
+                float: left;
+                line-height: 28px;
+                margin-right: 15px;
+                text-align: center;
+                vertical-align: middle;
+                font-size: 20px;
+                padding: 0;
+                .prev-control
+                {
+                    cursor: pointer;
+                    border: none;
+                    background: transparent;
+                    color: @BtToolContColor;
+                    font-size: 20px;
+                    padding: 0;
+                }
+                .next-control
+                {
+                    cursor: pointer;
+                    border: none;
+                    background: transparent;
+                    color: @BtToolContColor;
+                    font-size: 20px;
+                    padding: 0;
+                }
+            }
+        }
+    }
+
+    /**Bar de controle**/
+    .module-nav-bar-container
+    {
+        .info
+        {
+            padding-left: 15px;
+            line-height: 30px;
+        }
+        .toolsbar
+        {
+            height: 30px;
+            padding: 0px;
+            background-color: #3f3f3f;
+            button.ajs-icon
+            {
+                border-radius: 0%;
+                width: 30px;
+                line-height: 25px;
+                border: none;
+                background-color: transparent;
+                color: white;
+            }
+        }
+        .leftContainer
+        {
+            text-align: left;
+            border: none;
+            background-color: transparent;
+            float: left;
+             width: 16.66666667%;
+
+        }
+        .middleContainer
+        {
+            text-align: center;
+            border: none;
+            background-color: transparent;
+            float: left;
+             width: 66.66666667%;
+
+        }
+       
+        .rightContainer
+        {
+            text-align: right;
+            border: none;
+            background-color: transparent;
+            float: right;
+            width: 16.66666667%;
+            .config-menu
+            {
+                padding-right: 30px;
+                .config-btn
+                {
+                    width: 30px;
+                    line-height: 29px;
+                    cursor: pointer;
+                    font-size: 2.4em;
+
+                }
+            }
+            .config-menu-list 
+            {
+                background: #FFF;
+                border: none;
+                box-shadow: none;
+                margin: 0px;
+                position: absolute;
+                bottom: 30px;
+                border-radius: 0px;
+                right: 1px;
+                width: 200px;
+                list-style: none;
+                padding: 5px 0px 5px 5px;
+                li
+                {
+                    padding-left: 5px;
+                    color:#000;
+                    cursor: pointer;
+                    text-align: left;
+                }
+            }
+        }
+        &:after {
+            clear: both;
+        }
+
+    }
+    /**resizeable component**/
+    .ui-resizable-s 
+    {
+        display: block;
+        height: 30px;
+        width: 30px;
+        font-size: 30px;
+        position: absolute;
+        left: 100%;
+        bottom: 0;
+        margin-left: -45px;
+        padding-left: 15px;
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 40px;
+        font-weight: normal;
+        font-style: normal;
+        cursor: s-resize;        
+    }
+}

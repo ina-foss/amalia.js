@@ -1,0 +1,88 @@
+/**
+ * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ *
+ * This file is part of amalia.js
+ *
+ * Amalia.js is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version
+ *
+ * Redistributions of source code, javascript and css minified versions must
+ * retain the above copyright notice, this list of conditions and the following
+ * disclaimer
+ *
+ * Neither the name of the copyright holder nor the names of its contributors
+ * may be used to endorse or promote products derived from this software without
+ * specific prior written permission
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * amalia.js. If not, see <http://www.gnu.org/licenses/>
+ *
+ * Amalia.js is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details
+ */
+/** Plugin menu contextuel**/
+.ajs .plugin-context-menu.dropdown-menu
+{
+    width: 300px;
+    padding: 0px 0px 0px 10px;
+    margin: 0;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    z-index: 1000;
+    &:before {
+        bottom: -14px;
+        border-top: 7px solid #555;
+    }
+    &:before, &:after, li:first-child:after {
+        content: '';
+        display: block;
+        position: absolute;
+        left: 15px;
+        width: 0;
+        height: 0;
+        border: 7px outset transparent;
+    }
+    li
+    {
+        color: #838ca2;
+        text-shadow: none;
+        margin: 0;
+        padding: 0px 0px 0px 25px;
+        border: 0;
+        font-size: 100%;
+        font: inherit;
+        vertical-align: middle;
+        height: 30px;
+        list-style: none;
+        line-height: 30px;
+        display: block;
+        position: relative;
+
+        .ajs-icon
+        {
+            position: absolute;
+            left: 0px;
+            top: 3px;
+            font-size: 24px;
+            line-height: 28px;
+        }
+        &.disabled
+        {
+            a
+            {
+                cursor: default;    
+            }
+        }
+    }
+}

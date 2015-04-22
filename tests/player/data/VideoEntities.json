@@ -1,0 +1,52 @@
+
+{
+    "message": "Video 2305843779355017216 and dictionary 1 found",
+    "status": 0,
+    "data": {
+        "data": [
+            {
+                "class": [
+                    {
+                        "attribute": [
+                            {
+                                "value": "Notre-Dame",
+                                "name": "label"
+                            }
+                        ],
+                        "id": "2",
+                        "score": 13.0
+                    }
+                ]
+            }
+        ],
+        "localisation": [
+            {
+                "sublocalisations": {
+                    "localisation": [
+                        {
+                            "data": {
+                                "classref": [
+                                    {
+                                        "id": "2",
+                                        "score": 13.0
+                                    }
+                                ]
+                            },
+                            "tc": "00:04:26.0680",
+                            "tclevel": 1
+                        }
+                    ]
+                },
+                "type": "entity",
+                "tcin": "00:00:00.0000",
+                "tcout": "00:04:26.0680",
+                "tclevel": 0
+            }
+        ],
+        "id": "entities-2305843779355017216",
+        "type": "entities",
+        "algorithm": "SnoopDic",
+        "processor": "Ina Research",
+        "processed": 1402384283835
+    }
+}

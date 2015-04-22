@@ -1,0 +1,197 @@
+/**
+ * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ * 
+ * This file is part of amalia.js
+ * 
+ * amalia.js is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version.
+ * 
+ * Redistributions of source code, javascript and css minified versions 
+ * must retain the above copyright notice, this list of conditions and
+ * the following disclaimer.
+ * 
+ * Neither the name of the copyright holder nor the names of its 
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with amalia.js. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * amalia.js is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ */
+/**
+ * Plugin text sync
+ */
+.ajs-plugin.plugin-text-sync
+{
+    background: #e6e6e6;
+    margin: 0;
+    padding: 0;
+    color:black;
+    .header
+    {
+        overflow: hidden;
+        zoom: 1;
+        display: block;
+        margin: 0;
+        padding: 0;
+        .resume
+        {
+            background: #555; 
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-size: 14px;
+            overflow: hidden;
+            zoom: 1;
+            .heading
+            {
+                font-size: 24px;
+                font-weight: 100;
+                color: white;
+                line-height: 1.1;
+                padding: 0;
+                margin: 0;
+            }
+        }
+    }
+
+    .line-component
+    {
+        padding: 10px;
+        overflow-y: auto;
+        height: 100%;
+        margin: 0;
+        .line
+        {
+
+            box-sizing: border-box;
+            color: rgb(0, 0, 0);
+            display: list-item;
+            font-size: 14px;
+            list-style-image: none;
+            list-style-position: outside;
+            list-style-type: none;
+            margin-bottom: 0px;
+            margin-left: 0px;
+            margin-right: 0px;
+            margin-top: 0px;
+            overflow-x: hidden;
+            overflow-y: hidden;
+            text-align: left;
+            padding: 10px;
+            margin: 0;
+
+            .info 
+            {
+                box-sizing: border-box;
+                color: rgb(0, 0, 0);
+                display: block;
+                float: left;
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 14px;
+                margin-right: 10px;
+                text-align: left;
+                .thumb 
+                {
+                    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6Q0IwMTkyREMwMTAwMTFFNDk0QTM5OTI4MzY1OEFGQUEiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6Q0IwMTkyREQwMTAwMTFFNDk0QTM5OTI4MzY1OEFGQUEiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpDQjAxOTJEQTAxMDAxMUU0OTRBMzk5MjgzNjU4QUZBQSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpDQjAxOTJEQjAxMDAxMUU0OTRBMzk5MjgzNjU4QUZBQSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Ph56Pv8AAAJASURBVHja7JnLiupAEIY1BlG8492gK1HceseFD+0juNAHcCG6GlBBBVHEG15wfk5ARDj2JHYn00zVqglN1/91qquqE2en03HIbIpDciMAAiAAAiAAApDa1J9M0jStWCz6fD4rle33+9FoNJvNPgWA+nK5bP3WYr90v+8Z2CFUKBRsjBCmdzaA3++3EYDpXTW64vF4XK1W9/tdhFyn0xmNRr1eL+dD/Hywut3u9XoVmFVUtd1u/zxhGEuj8/lcqHoY1ocXUXXgdrtZEPeGvKgOWy2fz2cyGZyrwWBwOp1EFTJBlk6nS6USBqFQCKHf7/clayXC4fBjDAb5eqH1ev0YbzYbgb2QIEO2QejjDBwOh+FwKB8A7OufUTvNyVwuVzabVRRlMplcLhfJAKC+0Wigk8E4l8v1er3z+SzNjQzq6/W6rh4WCARarZbb7ZYDQFcfi8WeH74weDyeSqWCV2Q634sCQMTXarUX9S8MUI8B0mUikcAgEon8FgCor1ar8Xj8fxN0BtijPUbL0Gw2OTIoH6pPJpPvp4Hhpbnny2AeADHNVP/m1sKLwTxAKpX68ObFhcHOSsyFwTwAl7ulzvDcV1sHMJ1Oeb0H1IdgMGh1K4FOeLlc8vreiGS13W6t7oUWi4Xt3aixEDL0ycm0GfJiDEDTNNzEUcJEbaeiYH14ERVCevX9VRca+kNDAARAAAQgGGC329moj+mdDTAej20EYHpnV2L9N63EP7p1BuZCdIgJgAAIgAAIgAD+IsC3AAMAzUKl+/tbh2cAAAAASUVORK5CYII=');
+                    cursor: pointer;
+                    width: 64px;
+                    background-size: cover;
+                    height: 64px;
+                }
+
+                .badge
+                {
+                    border-radius: 3px;
+                    border: none;
+                    cursor: pointer;
+                    display: inline-block;
+                    min-width: 10px;
+                    padding: 3px 7px;
+                    font-size: 12px;
+                    font-weight: 700;
+                    color: #fff;
+                    line-height: 1;
+                    vertical-align: baseline;
+                    white-space: nowrap;
+                    text-align: center;
+                    background-color: #999;
+                    border-radius: 10px;
+                    &.tcin
+                    {
+                        margin: 4px 0;
+                    }
+
+                    &.tcout
+                    {
+                        margin: 0 0 4px 0;
+                    }
+                    &.tcin,
+                    &.tcout
+                    {
+                        clear:both;
+                        float: left;
+                        border-radius: 3px;
+                    }
+                }
+            }
+            &.on 
+            {
+                background-color: #d8d8d8;
+                .content
+                {
+                    .ajs-progress .ajs-progress-bar 
+                    {
+                        background-color: @mainColor;
+                    }
+                }
+            }
+            &.on .info .badge.tcin,           
+            &.on .info .badge.tcout
+            {
+                background-color: @mainColor;
+                cursor: pointer;
+            }
+            .content
+            {
+                overflow: hidden;
+                zoom: 1;
+                text-align: left;
+                font-size: 14px;
+
+                .heading
+                {
+                    text-align: left;
+                    font-size: 14px;
+                }
+                .text
+                {
+                    text-align: left;
+                    font-size: 14px;
+                    .word.on 
+                    {
+                        font-weight: bold;
+                    }
+                }
+
+                .ajs-progress
+                {
+                    border-radius: 3px;
+                    width: 100%;
+                    height: 2px;
+                    .ajs-progress-bar 
+                    {
+                        background-color: #d8d8d8;
+                        height: 1px;
+                    }
+                }
+            }
+        }
+    }
+}

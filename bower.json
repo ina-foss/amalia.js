@@ -1,0 +1,24 @@
+{
+    "name" : "amalia.js",
+    "version" : "1.3.0",
+    "license" : "GPL",
+    "ignore" : [
+        "**/.*",
+        "data",
+        "src",
+        "samples",
+        "tests",
+        "Gruntfile.js",
+        "package.json"
+    ],
+    "dependencies" : {
+        "jquery" : "~2.1.3",
+        "raphael" : "~2.1.3",
+        "jquery-ui" : "~1.11.2"
+    },
+    "devDependencies" : {},
+    "keywords" : [
+        "javascript",
+        "library"
+    ]
+}

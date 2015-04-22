@@ -1,0 +1,549 @@
+/**
+ * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ *
+ * This file is part of amalia.js
+ *
+ * Amalia.js is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version
+ *
+ * Redistributions of source code, javascript and css minified versions must
+ * retain the above copyright notice, this list of conditions and the following
+ * disclaimer
+ *
+ * Neither the name of the copyright holder nor the names of its contributors
+ * may be used to endorse or promote products derived from this software without
+ * specific prior written permission
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * amalia.js. If not, see <http://www.gnu.org/licenses/>
+ *
+ * Amalia.js is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details
+ */
+.ajs-plugin.editor
+{
+    position: relative;
+    .loader
+    {
+        position: absolute;
+        top: 110px;
+        z-index: 100;
+        left: 0;
+        right: 0;
+        margin: 0;
+        padding: 0;
+    }
+    /**
+     * Plugin list editor
+     */
+    &.plugin-list-editor
+    {
+        color: #666;
+        .heading
+        {
+            height: 30px;
+            border: none;
+            line-height: 25px;
+            background-color: #263238;
+            color:#CCC;			
+            .title
+            {
+                text-align: left;
+                font-weight: bold;
+                padding-left: 10px;
+                margin: 0;
+                color: #FFF;
+                line-height: 30px;
+                font-size: 12px;
+            }
+        }
+        .body
+        {
+            ul.listOfmetadata
+            {
+                box-sizing: border-box;
+                color: #cacaca;
+                display: block;
+                font-size: 14px;
+                line-height: 20px;
+                list-style-type: disc;
+                margin-bottom: 0px;
+                margin-top: 0px;
+                padding-left: 0px;
+                height: 90px;				
+                overflow-y: overlay;
+                li.item
+                {
+                    position: relative;
+                    display: block;
+                    padding: 5px 15px;
+                    margin: 0;
+                    background-color: #eceff1;
+                    border: none;
+                    color: #000;
+                    font-size: 11px;
+                    &.selected
+                    {
+                        background-color: #546e7a;
+                        color: rgba(255,255,255,0.87);
+                    }
+                    span.delete
+                    {
+                        float: right;
+                        padding: 0px;
+                        font-size: 10px;
+                        color: #fff;
+                        text-align: center;
+                        white-space: nowrap;
+                        background-color: #EF5350;
+                        border: none;
+                        border-radius: 50%;
+                        cursor: pointer;
+                        display: inline-block;
+                        height: 20px;
+                        width: 20px;
+                        margin: auto;
+                        position: relative;
+                        vertical-align: middle;	
+                        box-shadow: none;	
+                        line-height:23px;
+                        &:before
+                            {	
+                            margin-left: -1px;
+                        }	
+                    }
+                    span.duplicate
+                    {
+                        float: right;
+                        padding: 0px;
+                        font-size: 10px;
+                        color: #fff;
+                        text-align: center;
+                        white-space: nowrap;
+                        background-color: #3cf;
+                        border: none;
+                        border-radius: 50%;
+                        cursor: pointer;
+                        display: inline-block;
+                        height: 20px;
+                        width: 20px;
+                        margin: auto;
+                        position: relative;
+                        vertical-align: middle;	
+                        box-shadow: none;	
+                        line-height:23px;
+                        &:before
+                            {	
+                            margin-left: -1px;
+                        }	
+                    }
+                }
+            }
+        }
+        .footer
+        {
+            height: 25px;
+            border: none;
+            line-height: 25px;
+            background-color: #263238;
+            color:#CCC;
+            text-align:center;
+            .add-metadata
+            {
+                min-width: 10px;
+                font-size: 25px;
+                font-weight: normal;
+                color: #fff;
+                text-align: center;
+                white-space: nowrap;
+                background-color:#009688;
+                border: none;
+                border-radius: 50%;
+                cursor: pointer;
+                display: inline-block;
+                height: 35px;
+                width: 35px;
+                margin: auto;
+                position: relative;
+                vertical-align: middle;				
+                margin-top: -25px;
+                box-shadow: none;
+                line-height: 40px;
+                text-align: left;
+                &:before{
+                    margin-left: -1px;
+                }
+            }
+        }		
+    }   
+
+    /**
+     * Plugin block editor
+     */
+    &.plugin-block-editor
+    {
+        color: #666;
+        .heading
+        {
+            height: 30px;
+            border: none;
+            line-height: 25px;
+            background-color: #263238;
+            color:#CCC;			
+            .title
+            {
+                text-align: left;
+                font-weight: bold;
+                padding-left: 10px;
+                margin: 0;
+                color: #FFF;
+                line-height: 30px;
+                font-size: 12px;
+            }
+        }
+        .body
+        {
+            padding: 5px 5px 15px 5px;
+            form.formMetadataBlock
+            {
+                .form-item
+                {
+                    padding: 0px;
+                    margin: 0px;
+                    box-shadow:none;
+                    font-size: 12px;
+                    .input
+                    {
+                        width:100%;
+                        border: none;
+                        box-shadow: none;
+                        background-color: #eaeaea;
+                        color: #000;
+                        height: 25px;
+                        padding-left: 5px;
+                        border-radius:0px;
+                    }
+                    .text-area
+                    {
+                        width: 100%;
+                        height: 50px;
+                        border-radius: 3px;
+                        border: 1px solid #ccc;
+                        display: inline-block;
+                        padding: 4px;
+                    }
+                    .select
+                    {
+                        width:100%;
+                        border: none;
+                        box-shadow: none;
+                        background-color: #eaeaea;
+                        color: #000;
+                        height: 25px;
+                        padding-left: 5px;
+                        border-radius:0px;
+                    }
+                    .shape.ajs-icon
+                    {
+                        font-size: 20px;
+                    }
+                }	
+            }
+            .messages-container
+            {
+                padding: 0px;
+                margin-bottom: 0px;
+                border: none;
+                border-radius: 4px;
+                background-color: #E1F5FE;
+                margin-top: 0px;
+                text-align: center;
+                &.type-info
+                {
+                    background-color: #E1F5FE;
+                }
+                &.type-error
+                {
+                    background-color: #EF9A9A;	
+                }
+                p.info
+                {
+                    padding:0px;
+                    margin:0px;
+                }
+                p.error
+                {
+                    padding:0px;
+                    margin:0px;
+                }
+            }
+        }
+        .footer
+        {
+            height: 25px;
+            border: none;
+            line-height: 25px;
+            background-color: #263238;
+            color:#CCC;
+            text-align:center;
+            .save-metadata
+            {
+                min-width: 10px;
+                padding: 0;
+                font-size: 25px;
+                font-weight: normal;
+                color: #fff;
+                text-align: center;
+                white-space: nowrap;
+                background-color: #03A9F4;
+                border: none;
+                border-radius: 50%;
+                cursor: pointer;
+                display: inline-block;
+                height: 35px;
+                width: 35px;
+                margin: auto;
+                position: relative;
+                vertical-align: middle;
+                margin-top: -25px;
+                box-shadow: none;
+                line-height:40px;
+                &:before
+                    {	
+                    margin-left: -1px;
+                }
+            }
+        }		
+    }    
+    /**
+     * Plugin items editor
+     */
+    &.plugin-items-editor
+    {
+        color: #666;
+        .heading
+        {
+            height: 30px;
+            border: none;
+            line-height: 25px;
+            background-color: #263238;
+            color:#CCC;			
+            .title
+            {
+                text-align: left;
+                font-weight: bold;
+                padding-left: 10px;
+                margin: 0;
+                color: #FFF;
+                line-height: 30px;
+                font-size: 12px;
+            }
+
+        }
+        .body
+        {
+            .messages-container
+            {
+                padding: 5px 0px 5px 0px;
+                margin-bottom: 11px;
+                border: none;
+                border-radius: 4px;
+                background-color: #E1F5FE;
+                margin-top: 10px;
+                text-align: center;
+                min-height: 25px;
+                &.type-info
+                {
+                    background-color: #E1F5FE;
+                }
+                &.type-error
+                {
+                    background-color: #EF9A9A;	
+                }
+                p.info
+                {
+                    padding:0px;
+                    margin:0px;
+                }
+                p.error
+                {
+                    padding:0px;
+                    margin:0px;
+                }
+            }
+            ul.listOfSelectedItems
+            {
+                box-sizing: border-box;
+                color: #cacaca;
+                display: block;
+                font-size: 14px;
+                line-height: 20px;
+                list-style-type: disc;
+                margin-bottom: 0px;
+                margin-top: 0px;
+                padding-left: 0px;
+                height: 285px;				
+                overflow-y: overlay;
+                li.item
+                {
+                    position: relative;
+                    display: block;
+                    padding: 0px;
+                    margin-bottom: 0;
+                    background-color: transparent;
+                    border: none;
+                    color: #000;
+                    box-shadow: none;
+                    font-size: 12px;
+                    &.error
+                    {
+                        border: 1px solid red;
+                        text-align: left;
+                    }
+                    .form-data
+                    {
+                        padding: 25px 0px 10px 0px;
+                        border: none;
+                        background-color: #eceff1;
+                        margin-right: 0;
+                        min-height: 56px;
+                        box-shadow: none;
+                        margin: 1px 0px 0px 0px;
+                        .form-input
+                        {
+                            margin: 0px 5px;
+                            box-shadow: none;
+                            min-height: 25px;
+                            .input
+                            {
+                                width:100%;					
+                                border: none;
+                                box-shadow: none;
+                                background-color: #eaeaea;
+                                color: #000;
+                                height: 25px;
+                                padding-left: 5px;
+                                border-radius:5px;
+                            }
+
+                        }
+                        .form-controls
+                        {
+                            position: absolute;
+                            width: auto;
+                            height: 25px;
+                            top: 5px;
+                            right: 10px;
+                            padding: 0px;
+                            span.button
+                            {
+                                padding: 0px;
+                                font-size: 12px;
+                                font-weight: normal;
+                                text-align: center;
+                                white-space: nowrap;
+                                border: none;
+                                border-radius: 50%;
+                                cursor: pointer;
+                                display: inline-block;
+                                height: 20px;
+                                width: 20px;
+                                margin: 0px;
+                                position: relative;
+                                vertical-align: middle;
+                                padding-top: 0px;
+                                margin-top: 0;
+                                top: 0px;
+                                right: 0px;
+                                color: white;
+                                box-shadow: none;
+                                line-height: 23px;
+                                opacity: 1;
+                                filter: none;
+                                float: none;
+                                &:before
+                                    {	
+                                    margin-left: -1px; 
+                                }	
+                                &.valid
+                                {
+                                    background-color: #CACACA;
+                                    visibility: hidden;
+                                    &.valid.on
+                                    {
+                                        visibility: visible;
+                                        background-color: #03A9F4;	
+                                    }	
+                                }
+                                &.remove
+                                {
+                                    background-color: #FFC107;
+                                }
+                                &.close
+                                {
+                                    background-color: #607D8B;
+                                }
+
+                            }
+                        }
+                    }
+
+                }
+            }
+
+        }
+        .footer
+        {
+            height: 25px;
+            border: none;
+            line-height: 25px;
+            background-color: #263238;
+            color:#CCC;
+            text-align:center;	
+            .button
+            {
+                min-width: 10px;
+                font-size: 25px;
+                font-weight: normal;
+                color: #fff;
+                text-align: center;
+                white-space: nowrap;				
+                border: none;
+                border-radius: 50%;
+                cursor: pointer;
+                display: inline-block;
+                height: 35px;
+                width: 35px;
+                margin: 5px;
+                position: relative;
+                vertical-align: middle;
+                margin-top: -25px;
+                box-shadow: none;
+                line-height:40px;
+                &.add{
+                    background-color: #009688;     
+                    &:before{
+                        margin-left: -1px;
+                    }
+                }
+                &.validateAll{
+                    background-color: #03A9F4;
+                    &:before
+                        {
+                        margin-left: -1px;
+                    }
+                }				
+                &.clear{
+                    background-color: #607D8B;
+                    &:before
+                        {
+                        margin-left: -1px;
+                    }	
+                }				
+            }		
+        }		
+    }       
+}

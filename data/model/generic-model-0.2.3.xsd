@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+
+Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+                                                                    
+This file is free software: you can redistribute it and/or modify   
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or   
+(at your option) any later version.                                 
+                                                                    
+Redistributions of source code, javascript and css minified versions
+must retain the above copyright notice, this list of conditions and 
+the following disclaimer.                                           
+                                                                    
+Neither the name of the copyright holder nor the names of its       
+contributors may be used to endorse or promote products derived from
+this software without specific prior written permission.            
+                                                                    
+You should have received a copy of the GNU General Public License   
+along with this file. If not, see <http://www.gnu.org/licenses/>    
+                                                                    
+This file is distributed in the hope that it will be useful,        
+but WITHOUT ANY WARRANTY; without even the implied warranty of      
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the        
+GNU General Public License for more details.
+                        
+-->
+
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://research.ina.fr" xmlns="http://research.ina.fr" elementFormDefault="qualified">
+
+    <!-- Simple Types -->
+    <xs:simpleType name="idType">
+        <xs:restriction base="xs:string" />
+    </xs:simpleType>
+
+    <xs:simpleType name="uriType">
+        <xs:restriction base="xs:string" />
+    </xs:simpleType>
+
+    <xs:simpleType name="dataType">
+        <xs:restriction base="xs:string" />
+    </xs:simpleType>
+
+    <xs:simpleType name="tcType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{4}" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="coordType">
+        <xs:restriction base="xs:decimal">
+            <xs:minInclusive value="-1" />
+            <xs:maxInclusive value="2" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="scoreType">
+        <xs:restriction base="xs:decimal">
+            <xs:minInclusive value="0" />
+            <xs:maxInclusive value="1" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="dimType">
+        <xs:restriction base="xs:int">
+            <xs:minInclusive value="0" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="ptType">
+        <xs:attribute name="x" type="coordType" />
+        <xs:attribute name="y" type="coordType" />
+    </xs:complexType>
+
+    <!-- Complex Types -->
+
+    <xs:element name="channel">
+        <xs:complexType>
+            <xs:attribute name="id" type="idType" use="required" />
+            <xs:attribute name="type" type="dataType" use="required" />
+            <xs:attribute name="num" type="xs:string" />
+            <xs:attribute name="codec" type="xs:string" />
+            <xs:attribute name="width" type="dimType" />
+            <xs:attribute name="height" type="dimType" />
+            <xs:attribute name="fps" type="xs:decimal" />
+            <xs:attribute name="duration" type="tcType" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="attribute">
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:string">
+                    <xs:attribute name="name" type="xs:string" use="required" />
+                    <xs:attribute name="score" type="scoreType" />
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="class">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="uri" type="uriType" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="attribute" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+            <xs:attribute name="id" type="idType" use="required" />
+            <xs:attribute name="type" type="dataType" />
+            <xs:attribute name="score" type="scoreType" />
+        </xs:complexType>
+    </xs:element>
+	
+    <xs:element name="classref">
+        <xs:complexType>
+            <xs:attribute name="id" type="idType" use="required" />
+            <xs:attribute name="score" type="scoreType" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="container">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="segments" />
+                <xs:element ref="contents" />
+            </xs:sequence>
+            <xs:attribute name="version" type="xs:string" fixed="0.2.0" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="segment">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="nativeId" type="idType" minOccurs="0" maxOccurs="1" />
+                <xs:element name="label" type="xs:string" />
+                <xs:element name="uri" type="uriType" />
+                <xs:element ref="channels" />
+            </xs:sequence>
+            <xs:attribute name="id" type="idType" use="required" />
+            <xs:attribute name="mime" type="xs:string" />
+            <xs:attribute name="tcin" type="tcType" />
+            <xs:attribute name="tcout" type="tcType" />
+
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="segments">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="segment" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="channels">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="channel" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="content">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="editlist" />
+                <xs:element ref="metadatas" />
+            </xs:sequence>
+            <xs:attribute name="id" type="idType" use="required" />
+            <xs:attribute name="duration" type="tcType" />
+            <xs:attribute name="width" type="dimType" />
+            <xs:attribute name="height" type="dimType" />
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="contents">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="content" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="editlist">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="editlistChannel" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="editlistChannel">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="editlistSegment" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+            <xs:attribute name="id" type="idType" use="required" />
+            <xs:attribute name="type" type="dataType" use="required" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="editlistSegment">
+        <xs:complexType>
+            <xs:attribute name="id" type="idType" use="required" />
+            <xs:attribute name="pos" type="xs:string" use="required" />
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="metadata">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="data" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="localisation" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+            <xs:attribute name="id" type="idType" use="required" />
+            <xs:attribute name="type" type="dataType" />
+            <xs:attribute name="rootDirectory" type="xs:string" />
+            <xs:attribute name="enrich" type="xs:string" />
+            <xs:attribute name="algorithm" type="xs:string" />
+            <xs:attribute name="processor" type="xs:string" />
+            <xs:attribute name="processed" type="xs:dateTime" />
+            <xs:attribute name="version" type="xs:int" />
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="metadatas">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="metadata" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="rect">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="x" type="coordType" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="y" type="coordType" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="w" type="coordType" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="h" type="coordType" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="o" type="xs:decimal" minOccurs="1" maxOccurs="1"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ellipse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="xc" type="coordType" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="yc" type="coordType" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="hw" type="coordType" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="hh" type="coordType" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="o" type="xs:decimal" minOccurs="1" maxOccurs="1"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="spatials">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="spatial" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="spatial">
+        <xs:complexType>
+            <xs:choice>
+                <xs:element name="point" type="ptType" />
+                <xs:element ref="rect" />
+                <xs:element ref="ellipse" />
+            </xs:choice>
+            <xs:attribute name="tc" type="tcType" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="localisation">
+        <xs:complexType>
+            <xs:all>
+                <xs:element ref="spatials" minOccurs="0" />
+                <xs:element ref="data" minOccurs="0" />
+                <xs:element ref="sublocalisations" minOccurs="0" />
+            </xs:all>
+            <xs:attribute name="label" type="xs:string" />
+            <xs:attribute name="thumb" type="uriType" />
+            <xs:attribute name="channel" type="xs:string" />
+            <xs:attribute name="type" type="dataType" />
+            <xs:attribute name="tcin" type="tcType" />
+            <xs:attribute name="tcout" type="tcType" />
+            <xs:attribute name="tc" type="tcType" />
+            <xs:attribute name="tclevel" type="xs:int" />
+            <xs:attribute name="score" type="scoreType" />
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="sublocalisations">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="localisation" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="annotation">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="subject" />
+                <xs:element ref="attribute" />
+            </xs:sequence>
+            <xs:attribute name="score" type="scoreType" />
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="subject">
+        <xs:complexType>
+            <xs:choice>
+                <xs:element ref="class" />
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+	
+    <xs:element name="histogram">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="posbins" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="negbins" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            </xs:sequence>
+            <xs:attribute name="nbbins" type="xs:int" />
+            <xs:attribute name="posmax" type="xs:int" />
+            <xs:attribute name="negmax" type="xs:int" />
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="data">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="class" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="classref" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="annotation" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="attribute" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element ref="histogram" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element name="text" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element name="formated" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+            <xs:attribute name="score" type="scoreType" />
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

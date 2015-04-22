@@ -1,0 +1,73 @@
+/**
+ * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ * 
+ * This file is part of amalia.js
+ * 
+ * amalia.js is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version.
+ * 
+ * Redistributions of source code, javascript and css minified versions 
+ * must retain the above copyright notice, this list of conditions and
+ * the following disclaimer.
+ * 
+ * Neither the name of the copyright holder nor the names of its 
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with amalia.js. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * amalia.js is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ */
+/**
+ * Plugin
+ */
+
+.ajs-plugin
+{
+    font-family: @fontMain;
+    color:#FFF;
+    clear: both;
+    overflow: hidden;
+    font-size:11px;
+
+    .error
+    {
+        text-align: center;
+    }
+
+    .loader
+    {
+        text-align: center;
+        width: 100%;
+        top: 50%;
+        font-size: 3em;
+    }
+
+    /* Custom de la scrollbar */
+    &::-webkit-scrollbar,
+    & ::-webkit-scrollbar
+    {
+        width: 10px;
+    }
+    &::-webkit-scrollbar-thumb,
+    & ::-webkit-scrollbar-thumb
+    {
+        background: rgba(108, 108, 108,.6);
+    }
+
+}
+
+@import "player-custom-control-bar";
+@import "plugin-timeline";
+@import "plugin-text-sync";
+@import "plugin-captions";
+@import "plugin-overlay";
+@import "plugin-watermark";
+@import "plugin-menu-contextuel";
+@import "plugin-editor";

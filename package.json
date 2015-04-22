@@ -1,0 +1,31 @@
+{
+  "name": "amalia.js",
+  "description": "",
+  "homepage": "http://ina-foss.github.io/amalia.js",
+  "author": "INA",
+  "version": "1.3.0",
+  "public_site": "site",
+  "engines": {
+    "node": ">= 0.11"
+  },
+  "license": "/**\n * Copyright (c) 2015 Institut National de l'Audiovisuel, INA\n * This file is part of amalia.js\n\n * amalia.js is free software: you can redistribute it and/or modify\n * it under the terms of the GNU General Public License as published by\n * the Free Software Foundation, either version 3 of the License, or (at your option) any later version.\n\n * Redistributions of source code, javascript and css minified versions\n * must retain the above copyright notice, this list of conditions and the following disclaimer.\n\n * Neither the name of the copyright holder nor the names of its\n * contributors may be used to endorse or promote products derived from\n * this software without specific prior written permission.\n\n * You should have received a copy of the GNU General Public License\n * along with amalia.js. If not, see <http://www.gnu.org/licenses/>\n\n *\n * amalia.js is distributed in the hope that it will be useful,\n * but WITHOUT ANY WARRANTY; without even the implied warranty of\n * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the\n * GNU General Public License for more details.\n */\n\n",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ina-foss/amalia.js.git"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-webfont": "^0.5.1",
+    "grunt-contrib-uglify": "~0.7.0",
+    "grunt-contrib-clean": "~0.6.0",
+    "grunt-contrib-copy": "~0.7.0",
+    "grunt-html-build": "~0.4.1",
+    "grunt-contrib-jshint": "~0.11.0",
+    "grunt-contrib-less": "~1.0.0",
+    "grunt-sonar-runner": "~2.4.2",
+    "grunt-contrib-compress": "~0.13.0",
+    "grunt-contrib-qunit": "~0.5.2",
+    "grunt-contrib-yuidoc": "~0.7.0",
+    "grunt-git-deploy": "~0.1.1"
+  }
+}

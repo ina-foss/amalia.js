@@ -1,0 +1,9 @@
+Third-Party Licenses : 
+	-jQuery : easy DOM manipulation framework, MIT license, http://jquery.com        
+	-jQueryClass : simulated inheritance in javascript, MIT license, http://v3.javascriptmvc.com/docs/jQuery.Class.html#&who=jQuery.Class
+	-jQueryUI : user interface stuff on top of jQuery, MIT license, http://jqueryui.com
+	-jQueryUI Touch Punch : touch event support for jQuery UI, MIT or GPL Version 2 licenses, http://touchpunch.furf.com
+	-jQuery knob : a knob for jQuery,MIT or GPL licenses, http://anthonyterrien.com/knob
+	-Raphaël : a vector graphics Javascript library, MIT License, http://raphaeljs.com
+	-Bootstrap : responsive design library, MIT License, http://getbootstrap.com
+	-Font Awesome : iconic font, MIT License , http://fortawesome.github.io/Font-Awesome/
