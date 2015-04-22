@@ -11,5 +11,6 @@ For building the project execute the following lines:
 ```sh
 $ npm install
 $ bower install
+$ grunt
 ```
 The amalia.js library is in the build directory. You can also have a look at some examples in the samples directory.

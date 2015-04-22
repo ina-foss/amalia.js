@@ -236,11 +236,19 @@ module.exports = function (grunt)
     grunt.loadNpmTasks( 'grunt-contrib-clean' );
     grunt.loadNpmTasks( 'grunt-contrib-copy' );
 
-
-    //Default
-    grunt.registerTask( 'build',[
+    //dev
+    grunt.registerTask( 'dev',[
         'clean:build',
         'webfont:icons',
+        'jshint',
+        'qunit:build',
+        'uglify:build',
+        'less:build',
+        'copy:build'
+    ] );
+    //Default
+    grunt.registerTask( 'default',[
+        'clean:build',
         'jshint',
         'qunit:build',
         'uglify:build',
