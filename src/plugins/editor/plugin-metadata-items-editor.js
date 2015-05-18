@@ -526,13 +526,21 @@ fr.ina.amalia.player.plugins.PluginBase.extend( "fr.ina.amalia.player.plugins.Me
      */
     updateFormItems : function ()
     {
-
         var listOfSelectedItemsElement = this.container.find( 'ul.listOfSelectedItems li.item' );
         for (var selectedItemElementIdx = 0;
             selectedItemElementIdx < listOfSelectedItemsElement.length;
             selectedItemElementIdx++)
         {
-            $.each( $( listOfSelectedItemsElement[selectedItemElementIdx] ).find( '.form-data' ),this.updateFormItem );
+            var dataItem = $( listOfSelectedItemsElement[selectedItemElementIdx] ).find( 'form.form-data' ).data( 'metadata' );
+
+            if (typeof dataItem === "object" && dataItem.hasOwnProperty( 'selected' ) && dataItem.selected === true)
+            {
+                $.each( $( listOfSelectedItemsElement[selectedItemElementIdx] ).find( '.form-data' ),this.updateFormItem );
+            }
+            else if (typeof dataItem === "object" && dataItem.hasOwnProperty( 'selected' ) && dataItem.selected === false)
+            {
+                this._closeItem($(listOfSelectedItemsElement[selectedItemElementIdx]));
+            }
         }
     },
     updateFormItem : function (idx,element) {
@@ -663,23 +671,6 @@ fr.ina.amalia.player.plugins.PluginBase.extend( "fr.ina.amalia.player.plugins.Me
         event.data.self.clearMessage();
     },
     /**
-     * Fired on selected items change
-     * @method onSelectedItemsChange
-     * @param {Object} event
-     */
-    onSelectedItemsChange : function (event)
-    {
-        if (event.data.self.metadataId !== null && event.data.self.metadataId !== '')
-        {
-            event.data.self.updateSelectedItems();
-        }
-
-        if (event.data.self.logger !== null)
-        {
-            event.data.self.logger.trace( event.data.self.Class.fullName,"EndDataChange" );
-        }
-    },
-    /**
      * In charge to add item
      * @param {Object} event
      */
@@ -799,6 +790,31 @@ fr.ina.amalia.player.plugins.PluginBase.extend( "fr.ina.amalia.player.plugins.Me
         if (data.id === event.data.self.metadataId)
         {
             event.data.self.updateFormItems();
+        }
+    },
+    /**
+     * Fired on selected items change
+     * @method onSelectedItemsChange
+     * @param {Object} event
+     */
+    onSelectedItemsChange : function (event)
+    {
+        if (event.data.self.metadataId !== null && event.data.self.metadataId !== '')
+        {
+            event.data.self.updateFormItems();
+//            var listOfSelectedItemsElement = event.data.self.container.find( 'ul.listOfSelectedItems li.item' );
+////            for (var selectedItemElementIdx = 0;
+////                selectedItemElementIdx < listOfSelectedItemsElement.length;
+////                selectedItemElementIdx++)
+////            {
+////                event.data.self._closeItem( $( listOfSelectedItemsElement[selectedItemElementIdx] ) );
+////            }
+            event.data.self.updateSelectedItems();
+        }
+
+        if (event.data.self.logger !== null)
+        {
+            event.data.self.logger.trace( event.data.self.Class.fullName,"EndDataChange" );
         }
     }
 } );

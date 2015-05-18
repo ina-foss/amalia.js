@@ -284,18 +284,16 @@ $.Class( "fr.ina.amalia.player.plugins.overlay.DrawBase",{
             }
 
             _player.getMediaPlayer().trigger( fr.ina.amalia.player.PlayerEventType.DATA_CHANGE,{
-                id : 'track-video200-1'
+                id : this.data.hasOwnProperty( 'metadataId' ) ? this.data.metadataId : _player.getSelectedMetadataId()
             } );
         }
         else if (this.data.hasOwnProperty( 'refLoc' ) && typeof this.data.refLoc === "object")
         {
             this.data.refLoc.shape = shapePos;
-
             _player.getMediaPlayer().trigger( fr.ina.amalia.player.PlayerEventType.DATA_CHANGE,{
-                id : 'track-video200-1'
+                id : this.data.hasOwnProperty( 'metadataId' ) ? this.data.metadataId : _player.getSelectedMetadataId()
             } );
         }
-
     },
     /**
      * Fired on click event

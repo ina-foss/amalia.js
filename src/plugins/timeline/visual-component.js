@@ -162,6 +162,7 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent( "fr.ina.amalia.player.plugi
                 'data-tcout' : _endTc
             } );
             lineContent.append( container );
+            container.data('metadata',data);
 
             var _itemContainer = null;
             for (var i = 0;
@@ -182,6 +183,24 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent( "fr.ina.amalia.player.plugi
                 },
                 this.onSegmentDragStop );
                 container.append( _itemContainer );
+            }
+
+            if (percentWidth < 100)
+            {
+                container.draggable( {
+                    axis : "x",
+                    drag : function (event,ui)
+                    {
+                        var targetElement = $( event.target );
+                        var parentElement = targetElement.parent();
+                        var newLeft = Math.max( 0,ui.position.left );
+                        ui.position.left = Math.min( parentElement.first().width() - targetElement.width(),newLeft );
+                    }
+                } );
+                container.on( "dragstop",{
+                    self : this
+                },
+                this.onShiftDragStop );
             }
         }
     },
@@ -277,6 +296,22 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent( "fr.ina.amalia.player.plugi
         //Set Tc
         $( event.currentTarget ).data( 'metadata' ).tc = Math.max( 0,tc );
 
+        event.data.self.mainContainer.trigger( event.data.self.Class.eventTypes.DATA_CHANGE,{
+            id : event.data.self.getMetadataId()
+        } );
+    },
+    /**
+     * Fired on drag stop event
+     * @method onShiftDragStop
+     * @param {Object} event
+     */
+    onShiftDragStop : function (event)
+    {
+        var currentTarget = $( event.currentTarget );
+        var tcin = parseFloat( ((event.data.self.tcout - event.data.self.tcin) * (currentTarget.parent().position().left + currentTarget.position().left)) / event.data.self.mainContainer.first().width() ) + event.data.self.tcin;
+        //Shift tcin
+        event.data.self.localisationManager.shiftSpacialLocBlock(currentTarget.data( 'metadata' ),tcin);
+        
         event.data.self.mainContainer.trigger( event.data.self.Class.eventTypes.DATA_CHANGE,{
             id : event.data.self.getMetadataId()
         } );

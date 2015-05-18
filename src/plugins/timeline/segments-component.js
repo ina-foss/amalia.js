@@ -65,8 +65,8 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent( "fr.ina.amalia.player.plugi
     createSegmentElement : function (tcin,tcout,percentWidth,width,title)
     {
         var color = (this.settings.color !== "") ? 'color:' + this.settings.color + '; background-color:' + this.settings.color + ';' : '';
-        var styleClass = (this.settings.marker === true) ? 'item segment marker' : 'item segment';
 
+        var styleClass = (this.settings.marker === true) ? 'item segment marker' : 'item segment';
         var container = $( '<div>',{
             class : styleClass,
             style : 'left: ' + percentWidth + '%; width:' + width + '%;' + color,
@@ -156,6 +156,11 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent( "fr.ina.amalia.player.plugi
                         } );
                     }
                     itemContainer.addClass( 'selected' );
+                }
+                //set type
+                if (data.hasOwnProperty( 'type' ) && data.type !== null)
+                {
+                    itemContainer.attr( 'data-item-type',data.type );
                 }
                 lineContent.append( itemContainer );
                 if (this.logger !== null)

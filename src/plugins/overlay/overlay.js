@@ -56,6 +56,13 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend( "fr.ina.amalia.player
      */
     spatialsData : null,
     /**
+     * Parsed spatial data
+     * @property seekSpatialsData
+     * @type {Object}
+     * @default null
+     */
+    seekSpatialsData : null,
+    /**
      * Main container
      * @property container
      * @type {Object}
@@ -133,12 +140,12 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend( "fr.ina.amalia.player
         this.settings = $.extend( {
             offsetTime : 1,
             metadataId : '',
-            editable : true,
+            editable : false,
             defaultSelectedShape : 'rectangle',
             lineDisplayMode : fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.METADATA_DISPLAY_TYPE.STATIC,
             callbacks : {}
         },
-        this.settings || {} );
+        this.settings.parameters || {} );
         this.container = $( '<div>',{
             'class' : this.Class.classCss
         } );
@@ -303,7 +310,7 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend( "fr.ina.amalia.player
     updateMetadata : function (metadataId,tcin,tcout)
     {
         var data = this.mediaPlayer.getMetadataWithRange( metadataId,tcin,tcout );
-        return this.spatialsDataParser.parserSpacialMetadata( data );
+        return this.spatialsDataParser.parserSpacialMetadata( data,metadataId );
     },
     /**
      * In charge to update current time position
@@ -315,10 +322,12 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend( "fr.ina.amalia.player
         if (typeof this.spatialsData !== "undefined" && this.spatialsData !== null && typeof this.spatialsData === "object" && this.spatialsData.length > 0)
         {
             currentTime = parseFloat( currentTime );
-            var displayData = this.getDisplayItems( currentTime );
+            // if paused get calculating seek position
+            var isPaused = (this.mediaPlayer.isPaused());
+            var displayData = isPaused ? this.getSeekDisplayItems( currentTime ) : this.getDisplayItems( currentTime );
             if (displayData.length > 0)
             {
-                this.createObject( displayData );
+                this.createObject( displayData,isPaused );
             }
         }
     },
@@ -403,7 +412,7 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend( "fr.ina.amalia.player
      * @method createObject
      * @param {Object} data
      */
-    createObject : function (data,editable)
+    createObject : function (data)
     {
         if (this.logger !== null)
         {
@@ -415,10 +424,10 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend( "fr.ina.amalia.player
             var settings = $.extend( {
                 canvas : this.canvas,
                 container : this.container,
-                debug : this.settings.debug,
-                editable : (this.settings.editable === true && editable === true)
+                debug : this.settings.debug
             },
-            this.settings.parameters || {} );
+            this.settings || {} );
+            settings.editable = (this.settings.editable === true);
             var track = null;
             var object = null;
             if (typeof data === "object" && data.length > 0)
@@ -537,7 +546,7 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend( "fr.ina.amalia.player
         _selectFormBox.append( _closeCtrlBox );
         var _addShapeMsgBox = $( '<div>',{
             'class' : 'add-shape-msg',
-            'text' : 'Sꭥctionnez une forme'
+            'text' : 'Sélectionnez une forme'
         } );
         _selectFormBox.append( _addShapeMsgBox );
         //Rect
@@ -874,7 +883,7 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend( "fr.ina.amalia.player
     /**
      * In charge to create data for shape
      * @param {Object} shape
-     * @param {Object} spatial
+     * @param {Object} shapePos
      */
     createDataShape : function (shape,shapePos)
     {
@@ -891,6 +900,97 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend( "fr.ina.amalia.player
         shape.data = _data;
         // Add data
         _player.addMetadataItem( this.getSelectedMetadataId(),_data );
+    },
+    /**
+     * In charge to refrech spatial data
+     * @param {type} event
+     * @returns {undefined}
+     */
+    refreshSeekData : function ()
+    {
+        // use settings metadata if not empty
+        if (this.settings.metadataId !== '')
+        {
+            this.seekSpatialsData = this.updateMetadata( this.settings.metadataId,0,this.mediaPlayer.getDuration() );
+        }
+        else
+        {
+            var listOfIds = this.getBindIds();
+            this.seekSpatialsData = [
+            ];
+            for (var i = 0;
+                i < listOfIds.length;
+                i++)
+            {
+                var seekSpatialsData = this.updateMetadata( listOfIds[i],0,this.mediaPlayer.getDuration() );
+                this.seekSpatialsData = this.seekSpatialsData.concat( seekSpatialsData );
+            }
+        }
+    },
+    /**
+     * Return display items
+     * @method getDisplayItems
+     * @param {Number} currentTime
+     * @return {Array}
+     */
+    getSeekDisplayItems : function (currentTime)
+    {
+        var item = null;
+        var displayData = [
+        ];
+        for (var i = 0;
+            i < this.seekSpatialsData.length;
+            i++)
+        {
+            item = this.seekSpatialsData[i];
+            if (typeof item === "object" && item.hasOwnProperty( 'tcin' ) && item.hasOwnProperty( 'tcout' ) && currentTime >= parseFloat( item.tcin ) && currentTime <= parseFloat( item.tcout ))
+            {
+                //reset by default value
+                item.start = jQuery.extend( true,{},this.seekSpatialsData[i].start );
+                var seekPos = this.spatialInterpolation( item.start,item.end,this.mediaPlayer.getCurrentTime() );
+                item.start.shape.c.x = seekPos.x;
+                item.start.shape.c.y = seekPos.y;
+                item.start.shape.rx = seekPos.rx;
+                item.start.shape.ry = seekPos.ry;
+
+                displayData.push( item );
+                this.seekSpatialsData.splice( i,1 );
+            }
+        }
+        return displayData;
+    },
+    /**
+     * return position
+     * @param {Number} ptcin
+     * @param {Number} ptcout
+     * @param {Number} tcin
+     * @param {Number} tcout
+     * @param {Number} tc
+     * @returns {Number} position
+     */
+    linearInterpolation : function (ptcin,ptcout,tcin,tcout,tc)
+    {
+        return ptcin + ((ptcout - ptcin) / (tcout - tcin)) * (tc - tcin);
+    },
+    /**
+     * Return sptial position
+     * @param {Object} spi
+     * @param {Object} spo
+     * @param {Object} tc
+     * param {String} type //TODO
+     */
+    spatialInterpolation : function (spi,spo,tc)
+    {
+        var _x = this.linearInterpolation( spi.shape.c.x,spo.shape.c.x,spi.tc,spo.tc,tc );
+        var _y = this.linearInterpolation( spi.shape.c.y,spo.shape.c.y,spi.tc,spo.tc,tc );
+        var _rx = this.linearInterpolation( spi.shape.rx,spo.shape.rx,spi.tc,spo.tc,tc );
+        var _ry = this.linearInterpolation( spi.shape.ry,spo.shape.ry,spi.tc,spo.tc,tc );
+        return {
+            x : _x,
+            y : _y,
+            rx : _rx,
+            ry : _ry
+        };
     },
     // /**Player events**/
     /**
@@ -955,6 +1055,7 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend( "fr.ina.amalia.player
     {
         event.data.self.clearCanvas();
         event.data.self.updateBlockData();
+        event.data.self.refreshSeekData();
     },
     /**
      * Fired on click event
@@ -1141,7 +1242,7 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend( "fr.ina.amalia.player
                     },
                     rx : parseFloat( (w / event.data.self.canvas.width) / 2 ),
                     ry : parseFloat( (h / event.data.self.canvas.height) / 2 ),
-                    o : parseFloat( event.data.attrs.rotate ),
+                    o : 0,
                     t : event.data.self.getSelectedShape()
                 };
                 event.data.self.createDataShape( _shape,_shapePos );
@@ -1177,11 +1278,28 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend( "fr.ina.amalia.player
     {
         if (ft.self.eraseState === true)
         {
-
+            ft.unplug();
+            ft.subject.remove();
+            ft.self.setEraseState( false );
         }
         else if ($.inArray( 'drag end',events ) > -1 || $.inArray( 'scale end',events ) > -1)
         {
 
+        }
+    },
+    /**
+     * On eraser
+     * @param {Object} event
+     */
+    onClickToEraser : function (event)
+    {
+        if (event.data.self.getEraseState() === true)
+        {
+            event.data.self.setEraseState( false );
+        }
+        else
+        {
+            event.data.self.setEraseState( true );
         }
     }
 } );

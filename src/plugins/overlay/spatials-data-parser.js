@@ -68,6 +68,13 @@ $.Class( "fr.ina.amalia.player.plugins.overlay.SpatialsDataParser",{},{
      */
     localisationManager : null,
     /**
+     * Id medata
+     * @property localisationManager
+     * @type {Object}
+     * @default null
+     */
+    medatadataId : '',
+    /**
      * In charge to inisialize this class
      * @constructor
      * @param {Object} settings
@@ -94,9 +101,10 @@ $.Class( "fr.ina.amalia.player.plugins.overlay.SpatialsDataParser",{},{
      * In charge to parse metadata data
      * @method parserMetadata
      */
-    parserSpacialMetadata : function (data)
+    parserSpacialMetadata : function (data,metadataId)
     {
         this.data = data;
+        this.metadataId = metadataId;
         this.spatials = [
         ];
         var item = null;
@@ -191,7 +199,7 @@ $.Class( "fr.ina.amalia.player.plugins.overlay.SpatialsDataParser",{},{
                 tcin : (typeof startPos.tc === "string") ? fr.ina.amalia.player.helpers.UtilitiesHelper.convertHourToSeconde( startPos.tc ) : startPos.tc,
                 tcout : (typeof endPos.tc === "string") ? fr.ina.amalia.player.helpers.UtilitiesHelper.convertHourToSeconde( endPos.tc ) : endPos.tc,
                 refLoc : item,
-                isDisplayed : false
+                metadataId : this.metadataId
             } );
         }
         else
@@ -223,14 +231,11 @@ $.Class( "fr.ina.amalia.player.plugins.overlay.SpatialsDataParser",{},{
         }
     },
     /**
-     * Return spacial data
+     * Return spacial data with start and end position
      * @returns {Object}
      */
     getData : function ()
     {
-//        // Deep copy
-//        return $.extend( true,[
-//        ],this.spatials );
         return this.spatials;
     }
 } );

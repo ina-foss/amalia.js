@@ -170,5 +170,35 @@ $.Class( "fr.ina.amalia.player.LocalisationManager",{
             }
         }
         return false;
+    },
+    /**
+     * In  charge to shift localisation block with spatial data
+     * @method updateSpacialLocBlock
+     * @param {Object} localisations
+     */
+    shiftSpacialLocBlock : function (loc,tcin)
+    {
+        var shiftTc = tcin - loc.tcin;
+        loc.tcout += shiftTc;
+
+        if (loc.hasOwnProperty( 'sublocalisations' ) && typeof loc.sublocalisations === "object")
+        {
+            if (loc.sublocalisations.localisation.length > 0)
+            {
+                loc.sublocalisations.localisation.sort( function (obj1,obj2) {
+                    return obj1.tc - obj2.tc;
+                } );
+                for (var j = 0;
+                    j < loc.sublocalisations.localisation.length;
+                    j++)
+                {
+                    var item = loc.sublocalisations.localisation[j];
+                    item.tc += shiftTc;
+                }
+
+            }
+            return true;
+        }
+        return false;
     }
 } );

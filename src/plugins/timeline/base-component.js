@@ -277,7 +277,7 @@ $.Class( "fr.ina.amalia.player.plugins.timeline.BaseComponent",{
             timeFormat : 'ms',
             framerate : 25
         },
-            settings || {} );
+        settings || {} );
         if (typeof fr.ina.amalia.player.log !== "undefined" && typeof fr.ina.amalia.player.log.LogHandler !== "undefined")
         {
             this.logger = new fr.ina.amalia.player.log.LogHandler( {
@@ -847,6 +847,24 @@ $.Class( "fr.ina.amalia.player.plugins.timeline.BaseComponent",{
             this.focusLine.removeItems();
             this.focusLine.addItems( listOfdata );
         }
+    },
+    /**
+     * In charge to clear selected items
+     * @returns {undefined}
+     */
+    clearSelectedItems : function ()
+    {
+        for (var i = 0;
+            i < this.listOfdata.length;
+            i++)
+        {
+            var data = this.listOfdata[i];
+            if (data.hasOwnProperty( 'selected' ) && data.selected === true)
+            {
+                data.selected = false;
+            }
+        }
+        this.mainContainer.find( '.line-content .item.cuepoint' ).removeClass( 'selected' );
     },
     /**
      * In charge to update display tool tip state.

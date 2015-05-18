@@ -63,7 +63,7 @@ $.Class( "fr.ina.amalia.player.parsers.BaseParserMetadata",{},{
     {
         this.settings = $.extend( {
             debug : false,
-            sublocalisations : false
+            mainLevel : false
         },
         settings || {} );
         if (typeof fr.ina.amalia.player.log !== "undefined" && typeof fr.ina.amalia.player.log.LogHandler !== "undefined")
@@ -172,7 +172,7 @@ $.Class( "fr.ina.amalia.player.parsers.BaseParserMetadata",{},{
             if (data.localisation.length > 0)
             {
                 var localisations = null;
-                if (this.settings.sublocalisations === true)
+                if (this.settings.mainLevel === true)
                 {
                     localisations = data.localisation;
                 }

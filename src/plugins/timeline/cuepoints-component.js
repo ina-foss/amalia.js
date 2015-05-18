@@ -128,6 +128,11 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent.extend( "fr.ina.amalia.playe
                         } );
                     }
                 }
+                //set type
+                if (data.hasOwnProperty( 'type' ) && data.type !== null)
+                {
+                    itemContainer.attr( 'data-item-type',data.type );
+                }
                 lineContent.append( itemContainer );
                 if (this.logger !== null)
                 {
@@ -160,6 +165,16 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent.extend( "fr.ina.amalia.playe
         {
             data.selected = true;
             data.formCreated = false;
+            currentTarget.addClass( 'selected' );
+            event.data.self.mainContainer.trigger( event.data.self.Class.CLICK_SELECT,{
+                tc : tc,
+                metadata : data
+            } );
+        }
+        if (event.altKey && event.data.self.settings.editable === true)
+        {
+            event.data.self.clearSelectedItems();
+            data.selected = true;
             currentTarget.addClass( 'selected' );
             event.data.self.mainContainer.trigger( event.data.self.Class.CLICK_SELECT,{
                 tc : tc,

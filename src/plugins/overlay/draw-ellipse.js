@@ -53,7 +53,7 @@ fr.ina.amalia.player.plugins.overlay.DrawBase.extend( "fr.ina.amalia.player.plug
             var style = this.getStyle();
             var startCor = this.getEllipseData( this.data.start );
             var endCor = this.getEllipseData( this.data.end );
-            var duration = parseFloat( this.data.tcout - this.data.tcin );
+            var duration = parseFloat( this.data.tcout - this.mediaPlayer.getCurrentTime() );
             var label = this.data.hasOwnProperty( 'label' ) ? this.data.label : '';
             if (startCor !== null && endCor !== null)
             {
@@ -74,29 +74,30 @@ fr.ina.amalia.player.plugins.overlay.DrawBase.extend( "fr.ina.amalia.player.plug
                     } );
                 }
 
-                // Create animation only when the player isn't pause state
-                if (this.mediaPlayer !== null && !this.mediaPlayer.isPaused())
+                // end pos
+                var elattrs = {
+                    cx : endCor.cx,
+                    cy : endCor.cy,
+                    rx : endCor.rx,
+                    ry : endCor.ry,
+                    transform : 'r' + Math.round( (endCor.o / Math.PI) * 180 )
+                };
+
+                // duration en ms
+                this.element.stop().animate( elattrs,duration * 1000,"",this.onEndOfAnimation );
+                //pause animation
+                if (this.mediaPlayer.isPaused())
+                {
+                    this.element.pause();
+                }
+                if (this.labelElement !== null)
                 {
                     // end pos
-                    var elattrs = {
-                        cx : endCor.cx,
-                        cy : endCor.cy,
-                        rx : endCor.rx,
-                        ry : endCor.ry,
-                        transform : 'r' + Math.round( (endCor.o / Math.PI) * 180 )
+                    var labelEndCor = {
+                        x : endCor.cx,
+                        y : endCor.cy
                     };
-
-                    // duration en ms
-                    this.element.stop().animate( elattrs,duration * 1000,"",this.onEndOfAnimation );
-                    if (this.labelElement !== null)
-                    {
-                        // end pos
-                        var labelEndCor = {
-                            x : endCor.cx,
-                            y : endCor.cy
-                        };
-                        this.labelElement.stop().animate( labelEndCor,duration * 1000,"",this.onEndOfAnimation );
-                    }
+                    this.labelElement.stop().animate( labelEndCor,duration * 1000,"",this.onEndOfAnimation );
                 }
 
                 $( this.element.node ).on( 'click',{

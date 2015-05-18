@@ -346,7 +346,7 @@ fr.ina.amalia.player.plugins.captions.CaptionsBase.extend( "fr.ina.amalia.player
      */
     onSelectedMetadataChange : function (event,data)
     {
-        if (data.metadataId !== null)
+        if (event.data.self.settings.metadataId === '' && data.metadataId !== null)
         {
             event.data.self.selectedMetadataId = data.metadataId.toString();
             event.data.self.updateBlockData();
