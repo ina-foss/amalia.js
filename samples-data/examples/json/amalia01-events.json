@@ -1,0 +1,55 @@
+{
+    "localisation": [
+        {
+            "sublocalisations": {
+                "localisation": [
+                    {
+                        "label": "Start",
+                        "tc": "00:00:01.6800",
+                        "tclevel": 1
+                    },
+                    {
+                        "label": "Ping",
+                        "tc": "00:00:03.3600",
+                        "tclevel": 1
+                    },
+                    {
+                        "label": "Ping",
+                        "tc": "00:00:05.0400",
+                        "tclevel": 1
+                    },
+                    {
+                        "label": "Ping",
+                        "tc": "00:00:06.7200",
+                        "tclevel": 1
+                    },
+                    {
+                        "label": "Ping",
+                        "tc": "00:00:08.4000",
+                        "tclevel": 1
+                    },
+                    {
+                        "label": "Ping",
+                        "tc": "00:00:10.0800",
+                        "tclevel": 1
+                    },
+                    {
+                        "label": "Pop",
+                        "tc": "00:00:12.0000",
+                        "tclevel": 1
+                    }
+                ]
+            },
+            "type": "events",
+            "tcin": "00:00:00.0000",
+            "tcout": "00:00:15.0000",
+            "tclevel": 0
+        }
+    ],
+    "id": "events-amalia01",
+    "type": "events",
+    "algorithm": "demo-video-generator",
+    "processor": "Ina Research Department - N. HERVE",
+    "processed": 1421141589279,
+    "version": 1
+}
