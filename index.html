@@ -724,6 +724,7 @@ $("#myplayer-caption").mediaPlayer({
                             <li><strong>description</strong>: subtitle of the plugin(optional text).</li>
                             <li><strong>level</strong>: which <code>tclevel</code> of textual metadata will be parsed</li>
                             <li><strong>displayLevel</strong>: which <code>tclevel</code> of textual metadata will be displayed (may be different from the <code>level</code>)</li>
+                            <li><strong>scrollAuto</strong>: scroll automatically or not</li>
                         </ul>
                         <pre class="smallpre">
 $("#myplayer-tsync").mediaPlayer({
@@ -741,7 +742,8 @@ $("#myplayer-tsync").mediaPlayer({
                     title: 'My title',
                     description: 'A description I may have to put here',
                     level : 1,
-                    displayLevel: 1
+                    displayLevel: 1,
+                    scrollAuto : true
                 }
             }
         ]
@@ -782,7 +784,8 @@ $("#myplayer-tsync").mediaPlayer({
                                                 title: 'My title',
                                                 description: 'A description I may have to put here',
                                                 level: 1,
-                                                displayLevel: 1
+                                                displayLevel: 1,
+                                                scrollAuto: true
                                             }
                                         }]
                                     }
@@ -814,7 +817,7 @@ $("#myplayer-overlay").mediaPlayer({
         list : [
             {
                 'className' : 'fr.ina.amalia.player.plugins.OverlayPlugin',
-                'metadataId' : 'tracks-amalia01',
+                'metadataId' : 'tracks-amalia01-1',
                 'parameters' : {
                     style : {
                         'fill' : '#000',
@@ -853,7 +856,7 @@ $("#myplayer-overlay").mediaPlayer({
                                         }],
                                         list: [{
                                             'className': 'fr.ina.amalia.player.plugins.OverlayPlugin',
-                                            'metadataId': 'tracks-amalia01',
+                                            'metadataId': 'tracks-amalia01-1',
                                             'parameters': {
                                                 style: {
                                                     'fill': '#000',
