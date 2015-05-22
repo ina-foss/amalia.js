@@ -4,27 +4,31 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="Content-Language" content="en-us" />
-    <link rel="icon" href="static/img/favicon.ico">
-    <meta name="description" content="amalia.js is a new extensible and versatile HTML5 multimedia player that allows you to view any type of metadata along with your video or audio streams">
-    <meta name="keywords" content="amalia.js, ina, research, amalia, video, audio, multimedia, player, metadata, plugin, javascript, html5, timeline, keyframe, analysis, extraction, visualization, content, indexing, json, dataviz">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-    <link href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.1/yeti/bootstrap.min.css" rel="stylesheet">
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="icon" href="static/img/favicon.ico" />
+    <meta name="description" content="amalia.js is a new extensible and versatile HTML5 multimedia player that allows you to view any type of metadata along with your video or audio streams" />
+    <meta name="keywords" content="amalia.js, ina, research, amalia, video, audio, multimedia, player, metadata, plugin, javascript, html5, timeline, keyframe, analysis, extraction, visualization, content, indexing, json, dataviz" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <!-- This web site stuff -->
-    <link type="text/css" rel="stylesheet" href="libs/css/jquery-ui-1.10.0.custom.css" />
-    <link type="text/css" rel="stylesheet" href="static/css/amalia-site.css" />
-    <!-- // -->
-    <script type="text/javascript" src="libs/js/player-amalia-require-libs-1.2.3.min.js"></script>
+    <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.1/yeti/bootstrap.min.css" rel="stylesheet" />
+    <link type="text/css" rel="stylesheet" href="css/amalia-site.css" />
+
+    <!-- amalia.js dependencies -->
+    <script type="text/javascript" src="libs/jquery.min.js"></script>
+    <script type="text/javascript" src="libs/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="libs/raphael-min.js"></script>
+
     <!-- amalia.js player stuff -->
-    <link type="text/css" rel="stylesheet" href="dist/css/player-amalia-1.2.3.min.css" />
-    <script type="text/javascript" src="dist/js/player-amalia-1.2.3.min.js"></script>
-    <script type="text/javascript" src="dist/js/player-amalia-plugin-captions-1.2.3.min.js"></script>
-    <script type="text/javascript" src="dist/js/player-amalia-plugin-overlay-1.2.3.min.js"></script>
-    <script type="text/javascript" src="dist/js/player-amalia-plugin-text-sync-1.2.3.min.js"></script>
-    <script type="text/javascript" src="dist/js/player-amalia-plugin-timeline-1.2.3.min.js"></script>
-    <script type="text/javascript" src="dist/js/i18n/player-message-en.js"></script>
+    <link type="text/css" rel="stylesheet" href="libs/amalia-js/css/amalia.js.min.css" />
+    <script type="text/javascript" src="libs/amalia-js/js/amalia.js.min.js"></script>
+    <script type="text/javascript" src="libs/amalia-js/js/amalia.js-logger.min.js"></script>
+    <script type="text/javascript" src="libs/amalia-js/js/amalia.js-plugin-captions.min.js"></script>
+    <script type="text/javascript" src="libs/amalia-js/js/amalia.js-plugin-overlay.min.js"></script>
+    <script type="text/javascript" src="libs/amalia-js/js/amalia.js-plugin-text-sync.min.js"></script>
+    <script type="text/javascript" src="libs/amalia-js/js/amalia.js-plugin-timeline.min.js"></script>
+    <script type="text/javascript" src="libs/amalia-js/js/i18n/amalia.js-message-en.js"></script>
+
     <!-- // -->
     <!-- See at the end od this file for other Javascript stuff  -->
     <title>amalia.js - Metadata enriched HTML5 video player</title>
@@ -69,7 +73,7 @@
         <div class="row row-centered">
             <div class="jumbotron header">
                 <div class="logo">
-                    <img alt="amalia.js" src="static/img/amalia_logo-visuel_146x175.png">
+                    <img alt="amalia.js" src="img/amalia_logo-visuel_146x175.png">
                 </div>
                 <h1 class="title">amalia.js</h1>
                 <p class="lead">Metadata enriched HTML5 video player</p>
@@ -98,7 +102,7 @@
                 </div>
                 <div id="download">
                     <h1 class="title">Download</h1>
-                    <p>Amalia.js is currently only available as bulk downloads. We plan to make the source code available through Github shortly.</p>
+                    <p>Amalia.js is available as bulk downloads here. You can also clone our GitHub repository <a href="https://github.com/ina-foss/amalia.js" target="_blank">https://github.com/ina-foss/amalia.js</a>.</p>
                     <h3 class="title latestversion"></h3>
                     <div class="row">
                         <div class="col-md-4">
@@ -123,14 +127,14 @@
                             </p>
                         </div>
                     </div>
-                    <!-- <h3>Previous stable versions</h3>
-<div class="row">
-    <ul>
-        <li>v1.1.0 : <a href="">amalia.js</a> | <a href="">packaged</a> | <a href="">source</a></li>
-        <li>v1.0.0 : <a href="">amalia.js</a> | <a href="">packaged</a> | <a href="">source</a></li>
-        <li>v0.9.0 : <a href="">amalia.js</a> | <a href="">packaged</a> | <a href="">source</a></li>
-    </ul>
-</div>-->
+
+                    <h3>Previous stable versions</h3>
+                    <div class="row">
+                        <ul>
+                            <li>v1.2.3 : <a href="download/1.2.3/player-amalia-1.2.3.zip">amalia.js</a> | <a href="download/1.2.3/player-amalia-full-1.2.3.zip">packaged</a> | <a href="download/1.2.3/player-amalia-source-1.2.3.zip">source</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
 
                 <!-- DOCUMENTATION -->
@@ -138,22 +142,29 @@
                     <h1 class="title">Documentation</h1>
                     <div class="quick-start" id="quick-start">
                         <h3 class="title">Quick start</h3>
-                        <p>
-                            The easiest way to integrate the amalia.js player in your application is to use the packaged version. All the third party libraries are provided along with the player code in two simple files for javascript and css parts. Add the following two lines in
-                            the
-                            <code>&lt;header&gt;</code>
-                            section of your HTML page :
+                        <p>When developing your web site, <b>make sure to use a local web server</b>. The loading of all javascript resources doesn't work well with local files.
                         </p>
-                        <pre>
-&lt;link rel="stylesheet" href="<span class="latestversion-filename"></span>.min.css"&gt;
-&lt;script src="<span class="latestversion-filename"></span>.min.js" type="text/javascript"&gt;&lt;/script&gt;
-</pre>
+
+                        <p>
+                            The easiest way to integrate the amalia.js player in your application is to use the fully packaged version. All the third party libraries are provided along with the player code in two simple files for javascript and css parts. You will find the amalia.js
+                            libraries in the <code>build</code> directory and the dependencies in the <code>bower_components</code> directory. You can also have a look at the <code>samples</code> directory that has a simple example
+                            file for each plugin.
+                        </p>
+                        <p>
+                            If you start your HTML page from scratch, add the following lines in the <code>&lt;header&gt;</code> section of your HTML page :
+                        </p>
+                        <pre class="smallpre">
+&lt;script type="text/javascript" src="bower_components/jquery/dist/jquery.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="bower_components/jquery-ui/jquery-ui.min.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="bower_components/raphael/raphael.js"&gt;&lt;/script&gt;        
+&lt;link href="build/css/amalia.js.min.css" type="text/css" rel="stylesheet" /&gt;
+&lt;script src="build/js/amalia.js.min.js" type="text/javascript"&gt;&lt;/script&gt; </pre>
                         <p>
                             The default language is french. If you need an english version, you have to add the translation javascript file in your <code>&lt;header&gt;</code> section :
                         </p>
-                        <pre>
-&lt;script type="text/javascript" src="player-message-en.js"&gt;&lt;/script&gt;
-</pre>	
+                        <pre class="smallpre">
+&lt;script type="text/javascript" src="build/js/player-message-en.js"&gt;&lt;/script&gt;
+        </pre>	
 
                         <p>
                             In the
@@ -162,24 +173,24 @@
                             <code>&lt;div&gt;</code>
                             that will be used to instantiate the player. The only requirement for that div is to have an id. In our example, we choose to limit the global height of the player.
                         </p>
-                        <pre>
+                        <pre class="smallpre">
 &lt;div style="height: 350px;"&gt;
     &lt;div id="myplayer"&gt;&lt;/div&gt;
-&lt;/div&gt;
-</pre>
+&lt;/div&gt;</pre>
                         <p>
                             Once this container is there, we can call the javascript function that will create the player. The only mandatory parameter is the multimedia stream that will be played. You can use any media format that is compatible with the targeted browsers of your
                             application. Typically, for videos, you have to encode your files with h.264 and use mp4 container. For a complete list of initialization parameters of amalia.js, see the <a href="#doc-player-options"
                             class="scroll-to">documentation below</a>.
                         </p>
-                        <pre>
+                        <pre class="smallpre">
+&lt;script&gt;        
 $("#myplayer").mediaPlayer({
         autoplay : false,
-        src : "/path/to/myvideo.mp4",
-}); 
-</pre>
-                        <p>For testing purposes, we generate a demonstration video with all types of metadata attached to it. We will use this video along all the examples in this documentation. Here is the result of the three previous steps, providing a
-                            simple player :</p>
+        src : "samples-data/examples/vid/amalia01.mp4",
+});
+&lt;/script&gt;</pre>
+                        <p>For testing purposes, we generate a demonstration video with all types of metadata attached to it. You can find the corresponding files in the <code>samples-data</code> directory.We will use this video along all the examples in this
+                            documentation. Here is the result of the three previous steps, providing a simple player :</p>
                         <div style="height: 350px;">
                             <div id="myplayer"></div>
                         </div>
@@ -188,15 +199,60 @@ $("#myplayer").mediaPlayer({
                             $(function() {
                                 $("#myplayer").mediaPlayer({
                                     autoplay: false,
-                                    src: "examples/vid/amalia01.mp4"
+                                    src: "samples-data/examples/vid/amalia01.mp4"
                                 });
                             });
                         </script>
 
-                        <p>When developing your web site, make sure to use a local web server. The loading of all javascript resources doesn't work well with local files.
-                        </p>
-
                     </div>
+
+
+
+                    <div class="doc-build" id="doc-build">
+                        <h3 class="title">Building the source code</h3>
+                        <p>
+                            If you want to build the amalia.js library yourself, you will need a fully functionnal <a href="https://www.npmjs.com/">npm</a> / <a href="http://bower.io/">bower</a>/ <a href="http://gruntjs.com/">grunt</a> environment. If you
+                            want to use the trunk directly instead of stable releases, you also need to have <a href="https://git-scm.com/">git</a> installed. For Ubuntu, you can install everything quite easily :
+                            <pre class="smallpre">
+sudo apt-get install git
+sudo apt-get install npm
+sudo ln -s /usr/bin/nodejs /usr/bin/node
+sudo npm install -g bower
+sudo npm install -g grunt-cli    	</pre>
+                            If you are behind a proxy, don't forget to configure correctly these tools :
+                            <pre class="smallpre">
+git config --global http.proxy http://proxy.mycompany.fr
+git config --global https.proxy http://proxy.mycompany.fr
+npm config set proxy http://proxy.mycompany.fr
+npm config set https-proxy http://proxy.mycompany.fr
+
+# Create or edit ~/.bowerrc with the following lines
+{
+  "proxy":"http://proxy.mycompany.fr",
+  "https-proxy":"http://proxy.mycompany.fr"
+}    	</pre>
+                            You are now ready to compile amalia.js. First get the source code
+                            <pre class="smallpre">
+git clone https://github.com/ina-foss/amalia.js.git amalia.js</pre>
+                            Then compile
+                            <pre class="smallpre">
+cd amalia.js
+bower install
+npm install
+grunt</pre>
+                            We use PhantomJS to run some unit tests. Unfortunately, this tool has a dependency on FontConfig that is hidden. If you have an error while building amalia.js regarding this library, simply install it
+                            <pre class="smallpre">
+sudo apt-get install fontconfig</pre>	Make sure your build directory is available trough a web server. As an example, if you have Apache installed under Ubuntu
+                            <pre class="smallpre">
+sudo ln -s ~/amalia.js /var/www/html/amalia.js</pre>
+                            You can now acces the sample applications with your fresh buils amalia.js at
+                            <pre class="smallpre">
+http://localhost/amalia.js/samples/</pre>
+                        </p>
+                    </div>
+
+
+
                     <div class="global-archi" id="global-archi">
                         <h3 class="title">Global architecture</h3>
                         <p>The player core component is a framework capable of providing real-time synchronization between the viewing window of the video and a set of plugins. As well as this core, each plugin has a set of parameters that define its behavior
@@ -209,13 +265,13 @@ $("#myplayer").mediaPlayer({
                         <h3 class="title">Metadata format</h3>
                         <p>There are two main types of metadata that the player will have to manage. We have on one side the metadata of media streams that are described in this section and on the other side, settings of the player, plugins and interactions
                             with the applications that are discussed in the following sections. A generic metadata model has been designed, it is intended to represent all the metadata of a media stream. It is able to describe both the audio and video
-                            of a content, technical stuff, any documentary notes and all the results of automatic metadata extraction algorithms. Currently, this model is only able to manage metadata of a single stream. For analysis results of a corpus,
-                            involving links between streams (clustering, mining, similarity detection ...), a specific data model extension has to be created and is currently investigated.</p>
+                            of a content, technical informations, any documentary notes and all the results of automatic metadata extraction algorithms. Currently, this model is only able to manage metadata of a single stream. For analysis results of
+                            a corpus, involving links between streams (clustering, mining, similarity detection ...), a specific data model extension has to be created and is currently investigated.</p>
                         <p>
-                            A full XML schema has been written to represent this metadata model. This schema has much more elements than what is strictly needed to display simple metadata with amalia.js. <a href="dist/generic-model-0.2.3.xsd">The current version is 0.2.3</a>.
+                            A full XML schema has been written to represent this metadata model. This schema has much more elements than what is strictly needed to display simple metadata with amalia.js. <a href="https://github.com/ina-foss/amalia-model/blob/master/src/main/resources/amalia-model-0.2.5.xsd">The current version is 0.2.5</a>.
                             We use this schema to generate Java classes using the <a href="http://mojo.codehaus.org/jaxb2-maven-plugin/">Jaxb
-                plugin for maven</a> and <a href="https://github.com/FasterXML/jackson">Jackson</a> to serialize the metadata stream in Json. We will shortly provide this Java implementation in a separate project along with several helper methods through
-                            a general factory. This Json format is currently the only supported metadata format.
+                plugin for maven</a> and <a href="https://github.com/FasterXML/jackson">Jackson</a> to serialize the metadata stream in Json. This Java implementation is available in a separate project along with several helper methods through a general
+                            factory : <a href="https://github.com/ina-foss/amalia-model">amalia-model</a>. This Json format is currently the only supported metadata format.
                         </p>
                         <p>Each metadata block has a unique id that is used for the binding with the visualization plugins. A metadata block should only represent a coherent and homogeneous bunch of data. If you need to display distinct types of data, or
                             even several blocks of data of the same type (e.g. the output of different versions of the same algorithm), you should provide them in separate blocks of metadata.</p>
@@ -272,7 +328,7 @@ $("#myplayer").mediaPlayer({
                             <code>amalia-simple01</code>
                             . It contains a single data, at 30 seconds, which has a label.
                         </p>
-                        <pre>
+                        <pre class="smallpre">
 {
     "id":"amalia-simple01",
     "type":"simple",
@@ -298,10 +354,10 @@ $("#myplayer").mediaPlayer({
         }
     ]
 }
-</pre>
+        </pre>
                         <p>
-                            You may also have a look at the Json files used in the following examples : <a href="examples/json/amalia01-events.json">cue points</a>, <a href="examples/json/amalia01-ball.json">segments</a>,
-                            <a href="examples/json/amalia01-text.json">text</a> and <a href="examples/json/amalia01-overlay.json">overlay</a>.
+                            You may also have a look at the Json files used in the following examples : <a href="samples-data/examples/json/amalia01-events.json">cue points</a>, <a href="samples-data/examples/json/amalia01-ball.json">segments</a>,
+                            <a href="samples-data/examples/json/amalia01-text.json">text</a> and <a href="samples-data/examples/json/amalia01-overlay.json">overlay</a>.
                         </p>
                         <h4 id="metadata-text">Textual metadata</h4>
                         <p>Textual metadata can be displayed by two specific plugins : <a href="#doc-plugin-caption" class="scroll-to">caption</a> and <a href="doc-plugin-text-sync" class="scroll-to">text synchronization</a>. Depending on the textual metadata
@@ -313,8 +369,8 @@ $("#myplayer").mediaPlayer({
                             ...) are real values between 0 and 1. They are normalized to the media size. The orientation <code>o</code> is a real value between -&Pi; and &Pi;. In order to track an object, you need to have a <code>localisation</code> in your
                             metadata with the correct duration (<code>tcin</code> and <code>tcout</code> fields). Then you add a <code>spatials</code> block to this <code>localisation</code>. Each specific track is represented by a <code>spatial</code> block.
                             In this <code>spatial</code>, you will only have the key points of your object trajectory with the specific timecode (<code>tc</code>). Between these points, the position of the bounding box is linearly interpolated by the overlay
-                            plugin (in fact, currently, by the <a href="#3rdparty-libs" class="scroll-to">Raphaël library</a>). You can have a look at the <a href="examples/json/amalia01-overlay.json">example Json file of the overlay plugin</a> for more
-                            details.
+                            plugin (in fact, currently, by the <a href="#3rdparty-libs" class="scroll-to">Raphaël library</a>). You can have a look at the <a href="samples-data/examples/json/amalia01-overlay.json">example Json file of the overlay plugin</a> for
+                            more details.
                         </p>
                     </div>
                     <div class='doc-player-options' id="doc-player-options">
@@ -350,16 +406,16 @@ $("#myplayer").mediaPlayer({
                             <li><strong>hideDuration</strong>: time in ms, default value is 1000</li>
                         </ul>
                         <p>Here is an example of amalia.js initialization with the sticky version of the control bar :</p>
-                        <pre>
+                        <pre class="smallpre">
 $("#myplayer").mediaPlayer({
         autoplay : false,
-        src : "examples/vid/amalia01.mp4",
+        src : "samples-data/examples/vid/amalia01.mp4",
         controlBar : {
             sticky : true,
             height : 45
         } 
 });	
-</pre>
+        </pre>
                     </div>
                     <div class='doc-plugins' id='doc-plugins'>
                         <h3 class="title">Plugins and data</h3>
@@ -373,17 +429,17 @@ $("#myplayer").mediaPlayer({
                             the Json metadata blocks over HTTP. In a near future, the data services will evolve and we will manage different formats and different protocols (especially, we plan to have a web socket implementation that will make possible
                             metadata streaming). You just have to provide a list of URLs that will be accessed to retrieve the metadata. These URLs can be whatever you want, either simple Json files or dynamic web application like a REST api. In the following
                             example, we load data from two URLs :</p>
-                        <pre>
+                        <pre class="smallpre">
 $("#myplayer").mediaPlayer({
-        src : "examples/vid/amalia01.mp4",
+        src : "samples-data/examples/vid/amalia01.mp4",
         plugins: {
                 dataServices: [
-                        'examples/json/amalia01-events.json',
-                        'examples/json/amalia01-kf.json'
+                        'samples-data/examples/json/amalia01-events.json',
+                        'samples-data/examples/json/amalia01-kf.json'
                 ]
         }
 });	
-</pre>
+        </pre>
                         <p>Once the metadata are loaded, amalia.js try to instantiate the visualization plugins. You can instantiate as many plugins of each type as you want. For each plugin instance, you have to provide the following initialization informations
                             :</p>
                         <ul>
@@ -396,9 +452,9 @@ $("#myplayer").mediaPlayer({
                             <code>list</code>
                             field :
                         </p>
-                        <pre>
+                        <pre class="smallpre">
 $("#myplayer").mediaPlayer({
-        src : "examples/vid/amalia01.mp4",
+        src : "samples-data/examples/vid/amalia01.mp4",
         plugins: {
                 dataServices: [
                         ...
@@ -419,7 +475,7 @@ $("#myplayer").mediaPlayer({
                 ]
         }
 });	
-</pre>
+        </pre>
                         <p>You may just have a look at the source code of this page to see other examples.</p>
                     </div>
                     <div class='doc-plugin-timeline' id='doc-plugin-timeline'>
@@ -445,7 +501,7 @@ $("#myplayer").mediaPlayer({
                             <code>div</code>
                             at the correct place.
                         </p>
-                        <pre>
+                        <pre class="smallpre">
 &lt;div id="myplayer-timeline-container"&gt;
         &lt;div style="height: 350px;"&gt;
                 &lt;div id="myplayer-timeline"&gt;&lt;/div&gt;
@@ -453,7 +509,7 @@ $("#myplayer").mediaPlayer({
         &lt;div id="myplayer-timeline-timeline" style="height: 265px;"&gt;&lt;/div&gt;
         &lt;div style="clear: both;"&gt;&lt;/div&gt;
 &lt;/div&gt;
-</pre>
+        </pre>
                         <p>Here are the specific parameters for configuring the timeline plugin :</p>
                         <ul>
                             <li><strong>listOfLines</strong>: configuration of all the lines, contains an array of items (see below)</li>
@@ -473,15 +529,15 @@ $("#myplayer").mediaPlayer({
                             <li><strong>zoomable</strong>: boolean, sets wheter this line zoom level is synchronized with the time axis or not (default : true)</li>
                         </ul>
                         <p>In the following example, we create a player and load metadata blocks from three different sources. We add the timeline plugin with three lines. Each one of these lines is bound to a different metadata block of a specific type.</p>
-                        <pre>
+                        <pre class="smallpre">
 $("#myplayer-timeline").mediaPlayer({
     autoplay : false,
-    src : "examples/vid/amalia01.mp4",
+    src : "samples-data/examples/vid/amalia01.mp4",
     plugins: {
         dataServices: [
-            'examples/json/amalia01-events.json',
-            'examples/json/amalia01-kf.json',
-            'examples/json/amalia01-ball.json'
+            'samples-data/examples/json/amalia01-events.json',
+            'samples-data/examples/json/amalia01-kf.json',
+            'samples-data/examples/json/amalia01-ball.json'
         ],
         list: [
             {
@@ -514,7 +570,7 @@ $("#myplayer-timeline").mediaPlayer({
         ]
     }
 });
-</pre>
+        </pre>
                         <div id="myplayer-timeline-container">
                             <div style="height: 350px;">
                                 <div id="myplayer-timeline"></div>
@@ -527,13 +583,13 @@ $("#myplayer-timeline").mediaPlayer({
                         <table style="margin: 10px">
                             <tr>
                                 <td style="padding: 2px; width: 140px">
-                                    <img src="static/img/timeaxis_nav.png" />
+                                    <img src="img/timeaxis_nav.png" />
                                 </td>
                                 <td>slide left and right on the time axis (same as click and drag)</td>
                             </tr>
                             <tr>
                                 <td style="padding: 2px; width: 140px">
-                                    <img src="static/img/timeaxis_size.png" />
+                                    <img src="img/timeaxis_size.png" />
                                 </td>
                                 <td>zoom in and out (same as mouse scroll), change the timelines height</td>
                             </tr>
@@ -542,13 +598,13 @@ $("#myplayer-timeline").mediaPlayer({
                         <table style="margin: 10px">
                             <tr>
                                 <td style="padding: 2px; width: 140px">
-                                    <img src="static/img/timeline_nav.png" />
+                                    <img src="img/timeline_nav.png" />
                                 </td>
                                 <td>go to previous / next timecoded element</td>
                             </tr>
                             <tr>
                                 <td style="padding: 2px; width: 140px">
-                                    <img src="static/img/timeline_ctrl.png" />
+                                    <img src="img/timeline_ctrl.png" />
                                 </td>
                                 <td>collapse / expand the line, change the line order in the list (click and drag to move the line up or down)</td>
                             </tr>
@@ -558,12 +614,12 @@ $("#myplayer-timeline").mediaPlayer({
                             $(function() {
                                 $("#myplayer-timeline").mediaPlayer({
                                     autoplay: false,
-                                    src: "examples/vid/amalia01.mp4",
+                                    src: "samples-data/examples/vid/amalia01.mp4",
                                     plugins: {
                                         dataServices: [
-                                            'examples/json/amalia01-events.json',
-                                            'examples/json/amalia01-kf.json',
-                                            'examples/json/amalia01-ball.json'
+                                            'samples-data/examples/json/amalia01-events.json',
+                                            'samples-data/examples/json/amalia01-kf.json',
+                                            'samples-data/examples/json/amalia01-ball.json'
                                         ],
                                         list: [{
                                             'className': 'fr.ina.amalia.player.plugins.TimelinePlugin',
@@ -603,12 +659,12 @@ $("#myplayer-timeline").mediaPlayer({
                             <li><strong>level</strong>: which <code>tclevel</code> of textual metadata will be displayed</li>
                         </ul>
 
-                        <pre>
+                        <pre class="smallpre">
 $("#myplayer-caption").mediaPlayer({
-    src : "examples/vid/amalia01.mp4",
+    src : "samples-data/examples/vid/amalia01.mp4",
     plugins : {
         dataServices : [
-            'examples/json/amalia01-text.json'
+            'samples-data/examples/json/amalia01-text.json'
         ],
         list : [
             {
@@ -621,7 +677,7 @@ $("#myplayer-caption").mediaPlayer({
         ]
     }
 });
-</pre> 
+        </pre> 
 
                         <div id="myplayer-caption-container">
                             <div style="height: 350px;">
@@ -634,14 +690,14 @@ $("#myplayer-caption").mediaPlayer({
                             $(function() {
                                 $("#myplayer-caption").mediaPlayer({
                                     autoplay: false,
-                                    src: "examples/vid/amalia01.mp4",
+                                    src: "samples-data/examples/vid/amalia01.mp4",
                                     controlBar: {
                                         sticky: true,
                                         height: 45
                                     },
                                     plugins: {
                                         dataServices: [
-                                            'examples/json/amalia01-text.json'
+                                            'samples-data/examples/json/amalia01-text.json'
                                         ],
                                         list: [{
                                             'className': 'fr.ina.amalia.player.plugins.CaptionsPlugin',
@@ -669,12 +725,12 @@ $("#myplayer-caption").mediaPlayer({
                             <li><strong>level</strong>: which <code>tclevel</code> of textual metadata will be parsed</li>
                             <li><strong>displayLevel</strong>: which <code>tclevel</code> of textual metadata will be displayed (may be different from the <code>level</code>)</li>
                         </ul>
-                        <pre>
+                        <pre class="smallpre">
 $("#myplayer-tsync").mediaPlayer({
-    src : "examples/vid/amalia01.mp4",
+    src : "samples-data/examples/vid/amalia01.mp4",
     plugins : {
         dataServices : [
-            'examples/json/amalia01-text.json'
+            'samples-data/examples/json/amalia01-text.json'
         ],
         list : [
             {
@@ -691,7 +747,7 @@ $("#myplayer-tsync").mediaPlayer({
         ]
     }
 });
-</pre> 
+        </pre> 
 
                         <div id="myplayer-tsync-container" class="row">
                             <div class="col-md-6">
@@ -709,14 +765,14 @@ $("#myplayer-tsync").mediaPlayer({
                             $(function() {
                                 $("#myplayer-tsync").mediaPlayer({
                                     autoplay: false,
-                                    src: "examples/vid/amalia01.mp4",
+                                    src: "samples-data/examples/vid/amalia01.mp4",
                                     controlBar: {
                                         sticky: true,
                                         height: 45
                                     },
                                     plugins: {
                                         dataServices: [
-                                            'examples/json/amalia01-text.json'
+                                            'samples-data/examples/json/amalia01-text.json'
                                         ],
                                         list: [{
                                             'className': 'fr.ina.amalia.player.plugins.TextSyncPlugin',
@@ -748,12 +804,12 @@ $("#myplayer-tsync").mediaPlayer({
                                 explanations.</li>
                         </ul>
 
-                        <pre>
+                        <pre class="smallpre">
 $("#myplayer-overlay").mediaPlayer({
-    src : "examples/vid/amalia01.mp4",
+    src : "samples-data/examples/vid/amalia01.mp4",
     plugins : {
         dataServices : [
-            'examples/json/amalia01-overlay.json'
+            'samples-data/examples/json/amalia01-overlay.json'
         ],
         list : [
             {
@@ -772,7 +828,7 @@ $("#myplayer-overlay").mediaPlayer({
         ]
     }
 });
-</pre> 
+        </pre> 
 
                         <div id="myplayer-overlay-container">
                             <div style="height: 350px;">
@@ -786,11 +842,15 @@ $("#myplayer-overlay").mediaPlayer({
                             $(function() {
                                 $("#myplayer-overlay").mediaPlayer({
                                     autoplay: false,
-                                    src: "examples/vid/amalia01.mp4",
+                                    src: "samples-data/examples/vid/amalia01.mp4",
                                     plugins: {
-                                        dataServices: [
-                                            'examples/json/amalia01-overlay.json'
-                                        ],
+                                        dataServices: [{
+                                            protocol: "http",
+                                            url: 'samples-data/examples/json/amalia01-overlay.json',
+                                            parameters: {
+                                                mainLevel: true
+                                            },
+                                        }],
                                         list: [{
                                             'className': 'fr.ina.amalia.player.plugins.OverlayPlugin',
                                             'metadataId': 'tracks-amalia01',
@@ -809,6 +869,7 @@ $("#myplayer-overlay").mediaPlayer({
                             });
                         </script>
                     </div>
+
                 </div>
 
                 <!-- EXAMPLES -->
@@ -859,20 +920,20 @@ $("#myplayer-overlay").mediaPlayer({
                     <ul>
                         <li>jQuery : easy DOM manipulation framework, MIT license (<a href="http://jquery.com">web site</a>).
                         </li>
-                        <li>jQueryClass : simulated inheritance in javascript, MIT license (<a href="http://v3.javascriptmvc.com/docs/jQuery.Class.html#&who=jQuery.Class">web site</a>)
-                        </li>
+                        <!--         <li>jQueryClass : simulated inheritance in javascript, MIT license (<a href="http://v3.javascriptmvc.com/docs/jQuery.Class.html#&who=jQuery.Class">web site</a>) -->
+                        <!--         </li> -->
                         <li>jQueryUI : user interface stuff on top of jQuery, MIT license (<a href="http://jqueryui.com">web site</a>)
                         </li>
-                        <li>jQueryUI Touch Punch : touch event support for jQuery UI, MIT or GPL Version 2 licenses (<a href="http://touchpunch.furf.com">web site</a>)
-                        </li>
-                        <li>jQuery knob : a knob for jQuery,MIT or GPL licenses (<a href="http://anthonyterrien.com/knob">web site</a>)
-                        </li>
+                        <!--         <li>jQueryUI Touch Punch : touch event support for jQuery UI, MIT or GPL Version 2 licenses (<a href="http://touchpunch.furf.com">web site</a>) -->
+                        <!--         </li> -->
+                        <!--         <li>jQuery knob : a knob for jQuery,MIT or GPL licenses (<a href="http://anthonyterrien.com/knob">web site</a>) -->
+                        <!--         </li> -->
                         <li>Raphaël : a vector graphics Javascript library, MIT License (<a href="http://raphaeljs.com">web site</a>)
                         </li>
-                        <li>Bootstrap : responsive design library, MIT License (<a href="http://getbootstrap.com">web site</a>)
-                        </li>
-                        <li>Font Awesome : iconic font, MIT License (<a href="http://fortawesome.github.io/Font-Awesome/">web site</a>)
-                        </li>
+                        <!--         <li>Bootstrap : responsive design library, MIT License (<a href="http://getbootstrap.com">web site</a>) -->
+                        <!--         </li> -->
+                        <!--         <li>Font Awesome : iconic font, MIT License (<a href="http://fortawesome.github.io/Font-Awesome/">web site</a>) -->
+                        <!--         </li> -->
                     </ul>
                 </div>
 
@@ -927,6 +988,8 @@ $("#myplayer-overlay").mediaPlayer({
                     <ul class="nav nav-pills nav-stacked">
                         <li><a class="scroll-to" href="#quick-start">Quick start</a>
                         </li>
+                        <li><a class="scroll-to" href="#doc-build">Building the source code</a>
+                        </li>
                         <li><a class="scroll-to" href="#global-archi">Global architecture</a>
                         </li>
                         <li><a class="scroll-to" href="#metadata-format">Metadata format</a>
@@ -957,10 +1020,10 @@ $("#myplayer-overlay").mediaPlayer({
         <div class="container">
             <div class="row" style="vertical-align: middle">
 
-                <div class="col-md-6">Last updated : 2015-01-19</div>
+                <div class="col-md-6">Last updated : 2015-05-22</div>
                 <div class="col-md-6 text-right">
                     <a href="http://www.institut-national-audiovisuel.fr/en/home">
-                        <img class="logo-ina" src="static/img/logo_ina.jpg" style=" margin-right:10px; width: 32x; height: 32px" />Institut National de l'Audiovisuel - INA</a>© 2015
+                        <img class="logo-ina" src="img/logo_ina.jpg" style=" margin-right:10px; width: 32x; height: 32px" />Institut National de l'Audiovisuel - INA</a>©2015
                 </div>
 
             </div>
@@ -969,16 +1032,17 @@ $("#myplayer-overlay").mediaPlayer({
 
     <script type="text/javascript">
         $(function() {
-            $('.latestversion-filename').html('player-amalia-1.2.3');
-            $('.latestversion').html('Last stable version - v1.2.3');
-            $('.download-link-alone').attr('href', 'download/1.2.3/player-amalia-1.2.3.zip');
-            $('.download-link-full').attr('href', 'download/1.2.3/player-amalia-full-1.2.3.zip');
-            $('.download-link-source').attr('href', 'download/1.2.3/player-amalia-source-1.2.3.zip');
+            $('.latestversion-filename').html('amalia.js-1.3.0');
+            $('.latestversion').html('Last stable version - v1.3.0');
+            $('.download-link-alone').attr('href', 'download/1.3.0/amalia.js-1.3.0.zip');
+            $('.download-link-full').attr('href', 'download/1.3.0/amalia.js-full-1.3.0.zip');
+            $('.download-link-source').attr('href', 'https://github.com/ina-foss/amalia.js/releases/tag/1.3.0');
             $(".scroll-to").click(function(e) {
                 e.preventDefault();
                 $('html, body').animate({
-                    scrollTop: $($(e.currentTarget).attr('href')).offset().top - 80
-                }, 1000);
+                        scrollTop: $($(e.currentTarget).attr('href')).offset().top - 80
+                    },
+                    1000);
             });
             $(window).scroll(function(e, a) {
                 if ($(e.currentTarget).scrollTop() > 500) {
