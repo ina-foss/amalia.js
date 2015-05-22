@@ -46,7 +46,7 @@
                         $( function () {
                             $( "#defaultPlayer" ).mediaPlayer( {
                                 autoplay : false,
-                                src : "../data/examples/vid/amalia01.mp4",
+                                src : "../samples-data/examples/vid/amalia01.mp4",
                                 controlBar :
                                     {
                                         sticky : true
@@ -54,9 +54,9 @@
                                 plugins :
                                     {
                                         dataServices : [
-                                            '../data/examples/json/amalia01-events.json',
-                                            '../data/examples/json/amalia01-kf.json',
-                                            '../data/examples/json/amalia01-ball.json'
+                                            '../samples-data/examples/json/amalia01-events.json',
+                                            '../samples-data/examples/json/amalia01-kf.json',
+                                            '../samples-data/examples/json/amalia01-ball.json'
                                         ],
                                         list : [
                                             {
@@ -92,7 +92,7 @@
                                                     editingMode : true,
                                                     displayLines : 3,
                                                     resizable : true,
-                                                    lineDisplayMode : fr.ina.amalia.player.plugins.TimelinePlugin.LINE_DISPLAY_TYPE.STATIC_DYNAMIC,//STATIC//STATIC_DYNAMIC//DYNAMIC                           
+                                                    lineDisplayMode : fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.METADATA_DISPLAY_TYPE.STATIC_DYNAMIC,//STATIC//STATIC_DYNAMIC//DYNAMIC                           
                                                     listOfLines : [
                                                         {
                                                             title : 'Events',

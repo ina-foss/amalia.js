@@ -898,12 +898,14 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend( "fr.ina.amalia.player
             label : shape.hasOwnProperty( 'objectId' ) ? shape.objectId : ''
         };
         shape.data = _data;
+
         // Add data
-        _player.addMetadataItem( this.getSelectedMetadataId(),_data );
+        var refLoc = _player.addMetadataItem( this.getSelectedMetadataId(),_data );
+        _data.refLoc = refLoc;
+        return _data;
     },
     /**
      * In charge to refrech spatial data
-     * @param {type} event
      * @returns {undefined}
      */
     refreshSeekData : function ()
@@ -938,23 +940,26 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend( "fr.ina.amalia.player
         var item = null;
         var displayData = [
         ];
-        for (var i = 0;
-            i < this.seekSpatialsData.length;
-            i++)
+        if (this.seekSpatialsData !== null)
         {
-            item = this.seekSpatialsData[i];
-            if (typeof item === "object" && item.hasOwnProperty( 'tcin' ) && item.hasOwnProperty( 'tcout' ) && currentTime >= parseFloat( item.tcin ) && currentTime <= parseFloat( item.tcout ))
+            for (var i = 0;
+                i < this.seekSpatialsData.length;
+                i++)
             {
-                //reset by default value
-                item.start = jQuery.extend( true,{},this.seekSpatialsData[i].start );
-                var seekPos = this.spatialInterpolation( item.start,item.end,this.mediaPlayer.getCurrentTime() );
-                item.start.shape.c.x = seekPos.x;
-                item.start.shape.c.y = seekPos.y;
-                item.start.shape.rx = seekPos.rx;
-                item.start.shape.ry = seekPos.ry;
+                item = this.seekSpatialsData[i];
+                if (typeof item === "object" && item.hasOwnProperty( 'tcin' ) && item.hasOwnProperty( 'tcout' ) && currentTime >= parseFloat( item.tcin ) && currentTime <= parseFloat( item.tcout ))
+                {
+                    //reset by default value
+                    item.start = jQuery.extend( true,{},this.seekSpatialsData[i].start );
+                    var seekPos = this.spatialInterpolation( item.start,item.end,this.mediaPlayer.getCurrentTime() );
+                    item.start.shape.c.x = seekPos.x;
+                    item.start.shape.c.y = seekPos.y;
+                    item.start.shape.rx = seekPos.rx;
+                    item.start.shape.ry = seekPos.ry;
 
-                displayData.push( item );
-                this.seekSpatialsData.splice( i,1 );
+                    displayData.push( item );
+                    this.seekSpatialsData.splice( i,1 );
+                }
             }
         }
         return displayData;
@@ -1065,7 +1070,7 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend( "fr.ina.amalia.player
      */
     onClickAtObject : function (event,data)
     {
-        if (typeof event.data.self.settings.parameters.callbacks.click !== "undefined")
+        if (typeof event.data.self.settings.parameters !== "undefined")
         {
             try
             {
@@ -1284,7 +1289,19 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend( "fr.ina.amalia.player
         }
         else if ($.inArray( 'drag end',events ) > -1 || $.inArray( 'scale end',events ) > -1)
         {
+            //translate pos is a center object
+            var _shapePos = {
+                c : {
+                    x : parseFloat( (ft.attrs.center.x + ft.attrs.translate.x) / ft.self.canvas.width ),
+                    y : parseFloat( (ft.attrs.center.y + ft.attrs.translate.y) / ft.self.canvas.height )
+                },
+                rx : parseFloat( (ft.attrs.size.x * ft.attrs.scale.x) / 2 / ft.self.canvas.width ),
+                ry : parseFloat( (ft.attrs.size.y * ft.attrs.scale.y) / 2 / ft.self.canvas.height ),
+                o : parseFloat( ft.attrs.rotate ),
+                t : ft.self.shape
+            };
 
+            ft.self.updatePosShape( _shapePos,ft.subject.data );
         }
     },
     /**
@@ -1300,6 +1317,76 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend( "fr.ina.amalia.player
         else
         {
             event.data.self.setEraseState( true );
+        }
+    },
+    /**
+     * In charge to update shape position
+     * @param {Object} shape
+     * @param {Object} shapePos
+     */
+    updatePosShape : function (shapePos,data)
+    {
+        var _player = this.mediaPlayer;
+        var tc = _player.getCurrentTime();
+        if (data.hasOwnProperty( 'refLoc' ) && typeof data.refLoc === "object" && data.refLoc.tc !== tc)
+        {
+            if (data.refLoc.hasOwnProperty( 'sublocalisations' ) === false || data.refLoc.sublocalisations === null || typeof data.refLoc.sublocalisations !== "object")
+            {
+                //init sublocalisation
+                data.refLoc.sublocalisations = {
+                    localisation : [
+                    ]
+                };
+                var oldTc = parseFloat( data.refLoc.tc );
+                var firstShapePos = jQuery.extend( {},{
+                    tc : oldTc,
+                    shape : data.refLoc.shape,
+                    tclevel : 1
+
+                } );
+                data.refLoc.sublocalisations.localisation.push( firstShapePos );
+                data.refLoc.shape = null;
+                if (oldTc < tc)
+                {
+                    data.refLoc.tcin = oldTc;
+                    data.refLoc.tc = oldTc;
+                    data.refLoc.tcout = tc;
+                }
+                else
+                {
+                    data.refLoc.tcin = tc;
+                    data.refLoc.tc = tc;
+                    data.refLoc.tcout = oldTc;
+                }
+            }
+            //search if localisations pos for this tc
+            var duplicateItem = $.grep( data.refLoc.sublocalisations.localisation,function (a) {
+                return a.tc === tc;
+            } );
+            if (duplicateItem.length > 0)
+            {
+                duplicateItem[0].shape = shapePos;
+            }
+            else
+            {
+                // add new shap pos
+                data.refLoc.sublocalisations.localisation.push( {
+                    tc : tc,
+                    shape : shapePos,
+                    tclevel : 1
+                } );
+            }
+
+            _player.getMediaPlayer().trigger( fr.ina.amalia.player.PlayerEventType.DATA_CHANGE,{
+                id : data.hasOwnProperty( 'metadataId' ) ? data.metadataId : _player.getSelectedMetadataId()
+            } );
+        }
+        else if (data.hasOwnProperty( 'refLoc' ) && typeof data.refLoc === "object")
+        {
+            data.refLoc.shape = shapePos;
+            _player.getMediaPlayer().trigger( fr.ina.amalia.player.PlayerEventType.DATA_CHANGE,{
+                id : data.hasOwnProperty( 'metadataId' ) ? data.metadataId : _player.getSelectedMetadataId()
+            } );
         }
     }
 } );

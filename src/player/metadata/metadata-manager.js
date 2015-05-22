@@ -129,7 +129,16 @@ $.Class( "fr.ina.amalia.player.MetadataManager",{
 
                     if (typeof this.listOfMetadata[key] !== 'undefined')
                     {
-                        d.localisation = JSON.parse( JSON.stringify( this.listOfMetadata[key] ) );
+                        d.localisation = JSON.parse( JSON.stringify( this.listOfMetadata[key],function (key,value) {
+                            if (key === "refLoc")
+                            {
+                                return undefined;
+                            }
+                            else
+                            {
+                                return value;
+                            }
+                        } ) );
                     }
                     else
                     {
@@ -399,10 +408,11 @@ $.Class( "fr.ina.amalia.player.MetadataManager",{
 
         if (typeof data === "object")
         {
-            this.listOfMetadata[metadataId].push( data );
+            var len = this.listOfMetadata[metadataId].push( data );
             this.mediaPlayer.getMediaPlayer().trigger( fr.ina.amalia.player.PlayerEventType.DATA_CHANGE,{
                 id : metadataId
             } );
+            return  this.listOfMetadata[metadataId][len - 1];
         }
     },
     /**

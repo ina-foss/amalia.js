@@ -172,7 +172,7 @@ $.Class( "fr.ina.amalia.player.parsers.BaseParserMetadata",{},{
             if (data.localisation.length > 0)
             {
                 var localisations = null;
-                if (this.settings.mainLevel === true)
+                if (this.settings.hasOwnProperty( 'parameters' ) && this.settings.parameters !==null && this.settings.parameters.hasOwnProperty( 'mainLevel' ) && this.settings.parameters.mainLevel === true)
                 {
                     localisations = data.localisation;
                 }

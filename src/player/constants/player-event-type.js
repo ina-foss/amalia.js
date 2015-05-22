@@ -187,6 +187,13 @@ $.Class( "fr.ina.amalia.player.PlayerEventType",{
      * @property UNBIND_METADATA
      * @type {String}
      */
-    UNBIND_METADATA : "fr.ina.amalia.player.PlayerEventType.UNBIND_METADATA"
+    UNBIND_METADATA : "fr.ina.amalia.player.PlayerEventType.UNBIND_METADATA",
+    /**
+     * Fired when unbind metadata
+     * @constant
+     * @property PLAYBACK_RATE_CHANGE
+     * @type {String}
+     */
+    PLAYBACK_RATE_CHANGE : "fr.ina.amalia.player.PlayerEventType.PLAYBACK_RATE_CHANGE"
 },
 {} );

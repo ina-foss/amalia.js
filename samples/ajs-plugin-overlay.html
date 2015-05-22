@@ -14,7 +14,7 @@
         <!-- /style-player -->        
         <!-- script-player -->        
         <script src="../build/js/amalia.js.min.js"></script>
-        <script src="../build/js/amalia.js-plugin-overlay.min.js"></script>        
+        <script src="../build/js/amalia.js-plugin-overlay.min.js"></script>
         <!-- /script-player -->
     </head>
     <body>
@@ -31,16 +31,24 @@
                         $( function () {
                             $( "#defaultPlayer" ).mediaPlayer( {
                                 autoplay : false,
-                                src : "../data/examples/vid/amalia01.mp4",
+                                src : "../samples-data/examples/vid/amalia01.mp4",
                                 plugins : {
                                     dataServices : [
-                                        '../data/examples/json/amalia01-overlay.json'
+                                        {
+		                                    protocol : "http",
+        		                            url : '../samples-data/examples/json/amalia01-overlay.json',
+                		                    // format : 'json',
+                        		            parameters : {
+                                		    	mainLevel : true
+                                    		},
+                                		}
                                     ],
                                     list : [
                                         {
                                             'className' : 'fr.ina.amalia.player.plugins.OverlayPlugin',
-                                            'metadataId' : 'tracks-amalia01',
+//                                             'metadataId' : 'tracks-amalia01-1',
                                             'parameters' : {
+                                            	editable:false,
                                                 style : {
                                                     'fill' : '#000',
                                                     'strokeWidth' : 1,
@@ -59,7 +67,7 @@
                         <pre class="config">
                         {
                             'className' : 'fr.ina.amalia.player.plugins.OverlayPlugin',
-                            'metadataId' : 'tracks-amalia01',
+                            'metadataId' : 'tracks-amalia01-1',
                             'parameters' : {
                                 style : {
                                     'fill' : '#000',

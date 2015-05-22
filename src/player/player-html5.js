@@ -159,6 +159,13 @@ $.Class( "fr.ina.amalia.player.PlayerHtml5",{
      */
     metadataManager : null,
     /**
+     * timeout representing the ID
+     * @property intervalRewind
+     * @type {Object}
+     * @default null
+     */
+    intervalRewind : null,
+    /**
      * Init player class
      * @constructor
      * @param {Object} settings
@@ -413,6 +420,7 @@ $.Class( "fr.ina.amalia.player.PlayerHtml5",{
     play : function ()
     {
         this.mediaPlayer.get( 0 ).play();
+        this.setPlaybackrate( 1 );
         if (typeof this.settings.callbacks.onPlay !== "undefined")
         {
             try
@@ -436,7 +444,8 @@ $.Class( "fr.ina.amalia.player.PlayerHtml5",{
     pause : function ()
     {
         this.mediaPlayer.get( 0 ).pause();
-        // Déactivation du range play
+        this.setPlaybackrate( 1 );
+
         this.isRangePlayer = false;
         this.rangePlayerTcout = null;
         if (typeof this.settings.callbacks.onPause !== "undefined")
@@ -600,6 +609,42 @@ $.Class( "fr.ina.amalia.player.PlayerHtml5",{
             currentTime : currentTime
         } );
         return this.mediaPlayer.get( 0 ).currentTime = Math.max( 0,currentTime - this.tcOffset );
+    },
+    /**
+     * Set playback rate
+     * @param {Objecy} speed the current playback speed of the audio/video.
+     * @returns the current playback speed of the audio/video.
+     */
+    setPlaybackrate : function (speed)
+    {
+        var self = this;
+        if (speed <= 0)
+        {
+            clearInterval( self.intervalRewind );
+            self.intervalRewind = setInterval( function () {
+                self.mediaPlayer.get( 0 ).playbackRate = 1;
+                var currentTime = self.getCurrentTime();
+                if (currentTime === 0)
+                {
+                    self.mediaPlayer.get( 0 ).playbackRate = 1.0;
+                    clearInterval( self.intervalRewind );
+                    self.pause();
+                }
+                else
+                {
+                    currentTime += speed;
+                    self.setCurrentTime( currentTime );
+                }
+            },30 );
+        }
+        else
+        {
+            clearInterval( self.intervalRewind );
+            self.mediaPlayer.get( 0 ).playbackRate = parseFloat( speed );
+        }
+        this.mediaPlayer.trigger( fr.ina.amalia.player.PlayerEventType.PLAYBACK_RATE_CHANGE,{
+            rate : speed
+        } );
     },
     /**
      * Set Error
@@ -831,7 +876,7 @@ $.Class( "fr.ina.amalia.player.PlayerHtml5",{
      */
     addMetadataItem : function (metadataId,data)
     {
-        this.metadataManager.addMetadataItem( metadataId,data );
+        return this.metadataManager.addMetadataItem( metadataId,data );
     },
     /**
      * Return selected items
