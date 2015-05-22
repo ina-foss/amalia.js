@@ -271,7 +271,7 @@ http://localhost/amalia.js/samples/</pre>
                             A full XML schema has been written to represent this metadata model. This schema has much more elements than what is strictly needed to display simple metadata with amalia.js. <a href="https://github.com/ina-foss/amalia-model/blob/master/src/main/resources/amalia-model-0.2.5.xsd">The current version is 0.2.5</a>.
                             We use this schema to generate Java classes using the <a href="http://mojo.codehaus.org/jaxb2-maven-plugin/">Jaxb
                 plugin for maven</a> and <a href="https://github.com/FasterXML/jackson">Jackson</a> to serialize the metadata stream in Json. This Java implementation is available in a separate project along with several helper methods through a general
-                            factory : <a href="https://github.com/ina-foss/amalia-model">amalia-model</a>. This Json format is currently the only supported metadata format.
+                            factory (<a class="scroll-to" href="#doc-model-java">see documentation below</a>). This Json format is currently the only supported metadata format.
                         </p>
                         <p>Each metadata block has a unique id that is used for the binding with the visualization plugins. A metadata block should only represent a coherent and homogeneous bunch of data. If you need to display distinct types of data, or
                             even several blocks of data of the same type (e.g. the output of different versions of the same algorithm), you should provide them in separate blocks of metadata.</p>
@@ -870,6 +870,27 @@ $("#myplayer-overlay").mediaPlayer({
                         </script>
                     </div>
 
+
+
+                    <div class="doc-model-java" id="doc-model-java">
+                        <h3 class="title">Metadata Java library</h3>
+                        In order to generate the Json metadata blocks, we also provide a Java library called <a href="https://github.com/ina-foss/amalia-model">amalia-model</a>. Some tools and examples are already available, you will find them in the
+                        <a
+                        href="https://github.com/ina-foss/amalia-model/tree/master/src/test/java/fr/ina/research/amalia/model"><code>test</code>
+                            </a>and <a href="https://github.com/ina-foss/amalia-model/tree/master/src/main/java/fr/ina/research/amalia/tools"><code>tools</code></a> directories. This library is also <a href="http://search.maven.org/#browse|-378018234">published on Maven central</a>.
+                            The last stable release is <a href="http://search.maven.org/#artifactdetails|fr.ina.research|amalia-model|0.2.5|jar">0.2.5</a>. Snapshots are also available on <a href="https://oss.sonatype.org/content/repositories/snapshots/fr/ina/research/amalia-model/">Sonatype repository</a>.
+                            You can use it easily in your own application by adding a dependency
+                            <pre class="smallpre">
+&lt;dependency&gt;
+    &lt;groupId&gt;fr.ina.research&lt;/groupId&gt;
+    &lt;artifactId&gt;amalia-model&lt;/artifactId&gt;
+    &lt;version&gt;0.2.5&lt;/version&gt;
+&lt;/dependency&gt;
+</pre> 
+                    </div>
+
+
+
                 </div>
 
                 <!-- EXAMPLES -->
@@ -1007,6 +1028,8 @@ $("#myplayer-overlay").mediaPlayer({
                         <li><a class="scroll-to" href="#doc-plugin-text-sync">Text synchronization plugin</a>
                         </li>
                         <li><a class="scroll-to" href="#doc-plugin-overlay">Overlay plugin</a>
+                        </li>
+                        <li><a class="scroll-to" href="#doc-model-java">Metadata Java library</a>
                         </li>
                     </ul>
                 </div>
