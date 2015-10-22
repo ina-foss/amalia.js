@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Language" content="en-us" />
+    <link rel="icon" href="static/img/favicon.ico" />
+    <meta name="description" content="amalia.js is a new extensible and versatile HTML5 multimedia player that allows you to view any type of metadata along with your video or audio streams" />
+    <meta name="keywords" content="amalia.js, ina, research, amalia, video, audio, multimedia, player, metadata, plugin, javascript, html5, timeline, keyframe, analysis, extraction, visualization, content, indexing, json, dataviz" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.1/yeti/bootstrap.min.css" rel="stylesheet" />
+    <link type="text/css" rel="stylesheet" href="css/amalia-site.css" />
+
+    <!-- amalia.js dependencies -->
+    <script type="text/javascript" src="libs/jquery.min.js"></script>
+    <script type="text/javascript" src="libs/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="libs/raphael-min.js"></script>
+
+    <!-- amalia.js player stuff -->
+    <link type="text/css" rel="stylesheet" href="libs/amalia-js/css/amalia.js.min.css" />
+    <script type="text/javascript" src="libs/amalia-js/js/amalia.js.min.js"></script>
+    <script type="text/javascript" src="libs/amalia-js/js/amalia.js-logger.min.js"></script>
+    <script type="text/javascript" src="libs/amalia-js/js/amalia.js-plugin-captions.min.js"></script>
+    <script type="text/javascript" src="libs/amalia-js/js/amalia.js-plugin-overlay.min.js"></script>
+    <script type="text/javascript" src="libs/amalia-js/js/amalia.js-plugin-text-sync.min.js"></script>
+    <script type="text/javascript" src="libs/amalia-js/js/amalia.js-plugin-timeline.min.js"></script>
+    <script type="text/javascript" src="libs/amalia-js/js/amalia.js-plugin-editor.min.js"></script>
+    <script type="text/javascript" src="libs/amalia-js/js/i18n/amalia.js-message-en.js"></script>
+
+    <!-- // -->
+    <!-- See at the end od this file for other Javascript stuff  -->
+    <title>amalia.js - Metadata enriched HTML5 video player</title>
+</head>
+<!-- **************************************************************************** -->
+<!-- Nice people always look at the source code !                                 -->
+<!--                                                                              -->
+<!-- If you read this text, it is likely that we share the same interests. If you -->
+<!-- work on the analysis and indexing of images and videos, please contact us.   -->
+<!-- We are always looking for new opportunities to set up research projects or   -->
+<!-- establish scientific collaborations.                                         -->
+<!--                                                                              -->
+<!--                       amalia -dot- js -at- ina.fr                            -->
+<!--                                                                              -->
+<!-- **************************************************************************** -->
+
+<body>
+    <!-- NAVBAR -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="index.html">amalia.js</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav pull-right">
+                    <li><a class="scroll-to" href="index.html#download">Download</a>
+                    </li>
+                    <li><a class="scroll-to" href="index.html#documentation">Documentation</a>
+                    </li>
+                    <li><a class="scroll-to" href="index.html#examples">Examples</a>
+                    </li>
+                    <li><a class="scroll-to" href="index.html#about">About</a>
+                    </li>
+                    <li><a class="scroll-to" href="index.html#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- MAIN CONTENT -->
+    <div class="container content guide">
+        <div class="row row-centered">
+            <div class="col-md-8">
+
+                <div class='doc-plugins' id='doc-plugins'>
+                    <h3 class="title">Plugins and data</h3>
+
+                    <p>
+                        All the visualization and edition tools of amalia.js are plugins. The player core incorporates a manager responsible for loading metadata, instantiating plugins and initializing them. We follow an object oriented architecture design. Thus, all the plugins
+                        inherits from the
+                        <code>fr.ina.amalia.player.plugins.PluginBase</code>class, which you should extend if you plan to develop your own plugins.
+                    </p>
+
+                    <p>First, we need to load some metadata in order to display them. This is achieved through data services. A data service is responsible for loading metadata blocks. Currently, we have one simple data service implementation that loads
+                        the Json metadata blocks over HTTP. The data services is able to manage different formats and protocols. You just have to provide a list of URLs that will be accessed to retrieve the metadata. These URLs can be whatever you want,
+                        either simple Json files or dynamic web application like a REST api. In the following example, we load data from two URLs :</p>
+                    <pre class="smallpre">
+
+$("#myplayer").mediaPlayer({
+
+        src : "samples-data/examples/vid/amalia01.mp4",
+
+        plugins: {
+
+                dataServices: [
+
+                        'samples-data/examples/json/amalia01-events.json',
+
+                        'samples-data/examples/json/amalia01-kf.json'
+
+                ]
+
+        }
+
+});
+
+        </pre>
+                    <p>It is now possible to stream metadata from the server through a web socket. A server side example of such a service will soon be available in the <a href="//github.com/ina-foss/amalia-tools">amalia-tools project</a>.
+                    </p>
+                    <pre class="smallpre">
+
+$("#myplayer").mediaPlayer({
+
+        src : "samples-data/examples/vid/amalia01.mp4",
+
+        plugins: {
+
+                dataServices: [
+
+                    { protocol : 'fr.ina.amalia.player.WsLoader',//ws
+
+					  url : 'ws://app01-player-i.sas.ina:10080/wstest/data',
+
+					  format : 'json'
+
+					}
+
+                ]
+
+        }
+
+});
+
+        </pre>
+                    <p>Once the metadata are loaded, amalia.js try to instantiate the visualization plugins. You can instantiate as many plugins of each type as you want. For each plugin instance, you have to provide the following initialization informations
+                        :</p>
+
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <table class="table table-striped table-hover ">
+                                <thead>
+                                    <th>Options</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                    <th></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>className</td>
+                                        <td>String</td>
+                                        <td>the plugin class name</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>container</td>
+                                        <td>String</td>
+                                        <td>if needed, the HTML5 div id where the plugin will be displayed.</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>parameters</td>
+                                        <td>Object</td>
+                                        <td>all the specific parameters for this type of plugin, depends on the class.
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <p>
+                        All the plugins are declared in the
+                        <code>list</code>field :
+                    </p>
+                    <pre class="smallpre">
+
+$("#myplayer").mediaPlayer({
+
+        src : "samples-data/examples/vid/amalia01.mp4",
+
+        plugins: {
+
+                dataServices: [
+
+                        ...
+
+                ],
+
+                list: [
+
+                        {   'className': 'fr.ina.amalia.player.plugins.Plugin1',
+
+                            'container': '#myplayer-plugin1',
+
+                            'parameters': {
+
+                               ...
+
+                            }
+
+                        },
+
+                        {   'className': 'fr.ina.amalia.player.plugins.Plugin2',
+
+                            'container': '#myplayer-plugin2',
+
+                            'parameters': {
+
+                               ...
+
+                            }
+
+                        }
+
+                ]
+
+        }
+
+});
+
+        </pre>
+                    <p>You may just have a look at the source code of this page to see other examples.</p>
+                </div>
+
+                <!-- /build -->
+            </div>
+            <div class="col-md-4">
+                <div class="well well-lg contact hidden-xs hidden-sm">
+                    <h1 class="title">Contact</h1>
+                    <p>
+                        For any information, you can contact us at
+                        <script type="text/javascript">
+                            tmp = ('a' + 'ma' + 'lia' + '.' + 'js' + '@' + 'ina.fr');
+                            document.write('<a href' + '="' + 'mai' + 'lto' + ':' + tmp + '">' + tmp + '</a>');
+                        </script>
+                        <noscript>
+                            <em>Email address protected. Please enable JavaScript to contact us.</em>
+                        </noscript>
+                    </p>
+                </div>
+                <div class="hidden-print hidden-xs hidden-sm affix-top docssidebar">
+                    <h4 class="scroll-to" href="#documentation">Documentation</h4>
+                    <ul class="nav nav-pills nav-stacked">
+                        <li><a class="scroll-to" href="index.html#quick-start">Quick start</a>
+                        </li>
+                        <li><a href="guide-setup.html">Building the source code</a>
+                        </li>
+                        <li><a href="guide-global-architecture.html">Global architecture / Metadata</a>
+                        </li>
+                        <li><a href="guide-player-options.html">Player options</a>
+                        </li>
+                        <li><a href="guide-player-control-bar-options.html">Control bar options</a>
+                        </li>
+                        <li><a href="guide-plugins-options.html">Plugins and data</a>
+                        </li>
+                        <li><a href="guide-plugin-timeline-options.html">Timeline plugin</a>
+                        </li>
+                        <li><a href="guide-plugin-caption-options.html">Caption plugin</a>
+                        </li>
+                        <li><a href="guide-plugin-text-sync-options.html">Text synchronization plugin</a>
+                        </li>
+                        <li><a href="guide-plugin-overlay-options.html">Overlay plugin</a>
+                        </li>
+                        <li><a href="guide-plugin-editor-options.html">Editor plugin</a>
+                        </li>
+                        <li><a href="guide-metadata-java-library.html">Metadata Java library</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- /build -->
+    <!-- FOOTER -->
+    <div class="page-footer  breadcrumb">
+        <div class="container">
+            <div class="row" style="vertical-align: middle">
+
+                <div class="col-md-6">Last updated : 2015-10-22</div>
+                <div class="col-md-6 text-right">
+                    <a href="http://www.institut-national-audiovisuel.fr/en/home">
+                        <img class="logo-ina" src="img/logo_ina.jpg" style=" margin-right:10px; width: 32x; height: 32px" />Institut National de l'Audiovisuel - INA</a>©2015
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(function() {
+            $('.latestversion-filename').html('amalia.js-1.3.1');
+            $('.latestversion').html('Last stable version - v1.3.1');
+            $('.download-link-alone').attr('href', 'download/1.3.1/amalia.js-1.3.1.zip');
+            $('.download-link-full').attr('href', 'download/1.3.1/amalia.js-full-1.3.1.zip');
+            $('.download-link-source').attr('href', 'https://github.com/ina-foss/amalia.js/releases/tag/1.3.1');
+        });
+    </script>
+
+</body>
+
+</html>

@@ -28,14 +28,15 @@ h3.title {
 }
 
 h4.title {
-	
+
 }
 
 .smallpre {
-	font-size: 12px;
+    font-size: 10px;
+    line-height: 10px;
 }
 
-.navbar .nav>li>a {
+.navbar .nav > li > a {
     font-size: 14px;
     line-height: 22px;
     font-weight: 500;
@@ -98,9 +99,12 @@ h4.title {
 .docssidebar {
     top: 100px;
 }
-.download-version-text
-{
+
+.download-version-text {
     min-height: 120px;
 }
-/** Player **/
+
+.container.content.guide {
+    margin-top: 60px;
+}
 

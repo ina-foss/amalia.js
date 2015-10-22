@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Language" content="en-us" />
+    <link rel="icon" href="static/img/favicon.ico" />
+    <meta name="description" content="amalia.js is a new extensible and versatile HTML5 multimedia player that allows you to view any type of metadata along with your video or audio streams" />
+    <meta name="keywords" content="amalia.js, ina, research, amalia, video, audio, multimedia, player, metadata, plugin, javascript, html5, timeline, keyframe, analysis, extraction, visualization, content, indexing, json, dataviz" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.1/yeti/bootstrap.min.css" rel="stylesheet" />
+    <link type="text/css" rel="stylesheet" href="css/amalia-site.css" />
+
+    <!-- amalia.js dependencies -->
+    <script type="text/javascript" src="libs/jquery.min.js"></script>
+    <script type="text/javascript" src="libs/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="libs/raphael-min.js"></script>
+
+    <!-- amalia.js player stuff -->
+    <link type="text/css" rel="stylesheet" href="libs/amalia-js/css/amalia.js.min.css" />
+    <script type="text/javascript" src="libs/amalia-js/js/amalia.js.min.js"></script>
+    <script type="text/javascript" src="libs/amalia-js/js/amalia.js-logger.min.js"></script>
+    <script type="text/javascript" src="libs/amalia-js/js/amalia.js-plugin-captions.min.js"></script>
+    <script type="text/javascript" src="libs/amalia-js/js/amalia.js-plugin-overlay.min.js"></script>
+    <script type="text/javascript" src="libs/amalia-js/js/amalia.js-plugin-text-sync.min.js"></script>
+    <script type="text/javascript" src="libs/amalia-js/js/amalia.js-plugin-timeline.min.js"></script>
+    <script type="text/javascript" src="libs/amalia-js/js/amalia.js-plugin-editor.min.js"></script>
+    <script type="text/javascript" src="libs/amalia-js/js/i18n/amalia.js-message-en.js"></script>
+
+    <!-- // -->
+    <!-- See at the end od this file for other Javascript stuff  -->
+    <title>amalia.js - Metadata enriched HTML5 video player</title>
+</head>
+<!-- **************************************************************************** -->
+<!-- Nice people always look at the source code !                                 -->
+<!--                                                                              -->
+<!-- If you read this text, it is likely that we share the same interests. If you -->
+<!-- work on the analysis and indexing of images and videos, please contact us.   -->
+<!-- We are always looking for new opportunities to set up research projects or   -->
+<!-- establish scientific collaborations.                                         -->
+<!--                                                                              -->
+<!--                       amalia -dot- js -at- ina.fr                            -->
+<!--                                                                              -->
+<!-- **************************************************************************** -->
+
+<body>
+    <!-- NAVBAR -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="index.html">amalia.js</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav pull-right">
+                    <li><a class="scroll-to" href="index.html#download">Download</a>
+                    </li>
+                    <li><a class="scroll-to" href="index.html#documentation">Documentation</a>
+                    </li>
+                    <li><a class="scroll-to" href="index.html#examples">Examples</a>
+                    </li>
+                    <li><a class="scroll-to" href="index.html#about">About</a>
+                    </li>
+                    <li><a class="scroll-to" href="index.html#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- MAIN CONTENT -->
+    <div class="container content guide">
+        <div class="row row-centered">
+            <div class="col-md-8">
+
+                <div class="global-archi" id="global-archi">
+                    <h3 class="title">Global architecture</h3>
+
+                    <p>The player core component is a framework capable of providing real-time synchronization between the viewing window of the video and a set of plugins. As well as this core, each plugin has a set of parameters that define its behavior
+                        for a given application.</p>
+
+                    <p>The main principle of amalia.js is to have a unified metadata model. Ensuring that all the metadata types are consistent and use the same standards will facilitate their use and enable us to design generic visualization plugins. A
+                        typical usage of amalia.js is to have a video file with a few metadata blocks. When instantiating the player, a binding has to be done between the metadata blocks and the visualization plugins so as to decide which metadata is
+                        displayed and in which way. It is possible to have a single metadata block bound with several visualization plugins, each one responsible for displaying a specific facet of the data.</p>
+                </div>
+                <div class="metadata" id="metadata-format">
+                    <h3 class="title">Metadata format</h3>
+
+                    <p>There are two main types of metadata that the player will have to manage. We have on one side the metadata of media streams that are described in this section and on the other side, settings of the player, plugins and interactions
+                        with the applications that are discussed in the following sections. A generic metadata model has been designed, it is intended to represent all the metadata of a media stream. It is able to describe both the audio and video of
+                        a content, technical informations, any documentary notes and all the results of automatic metadata extraction algorithms. Currently, this model is only able to manage metadata of a single stream. For analysis results of a corpus,
+                        involving links between streams (clustering, mining, similarity detection ...), a specific data model extension has to be created and is currently investigated.
+                    </p>
+
+                    <p>
+                        A full XML schema has been written to represent this metadata model. This schema has much more elements than what is strictly needed to display simple metadata with amalia.js. <a href="https://github.com/ina-foss/amalia-model/blob/master/src/main/resources/amalia-model-0.2.5.xsd">The
+
+        current version is 0.2.5</a>. We use this schema to generate Java classes using the <a href="http://mojo.codehaus.org/jaxb2-maven-plugin/">Jaxb
+
+        plugin for maven</a> and <a href="https://github.com/FasterXML/jackson">Jackson</a> to serialize the metadata stream in Json. This Java implementation is available in a separate project along with several helper methods through a general factory
+                        (<a class="scroll-to" href="#doc-model-java">see
+
+        documentation below</a>). This Json format is currently the only supported metadata format.
+                    </p>
+
+                    <p>Each metadata block has a unique id that is used for the binding with the visualization plugins (<a href="#metadata-binding">see below</a>). A metadata block should only represent a coherent and homogeneous bunch of data. If you need
+                        to display distinct types of data, or even several blocks of data of the same type (e.g. the output of different versions of the same algorithm), you should provide them in separate blocks of metadata.</p>
+
+                    <p>The model is generic and extensible, it is able to represent any metadata that is :</p>
+                    <ul>
+                        <li><strong>localized temporally in the stream</strong> : at a given timecode (TC) or during a specific time segment (TCIn, TCOut)
+                        </li>
+                        <li><strong>localized spatially in a video frame</strong> : currently ellipses and rectangles bounding boxes are available
+                        </li>
+                        <li><strong>hierarchical</strong> : each metadata is associated to a specific level (TCLevel)</li>
+                        <li><strong>labeled</strong> : each metadata may have a label</li>
+                        <li><strong>scored</strong> : each metadata may have a confidence score</li>
+                        <li><strong>extended</strong> : each metadata can have its own additionnal data that is not represented in this model
+                        </li>
+                    </ul>
+                    <p>
+                        The timecode representation in our format, for
+                        <code>tc</code>,
+                        <code>tcin</code>and
+                        <code>tcout</code>fields must match the following regular expression :
+                        <code>[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{4}</code> (hh:mm:ss.SSSS) . Using 4 digits for the milliseconds field is usefull when dealing with precise temporal metadata, especially with audio description.
+                    </p>
+
+                    <p>
+                        The only mandatory field of a metadata block is its
+                        <code>id</code>. All the other fields are, for the moment, only here for information purposes. In the near future, the content of the
+                        <code>type</code>field will be normalized.
+                    </p>
+
+                    <p>
+                        All the temporal metadata are in the main
+                        <code>localisation</code>field. Each localisation has its temporal information represented either as a single timecode (using the
+                        <code>tc</code>field) or as a time segment (with
+                        <code>tcin</code>and
+                        <code>tcout</code>timecodes provided). The hierarchical structure of the temporally localized metadata is represented by nested
+                        <code>localisation</code>blocks with <code>sublocalisations</code>. As a full pyramid of levels is not mandatory, and also to improve parsing performances, the level of a
+                        <code>localisation</code>is also explicitly provided with a
+                        <code>tclevel</code>field.
+                    </p>
+
+                    <p>
+                        The model will be fully documented later. If you need to add specific informations that are not yet managed in our model, you can still use the
+                        <code>data</code>field to store any Json block with your own structure and access it in your plugins.
+                    </p>
+
+                    <p>
+                        In the following example, we have a simple metadata block for a 1 minute video. The id of this block, that should be used to bind it to a visualization plugin, is
+                        <code>amalia-simple01</code>. It contains a single data, at 30 seconds, which has a label.
+                    </p>
+                    <pre class="smallpre">
+
+{
+
+    "id":"amalia-simple01",
+
+    "type":"simple",
+
+    "algorithm":"demo-json-generator",
+
+    "processor":"Ina Research Department - N. HERVE",
+
+    "processed":1418900533632,
+
+    "version":1,
+
+    "localisation":[
+
+        {
+
+            "type":"simple",
+
+            "tcin":"00:00:00.0000",
+
+            "tcout":"00:01:00.0000",
+
+            "tclevel":0,
+
+            "sublocalisations":{
+
+                "localisation":[
+
+                    {
+
+                        "label":"A demo label !",
+
+                        "tc":"00:00:30.0000",
+
+                        "tclevel":1
+
+                    }
+
+                ]
+
+            }
+
+        }
+
+    ]
+
+}
+
+        </pre>
+                    <p>
+                        You may also have a look at the Json files used in the following examples : <a href="samples-data/examples/json/amalia01-events.json">cue points</a>, <a href="samples-data/examples/json/amalia01-ball.json">segments</a>,
+                        <a href="samples-data/examples/json/amalia01-text.json">text</a> and <a href="samples-data/examples/json/amalia01-overlay.json">overlay</a>.
+                    </p>
+                    <h4 id="metadata-text">Textual metadata</h4>
+
+                    <p>Textual metadata can be displayed by two specific plugins : <a href="#doc-plugin-caption" class="scroll-to">caption</a>and <a href="doc-plugin-text-sync" class="scroll-to">text synchronization</a>. Depending on the textual metadata you
+                        have, it may be usefull to exploit its hierarchical structure. Typically, one may choose to have the words, sentences and paragraphs of a text temporally localized. In such a case, one would choose a specific <code>tclevel</code> for
+                        each level of text. When binding a text metadata block with one of the text visualization plugin, one has to choose which level will be displayed.
+                    </p>
+                    <h4 id="metadata-spatial">Spatial metadata</h4>
+
+                    <p>The <a href="#doc-plugin-overlay" class="scroll-to">overlay plugin</a> is able to display spatial localisation of the metadata. Currently, we manage only rectangle and ellipse bounding boxes. All the coordinate informations (
+                        <code>x</code>, <code>y</code>, <code>w</code>, <code>h</code>, ...) are real values between 0 and 1. They are normalized to the media size. The orientation <code>o</code> is a real value between -&Pi; and &Pi;. In order to track an
+                        object, you need to have a <code>localisation</code> in your metadata with the correct duration (<code>tcin</code> and <code>tcout</code> fields). Then you add a <code>spatials</code> block to this <code>localisation</code>. Each specific
+                        track is represented by a <code>spatial</code> block. In this <code>spatial</code>, you will only have the key points of your object trajectory with the specific timecode (<code>tc</code>). Between these points, the position of the
+                        bounding box is linearly interpolated by the overlay plugin (in fact, currently, by the <a href="#3rdparty-libs" class="scroll-to">Raphaël library</a>). You can have a look at the <a href="samples-data/examples/json/amalia01-overlay.json">example Json file of
+
+            the overlay plugin</a> for more details.
+                    </p>
+
+                    <h4 id="metadata-binding">Metadata binding</h4>
+                    <p>You can either have static binding where you explicitly associated a metadata block to a plugin or dynamic binding where these associations is based on the metadata types. If you provide a metadata block id to the plugin, you activate
+                        the static binding. If you don't provide any, that dynamic binding is activated. The following table lists the automatic bindings between metadata types and vizualisation plugins :</p>
+                    <div class="panel panel-default metadata-types">
+                        <div class="panel-body">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                    <th>Key</th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>DEFAULT</td>
+                                        <td></td>
+                                        <td>fr.ina.amalia.player.PluginBindingManager.dataTypes.DEFAULT</td>
+                                    </tr>
+                                    <tr>
+                                        <td>DETECTION</td>
+                                        <td>Is mapped with timeline plugin in mode cue point.</td>
+                                        <td>fr.ina.amalia.player.PluginBindingManager.dataTypes.DETECTION</td>
+                                    </tr>
+                                    <tr>
+                                        <td>VISUAL_DETECTION</td>
+                                        <td>Is mapped with timeline plugin in mode visual component and plugin overlay</td>
+                                        <td>fr.ina.amalia.player.PluginBindingManager.dataTypes.VISUAL_DETECTION</td>
+                                    </tr>
+                                    <tr>
+                                        <td>VISUAL_TRACKING</td>
+                                        <td>Is mapped with timeline plugin in mode visual component and plugin overlay</td>
+                                        <td>fr.ina.amalia.player.PluginBindingManager.dataTypes.VISUAL_TRACKING</td>
+                                    </tr>
+                                    <tr>
+                                        <td>SEGMENTATION</td>
+                                        <td>Is mapped with timeline plugin in mode segment</td>
+                                        <td>fr.ina.amalia.player.PluginBindingManager.dataTypes.SEGMENTATION</td>
+                                    </tr>
+                                    <tr>
+                                        <td>AUDIO_SEGMENTATION</td>
+                                        <td>Is mapped with timeline plugin in mode segment</td>
+                                        <td>fr.ina.amalia.player.PluginBindingManager.dataTypes.AUDIO_SEGMENTATION</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TRANSCRIPTION</td>
+                                        <td>Is mapped with Text synchronization plugin and caption plugin</td>
+                                        <td>fr.ina.amalia.player.PluginBindingManager.dataTypes.TRANSCRIPTION</td>
+                                    </tr>
+                                    <tr>
+                                        <td>SYNCHRONIZED_TEXT</td>
+                                        <td>Is mapped with Text synchronization plugin and caption plugin</td>
+                                        <td>fr.ina.amalia.player.PluginBindingManager.dataTypes.SYNCHRONIZED_TEXT</td>
+                                    </tr>
+                                    <tr>
+                                        <td>KEYFRAMES</td>
+                                        <td>Is mapped with timeline plugin in mode image</td>
+                                        <td>fr.ina.amalia.player.PluginBindingManager.dataTypes.KEYFRAMES</td>
+                                    </tr>
+                                    <tr>
+                                        <td>HISTOGRAM</td>
+                                        <td>Is mapped with timeline plugin in mode histogram component.</td>
+                                        <td>fr.ina.amalia.player.PluginBindingManager.dataTypes.HISTOGRAM</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- /build -->
+            </div>
+            <div class="col-md-4">
+                <div class="well well-lg contact hidden-xs hidden-sm">
+                    <h1 class="title">Contact</h1>
+                    <p>
+                        For any information, you can contact us at
+                        <script type="text/javascript">
+                            tmp = ('a' + 'ma' + 'lia' + '.' + 'js' + '@' + 'ina.fr');
+                            document.write('<a href' + '="' + 'mai' + 'lto' + ':' + tmp + '">' + tmp + '</a>');
+                        </script>
+                        <noscript>
+                            <em>Email address protected. Please enable JavaScript to contact us.</em>
+                        </noscript>
+                    </p>
+                </div>
+                <div class="hidden-print hidden-xs hidden-sm affix-top docssidebar">
+                    <h4 class="scroll-to" href="#documentation">Documentation</h4>
+                    <ul class="nav nav-pills nav-stacked">
+                        <li><a class="scroll-to" href="index.html#quick-start">Quick start</a>
+                        </li>
+                        <li><a href="guide-setup.html">Building the source code</a>
+                        </li>
+                        <li><a href="guide-global-architecture.html">Global architecture / Metadata</a>
+                        </li>
+                        <li><a href="guide-player-options.html">Player options</a>
+                        </li>
+                        <li><a href="guide-player-control-bar-options.html">Control bar options</a>
+                        </li>
+                        <li><a href="guide-plugins-options.html">Plugins and data</a>
+                        </li>
+                        <li><a href="guide-plugin-timeline-options.html">Timeline plugin</a>
+                        </li>
+                        <li><a href="guide-plugin-caption-options.html">Caption plugin</a>
+                        </li>
+                        <li><a href="guide-plugin-text-sync-options.html">Text synchronization plugin</a>
+                        </li>
+                        <li><a href="guide-plugin-overlay-options.html">Overlay plugin</a>
+                        </li>
+                        <li><a href="guide-plugin-editor-options.html">Editor plugin</a>
+                        </li>
+                        <li><a href="guide-metadata-java-library.html">Metadata Java library</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- /build -->
+    <!-- FOOTER -->
+    <div class="page-footer  breadcrumb">
+        <div class="container">
+            <div class="row" style="vertical-align: middle">
+
+                <div class="col-md-6">Last updated : 2015-10-22</div>
+                <div class="col-md-6 text-right">
+                    <a href="http://www.institut-national-audiovisuel.fr/en/home">
+                        <img class="logo-ina" src="img/logo_ina.jpg" style=" margin-right:10px; width: 32x; height: 32px" />Institut National de l'Audiovisuel - INA</a>©2015
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(function() {
+            $('.latestversion-filename').html('amalia.js-1.3.1');
+            $('.latestversion').html('Last stable version - v1.3.1');
+            $('.download-link-alone').attr('href', 'download/1.3.1/amalia.js-1.3.1.zip');
+            $('.download-link-full').attr('href', 'download/1.3.1/amalia.js-full-1.3.1.zip');
+            $('.download-link-source').attr('href', 'https://github.com/ina-foss/amalia.js/releases/tag/1.3.1');
+        });
+    </script>
+
+</body>
+
+</html>

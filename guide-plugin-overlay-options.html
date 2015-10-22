@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Language" content="en-us" />
+    <link rel="icon" href="static/img/favicon.ico" />
+    <meta name="description" content="amalia.js is a new extensible and versatile HTML5 multimedia player that allows you to view any type of metadata along with your video or audio streams" />
+    <meta name="keywords" content="amalia.js, ina, research, amalia, video, audio, multimedia, player, metadata, plugin, javascript, html5, timeline, keyframe, analysis, extraction, visualization, content, indexing, json, dataviz" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.1/yeti/bootstrap.min.css" rel="stylesheet" />
+    <link type="text/css" rel="stylesheet" href="css/amalia-site.css" />
+
+    <!-- amalia.js dependencies -->
+    <script type="text/javascript" src="libs/jquery.min.js"></script>
+    <script type="text/javascript" src="libs/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="libs/raphael-min.js"></script>
+
+    <!-- amalia.js player stuff -->
+    <link type="text/css" rel="stylesheet" href="libs/amalia-js/css/amalia.js.min.css" />
+    <script type="text/javascript" src="libs/amalia-js/js/amalia.js.min.js"></script>
+    <script type="text/javascript" src="libs/amalia-js/js/amalia.js-logger.min.js"></script>
+    <script type="text/javascript" src="libs/amalia-js/js/amalia.js-plugin-captions.min.js"></script>
+    <script type="text/javascript" src="libs/amalia-js/js/amalia.js-plugin-overlay.min.js"></script>
+    <script type="text/javascript" src="libs/amalia-js/js/amalia.js-plugin-text-sync.min.js"></script>
+    <script type="text/javascript" src="libs/amalia-js/js/amalia.js-plugin-timeline.min.js"></script>
+    <script type="text/javascript" src="libs/amalia-js/js/amalia.js-plugin-editor.min.js"></script>
+    <script type="text/javascript" src="libs/amalia-js/js/i18n/amalia.js-message-en.js"></script>
+
+    <!-- // -->
+    <!-- See at the end od this file for other Javascript stuff  -->
+    <title>amalia.js - Metadata enriched HTML5 video player</title>
+</head>
+<!-- **************************************************************************** -->
+<!-- Nice people always look at the source code !                                 -->
+<!--                                                                              -->
+<!-- If you read this text, it is likely that we share the same interests. If you -->
+<!-- work on the analysis and indexing of images and videos, please contact us.   -->
+<!-- We are always looking for new opportunities to set up research projects or   -->
+<!-- establish scientific collaborations.                                         -->
+<!--                                                                              -->
+<!--                       amalia -dot- js -at- ina.fr                            -->
+<!--                                                                              -->
+<!-- **************************************************************************** -->
+
+<body>
+    <!-- NAVBAR -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="index.html">amalia.js</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav pull-right">
+                    <li><a class="scroll-to" href="index.html#download">Download</a>
+                    </li>
+                    <li><a class="scroll-to" href="index.html#documentation">Documentation</a>
+                    </li>
+                    <li><a class="scroll-to" href="index.html#examples">Examples</a>
+                    </li>
+                    <li><a class="scroll-to" href="index.html#about">About</a>
+                    </li>
+                    <li><a class="scroll-to" href="index.html#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- MAIN CONTENT -->
+    <div class="container content guide">
+        <div class="row row-centered">
+            <div class="col-md-8">
+
+                <div class="doc-plugin-overlay" id="doc-plugin-overlay">
+                    <h3 class="title">Overlay plugin</h3>
+
+                    <div id="myplayer-overlay-container">
+                        <div style="height: 350px;">
+                            <div id="myplayer-overlay"></div>
+                        </div>
+                        <!--        <div id="myplayer-overlay-timeline" style="height:265px;"></div> -->
+                        <div style="clear: both;"></div>
+                    </div>
+
+                    <p>This plugin is used to visualize objects detected in the video with bounding boxes. It is able to track them. See <a href="#metadata-spatial" class="scroll-to">the metadata section for spatial informations
+
+            representation</a> in our generic format. This plugin is still in beta version. The synchronization between the objects and the bounding boxes may have some latency. We are working on it to improve the display.
+                    </p>
+
+                    <p>These are the specific options for configuring plugin behavior:</p>
+
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <table class="table table-striped table-hover ">
+                                <thead>
+                                    <th>Options</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                    <th></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>metadataId</td>
+                                        <td>String</td>
+                                        <td>Metadata block id to bind to</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>style</td>
+                                        <td>String</td>
+                                        <td>configures style with the following attributes: fill, strokeWidth, stroke, fillOpacity and strokeDasharray. You may look at the <a href="http://raphaeljs.com">Raphaël
+
+                            library
+
+                            documentation</a> for further explanations.
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>editable</td>
+                                        <td>String</td>
+                                        <td>Enable edit mode.</td>
+                                        <td>Default value: false</td>
+                                    </tr>
+                                    <tr>
+                                        <td>defaultSelectedShape</td>
+                                        <td>String</td>
+                                        <td>Set default seletected shape in edit.</td>
+                                        <td>Default value: rectangle</td>
+                                    </tr>
+                                    <tr>
+                                        <td>lineDisplayMode</td>
+                                        <td>String</td>
+                                        <td>Line display mode:
+                                            <br/>- STATIC : use for line configuration with parameters.
+                                            <br/>- DYNAMIC : use for line configuration with dynamic binding data type (see metadata data type).
+                                            <br/>- STATIC_DYNAMIC : use for line configuration with parameters and binding with data type.
+                                            <br/>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="title">Example</h3>
+
+                        <div class="example">
+                            <pre class="smallpre">
+
+$("#myplayer-overlay").mediaPlayer({
+
+    src : "samples-data/examples/vid/amalia01.mp4",
+
+    plugins : {
+
+        dataServices : [
+
+            'samples-data/examples/json/amalia01-overlay.json'
+
+        ],
+
+        list : [
+
+            {
+
+                'className' : 'fr.ina.amalia.player.plugins.OverlayPlugin',
+
+                'metadataId' : 'tracks-amalia01-1',
+
+                'parameters' : {
+
+                    style : {
+
+                        'fill' : '#000',
+
+                        'strokeWidth' : 1,
+
+                        'stroke' : '#000',
+
+                        'fillOpacity' : 0,
+
+                        'strokeDasharray' : '- '
+
+                    }
+
+                }
+
+            }
+
+        ]
+
+    }
+
+});
+
+        </pre>
+                        </div>
+                    </div>
+
+                    <!-- Tutorial - overlay plugin -->
+                    <script type="text/javascript">
+                        $(function() {
+                            $("#myplayer-overlay").mediaPlayer({
+                                autoplay: false,
+                                src: "samples-data/examples/vid/amalia01.mp4",
+                                plugins: {
+                                    dataServices: [{
+                                        protocol: "http",
+                                        url: 'samples-data/examples/json/amalia01-overlay.json',
+                                        parameters: {
+                                            mainLevel: true
+                                        },
+                                    }],
+                                    list: [{
+                                        'className': 'fr.ina.amalia.player.plugins.OverlayPlugin',
+                                        'metadataId': 'tracks-amalia01-1',
+                                        'parameters': {
+                                            style: {
+                                                'fill': '#000',
+                                                'strokeWidth': 1,
+                                                'stroke': '#000',
+                                                'fillOpacity': 0,
+                                                'strokeDasharray': '- '
+                                            }
+                                        }
+                                    }]
+                                }
+                            });
+                        });
+                    </script>
+                </div>
+
+                <!-- /build -->
+            </div>
+            <div class="col-md-4">
+                <div class="well well-lg contact hidden-xs hidden-sm">
+                    <h1 class="title">Contact</h1>
+                    <p>
+                        For any information, you can contact us at
+                        <script type="text/javascript">
+                            tmp = ('a' + 'ma' + 'lia' + '.' + 'js' + '@' + 'ina.fr');
+                            document.write('<a href' + '="' + 'mai' + 'lto' + ':' + tmp + '">' + tmp + '</a>');
+                        </script>
+                        <noscript>
+                            <em>Email address protected. Please enable JavaScript to contact us.</em>
+                        </noscript>
+                    </p>
+                </div>
+                <div class="hidden-print hidden-xs hidden-sm affix-top docssidebar">
+                    <h4 class="scroll-to" href="#documentation">Documentation</h4>
+                    <ul class="nav nav-pills nav-stacked">
+                        <li><a class="scroll-to" href="index.html#quick-start">Quick start</a>
+                        </li>
+                        <li><a href="guide-setup.html">Building the source code</a>
+                        </li>
+                        <li><a href="guide-global-architecture.html">Global architecture / Metadata</a>
+                        </li>
+                        <li><a href="guide-player-options.html">Player options</a>
+                        </li>
+                        <li><a href="guide-player-control-bar-options.html">Control bar options</a>
+                        </li>
+                        <li><a href="guide-plugins-options.html">Plugins and data</a>
+                        </li>
+                        <li><a href="guide-plugin-timeline-options.html">Timeline plugin</a>
+                        </li>
+                        <li><a href="guide-plugin-caption-options.html">Caption plugin</a>
+                        </li>
+                        <li><a href="guide-plugin-text-sync-options.html">Text synchronization plugin</a>
+                        </li>
+                        <li><a href="guide-plugin-overlay-options.html">Overlay plugin</a>
+                        </li>
+                        <li><a href="guide-plugin-editor-options.html">Editor plugin</a>
+                        </li>
+                        <li><a href="guide-metadata-java-library.html">Metadata Java library</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- /build -->
+    <!-- FOOTER -->
+    <div class="page-footer  breadcrumb">
+        <div class="container">
+            <div class="row" style="vertical-align: middle">
+
+                <div class="col-md-6">Last updated : 2015-10-22</div>
+                <div class="col-md-6 text-right">
+                    <a href="http://www.institut-national-audiovisuel.fr/en/home">
+                        <img class="logo-ina" src="img/logo_ina.jpg" style=" margin-right:10px; width: 32x; height: 32px" />Institut National de l'Audiovisuel - INA</a>©2015
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(function() {
+            $('.latestversion-filename').html('amalia.js-1.3.1');
+            $('.latestversion').html('Last stable version - v1.3.1');
+            $('.download-link-alone').attr('href', 'download/1.3.1/amalia.js-1.3.1.zip');
+            $('.download-link-full').attr('href', 'download/1.3.1/amalia.js-full-1.3.1.zip');
+            $('.download-link-source').attr('href', 'https://github.com/ina-foss/amalia.js/releases/tag/1.3.1');
+        });
+    </script>
+
+</body>
+
+</html>
