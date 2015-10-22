@@ -34,133 +34,127 @@
  * @param {Object} settings
  * @param {Object} container
  */
-fr.ina.amalia.player.plugins.PluginBase.extend( "fr.ina.amalia.player.plugins.ContextMenuPlugin",{
-    classCss : "plugin-context-menu dropdown-menu lg",
-    style : "",
-    copyrightText : _PlayerAmaliaVersion_,
-    copyrightHomepage : _PlayerAmaliaHomepage_
-},
-{
-    /**
-     * Dom element property
-     * @property container
-     * @type {Object}
-     * @default null
-     */
-    container : null,
-    /**
-     * Context menu configuration
-     * @property menuConfiguration
-     * @type {Object}
-     * @default {}
-     */
-    menuConfiguration : {
-        "position" : {
-            my : "left top",
-            at : "right top"
-        }
+fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.ContextMenuPlugin", {
+        classCss: "plugin-context-menu dropdown-menu lg",
+        style: "",
+        copyrightText: _PlayerAmaliaVersion_,
+        copyrightHomepage: _PlayerAmaliaHomepage_
     },
-    /**
-     * Initialize the component
-     * @method initialize
-     */
-    initialize : function ()
     {
-        this.initContextMenu();
-    },
-    /**
-     * In charge to create context menu
-     * @method initContextMenu
-     */
-    initContextMenu : function ()
-    {
-        this.container = $( '<ul/>',{
-            'class' : this.Class.classCss,
-            'style' : this.Class.style,
-            'role' : 'menu',
-            'aria-labelledby' : 'dLabel'
-        } ).menu( {
-            disabled : false
-        } ).css( {
-            position : "fixed",
-            left : 0,
-            top : 0
-        } ).hide();
-        this.addItemWithLink( this.Class.copyrightText,null,null,'ajs-icon  ajs-icon-amalia-js' );
-        this.addItemWithLink( fr.ina.amalia.player.PlayerMessage.PLAYER_OPENSOURCE_LINK,this.Class.copyrightHomepage,'homepage','ajs-icon ajs-icon-github' );
-        this.pluginContainer.append( this.container );
-        // events
-        this.container.on( 'mouseleave',{
-            self : this
+        /**
+         * Dom element property
+         * @property container
+         * @type {Object}
+         * @default null
+         */
+        container: null,
+        /**
+         * Context menu configuration
+         * @property menuConfiguration
+         * @type {Object}
+         * @default {}
+         */
+        menuConfiguration: {
+            "position": {
+                my: "left top",
+                at: "right top"
+            }
         },
-        this.onMouseleave );
-
-        this.pluginContainer.parent().on( 'contextmenu',{
-            self : this
+        /**
+         * Initialize the component
+         * @method initialize
+         */
+        initialize: function () {
+            this.initContextMenu();
         },
-        this.onContextmenu );
-    },
-    /**
-     * Add menu item with link
-     * @param {String} text
-     * @param {String} link
-     * @param {String} className
-     * @returns {Object}
-     */
-    addItemWithLink : function (text,link,className,icon)
-    {
-        link = (link) ? link : '#';
-        icon = (typeof icon === 'string') ? icon : null;
-        className = (className) ? className : 'disabled';
-        var item = $( '<li>',{
-            'class' : className
-        } );
-        var linkElement = $( '<a>',{
-            text : text,
-            target : '_blank',
-            href : link
-        } );
+        /**
+         * In charge to create context menu
+         * @method initContextMenu
+         */
+        initContextMenu: function () {
+            this.container = $('<ul/>', {
+                'class': this.Class.classCss,
+                'style': this.Class.style,
+                'role': 'menu',
+                'aria-labelledby': 'dLabel'
+            }).menu({
+                disabled: false
+            }).css({
+                position: "fixed",
+                left: 0,
+                top: 0
+            }).hide();
+            this.addItemWithLink(this.Class.copyrightText, null, null, 'ajs-icon  ajs-icon-amalia-js');
+            this.addItemWithLink(fr.ina.amalia.player.PlayerMessage.PLAYER_OPENSOURCE_LINK, this.Class.copyrightHomepage, 'homepage', 'ajs-icon ajs-icon-github');
+            this.pluginContainer.append(this.container);
+            // events
+            this.container.on('mouseleave', {
+                    self: this
+                },
+                this.onMouseleave);
 
-        ///Add icon
-        if (icon !== null) {
-            linkElement.append( $( '<span>',{
-                'class' : icon
-            } ) );
-        }
-        //disabled
-        if (link === '#')
-        {
-            linkElement.on( 'click',function (e) {
-                e.preventDefault();
-            } );
-        }
-        item.append( linkElement );
-        this.container.append( item );
-        return item;
-    },
-    /**
-     * Fired on context menu event
-     * @method onContextmenu
-     * @param {Object} e
-     */
-    onContextmenu : function (e)
-    {
-        var offset = 10;
+            this.pluginContainer.parent().on('contextmenu', {
+                    self: this
+                },
+                this.onContextmenu);
+        },
+        /**
+         * Add menu item with link
+         * @param {String} text
+         * @param {String} link
+         * @param {String} className
+         * @returns {Object}
+         */
+        addItemWithLink: function (text, link, className, icon) {
+            link = (link) ? link : '#';
+            icon = (typeof icon === 'string') ? icon : null;
+            className = (className) ? className : 'disabled';
+            var item = $('<li>', {
+                'class': className
+            });
+            var linkElement = $('<a>', {
+                text: text,
+                target: '_blank',
+                href: link
+            });
 
-        e.data.self.container.show().css( {
-            left : e.clientX - offset,
-            top : e.clientY - offset
-        } );
-        e.preventDefault();
-    },
-    /**
-     * Fired on mouse leave event
-     * @method onMouseleave
-     * @param {Object} e
-     */
-    onMouseleave : function (e)
-    {
-        e.preventDefault();
-        e.data.self.container.hide();
-    }
-} );
+            ///Add icon
+            if (icon !== null) {
+                linkElement.append($('<span>', {
+                    'class': icon
+                }));
+            }
+            //disabled
+            if (link === '#') {
+                linkElement.on('click', function (e) {
+                    e.preventDefault();
+                });
+            }
+            item.append(linkElement);
+            this.container.append(item);
+            return item;
+        },
+        /**
+         * Fired on context menu event
+         * @method onContextmenu
+         * @param {Object} e
+         */
+        onContextmenu: function (e) {
+            var offset = 10;
+
+            e.data.self.container.show().css({
+                left: e.clientX - offset,
+                top: e.clientY - offset
+            });
+            e.preventDefault();
+        },
+        /**
+         * Fired on mouse leave event
+         * @method onMouseleave
+         * @param {Object} e
+         */
+        onMouseleave: function (e) {
+            e.preventDefault();
+            e.data.self.container.hide();
+        }
+    });

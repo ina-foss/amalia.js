@@ -34,38 +34,35 @@
  * @param {Object} settings
  * @param {Object} container
  */
-fr.ina.amalia.player.plugins.PluginBase.extend( "fr.ina.amalia.player.plugins.captions.CaptionsBase",{},{
+fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.captions.CaptionsBase", {}, {
     /**
      * Dom element
      * @property container
      * @type {Object}
      * @default null
      */
-    container : null,
+    container: null,
     /**
      * Dom element
      * @property container
      * @type {Array}
      * @default []
      */
-    listOfData : [
-    ],
+    listOfData: [],
     /**
      * Set player events listner
      * @method definePlayerListeners
      */
-    definePlayerListeners : function ()
-    {
+    definePlayerListeners: function () {
         var player = this.mediaPlayer.getMediaPlayer();
         // Player events
-        player.on( fr.ina.amalia.player.PlayerEventType.TIME_CHANGE,{
-            self : this
-        },
-        this.onTimeupdate );
+        player.on(fr.ina.amalia.player.PlayerEventType.TIME_CHANGE, {
+                self: this
+            },
+            this.onTimeupdate);
 
-        if (this.logger !== null)
-        {
-            this.logger.trace( this.Class.fullName,"definePlayerListeners" );
+        if (this.logger !== null) {
+            this.logger.trace(this.Class.fullName, "definePlayerListeners");
         }
     },
     /**
@@ -76,35 +73,28 @@ fr.ina.amalia.player.plugins.PluginBase.extend( "fr.ina.amalia.player.plugins.ca
      * @param {Number} tcout
      * @param {Boolean} withMainLevel
      */
-    updateMetadata : function (metadataId,level,tcin,tcout,withMainLevel)
-    {
+    updateMetadata: function (metadataId, level, tcin, tcout, withMainLevel) {
         //Clear old data
-        this.listOfData = [
-        ];
+        this.listOfData = [];
         var localisations = null;
         var listOfObject = null;
-        withMainLevel = withMainLevel || false;
+        withMainLevel = (withMainLevel === true);
 
-        listOfObject = this.mediaPlayer.getMetadataWithRange( metadataId,tcin,tcout );
+        listOfObject = this.mediaPlayer.getMetadataWithRange(metadataId, tcin, tcout);
 
         for (var i = 0;
-            i < listOfObject.length;
-            i++)
-        {
+             i < listOfObject.length;
+             i++) {
             localisations = listOfObject[i];
-            if (localisations.hasOwnProperty( 'sublocalisations' ) === true && localisations.sublocalisations !== null)
-            {
-                this._parseSubLocalisations( localisations.sublocalisations,level,withMainLevel );
+            if (localisations.hasOwnProperty('sublocalisations') === true && localisations.sublocalisations !== null) {
+                this._parseSubLocalisations(localisations.sublocalisations, level, withMainLevel);
             }
-            else if (localisations !== null)
-            {
-                this._parseLocalisation( localisations,level,withMainLevel );
+            else if (localisations !== null) {
+                this._parseLocalisation(localisations, level, withMainLevel);
             }
-            else
-            {
-                if (this.logger !== null)
-                {
-                    this.logger.trace( this.Class.fullName,"Error to set data, index: " + i );
+            else {
+                if (this.logger !== null) {
+                    this.logger.trace(this.Class.fullName, "Error to set data, index: " + i);
                 }
             }
         }
@@ -116,31 +106,26 @@ fr.ina.amalia.player.plugins.PluginBase.extend( "fr.ina.amalia.player.plugins.ca
      * @param {Number} level
      * @param withMainLevel
      */
-    _parseLocalisation : function (localisation,level,withMainLevel)
-    {
+    _parseLocalisation: function (localisation, level, withMainLevel) {
         var data = null;
-        if (localisation.tclevel <= level)
-        {
-            if ((localisation.tclevel === level && withMainLevel === false) || (localisation.tclevel <= level && withMainLevel === true))
-            {
-                var text = this._getText( localisation.data );
-                if (text !== '')
-                {
+        if (localisation.tclevel <= level) {
+            if ((localisation.tclevel === level && withMainLevel === false) || (localisation.tclevel <= level && withMainLevel === true)) {
+                var text = this._getText(localisation.data);
+                if (text !== '') {
                     data = {
-                        tcin : (typeof localisation.tcin === "number") ? localisation.tcin : fr.ina.amalia.player.helpers.UtilitiesHelper.convertHourToSeconde( localisation.tcin ),
-                        tcout : (typeof localisation.tcout === "number") ? localisation.tcout : fr.ina.amalia.player.helpers.UtilitiesHelper.convertHourToSeconde( localisation.tcout ),
-                        text : text,
-                        label : localisation.label,
-                        thumb : localisation.thumb,
-                        level : localisation.tclevel
+                        tcin: (typeof localisation.tcin === "number") ? localisation.tcin : fr.ina.amalia.player.helpers.UtilitiesHelper.convertHourToSeconde(localisation.tcin),
+                        tcout: (typeof localisation.tcout === "number") ? localisation.tcout : fr.ina.amalia.player.helpers.UtilitiesHelper.convertHourToSeconde(localisation.tcout),
+                        text: text,
+                        label: localisation.label,
+                        thumb: localisation.thumb,
+                        level: localisation.tclevel
                     };
-                    this.listOfData.push( data );
+                    this.listOfData.push(data);
                 }
             }
 
-            if (localisation.hasOwnProperty( 'sublocalisations' ) === true && localisation.sublocalisations !== null && localisation.sublocalisations.hasOwnProperty( 'localisation' ) === true && $.isArray( localisation.sublocalisations.localisation ))
-            {
-                this._parseSubLocalisations( localisation.sublocalisations,level,withMainLevel );
+            if (localisation.hasOwnProperty('sublocalisations') === true && localisation.sublocalisations !== null && localisation.sublocalisations.hasOwnProperty('localisation') === true && $.isArray(localisation.sublocalisations.localisation)) {
+                this._parseSubLocalisations(localisation.sublocalisations, level, withMainLevel);
             }
         }
     },
@@ -152,17 +137,14 @@ fr.ina.amalia.player.plugins.PluginBase.extend( "fr.ina.amalia.player.plugins.ca
      * @param {Boolean} withMainLevel
      * @returns {sublocalisations.localisation}
      */
-    _parseSubLocalisations : function (sublocalisations,level,withMainLevel)
-    {
+    _parseSubLocalisations: function (sublocalisations, level, withMainLevel) {
         var localisation = null;
-        if (sublocalisations !== null && typeof sublocalisations !== 'undefined' && sublocalisations.hasOwnProperty( 'localisation' ) === true && $.isArray( sublocalisations.localisation ))
-        {
+        if (sublocalisations !== null && typeof sublocalisations !== 'undefined' && sublocalisations.hasOwnProperty('localisation') === true && $.isArray(sublocalisations.localisation)) {
             for (var i = 0;
-                i < sublocalisations.localisation.length;
-                i++)
-            {
+                 i < sublocalisations.localisation.length;
+                 i++) {
                 localisation = sublocalisations.localisation[i];
-                this._parseLocalisation( localisation,level,withMainLevel );
+                this._parseLocalisation(localisation, level, withMainLevel);
             }
         }
         return localisation;
@@ -173,17 +155,13 @@ fr.ina.amalia.player.plugins.PluginBase.extend( "fr.ina.amalia.player.plugins.ca
      * @param {Object} data
      * @returns {String}
      */
-    _getText : function (data)
-    {
+    _getText: function (data) {
         var text = '';
-        if (data !== null && typeof data !== 'undefined' && data.hasOwnProperty( 'text' ) === true && data.text !== null && $.isArray( data.text ))
-        {
+        if (data !== null && typeof data !== 'undefined' && data.hasOwnProperty('text') === true && data.text !== null && $.isArray(data.text)) {
             for (var i = 0;
-                i < data.text.length;
-                i++)
-            {
-                if (data.text[i] !== null)
-                {
+                 i < data.text.length;
+                 i++) {
+                if (data.text[i] !== null) {
                     text += data.text[i].toString();
                 }
             }
@@ -195,11 +173,9 @@ fr.ina.amalia.player.plugins.PluginBase.extend( "fr.ina.amalia.player.plugins.ca
      * @method updatePos
      * @param {Object} currentTime
      */
-    updatePos : function (currentTime)
-    {
-        if (this.logger !== null)
-        {
-            this.logger.trace( this.Class.fullName,"updatePos : " + currentTime );
+    updatePos: function (currentTime) {
+        if (this.logger !== null) {
+            this.logger.trace(this.Class.fullName, "updatePos : " + currentTime);
         }
     },
     // /**Player events**/
@@ -209,8 +185,7 @@ fr.ina.amalia.player.plugins.PluginBase.extend( "fr.ina.amalia.player.plugins.ca
      * @param {Object} event
      * @param {Object} data
      */
-    onTimeupdate : function (event,data)
-    {
-        event.data.self.updatePos( parseFloat( data.currentTime ) );
+    onTimeupdate: function (event, data) {
+        event.data.self.updatePos(parseFloat(data.currentTime));
     }
-} );
+});

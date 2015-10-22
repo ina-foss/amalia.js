@@ -29,38 +29,37 @@
  * @namespace fr.ina.amalia.player
  * @module player
  */
-fr.ina.amalia.player.BaseLoader.extend( "fr.ina.amalia.player.HttpLoader",{},{
+fr.ina.amalia.player.BaseLoader.extend("fr.ina.amalia.player.HttpLoader", {}, {
     /**
      * Load data request type
      * @property requestType
      * @type {String}
      * @default 'GET'
      */
-    requestType : 'GET',
+    requestType: 'GET',
     /**
      * Load data type
      * @property logger
      * @type {String}
      * @default 'json'
      */
-    dataType : 'json',
+    dataType: 'json',
     /**
      * Send data object
      * @property sendData
      * @type {Object}
      * @default null
      */
-    sendData : {},
+    sendData: {},
     /**
      * call time out
      * @property timeout
      * @type {Number}
      * @default null
      */
-    timeout : 120000,
-    init : function (settings,player,completeHandler,handlerData)
-    {
-        this._super( settings,player,completeHandler,handlerData );
+    timeout: 120000,
+    init: function (settings, player, completeHandler, handlerData) {
+        this._super(settings, player, completeHandler, handlerData);
         this.waitLoadEvent = true;
     },
     /**
@@ -68,37 +67,32 @@ fr.ina.amalia.player.BaseLoader.extend( "fr.ina.amalia.player.HttpLoader",{},{
      * @constructor
      * @method initialize
      */
-    initialize : function ()
-    {
+    initialize: function () {
         this._super();
-        this.load( this.settings.url );
+        this.load(this.settings.url);
     },
     /**
      * Load http service
      * @method load
      * @param {Object} url
      */
-    load : function (url)
-    {
+    load: function (url) {
         var self = this;
-        $.ajax( {
-            type : this.requestType,
-            url : url,
-            timeout : this.timeout,
-            data : this.sendData,
-            dataType : this.dataType,
-            success : function (data,textStatus)
-            {
-                self.onSuccess( data,textStatus );
+        $.ajax({
+            type: this.requestType,
+            url: url,
+            timeout: this.timeout,
+            data: this.sendData,
+            dataType: this.dataType,
+            success: function (data, textStatus) {
+                self.onSuccess(data, textStatus);
             },
-            error : function (data,textStatus)
-            {
-                self.onError( textStatus );
+            error: function (data, textStatus) {
+                self.onError(textStatus);
             }
-        } );
-        if (this.logger !== null)
-        {
-            this.logger.trace( this.Class.fullName,"Load url :" + url );
+        });
+        if (this.logger !== null) {
+            this.logger.trace(this.Class.fullName, "Load url :" + url);
         }
     },
     /**
@@ -107,18 +101,15 @@ fr.ina.amalia.player.BaseLoader.extend( "fr.ina.amalia.player.HttpLoader",{},{
      * @param {Object} data
      * @param {String} textStatus
      */
-    onSuccess : function (data,textStatus)
-    {
-        this._super( data,textStatus );
+    onSuccess: function (data, textStatus) {
+        this._super(data, textStatus);
         this.data = null;
-        if (this.parser !== null)
-        {
-            this.data = this.parser.processParserData( data );
-            this.player.addAllMetadata( this.data );
+        if (this.parser !== null) {
+            this.data = this.parser.processParserData(data);
+            this.player.addAllMetadata(this.data);
         }
-        if (typeof this.completeHandler === 'function')
-        {
-            this.completeHandler( this.handlerData,textStatus );
+        if (typeof this.completeHandler === 'function') {
+            this.completeHandler(this.handlerData, textStatus);
         }
     },
     /**
@@ -126,14 +117,12 @@ fr.ina.amalia.player.BaseLoader.extend( "fr.ina.amalia.player.HttpLoader",{},{
      * @method onError
      * @param {Object} textStatus
      */
-    onError : function (textStatus)
-    {
-        this._super( textStatus );
+    onError: function (textStatus) {
+        this._super(textStatus);
         this.data = null;
-        if (typeof this.completeHandler === 'function')
-        {
-            this.completeHandler( this.handlerData,textStatus );
+        if (typeof this.completeHandler === 'function') {
+            this.completeHandler(this.handlerData, textStatus);
         }
     }
 
-} );
+});

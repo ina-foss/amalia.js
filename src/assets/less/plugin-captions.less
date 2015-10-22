@@ -26,28 +26,25 @@
 /**
  * Plugin caption
  */
-.ajs-plugin.plugin-caption
-{
-    display: block;
-    color: #FFF;
-    position: absolute;
-    bottom: 65px;
-    line-height: 20px;
-    text-align: center;
-    width: 100%;
-    background-color: @inverseBackgroundColor;
-    min-height: 20px;
-    z-index: 98;
-    padding-left: 0;
-    padding-right: 0;
+.ajs-plugin.plugin-caption {
+  display: block;
+  color: #FFF;
+  position: absolute;
+  bottom: 65px;
+  line-height: 20px;
+  text-align: center;
+  width: 100%;
+  background-color: @inverseBackgroundColor;
+  min-height: 20px;
+  z-index: 98;
+  padding-left: 0;
+  padding-right: 0;
+  font-size: 1.4em;
+  &.fullScreenOn {
+    font-size: 3em;
+    line-height: 45px;
+  }
+  &.fullScreenOff {
     font-size: 1.4em;
-    &.fullScreenOn
-    {
-        font-size: 3em;
-        line-height: 45px;
-    } 
-    &.fullScreenOff
-    {	
-        font-size: 1.4em;
-    }    
+  }
 }

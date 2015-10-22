@@ -31,65 +31,58 @@
  * @submodule player-controlbar
  * @extends fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase
  */
-fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend( "fr.ina.amalia.player.plugins.controlBar.widgets.BaseButton",{
-    classCss : "player-base-button",
-    style : ""
-},
-{
-    /**
-     * Initialize the component
-     * @method initialize
-     */
-    initialize : function ()
-    {
-        // Create component
-        this.component = $( '<div>',{
-            'class' : this.Class.classCss,
-            'style' : this.Class.style
-        } );
-        var buttonContainer = $( "<span>",{
-            class : "button-container"
-        } );
-        var icon = $( '<span>',{
-            class : this.parameter.style
-        } );
-        if (this.parameter.hasOwnProperty( 'title' ) === true)
-        {
-            icon.attr( 'title',this.parameter.title );
-        }
-        buttonContainer.append( icon );
-        // set events
-        this.component.on( 'click',{
-            self : this,
-            component : this.component
-        },
-        this.onClick );
-        this.component.append( buttonContainer );
-        // Add to container
-        this.container.append( this.component );
-
+fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia.player.plugins.controlBar.widgets.BaseButton", {
+        classCss: "player-base-button",
+        style: ""
     },
-    /**
-     * On click event fire callback function
-     * @method onClick
-     * @param {Object} event
-     */
-    onClick : function (event)
     {
-        if (typeof event.data.self.parameter.callback !== "undefined")
-        {
-            try
-            {
-                /* jslint evil: true */
-                eval( event.data.self.parameter.callback + '(event.data.self.mediaPlayer, event.data.self.parameter)' );
+        /**
+         * Initialize the component
+         * @method initialize
+         */
+        initialize: function () {
+            // Create component
+            this.component = $('<div>', {
+                'class': this.Class.classCss,
+                'style': this.Class.style
+            });
+            var buttonContainer = $("<span>", {
+                class: "button-container"
+            });
+            var icon = $('<span>', {
+                class: this.parameter.style
+            });
+            if (this.parameter.hasOwnProperty('title') === true) {
+                icon.attr('title', this.parameter.title);
             }
-            catch (e)
-            {
-                if (event.data.self.logger !== null)
-                {
-                    event.data.self.logger.warn( "Send callback failed." );
+            buttonContainer.append(icon);
+            // set events
+            this.component.on('click', {
+                    self: this,
+                    component: this.component
+                },
+                this.onClick);
+            this.component.append(buttonContainer);
+            // Add to container
+            this.container.append(this.component);
+
+        },
+        /**
+         * On click event fire callback function
+         * @method onClick
+         * @param {Object} event
+         */
+        onClick: function (event) {
+            if (typeof event.data.self.parameter.callback !== "undefined") {
+                try {
+                    /* jslint evil: true */
+                    eval(event.data.self.parameter.callback + '(event.data.self.mediaPlayer, event.data.self.parameter)');
+                }
+                catch (e) {
+                    if (event.data.self.logger !== null) {
+                        event.data.self.logger.warn("Send callback failed.");
+                    }
                 }
             }
         }
-    }
-} );
+    });

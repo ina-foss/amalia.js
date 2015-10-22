@@ -3,29 +3,28 @@
     //  Prototype JavaScript framework, version 1.6.0.1
     //  (c) 2005-2007 Sam Stephenson
     var regs = {
-        undHash : /_|-/,
-        colons : /::/,
-        words : /([A-Z]+)([A-Z][a-z])/g,
-        lowUp : /([a-z\d])([A-Z])/g,
-        dash : /([a-z\d])([A-Z])/g,
-        replacer : /\{([^\}]+)\}/g,
-        dot : /\./
-    },
-    getNext = function (current,nextPart,add) {
-        return current[nextPart] || (add && (current[nextPart] = {}));
-    },
+            undHash: /_|-/,
+            colons: /::/,
+            words: /([A-Z]+)([A-Z][a-z])/g,
+            lowUp: /([a-z\d])([A-Z])/g,
+            dash: /([a-z\d])([A-Z])/g,
+            replacer: /\{([^\}]+)\}/g,
+            dot: /\./
+        },
+        getNext = function (current, nextPart, add) {
+            return current[nextPart] || (add && (current[nextPart] = {}));
+        },
         isContainer = function (current) {
             var type = typeof current;
             return type && (type == 'function' || type == 'object');
         },
-        getObject = function (objectName,roots,add) {
+        getObject = function (objectName, roots, add) {
 
-            var parts = objectName ? objectName.split( regs.dot ) : [
-            ],
+            var parts = objectName ? objectName.split(regs.dot) : [],
                 length = parts.length,
-                currents = $.isArray( roots ) ? roots : [
-                roots || window
-            ],
+                currents = $.isArray(roots) ? roots : [
+                    roots || window
+                ],
                 current,
                 ret,
                 i,
@@ -37,13 +36,13 @@
             }
             while (current = currents[c++]) {
                 for (i = 0;
-                    i < length - 1 && isContainer( current );
-                    i++) {
-                    current = getNext( current,parts[i],add );
+                     i < length - 1 && isContainer(current);
+                     i++) {
+                    current = getNext(current, parts[i], add);
                 }
-                if (isContainer( current )) {
+                if (isContainer(current)) {
 
-                    ret = getNext( current,parts[i],add );
+                    ret = getNext(current, parts[i], add);
 
                     if (ret !== undefined) {
 
@@ -57,30 +56,30 @@
                 }
             }
         },
-        /** 
+        /**
          * @class jQuery.String
-         * 
+         *
          * A collection of useful string helpers.
-         * 
+         *
          */
-        str = $.String = $.extend( $.String || {},{
+        str = $.String = $.extend($.String || {}, {
             /**
              * @function
              * Gets an object from a string.
              * @param {String} name the name of the object to look for
              * @param {Array} [roots] an array of root objects to look for the name
-             * @param {Boolean} [add] true to add missing objects to 
-             *  the path. false to remove found properties. undefined to 
+             * @param {Boolean} [add] true to add missing objects to
+             *  the path. false to remove found properties. undefined to
              *  not modify the root object
              */
-            getObject : getObject,
+            getObject: getObject,
             /**
              * Capitalizes a string
              * @param {String} s the string.
              * @return {String} a string with the first character capitalized.
              */
-            capitalize : function (s,cache) {
-                return s.charAt( 0 ).toUpperCase() + s.substr( 1 );
+            capitalize: function (s, cache) {
+                return s.charAt(0).toUpperCase() + s.substr(1);
             },
             /**
              * Capitalizes a string from something undercored. Examples:
@@ -91,25 +90,25 @@
              * @param {String} s
              * @return {String} a the camelized string
              */
-            camelize : function (s) {
-                s = str.classize( s );
-                return s.charAt( 0 ).toLowerCase() + s.substr( 1 );
+            camelize: function (s) {
+                s = str.classize(s);
+                return s.charAt(0).toLowerCase() + s.substr(1);
             },
             /**
              * Like camelize, but the first part is also capitalized
              * @param {String} s
              * @return {String} the classized string
              */
-            classize : function (s,join) {
-                var parts = s.split( regs.undHash ),
+            classize: function (s, join) {
+                var parts = s.split(regs.undHash),
                     i = 0;
                 for (;
                     i < parts.length;
                     i++) {
-                    parts[i] = str.capitalize( parts[i] );
+                    parts[i] = str.capitalize(parts[i]);
                 }
 
-                return parts.join( join || '' );
+                return parts.join(join || '');
             },
             /**
              * Like [jQuery.String.classize|classize], but a space separates each 'word'
@@ -119,8 +118,8 @@
              * @param {String} s
              * @return {String} the niceName
              */
-            niceName : function (s) {
-                str.classize( parts[i],' ' );
+            niceName: function (s) {
+                str.classize(parts[i], ' ');
             },
             /**
              * Underscores a string.
@@ -130,39 +129,38 @@
              * @param {String} s
              * @return {String} the underscored string
              */
-            underscore : function (s) {
-                return s.replace( regs.colons,'/' ).replace( regs.words,'$1_$2' ).replace( regs.lowUp,'$1_$2' ).replace( regs.dash,'_' ).toLowerCase();
+            underscore: function (s) {
+                return s.replace(regs.colons, '/').replace(regs.words, '$1_$2').replace(regs.lowUp, '$1_$2').replace(regs.dash, '_').toLowerCase();
             },
             /**
              * Returns a string with {param} replaced values from data.
-             * 
+             *
              *     $.String.sub("foo {bar}",{bar: "far"})
              *     //-> "foo far"
-             *     
+             *
              * @param {String} s The string to replace
              * @param {Object} data The data to be used to look for properties.  If it's an array, multiple
              * objects can be used.
              * @param {Boolean} [remove] if a match is found, remove the property from the object
              */
-            sub : function (s,data,remove) {
-                var obs = [
-                ];
-                obs.push( s.replace( regs.replacer,function (whole,inside) {
+            sub: function (s, data, remove) {
+                var obs = [];
+                obs.push(s.replace(regs.replacer, function (whole, inside) {
                     //convert inside to type
-                    var ob = getObject( inside,data,typeof remove == 'boolean' ? !remove : remove ),
+                    var ob = getObject(inside, data, typeof remove == 'boolean' ? !remove : remove),
                         type = typeof ob;
                     if ((type === 'object' || type === 'function') && type !== null) {
-                        obs.push( ob );
+                        obs.push(ob);
                         return "";
-                    }else {
+                    } else {
                         return "" + ob;
                     }
-                } ) );
+                }));
                 return obs.length <= 1 ? obs[0] : obs;
             }
-        } );
+        });
 
-})( jQuery );
+})(jQuery);
 (function ($) {
 
     // if we are initializing a new class
@@ -171,24 +169,24 @@
         isFunction = $.isFunction,
         isArray = $.isArray,
         extend = $.extend,
-        concatArgs = function (arr,args) {
-            return arr.concat( makeArray( args ) );
+        concatArgs = function (arr, args) {
+            return arr.concat(makeArray(args));
         },
-        // tests if we can get super in .toString()
-        fnTest = /xyz/.test( function () {
+    // tests if we can get super in .toString()
+        fnTest = /xyz/.test(function () {
             xyz;
-        } ) ? /\b_super\b/ : /.*/,
-        // overwrites an object with methods, sets up _super
-        // newProps - new properties
-        // oldProps - where the old properties might be
-        // addTo - what we are adding to
-        inheritProps = function (newProps,oldProps,addTo) {
+        }) ? /\b_super\b/ : /.*/,
+    // overwrites an object with methods, sets up _super
+    // newProps - new properties
+    // oldProps - where the old properties might be
+    // addTo - what we are adding to
+        inheritProps = function (newProps, oldProps, addTo) {
             addTo = addTo || newProps
             for (var name in newProps) {
                 // Check if we're overwriting an existing function
-                addTo[name] = isFunction( newProps[name] ) &&
-                    isFunction( oldProps[name] ) &&
-                    fnTest.test( newProps[name] ) ? (function (name,fn) {
+                addTo[name] = isFunction(newProps[name]) &&
+                isFunction(oldProps[name]) &&
+                fnTest.test(newProps[name]) ? (function (name, fn) {
                     return function () {
                         var tmp = this._super,
                             ret;
@@ -199,11 +197,11 @@
 
                         // The method only need to be bound temporarily, so we
                         // remove it when we're done executing
-                        ret = fn.apply( this,arguments );
+                        ret = fn.apply(this, arguments);
                         this._super = tmp;
                         return ret;
                     };
-                })( name,newProps[name] ) : newProps[name];
+                })(name, newProps[name]) : newProps[name];
             }
         },
         /**
@@ -212,39 +210,39 @@
          * @tag core
          * @download dist/jquery/jquery.class.js
          * @test jquery/class/qunit.html
-         * 
+         *
          * Class provides simulated inheritance in JavaScript. Use clss to bridge the gap between
-         * jQuery's functional programming style and Object Oriented Programming. It 
+         * jQuery's functional programming style and Object Oriented Programming. It
          * is based off John Resig's [http://ejohn.org/blog/simple-javascript-inheritance/|Simple Class]
          * Inheritance library.  Besides prototypal inheritance, it includes a few important features:
-         * 
+         *
          *   - Static inheritance
          *   - Introspection
          *   - Namespaces
          *   - Setup and initialization methods
          *   - Easy callback function creation
-         * 
-         * 
+         *
+         *
          * ## Static v. Prototype
-         * 
+         *
          * Before learning about Class, it's important to
          * understand the difference between
          * a class's __static__ and __prototype__ properties.
-         * 
+         *
          *     //STATIC
          *     MyClass.staticProperty  //shared property
-         *     
+         *
          *     //PROTOTYPE
          *     myclass = new MyClass()
          *     myclass.prototypeMethod() //instance method
-         * 
+         *
          * A static (or class) property is on the Class constructor
          * function itself
-         * and can be thought of being shared by all instances of the 
+         * and can be thought of being shared by all instances of the
          * Class. Prototype propertes are available only on instances of the Class.
-         * 
+         *
          * ## A Basic Class
-         * 
+         *
          * The following creates a Monster class with a
          * name (for introspection), static, and prototype members.
          * Every time a monster instance is created, the static
@@ -291,18 +289,18 @@
          *
          * @codeend
          *
-         * 
+         *
          * Notice that the prototype <b>init</b> function is called when a new instance of Monster is created.
-         * 
-         * 
+         *
+         *
          * ## Inheritance
-         * 
+         *
          * When a class is extended, all static and prototype properties are available on the new class.
          * If you overwrite a function, you can call the base class's function by calling
          * <code>this._super</code>.  Lets create a SeaMonster class.  SeaMonsters are less
          * efficient at eating small children, but more powerful fighters.
-         * 
-         * 
+         *
+         *
          *     Monster.extend("SeaMonster",{
          *       eat: function( smallChildren ) {
          *         this._super(smallChildren / 2);
@@ -311,15 +309,15 @@
          *         this.health -= 1;
          *       }
          *     });
-         *     
+         *
          *     lockNess = new SeaMonster('Lock Ness');
          *     lockNess.eat(4);   //health = 12
          *     lockNess.fight();  //health = 11
-         * 
+         *
          * ### Static property inheritance
-         * 
+         *
          * You can also inherit static properties in the same way:
-         * 
+         *
          *     $.Class.extend("First",
          *     {
          *         staticMethod: function() { return 1;}
@@ -330,13 +328,13 @@
          *     },{})
          *
          *     Second.staticMethod() // -> 2
-         * 
+         *
          * ## Namespaces
-         * 
+         *
          * Namespaces are a good idea! We encourage you to namespace all of your code.
          * It makes it possible to drop your code into another app without problems.
          * Making a namespaced class is easy:
-         * 
+         *
          * @codestart
          * $.Class.extend("MyNamespace.MyClass",{},{});
          *
@@ -455,16 +453,16 @@
 
         clss = $.Class = function () {
             if (arguments.length) {
-                clss.extend.apply( clss,arguments );
+                clss.extend.apply(clss, arguments);
             }
         };
 
     /* @Static*/
-    extend( clss,{
+    extend(clss, {
         /**
          * @function callback
          * Returns a callback function for a function on this Class.
-         * The callback function ensures that 'this' is set appropriately.  
+         * The callback function ensures that 'this' is set appropriately.
          * @codestart
          * $.Class.extend("MyClass",{
          *     getData: function() {
@@ -508,20 +506,20 @@
          * },{});
          * MyClass.getData(showDataFunc);
          * @codeend
-         * @param {String|Array} fname If a string, it represents the function to be called.  
+         * @param {String|Array} fname If a string, it represents the function to be called.
          * If it is an array, it will call each function in order and pass the return value of the prior function to the
          * next function.
          * @return {Function} the callback function.
          */
-        callback : function (funcs) {
+        callback: function (funcs) {
 
             //args that should be curried
-            var args = makeArray( arguments ),
+            var args = makeArray(arguments),
                 self;
 
             funcs = args.shift();
 
-            if (!isArray( funcs )) {
+            if (!isArray(funcs)) {
                 funcs = [
                     funcs
                 ];
@@ -530,7 +528,7 @@
             self = this;
 
             return function class_cb() {
-                var cur = concatArgs( args,arguments ),
+                var cur = concatArgs(args, arguments),
                     isString,
                     length = funcs.length,
                     f = 0,
@@ -548,10 +546,9 @@
                     if (isString && self._set_called) {
                         self.called = func;
                     }
-                    cur = (isString ? self[func] : func).apply( self,cur || [
-                    ] );
+                    cur = (isString ? self[func] : func).apply(self, cur || []);
                     if (f < length - 1) {
-                        cur = !isArray( cur ) || cur._use_call ? [
+                        cur = !isArray(cur) || cur._use_call ? [
                             cur
                         ] : cur
                     }
@@ -560,10 +557,10 @@
             }
         },
         /**
-         *   @function getObject 
+         *   @function getObject
          *   Gets an object from a String.
          *   If the object or namespaces the string represent do not
-         *   exist it will create them.  
+         *   exist it will create them.
          *   @codestart
          *   Foo = {Bar: {Zar: {"Ted"}}}
          *   $.Class.getobject("Foo.Bar.Zar") //-> "Ted"
@@ -572,7 +569,7 @@
          *   @param {Object} [current=window] the object you want to look in.
          *   @return {Object} the object you are looking for.
          */
-        getObject : $.String.getObject,
+        getObject: $.String.getObject,
         /**
          * @function newInstance
          * Creates a new instance of the class.  This method is useful for creating new instances
@@ -584,48 +581,48 @@
          * @codeend
          * @return {class} instance of the class
          */
-        newInstance : function () {
+        newInstance: function () {
             var inst = this.rawInstance(),
                 args;
             if (inst.setup) {
-                args = inst.setup.apply( inst,arguments );
+                args = inst.setup.apply(inst, arguments);
             }
             if (inst.init) {
-                inst.init.apply( inst,isArray( args ) ? args : arguments );
+                inst.init.apply(inst, isArray(args) ? args : arguments);
             }
             return inst;
         },
         /**
          * Setup gets called on the inherting class with the base class followed by the
          * inheriting class's raw properties.
-         * 
-         * Setup will deeply extend a static defaults property on the base class with 
+         *
+         * Setup will deeply extend a static defaults property on the base class with
          * properties on the base class.  For example:
-         * 
+         *
          *     $.Class("MyBase",{
          *       defaults : {
          *         foo: 'bar'
          *       }
          *     },{})
-         * 
+         *
          *     MyBase("Inheriting",{
          *       defaults : {
          *         newProp : 'newVal'
          *       }
          *     },{}
-         *     
+         *
          *     Inheriting.defaults -> {foo: 'bar', 'newProp': 'newVal'}
-         * 
+         *
          * @param {Object} baseClass the base class that is being inherited from
          * @param {String} fullName the name of the new class
          * @param {Object} staticProps the static properties of the new class
          * @param {Object} protoProps the prototype properties of the new class
          */
-        setup : function (baseClass,fullName) {
-            this.defaults = extend( true,{},baseClass.defaults,this.defaults );
+        setup: function (baseClass, fullName) {
+            this.defaults = extend(true, {}, baseClass.defaults, this.defaults);
             return arguments;
         },
-        rawInstance : function () {
+        rawInstance: function () {
             initializing = true;
             var inst = new this();
             initializing = false;
@@ -647,7 +644,7 @@
          * @param {Object} [proto]  the new classes prototype functions
          * @return {jQuery.Class} returns the new class
          */
-        extend : function (fullName,klass,proto) {
+        extend: function (fullName, klass, proto) {
             // figure out what was passed
             if (typeof fullName != 'string') {
                 proto = klass;
@@ -673,7 +670,7 @@
             prototype = new this();
             initializing = false;
             // Copy the properties over onto the new prototype
-            inheritProps( proto,_super,prototype );
+            inheritProps(proto, _super, prototype);
 
             // The dummy class constructor
 
@@ -683,27 +680,28 @@
                     return;
 
                 if (this.constructor !== Class && arguments.length) { //we are being called w/o new
-                    return arguments.callee.extend.apply( arguments.callee,arguments )
-                }else { //we are being called w/ new
-                    return this.Class.newInstance.apply( this.Class,arguments )
+                    return arguments.callee.extend.apply(arguments.callee, arguments)
+                } else { //we are being called w/ new
+                    return this.Class.newInstance.apply(this.Class, arguments)
                 }
             }
+
             // Copy old stuff onto class
             for (name in this) {
-                if (this.hasOwnProperty( name )) {
+                if (this.hasOwnProperty(name)) {
                     Class[name] = this[name];
                 }
             }
 
             // copy new props on class
-            inheritProps( klass,this,Class );
+            inheritProps(klass, this, Class);
 
             // do namespace stuff
             if (fullName) {
 
-                var parts = fullName.split( /\./ ),
+                var parts = fullName.split(/\./),
                     shortName = parts.pop(),
-                    current = clss.getObject( parts.join( '.' ),window,true ),
+                    current = clss.getObject(parts.join('.'), window, true),
                     namespace = current;
 
 
@@ -711,20 +709,20 @@
             }
 
             // set things that can't be overwritten
-            extend( Class,{
-                prototype : prototype,
-                namespace : namespace,
-                shortName : shortName,
-                constructor : Class,
-                fullName : fullName
-            } );
+            extend(Class, {
+                prototype: prototype,
+                namespace: namespace,
+                shortName: shortName,
+                constructor: Class,
+                fullName: fullName
+            });
 
             //make sure our prototype looks nice
             Class.prototype.Class = Class.prototype.constructor = Class;
 
 
             /**
-             * @attribute fullName 
+             * @attribute fullName
              * The full name of the class, including namespace, provided for introspection purposes.
              * @codestart
              * $.Class.extend("MyOrg.MyClass",{},{})
@@ -733,23 +731,22 @@
              * @codeend
              */
 
-            var args = Class.setup.apply( Class,concatArgs( [
+            var args = Class.setup.apply(Class, concatArgs([
                 _super_class
-            ],arguments ) );
+            ], arguments));
 
             if (Class.init) {
-                Class.init.apply( Class,args || [
-                ] );
+                Class.init.apply(Class, args || []);
             }
 
             /* @Prototype*/
             return Class;
-            /** 
+            /**
              * @function setup
-             * If a setup method is provided, it is called when a new 
+             * If a setup method is provided, it is called when a new
              * instances is created.  It gets passed the same arguments that
              * were given to the Class constructor function (<code> new Class( arguments ... )</code>).
-             * 
+             *
              *     $.Class("MyClass",
              *     {
              *        setup: function( val ) {
@@ -758,43 +755,43 @@
              *     })
              *     var mc = new MyClass("Check Check")
              *     mc.val //-> 'Check Check'
-             * 
-             * Setup is called before [jQuery.Class.prototype.init init].  If setup 
-             * return an array, those arguments will be used for init. 
-             * 
+             *
+             * Setup is called before [jQuery.Class.prototype.init init].  If setup
+             * return an array, those arguments will be used for init.
+             *
              *     $.Class("jQuery.Controller",{
              *       setup : function(htmlElement, rawOptions){
              *         return [$(htmlElement), 
              *                   $.extend({}, this.Class.defaults, rawOptions )] 
              *       }
              *     })
-             * 
-             * <div class='whisper'>PRO TIP: 
+             *
+             * <div class='whisper'>PRO TIP:
              * Setup functions are used to normalize constructor arguments and provide a place for
              * setup code that extending classes don't have to remember to call _super to
              * run.
              * </div>
-             * 
+             *
              * Setup is not defined on $.Class itself, so calling super in inherting classes
              * will break.  Don't do the following:
-             * 
+             *
              *     $.Class("Thing",{
              *       setup : function(){
              *         this._super(); // breaks!
              *       }
              *     })
-             * 
-             * @return {Array|undefined} If an array is return, [jQuery.Class.prototype.init] is 
+             *
+             * @return {Array|undefined} If an array is return, [jQuery.Class.prototype.init] is
              * called with those arguments; otherwise, the original arguments are used.
              */
             //break up
-            /** 
+            /**
              * @function init
              * If an <code>init</code> method is provided, it gets called when a new instance
-             * is created.  Init gets called after [jQuery.Class.prototype.setup setup], typically with the 
-             * same arguments passed to the Class 
-             * constructor: (<code> new Class( arguments ... )</code>).  
-             * 
+             * is created.  Init gets called after [jQuery.Class.prototype.setup setup], typically with the
+             * same arguments passed to the Class
+             * constructor: (<code> new Class( arguments ... )</code>).
+             *
              *     $.Class("MyClass",
              *     {
              *        init: function( val ) {
@@ -803,10 +800,10 @@
              *     })
              *     var mc = new MyClass(1)
              *     mc.val //-> 1
-             * 
+             *
              * [jQuery.Class.prototype.setup Setup] is able to modify the arguments passed to init.  Read
              * about it there.
-             * 
+             *
              */
             //Breaks up code
             /**
@@ -816,39 +813,36 @@
              * @codestart
              * // a class with a static classProperty property
              * $.Class.extend("MyClass", {classProperty : true}, {});
-             * 
+             *
              * // a new instance of myClass
              * var mc1 = new MyClass();
-             * 
+             *
              * //
              * mc1.Class.classProperty = false;
-             * 
+             *
              * // creates a new MyClass
              * var mc2 = new mc.Class();
              * @codeend
-             * Getting static properties via the Class property, such as it's 
+             * Getting static properties via the Class property, such as it's
              * [jQuery.Class.static.fullName fullName] is very common.
              */
         }
 
-    } )
-
-
-
+    })
 
 
     clss.prototype.
-        /**
-         * @function callback
-         * Returns a callback function.  This does the same thing as and is described better in [jQuery.Class.static.callback].
-         * The only difference is this callback works
-         * on a instance instead of a class.
-         * @param {String|Array} fname If a string, it represents the function to be called.  
-         * If it is an array, it will call each function in order and pass the return value of the prior function to the
-         * next function.
-         * @return {Function} the callback function
-         */
+    /**
+     * @function callback
+     * Returns a callback function.  This does the same thing as and is described better in [jQuery.Class.static.callback].
+     * The only difference is this callback works
+     * on a instance instead of a class.
+     * @param {String|Array} fname If a string, it represents the function to be called.
+     * If it is an array, it will call each function in order and pass the return value of the prior function to the
+     * next function.
+     * @return {Function} the callback function
+     */
         callback = clss.callback;
 
 
-})( jQuery )
+})(jQuery)

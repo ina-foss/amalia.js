@@ -32,43 +32,42 @@
  * @param {Object} settings
  * @param {Object} mediaPlayer player instance
  */
-fr.ina.amalia.player.mediaTypeManager.extend( "fr.ina.amalia.player.media.type.DashMpeg",{},{
+fr.ina.amalia.player.mediaTypeManager.extend("fr.ina.amalia.player.media.type.DashMpeg", {}, {
     /**
      * Dash context
      * @property context
      * @type {Object}
      * @default null
      */
-    context : null,
+    context: null,
     /**
      * Dash player instance
      * @property context
      * @type {Object}
      * @default null
      */
-    dashPlayer : null,
+    dashPlayer: null,
     /**
      * Initialize dash context
      * @method initialize
      */
-    initialize : function ()
-    {
+    initialize: function () {
         this.context = new Dash.di.DashContext();
-        this.dashPlayer = new MediaPlayer( this.context );
+        this.dashPlayer = new MediaPlayer(this.context);
     },
     /**
      * Set media source file (mdp file)
      * @param {String} url
      * @method setSrc
      */
-    setSrc : function (url)
-    {
+    setSrc: function (url) {
+        this.dashPlayer.setAutoPlay(this.settings.autoplay);
         this.dashPlayer.startup();
-        this.dashPlayer.attachView( this.mediaPlayer.get( 0 ) );// document.querySelector("#videoPlayer")*
-        this.dashPlayer.attachSource( url );
-        if (this.logger !== null)
-        {
-            this.logger.trace( this.Class.fullName,"set dash src :" + this.url );
+        this.dashPlayer.attachView(this.mediaPlayer.get(0));
+        this.dashPlayer.attachSource(url);
+        this.dashPlayer.videoElementExt = this.mediaPlayer.get(0);
+        if (this.logger !== null) {
+            this.logger.trace(this.Class.fullName, "set dash src :" + this.url);
         }
     }
-} );
+});

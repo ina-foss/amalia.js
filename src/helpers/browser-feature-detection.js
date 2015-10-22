@@ -31,106 +31,91 @@
  * @constructor
  * @param {Object} settings Defines the configuration of this class
  */
-$.Class( "fr.ina.amalia.player.helpers.BrowserFeatureDetection",{
-    /**
-     * True if mobile device
-     * @method isMobilePlatform
-     * @return {Array}
-     */
-    isMobilePlatform : function ()
+$.Class("fr.ina.amalia.player.helpers.BrowserFeatureDetection", {
+        /**
+         * True if mobile device
+         * @method isMobilePlatform
+         * @return {Array}
+         */
+        isMobilePlatform: function () {
+            return (navigator.userAgent.match(/(iPod|iPhone|iPad)/) || navigator.userAgent.toLowerCase().indexOf('android') > -1);
+        }
+    },
     {
-        return (navigator.userAgent.match( /(iPod|iPhone|iPad)/ ) || navigator.userAgent.toLowerCase().indexOf( 'android' ) > -1);
-    }
-},
-{
-    /**
-     * Defines configuration
-     * @property settings
-     * @type {Object}
-     * @default {}
-     */
-    settings : {},
-    /**
-     * In charge to render messages in the web console output
-     * @property logger
-     * @type {Object}
-     * @default null
-     */
-    logger : null,
-    /**
-     * Init this class
-     * @constructor
-     * @method init
-     * @param {Object} settings
-     */
-    init : function (settings)
-    {
-        this.settings = $.extend( {
-            debug : false
+        /**
+         * Defines configuration
+         * @property settings
+         * @type {Object}
+         * @default {}
+         */
+        settings: {},
+        /**
+         * In charge to render messages in the web console output
+         * @property logger
+         * @type {Object}
+         * @default null
+         */
+        logger: null,
+        /**
+         * Init this class
+         * @constructor
+         * @method init
+         * @param {Object} settings
+         */
+        init: function (settings) {
+            this.settings = $.extend({
+                    debug: false
+                },
+                settings || {});
+            if (fr.ina.amalia.player.log !== undefined && fr.ina.amalia.player.log.LogHandler !== undefined) {
+                this.logger = new fr.ina.amalia.player.log.LogHandler({
+                    enabled: this.settings.debug
+                });
+            }
         },
-        settings || {} );
-        if (fr.ina.amalia.player.log !== undefined && fr.ina.amalia.player.log.LogHandler !== undefined)
-        {
-            this.logger = new fr.ina.amalia.player.log.LogHandler( {
-                enabled : this.settings.debug
-            } );
-        }
-    },
-    /**
-     * Method checks if the browser can play the specified audio/video
-     * @method isSupportsVideos
-     * @returns {Boolean} Return false if browser don't support this audio/video
-     * file.
-     */
-    isSupportsVideos : function ()
-    {
-        if (!!document.createElement( 'video' ).canPlayType)
-        {
-            if (this.logger !== null)
-            {
-                this.logger.info( "Support html5" );
-            }
-            return true;
-        }
-        else
-        {
-            if (this.logger !== null)
-            {
-                this.logger.info( "Can't support html5" );
-            }
-            return false;
-        }
-    },
-    /**
-     * Method checks if the browser can play the specified mp4 file.
-     * @method isSupportsMp4
-     * @returns {Boolean} Return false if browser don't this audio/video file.
-     */
-    isSupportsMp4 : function ()
-    {
-        if (!this.isSupportsVideos())
-        {
-            return false;
-        }
-        else
-        {
-            var video = document.createElement( "video" );
-            if (video.canPlayType( 'video/mp4' ))
-            {
-                if (this.logger !== null)
-                {
-                    this.logger.info( "Support mp4" );
+        /**
+         * Method checks if the browser can play the specified audio/video
+         * @method isSupportsVideos
+         * @returns {Boolean} Return false if browser don't support this audio/video
+         * file.
+         */
+        isSupportsVideos: function () {
+            if (!!document.createElement('video').canPlayType) {
+                if (this.logger !== null) {
+                    this.logger.info("Support html5");
                 }
                 return true;
             }
-            else
-            {
-                if (this.logger !== null)
-                {
-                    this.logger.info( "Can't support mp4" );
+            else {
+                if (this.logger !== null) {
+                    this.logger.info("Can't support html5");
                 }
                 return false;
             }
+        },
+        /**
+         * Method checks if the browser can play the specified mp4 file.
+         * @method isSupportsMp4
+         * @returns {Boolean} Return false if browser don't this audio/video file.
+         */
+        isSupportsMp4: function () {
+            if (!this.isSupportsVideos()) {
+                return false;
+            }
+            else {
+                var video = document.createElement("video");
+                if (video.canPlayType('video/mp4')) {
+                    if (this.logger !== null) {
+                        this.logger.info("Support mp4");
+                    }
+                    return true;
+                }
+                else {
+                    if (this.logger !== null) {
+                        this.logger.info("Can't support mp4");
+                    }
+                    return false;
+                }
+            }
         }
-    }
-} );
+    });

@@ -29,18 +29,17 @@
  * @namespace fr.ina.amalia.player
  * @module player
  */
-fr.ina.amalia.player.BaseLoader.extend( "fr.ina.amalia.player.WsLoader",{},{
+fr.ina.amalia.player.BaseLoader.extend("fr.ina.amalia.player.WsLoader", {}, {
     /**
      * Defines configuration
      * @property socket
      * @type {Object}
      * @default null
      */
-    socket : null,
-    listOfMetadata : null,
-    init : function (settings,player,completeHandler,handlerData)
-    {
-        this._super( settings,player,completeHandler,handlerData );
+    socket: null,
+    listOfMetadata: null,
+    init: function (settings, player, completeHandler, handlerData) {
+        this._super(settings, player, completeHandler, handlerData);
         this.waitLoadEvent = false;
     },
     /**
@@ -48,54 +47,46 @@ fr.ina.amalia.player.BaseLoader.extend( "fr.ina.amalia.player.WsLoader",{},{
      * @constructor
      * @method initialize
      */
-    initialize : function ()
-    {
+    initialize: function () {
         this._super();
         this.socket = null;
-        this.listOfMetadata = [
-        ];
-        this.connect( this.settings.url );
+        this.listOfMetadata = [];
+        this.connect(this.settings.url);
 
-        this.player.getMediaPlayer().on( fr.ina.amalia.player.PlayerEventType.DATA_CHANGE,{
-            self : this
-        },
-        this.onPlayerDataChange );
+        this.player.getMediaPlayer().on(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
+                self: this
+            },
+            this.onPlayerDataChange);
     },
     /**
      * In charge to create a new WebSocket
      */
-    connect : function (url)
-    {
-        if (this.logger !== null)
-        {
-            this.logger.trace( this.Class.fullName,"Load url :" + url );
+    connect: function (url) {
+        if (this.logger !== null) {
+            this.logger.trace(this.Class.fullName, "Load url :" + url);
         }
         // creates a new WebSocket
-        if (typeof WebSocket === "function")
-        {
-            this.socket = new WebSocket( url );
-            if (this.socket !== null)
-            {
-                $( this.socket ).on( 'open',{
-                    self : this
-                },
-                this.onOpen ).on( 'close',{
-                    self : this
-                },
-                this.onClose ).on( 'message',{
-                    self : this
-                },
-                this.onMessage ).on( 'error',{
-                    self : this
-                },
-                this.onError );
+        if (typeof WebSocket === "function") {
+            this.socket = new WebSocket(url);
+            if (this.socket !== null) {
+                $(this.socket).on('open', {
+                        self: this
+                    },
+                    this.onOpen).on('close', {
+                        self: this
+                    },
+                    this.onClose).on('message', {
+                        self: this
+                    },
+                    this.onMessage).on('error', {
+                        self: this
+                    },
+                    this.onError);
             }
         }
-        else
-        {
-            if (this.logger !== null)
-            {
-                this.logger.error( 'Error: WebSocket is not supported by this browser or the server is not started.' );
+        else {
+            if (this.logger !== null) {
+                this.logger.error('Error: WebSocket is not supported by this browser or the server is not started.');
             }
         }
 
@@ -105,11 +96,9 @@ fr.ina.amalia.player.BaseLoader.extend( "fr.ina.amalia.player.WsLoader",{},{
      * @method onOpen
      * @param {Object}
      */
-    onOpen : function (event)
-    {
-        if (event.data.self.logger !== null)
-        {
-            event.data.self.logger.trace( event.data.self.Class.fullName,'WebSocket connection opened' );
+    onOpen: function (event) {
+        if (event.data.self.logger !== null) {
+            event.data.self.logger.trace(event.data.self.Class.fullName, 'WebSocket connection opened');
         }
     },
     /**
@@ -117,12 +106,10 @@ fr.ina.amalia.player.BaseLoader.extend( "fr.ina.amalia.player.WsLoader",{},{
      * @method onClose
      * @param {Object}
      */
-    onClose : function (event)
-    {
+    onClose: function (event) {
         event.data.self.socket = null;
-        if (event.data.self.logger !== null)
-        {
-            event.data.self.logger.trace( event.data.self.Class.fullName,'WebSocket connection closed' );
+        if (event.data.self.logger !== null) {
+            event.data.self.logger.trace(event.data.self.Class.fullName, 'WebSocket connection closed');
         }
     },
     /**
@@ -130,69 +117,63 @@ fr.ina.amalia.player.BaseLoader.extend( "fr.ina.amalia.player.WsLoader",{},{
      * @method onMessage
      * @param {Object} event
      */
-    onMessage : function (event)
-    {
-        try
-        {
+    onMessage: function (event) {
+        try {
             //recived data
-            var jsonData = JSON.parse( event.originalEvent.data );
-            event.data.self.data = event.data.self.parser.processParserData( jsonData );
+            var jsonData = JSON.parse(event.originalEvent.data);
+            event.data.self.data = event.data.self.parser.processParserData(jsonData);
             var viewControl = event.data.self.data.viewControl;
-            var action = (event.data.self.data.viewControl !== null && event.data.self.data.viewControl.hasOwnProperty( 'action' )) ? event.data.self.data.viewControl.action : '';
+            var action = (event.data.self.data.viewControl !== null && event.data.self.data.viewControl.hasOwnProperty('action')) ? event.data.self.data.viewControl.action : '';
             //action
-            if (event.data.self.data !== null)
-            {
-                switch (action)
-                {
+            if (event.data.self.data !== null) {
+                switch (action) {
                     case 'add-all' :
-                        event.data.self.player.updateBlockMetadata( event.data.self.data.id,{
-                            id : event.data.self.data.id,
-                            label : event.data.self.data.label,
-                            type : event.data.self.data.hasOwnProperty( 'type' ) ? event.data.self.data.type : 'default',
-                            author : (viewControl !== null && viewControl.hasOwnProperty( 'author' )) ? viewControl.author : '',
-                            color : (viewControl !== null && viewControl.hasOwnProperty( 'color' )) ? viewControl.color : '',
-                            shape : (viewControl !== null && viewControl.hasOwnProperty( 'shape' )) ? viewControl.shape : ''
-                        },
-                        null );
-                        event.data.self.player.addMetadataById( event.data.self.data.id,event.data.self.data.list );
+                        event.data.self.player.updateBlockMetadata(event.data.self.data.id, {
+                                id: event.data.self.data.id,
+                                label: event.data.self.data.label,
+                                type: event.data.self.data.hasOwnProperty('type') ? event.data.self.data.type : 'default',
+                                author: (viewControl !== null && viewControl.hasOwnProperty('author')) ? viewControl.author : '',
+                                color: (viewControl !== null && viewControl.hasOwnProperty('color')) ? viewControl.color : '#3cf',
+                                shape: (viewControl !== null && viewControl.hasOwnProperty('shape') && viewControl.shape !== "") ? viewControl.shape : 'circle'
+                            },
+                            null);
+                        event.data.self.player.addMetadataById(event.data.self.data.id, event.data.self.data.list);
                         break;
                     case 'replace-all' :
-                        event.data.self.player.updateBlockMetadata( event.data.self.data.id,{
-                            id : event.data.self.data.id,
-                            label : event.data.self.data.label,
-                            type : event.data.self.data.hasOwnProperty( 'type' ) ? event.data.self.data.type : 'default',
-                            author : (viewControl !== null && viewControl.hasOwnProperty( 'author' )) ? viewControl.author : '',
-                            color : (viewControl !== null && viewControl.hasOwnProperty( 'color' )) ? viewControl.color : '',
-                            shape : (viewControl !== null && viewControl.hasOwnProperty( 'shape' )) ? viewControl.shape : ''
-                        },
-                        action );
-                        event.data.self.player.replaceAllMetadataById( event.data.self.data.id,event.data.self.data.list );
+                        event.data.self.player.updateBlockMetadata(event.data.self.data.id, {
+                                id: event.data.self.data.id,
+                                label: event.data.self.data.label,
+                                type: event.data.self.data.hasOwnProperty('type') ? event.data.self.data.type : 'default',
+                                author: (viewControl !== null && viewControl.hasOwnProperty('author')) ? viewControl.author : '',
+                                color: (viewControl !== null && viewControl.hasOwnProperty('color')) ? viewControl.color : '#3cf',
+                                shape: (viewControl !== null && viewControl.hasOwnProperty('shape') && viewControl.shape !== "") ? viewControl.shape : 'circle'
+                            },
+                            action);
+                        event.data.self.player.replaceAllMetadataById(event.data.self.data.id, event.data.self.data.list);
                         break;
                     case 'delete-all' :
-                        event.data.self.player.deleteAllMetadataById( event.data.self.data.id );
+                        event.data.self.player.deleteAllMetadataById(event.data.self.data.id);
                         break;
                     default :
-                        event.data.self.player.updateBlockMetadata( event.data.self.data.id,{
-                            id : event.data.self.data.id,
-                            label : event.data.self.data.label,
-                            type : event.data.self.data.hasOwnProperty( 'type' ) ? event.data.self.data.type : 'default',
-                            author : (viewControl !== null && viewControl.hasOwnProperty( 'author' )) ? viewControl.author : '',
-                            color : (viewControl !== null && viewControl.hasOwnProperty( 'color' )) ? viewControl.color : '',
-                            shape : (viewControl !== null && viewControl.hasOwnProperty( 'shape' )) ? viewControl.shape : ''
-                        },
-                        null );
-                        event.data.self.player.addMetadataById( event.data.self.data.id,event.data.self.data.list );
+                        event.data.self.player.updateBlockMetadata(event.data.self.data.id, {
+                                id: event.data.self.data.id,
+                                label: event.data.self.data.label,
+                                type: event.data.self.data.hasOwnProperty('type') ? event.data.self.data.type : 'default',
+                                author: (viewControl !== null && viewControl.hasOwnProperty('author')) ? viewControl.author : '',
+                                color: (viewControl !== null && viewControl.hasOwnProperty('color')) ? viewControl.color : '#3cf',
+                                shape: (viewControl !== null && viewControl.hasOwnProperty('shape') && viewControl.shape !== "") ? viewControl.shape : 'circle'
+                            },
+                            null);
+                        event.data.self.player.addMetadataById(event.data.self.data.id, event.data.self.data.list);
                 }
             }
         }
-        catch (e)
-        {
+        catch (e) {
             // Exception SyntaxError
             event.data.self.data = null;
-            if (event.data.self.logger !== null)
-            {
-                event.data.self.logger.error( "Error to add metadata" );
-                event.data.self.logger.error( event.originalEvent.data );
+            if (event.data.self.logger !== null) {
+                event.data.self.logger.error("Error to add metadata");
+                event.data.self.logger.error(event.originalEvent.data);
             }
         }
 
@@ -202,14 +183,12 @@ fr.ina.amalia.player.BaseLoader.extend( "fr.ina.amalia.player.WsLoader",{},{
      * @method onError
      * @param {Object} event
      */
-    onError : function (event)
-    {
+    onError: function (event) {
         event.data.self.socket = null;
         event.data.self.data = null;
-        if (event.data.self.logger !== null)
-        {
-            event.data.self.logger.error( "Error to initialize, web socket connection." );
-            event.data.self.logger.error( event );
+        if (event.data.self.logger !== null) {
+            event.data.self.logger.error("Error to initialize, web socket connection.");
+            event.data.self.logger.error(event);
         }
     },
     /**
@@ -218,14 +197,12 @@ fr.ina.amalia.player.BaseLoader.extend( "fr.ina.amalia.player.WsLoader",{},{
      * @param {Object} event
      * @param {Object} data
      */
-    onPlayerDataChange : function (event,data)
-    {
-        if (event.data.self.logger !== null)
-        {
-            event.data.self.logger.trace( event.data.self.Class.fullName,'onPlayerDataChange' );
-            event.data.self.logger.debug( event );
-            event.data.self.logger.debug( event.data.self.player.getMetadataById( data.id ) );
+    onPlayerDataChange: function (event, data) {
+        if (event.data.self.logger !== null) {
+            event.data.self.logger.trace(event.data.self.Class.fullName, 'onPlayerDataChange');
+            event.data.self.logger.debug(event);
+            event.data.self.logger.debug(event.data.self.player.getMetadataById(data.id));
         }
     }
 
-} );
+});

@@ -33,89 +33,87 @@
  * @param {Object} mediaContainer
  * @param {Object} handlerData
  */
-$.Class( "fr.ina.amalia.player.BaseLoader",{},{
+$.Class("fr.ina.amalia.player.BaseLoader", {}, {
     /**
      * Defines configuration
      * @property settings
      * @type {Object}
      * @default {}
      */
-    settings : {},
+    settings: {},
     /**
      * In charge to render messages in the web console output
      * @property logger
      * @type {Object}
      * @default null
      */
-    logger : null,
+    logger: null,
     /**
      * Loaded data
      * @property logger
      * @type {Object}
      * @default null
      */
-    data : null,
+    data: null,
     /**
      * load handler function
      * @property logger
      * @type {Object}
      * @default null
      */
-    handlerData : {},
+    handlerData: {},
     /**
      * complete handler function
      * @property logger
      * @type {Object}
      * @default null
      */
-    completeHandler : null,
+    completeHandler: null,
     /**
      * Instance of player
      * @property player
      * @type {Object}
      * @default null
      */
-    player : null,
+    player: null,
     /**
      * Wait load event
      * @property player
      * @type {Object}
      * @default null
      */
-    waitLoadEvent : false,
+    waitLoadEvent: false,
     /**
      * Instance of parser class
      * @property player
      * @type {Object}
      * @default null
      */
-    parser : null,
+    parser: null,
     /**
      * Init this class
      * @constructor
      * @method init
      * @param {Object} settings
      */
-    init : function (settings,player,completeHandler,handlerData)
-    {
-        this.settings = $.extend( {
-            debug : false,
-            sublocalisations : false
-        },
-        settings || {} );
+    init: function (settings, player, completeHandler, handlerData) {
+        this.settings = $.extend({
+                debug: false,
+                sublocalisations: false
+            },
+            settings || {});
         this.player = player;
         this.parser = null;
-        this.handlerData = $.extend( {
-            debug : false
-        },
-        handlerData || {} );
+        this.handlerData = $.extend({
+                debug: false
+            },
+            handlerData || {});
         this.completeHandler = completeHandler;
         this.logger = null;
-        if (typeof fr.ina.amalia.player.log !== "undefined" && typeof fr.ina.amalia.player.log.LogHandler !== "undefined")
-        {
-            this.logger = new fr.ina.amalia.player.log.LogHandler( {
-                enabled : this.settings.debug
-            } );
+        if (typeof fr.ina.amalia.player.log !== "undefined" && typeof fr.ina.amalia.player.log.LogHandler !== "undefined") {
+            this.logger = new fr.ina.amalia.player.log.LogHandler({
+                enabled: this.settings.debug
+            });
         }
         this.initialize();
     },
@@ -124,11 +122,9 @@ $.Class( "fr.ina.amalia.player.BaseLoader",{},{
      * @constructor
      * @method initialize
      */
-    initialize : function ()
-    {
-        if (this.logger !== null)
-        {
-            this.logger.trace( this.Class.fullName,"initialize" );
+    initialize: function () {
+        if (this.logger !== null) {
+            this.logger.trace(this.Class.fullName, "initialize");
         }
         this.initializeParser();
     },
@@ -137,28 +133,22 @@ $.Class( "fr.ina.amalia.player.BaseLoader",{},{
      * @method processFilterData
      * @param {Object} data
      */
-    initializeParser : function ()
-    {
+    initializeParser: function () {
         this.parser = null;
-        if (this.settings.format === 'json')
-        {
-            this.parser = new fr.ina.amalia.player.parsers.BaseParserMetadata( this.settings );
+        if (this.settings.format === 'json') {
+            this.parser = new fr.ina.amalia.player.parsers.BaseParserMetadata(this.settings);
         }
-        else
-        {
-            try
-            {
+        else {
+            try {
                 // In charge to instantiate parser custom class
                 /* jslint evil: true */
-                this.parser = eval( 'new ' + this.settings.format + '(this.settings)' );
+                this.parser = eval('new ' + this.settings.format + '(this.settings)');
             }
-            catch (error)
-            {
+            catch (error) {
                 this.parser = null;
-                if (this.logger !== null)
-                {
-                    this.logger.warn( "Unknown host configuration type." );
-                    this.logger.error( error.stack );
+                if (this.logger !== null) {
+                    this.logger.warn("Unknown host configuration type.");
+                    this.logger.error(error.stack);
                 }
             }
         }
@@ -167,56 +157,49 @@ $.Class( "fr.ina.amalia.player.BaseLoader",{},{
      * Set request type
      * @method setRequestType
      */
-    setRequestType : function (requestType)
-    {
+    setRequestType: function (requestType) {
         this.requestType = requestType;
     },
     /**
      * Set data type
      * @method setDataType
      */
-    setDataType : function (dataType)
-    {
+    setDataType: function (dataType) {
         this.dataType = dataType;
     },
     /**
      * Set time out value
      * @method setTimeout
      */
-    setTimeout : function (timeout)
-    {
+    setTimeout: function (timeout) {
         this.timeout = timeout;
     },
     /**
      * Set send data
      * @method setSendData
      */
-    setSendData : function (data)
-    {
-        this.sendData = $.extend( this.sendData,data || {} );
+    setSendData: function (data) {
+        this.sendData = $.extend(this.sendData, data || {});
     },
     /**
      * Get send data
      * @method getSendData
      */
-    getSendData : function ()
-    {
+    getSendData: function () {
         return this.sendData;
     },
     /**
      * Return wait load state
      * @method getSendData
      */
-    getWaitLoadEvent : function ()
-    {
+    getWaitLoadEvent: function () {
         return this.waitLoadEvent;
     },
     /**
      * Get loaded data
      * @method initialize
      */
-    getData : function ()
-    {
+    getData: function () {
         return this.data;
     },
     /**
@@ -225,11 +208,9 @@ $.Class( "fr.ina.amalia.player.BaseLoader",{},{
      * @param {Object} data
      * @param {String} textStatus
      */
-    onSuccess : function (data,textStatus)
-    {
-        if (this.logger !== null)
-        {
-            this.logger.trace( this.Class.fullName,"onSuccess status: " + textStatus );
+    onSuccess: function (data, textStatus) {
+        if (this.logger !== null) {
+            this.logger.trace(this.Class.fullName, "onSuccess status: " + textStatus);
         }
     },
     /**
@@ -237,11 +218,9 @@ $.Class( "fr.ina.amalia.player.BaseLoader",{},{
      * @method onError
      * @param {Object} textStatus
      */
-    onError : function (textStatus)
-    {
-        if (this.logger !== null)
-        {
-            this.logger.trace( this.Class.fullName,"onError status :" + textStatus );
+    onError: function (textStatus) {
+        if (this.logger !== null) {
+            this.logger.trace(this.Class.fullName, "onError status :" + textStatus);
         }
     }
-} );
+});

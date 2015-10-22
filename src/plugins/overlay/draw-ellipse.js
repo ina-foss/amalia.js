@@ -35,140 +35,113 @@
  * @param {Object} mediaPlayer
  * @param {Object} data
  */
-fr.ina.amalia.player.plugins.overlay.DrawBase.extend( "fr.ina.amalia.player.plugins.overlay.DrawEllipse",{
-    classCss : "spatial-ellipse"
-
-},
-{
-    /**
-     * Initialize
-     * @method initialize
-     */
-    initialize : function ()
-    {
-        //set shape name
-        this.shape = 'ellipse';
-        if (this.data.hasOwnProperty( 'tcin' ) && this.data.hasOwnProperty( 'tcout' ) && this.data.hasOwnProperty( 'start' ) && this.data.hasOwnProperty( 'end' ))
-        {
-            var style = this.getStyle();
-            var startCor = this.getEllipseData( this.data.start );
-            var endCor = this.getEllipseData( this.data.end );
-            var duration = parseFloat( this.data.tcout - this.mediaPlayer.getCurrentTime() );
-            var label = this.data.hasOwnProperty( 'label' ) ? this.data.label : '';
-            if (startCor !== null && endCor !== null)
-            {
-                this.element = this.settings.canvas.ellipse( startCor.cx,startCor.cy,startCor.rx,startCor.ry );
-                // Set style
-                this.element.attr( style );
-                this.element.transform( "r" + Math.round( (startCor.o / Math.PI) * 180 ) );
-                this.element.attr( {
-                    'cursor' : 'pointer'
-                } );
-                // set label
-                if (this.settings.labels === true && label !== '')
-                {
-                    this.labelElement = this.settings.canvas.text( startCor.cx,startCor.cy,label ).attr( {
-                        font : "12px Arial",
-                        opacity : 1,
-                        fill : "#000"
-                    } );
-                }
-
-                // end pos
-                var elattrs = {
-                    cx : endCor.cx,
-                    cy : endCor.cy,
-                    rx : endCor.rx,
-                    ry : endCor.ry,
-                    transform : 'r' + Math.round( (endCor.o / Math.PI) * 180 )
-                };
-
-                // duration en ms
-                this.element.stop().animate( elattrs,duration * 1000,"",this.onEndOfAnimation );
-                //pause animation
-                if (this.mediaPlayer.isPaused())
-                {
-                    this.element.pause();
-                }
-                if (this.labelElement !== null)
-                {
-                    // end pos
-                    var labelEndCor = {
-                        x : endCor.cx,
-                        y : endCor.cy
-                    };
-                    this.labelElement.stop().animate( labelEndCor,duration * 1000,"",this.onEndOfAnimation );
-                }
-
-                $( this.element.node ).on( 'click',{
-                    'self' : this,
-                    'data' : this.data,
-                    'tcin' : this.data.tcin,
-                    'tcout' : this.data.tcout
-                },
-                this.onClick );
-                if (this.logger !== null)
-                {
-                    this.logger.trace( this.Class.fullName,"initialize" );
-                    this.logger.info( {
-                        data : this.data,
-                        start : startCor,
-                        end : endCor
-                    } );
-                }
-                return true;
-            }
-        }
-
-        if (this.logger !== null)
-        {
-            this.logger.error( "Error :" + this.Class.fullName + ":initialize" );
-            this.logger.error( this.data );
-        }
+fr.ina.amalia.player.plugins.overlay.DrawBase.extend("fr.ina.amalia.player.plugins.overlay.DrawEllipse", {
+        classCss: "spatial-ellipse"
 
     },
-    /**
-     * In charge to set size and position
-     * @param {Object} data
-     * @return {Object}
-     */
-    getEllipseData : function (data)
     {
-        var ellipseParameter = {
-            // x coordinate of the centre
-            x : 0,
-            // y coordinate of the centre
-            y : 0,
-            // horizontal radius
-            rx : 0,
-            // vertical radius
-            ry : 0,
-            o : 0
-        };
-        try
-        {
-            var width = this.settings.canvas.width;
-            var height = this.settings.canvas.height;
-            if (data.hasOwnProperty( 'shape' ))
-            {
-                ellipseParameter.cx = data.shape.c.x * width;
-                ellipseParameter.cy = data.shape.c.y * height;
+        /**
+         * Initialize
+         * @method initialize
+         */
+        initialize: function () {
+            //set shape name
+            this.shape = 'ellipse';
+            if (this.data.hasOwnProperty('tcin') && this.data.hasOwnProperty('tcout') && this.data.hasOwnProperty('start') && this.data.hasOwnProperty('end')) {
+                var style = this.getStyle();
+                var startCor = this.getEllipseData(this.data.start);
+                var endCor = this.getEllipseData(this.data.end);
+                var duration = parseFloat(this.data.tcout - this.mediaPlayer.getCurrentTime());
+                var label = this.data.hasOwnProperty('label') ? this.data.label : '';
+                if (startCor !== null && endCor !== null) {
+                    this.element = this.settings.canvas.ellipse(startCor.cx, startCor.cy, startCor.rx, startCor.ry);
+                    // Set style
+                    this.element.attr(style);
+                    this.element.transform("r" + Math.round((startCor.o / Math.PI) * 180));
+                    this.element.attr({
+                        'cursor': 'pointer'
+                    });
+                    // set label
+                    if (this.settings.labels === true && label !== '') {
+                        this.labelElement = this.settings.canvas.text(startCor.cx, startCor.cy, label).attr(this.getLabelStyle());
+                    }
+
+                    // end pos
+                    var elattrs = {
+                        cx: endCor.cx,
+                        cy: endCor.cy,
+                        rx: endCor.rx,
+                        ry: endCor.ry,
+                        transform: 'r' + Math.round((endCor.o / Math.PI) * 180)
+                    };
+                    // duration en ms
+                    this.element.stop().animate(elattrs, duration * 1000, "", this.onEndOfAnimation);
+                    if (this.labelElement !== null) {
+                        // end pos
+                        var labelEndCor = {
+                            x: endCor.cx,
+                            y: endCor.cy
+                        };
+                        this.labelElement.stop().animate(labelEndCor, duration * 1000, "", this.onEndOfAnimation);
+                    }
+                    //pause animation
+                    if (this.mediaPlayer.isPaused()) {
+                        this.element.pause();
+                    }
+                    $(this.element.node).on('click', {
+                            'self': this,
+                            'data': this.data,
+                            'tcin': this.data.tcin,
+                            'tcout': this.data.tcout
+                        },
+                        this.onClick);
+                    return true;
+                }
+            }
+
+            if (this.logger !== null) {
+                this.logger.error("Error :" + this.Class.fullName + ":initialize");
+                this.logger.error(this.data);
+            }
+
+        },
+        /**
+         * In charge to set size and position
+         * @param {Object} data
+         * @return {Object}
+         */
+        getEllipseData: function (data) {
+            var ellipseParameter = {
+                // x coordinate of the centre
+                x: 0,
+                // y coordinate of the centre
+                y: 0,
                 // horizontal radius
-                ellipseParameter.rx = data.shape.rx * width;
+                rx: 0,
                 // vertical radius
-                ellipseParameter.ry = data.shape.ry * height;
-                ellipseParameter.o = data.shape.o;
-                return ellipseParameter;
+                ry: 0,
+                o: 0
+            };
+            try {
+                var width = this.settings.canvas.width;
+                var height = this.settings.canvas.height;
+                if (data.hasOwnProperty('shape')) {
+                    ellipseParameter.cx = data.shape.c.x * width;
+                    ellipseParameter.cy = data.shape.c.y * height;
+                    // horizontal radius
+                    ellipseParameter.rx = data.shape.rx * width;
+                    // vertical radius
+                    ellipseParameter.ry = data.shape.ry * height;
+                    ellipseParameter.o = data.shape.o;
+                    return ellipseParameter;
+                }
             }
-        }
-        catch (e)
-        {
-            if (this.logger !== null)
-            {
-                this.logger.error( "Error to parse data getEllipseData" );
-                this.logger.error( data );
+            catch (e) {
+                if (this.logger !== null) {
+                    this.logger.error("Error to parse data getEllipseData");
+                    this.logger.error(data);
+                }
             }
+            return null;
         }
-        return null;
-    }
-} );
+    });

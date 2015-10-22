@@ -28,7 +28,7 @@
      * @param {Object} event A touch event
      * @param {String} simulatedType The corresponding mouse event
      */
-    function simulateMouseEvent(event,simulatedType) {
+    function simulateMouseEvent(event, simulatedType) {
 
         // Ignore multi-touch events
         if (event.originalEvent.touches.length > 1) {
@@ -38,29 +38,29 @@
         event.preventDefault();
 
         var touch = event.originalEvent.changedTouches[0],
-            simulatedEvent = document.createEvent( 'MouseEvents' );
+            simulatedEvent = document.createEvent('MouseEvents');
 
         // Initialize the simulated mouse event using the touch event's coordinates
         simulatedEvent.initMouseEvent(
             simulatedType,// type
-            true,// bubbles                    
-            true,// cancelable                 
-            window,// view                       
-            1,// detail                     
-            touch.screenX,// screenX                    
-            touch.screenY,// screenY                    
-            touch.clientX,// clientX                    
-            touch.clientY,// clientY                    
-            false,// ctrlKey                    
-            false,// altKey                     
-            false,// shiftKey                   
-            false,// metaKey                    
-            0,// button                     
-            null              // relatedTarget              
-            );
+            true,// bubbles
+            true,// cancelable
+            window,// view
+            1,// detail
+            touch.screenX,// screenX
+            touch.screenY,// screenY
+            touch.clientX,// clientX
+            touch.clientY,// clientY
+            false,// ctrlKey
+            false,// altKey
+            false,// shiftKey
+            false,// metaKey
+            0,// button
+            null              // relatedTarget
+        );
 
         // Dispatch the simulated event to the target element
-        event.target.dispatchEvent( simulatedEvent );
+        event.target.dispatchEvent(simulatedEvent);
     }
 
     /**
@@ -72,7 +72,7 @@
         var self = this;
 
         // Ignore the event if another widget is already being handled
-        if (touchHandled || !self._mouseCapture( event.originalEvent.changedTouches[0] )) {
+        if (touchHandled || !self._mouseCapture(event.originalEvent.changedTouches[0])) {
             return;
         }
 
@@ -83,13 +83,13 @@
         self._touchMoved = false;
 
         // Simulate the mouseover event
-        simulateMouseEvent( event,'mouseover' );
+        simulateMouseEvent(event, 'mouseover');
 
         // Simulate the mousemove event
-        simulateMouseEvent( event,'mousemove' );
+        simulateMouseEvent(event, 'mousemove');
 
         // Simulate the mousedown event
-        simulateMouseEvent( event,'mousedown' );
+        simulateMouseEvent(event, 'mousedown');
     };
 
     /**
@@ -107,7 +107,7 @@
         this._touchMoved = true;
 
         // Simulate the mousemove event
-        simulateMouseEvent( event,'mousemove' );
+        simulateMouseEvent(event, 'mousemove');
     };
 
     /**
@@ -122,16 +122,16 @@
         }
 
         // Simulate the mouseup event
-        simulateMouseEvent( event,'mouseup' );
+        simulateMouseEvent(event, 'mouseup');
 
         // Simulate the mouseout event
-        simulateMouseEvent( event,'mouseout' );
+        simulateMouseEvent(event, 'mouseout');
 
         // If the touch interaction did not move, it should trigger a click
         if (!this._touchMoved) {
 
             // Simulate the click event
-            simulateMouseEvent( event,'click' );
+            simulateMouseEvent(event, 'click');
         }
 
         // Unset the flag to allow other widgets to inherit the touch event
@@ -149,14 +149,14 @@
         var self = this;
 
         // Delegate the touch handlers to the widget's element
-        self.element.bind( {
-            touchstart : $.proxy( self,'_touchStart' ),
-            touchmove : $.proxy( self,'_touchMove' ),
-            touchend : $.proxy( self,'_touchEnd' )
-        } );
+        self.element.bind({
+            touchstart: $.proxy(self, '_touchStart'),
+            touchmove: $.proxy(self, '_touchMove'),
+            touchend: $.proxy(self, '_touchEnd')
+        });
 
         // Call the original $.ui.mouse init method
-        _mouseInit.call( self );
+        _mouseInit.call(self);
     };
 
     /**
@@ -167,14 +167,14 @@
         var self = this;
 
         // Delegate the touch handlers to the widget's element
-        self.element.unbind( {
-            touchstart : $.proxy( self,'_touchStart' ),
-            touchmove : $.proxy( self,'_touchMove' ),
-            touchend : $.proxy( self,'_touchEnd' )
-        } );
+        self.element.unbind({
+            touchstart: $.proxy(self, '_touchStart'),
+            touchmove: $.proxy(self, '_touchMove'),
+            touchend: $.proxy(self, '_touchEnd')
+        });
 
         // Call the original $.ui.mouse destroy method
-        _mouseDestroy.call( self );
+        _mouseDestroy.call(self);
     };
 
-})( jQuery );
+})(jQuery);

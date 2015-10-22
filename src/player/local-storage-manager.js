@@ -30,151 +30,129 @@
  * @module player
  * @constructor
  */
-$.Class( "fr.ina.amalia.player.LocalStorageManager",{
-    storageNamespace : 'ina.media.player'
-},
-{
-    /**
-     * Defines configuration
-     * @property settings
-     * @type {Object}
-     * @default {}
-     */
-    settings : {},
-    /**
-     * In charge to render messages in the web console output
-     * @property logger
-     * @type {Object}
-     * @default null
-     */
-    logger : null,
-    /**
-     * Local storage data
-     * @property data
-     * @type {Object}
-     * @default null
-     */
-    data : null,
-    /**
-     * Init this class
-     * @constructor
-     * @method init
-     */
-    init : function ()
-    {
-        this.initializeStorage();
+$.Class("fr.ina.amalia.player.LocalStorageManager", {
+        storageNamespace: 'ina.media.player'
     },
-    /**
-     * Initialize local storage data
-     * @method initialize
-     */
-    initializeStorage : function ()
     {
-        if (typeof localStorage !== 'undefined')
-        {
-            try
-            {
-                if (localStorage.hasOwnProperty( this.Class.storageNamespace ) === false)
-                {
-                    localStorage.setItem( this.Class.storageNamespace,JSON.stringify( {} ) );
+        /**
+         * Defines configuration
+         * @property settings
+         * @type {Object}
+         * @default {}
+         */
+        settings: {},
+        /**
+         * In charge to render messages in the web console output
+         * @property logger
+         * @type {Object}
+         * @default null
+         */
+        logger: null,
+        /**
+         * Local storage data
+         * @property data
+         * @type {Object}
+         * @default null
+         */
+        data: null,
+        /**
+         * Init this class
+         * @constructor
+         * @method init
+         */
+        init: function () {
+            this.initializeStorage();
+        },
+        /**
+         * Initialize local storage data
+         * @method initialize
+         */
+        initializeStorage: function () {
+            if (typeof localStorage !== 'undefined') {
+                try {
+                    if (localStorage.hasOwnProperty(this.Class.storageNamespace) === false) {
+                        localStorage.setItem(this.Class.storageNamespace, JSON.stringify({}));
+                    }
+                    this.data = JSON.parse(localStorage.getItem(this.Class.storageNamespace));
                 }
-                this.data = JSON.parse( localStorage.getItem( this.Class.storageNamespace ) );
+                catch (e) {
+                    this.data = null;
+                }
             }
-            catch (e)
-            {
+            else {
                 this.data = null;
             }
-        }
-        else
-        {
-            this.data = null;
-        }
-    },
-    /**
-     * Update local storage data
-     * @method initialize
-     */
-    updateDataStorage : function ()
-    {
-        try
-        {
-            if (typeof localStorage !== 'undefined')
-            {
-                localStorage.setItem( this.Class.storageNamespace,JSON.stringify( this.data ) );
+        },
+        /**
+         * Update local storage data
+         * @method initialize
+         */
+        updateDataStorage: function () {
+            try {
+                if (typeof localStorage !== 'undefined') {
+                    localStorage.setItem(this.Class.storageNamespace, JSON.stringify(this.data));
+                }
             }
-        }
-        catch (e)
-        {
-            this.data = null;
-        }
+            catch (e) {
+                this.data = null;
+            }
 
-    },
-    /**
-     * Method check if has key
-     * @method hasItem
-     * @param {String} key
-     */
-    hasItem : function (key)
-    {
-        return (this.data !== null && this.data.hasOwnProperty( key ) === true);
-    },
-    /**
-     * Return key data
-     * @method getItem
-     * @param {String} key
-     */
-    getItem : function (key)
-    {
-        if (this.data !== null && this.data.hasOwnProperty( key ) === true)
-        {
-            return this.data[key];
-        }
-        return null;
-    },
-    /**
-     * Set item with key and value
-     * @method setItem
-     * @param {String} key
-     * @param {String} value
-     */
-    setItem : function (key,value)
-    {
-        try
-        {
-            if (this.data !== null && typeof key !== 'undefined' && typeof value !== 'undefined')
-            {
-                this.data[key] = value;
+        },
+        /**
+         * Method check if has key
+         * @method hasItem
+         * @param {String} key
+         */
+        hasItem: function (key) {
+            return (this.data !== null && this.data.hasOwnProperty(key) === true);
+        },
+        /**
+         * Return key data
+         * @method getItem
+         * @param {String} key
+         */
+        getItem: function (key) {
+            if (this.data !== null && this.data.hasOwnProperty(key) === true) {
+                return this.data[key];
+            }
+            return null;
+        },
+        /**
+         * Set item with key and value
+         * @method setItem
+         * @param {String} key
+         * @param {String} value
+         */
+        setItem: function (key, value) {
+            try {
+                if (this.data !== null && typeof key !== 'undefined' && typeof value !== 'undefined') {
+                    this.data[key] = value;
+                    this.updateDataStorage();
+                }
+            }
+            catch (e) {
+                return null;
+            }
+            return true;
+        },
+        /**
+         * Remove item with key
+         * @method removeItem
+         * @param {String} key
+         */
+        removeItem: function (key) {
+            if (this.data !== null && typeof key !== 'undefined') {
+                this.data.splice(key, 1);
                 this.updateDataStorage();
             }
+        },
+        /**
+         * Clear all data
+         * @method clear
+         */
+        clear: function () {
+            if (typeof localStorage !== 'undefined') {
+                localStorage.removeItem(this.Class.storageNamespace);
+            }
         }
-        catch (e)
-        {
-            return null;
-        }
-        return true;
-    },
-    /**
-     * Remove item with key
-     * @method removeItem
-     * @param {String} key
-     */
-    removeItem : function (key)
-    {
-        if (this.data !== null && typeof key !== 'undefined')
-        {
-            this.data.splice( key,1 );
-            this.updateDataStorage();
-        }
-    },
-    /**
-     * Clear all data
-     * @method clear
-     */
-    clear : function ()
-    {
-        if (typeof localStorage !== 'undefined')
-        {
-            localStorage.removeItem( this.Class.storageNamespace );
-        }
-    }
-} );
+    });

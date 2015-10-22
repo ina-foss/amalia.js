@@ -33,23 +33,20 @@
  * @param {Object} mediaPlayer Instance of Player
  * @param {Object} pluginContainer plugin container element
  */
-fr.ina.amalia.player.plugins.PluginBase.extend( "fr.ina.amalia.player.plugins.PluginBaseSimpleBlock",{
-},{
+fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.PluginBaseSimpleBlock", {}, {
     /**
      * List of data type managed by this plugin
      * @property managedDataTypes
      * @type {String}
      * @default null
      */
-    managedDataType : '',
+    managedDataType: '',
     /**
      * Add data type to managed data type list
      * @param type string
      */
-    addManagedDataType : function (type)
-    {
-        if (typeof type === 'string' && type !== '')
-        {
+    addManagedDataType: function (type) {
+        if (typeof type === 'string' && type !== '') {
             this.managedDataType = type;
         }
     },
@@ -57,16 +54,14 @@ fr.ina.amalia.player.plugins.PluginBase.extend( "fr.ina.amalia.player.plugins.Pl
      * Return true if managed type
      * @return Boolean
      */
-    isManagedType : function (type)
-    {
+    isManagedType: function (type) {
         return (this.managedDataType === type);
     },
     /**
      * Return managed types
      * @return array
      */
-    getManagedType : function ()
-    {
+    getManagedType: function () {
         return this.managedDataType;
     }
-} );
+});

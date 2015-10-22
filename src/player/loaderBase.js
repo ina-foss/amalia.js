@@ -33,92 +33,90 @@
  * @param {Object} mediaContainer
  * @param {Object} handlerData
  */
-$.Class( "fr.ina.amalia.player.LoaderBase",{},{
+$.Class("fr.ina.amalia.player.LoaderBase", {}, {
     /**
      * Defines configuration
      * @property settings
      * @type {Object}
      * @default {}
      */
-    settings : {},
+    settings: {},
     /**
      * In charge to render messages in the web console output
      * @property logger
      * @type {Object}
      * @default null
      */
-    logger : null,
+    logger: null,
     /**
      * Load data request type
      * @property requestType
      * @type {String}
      * @default 'GET'
      */
-    requestType : 'GET',
+    requestType: 'GET',
     /**
      * Load data type
      * @property logger
      * @type {String}
      * @default 'json'
      */
-    dataType : 'json',
+    dataType: 'json',
     /**
      * Send data object
      * @property sendData
      * @type {Object}
      * @default null
      */
-    sendData : {},
+    sendData: {},
     /**
      * call time out
      * @property timeout
      * @type {Number}
      * @default null
      */
-    timeout : 120000,
+    timeout: 120000,
     /**
      * Loaded data
      * @property logger
      * @type {Object}
      * @default null
      */
-    data : null,
+    data: null,
     /**
      * load handler function
      * @property logger
      * @type {Object}
      * @default null
      */
-    handlerData : {},
+    handlerData: {},
     /**
      * complete handler function
      * @property logger
      * @type {Object}
      * @default null
      */
-    completeHandler : null,
+    completeHandler: null,
     /**
      * Init this class
      * @constructor
      * @method init
      * @param {Object} settings
      */
-    init : function (settings,completeHandler,handlerData)
-    {
-        this.settings = $.extend( {
-            debug : false
-        },
-        settings || {} );
-        this.handlerData = $.extend( {
-            debug : false
-        },
-        handlerData || {} );
+    init: function (settings, completeHandler, handlerData) {
+        this.settings = $.extend({
+                debug: false
+            },
+            settings || {});
+        this.handlerData = $.extend({
+                debug: false
+            },
+            handlerData || {});
         this.completeHandler = completeHandler;
-        if (typeof fr.ina.amalia.player.log !== "undefined" && typeof fr.ina.amalia.player.log.LogHandler !== "undefined")
-        {
-            this.logger = new fr.ina.amalia.player.log.LogHandler( {
-                enabled : this.settings.debug
-            } );
+        if (typeof fr.ina.amalia.player.log !== "undefined" && typeof fr.ina.amalia.player.log.LogHandler !== "undefined") {
+            this.logger = new fr.ina.amalia.player.log.LogHandler({
+                enabled: this.settings.debug
+            });
         }
         this.initialize();
     },
@@ -127,59 +125,51 @@ $.Class( "fr.ina.amalia.player.LoaderBase",{},{
      * @constructor
      * @method initialize
      */
-    initialize : function ()
-    {
-        if (this.logger !== null)
-        {
-            this.logger.trace( this.Class.fullName,"initialize" );
+    initialize: function () {
+        if (this.logger !== null) {
+            this.logger.trace(this.Class.fullName, "initialize");
         }
     },
     /**
      * Set request type
      * @method setRequestType
      */
-    setRequestType : function (requestType)
-    {
+    setRequestType: function (requestType) {
         this.requestType = requestType;
     },
     /**
      * Set data type
      * @method setDataType
      */
-    setDataType : function (dataType)
-    {
+    setDataType: function (dataType) {
         this.dataType = dataType;
     },
     /**
      * Set time out value
      * @method setTimeout
      */
-    setTimeout : function (timeout)
-    {
+    setTimeout: function (timeout) {
         this.timeout = timeout;
     },
     /**
      * Set send data
      * @method setSendData
      */
-    setSendData : function (data)
-    {
-        this.sendData = $.extend( this.sendData,data || {} );
+    setSendData: function (data) {
+        this.sendData = $.extend(this.sendData, data || {});
     },
     /**
      * Get send data
      * @method getSendData
      */
-    getSendData : function ()
-    {
+    getSendData: function () {
         return this.sendData;
     },
     /**
      * Get loaded data
      * @method initialize
      */
-    getData : function ()
-    {
+    getData: function () {
         return this.data;
     },
     /**
@@ -187,24 +177,18 @@ $.Class( "fr.ina.amalia.player.LoaderBase",{},{
      * @method processFilterData
      * @param {Object} data
      */
-    processFilterData : function (data)
-    {
-        if (data !== null && typeof data !== "undefined")
-        {
-            if (data.hasOwnProperty( 'status' ) === true && data.hasOwnProperty( 'data' ) === true && data.status === 0 && data !== null)
-            {
+    processFilterData: function (data) {
+        if (data !== null && typeof data !== "undefined") {
+            if (data.hasOwnProperty('status') === true && data.hasOwnProperty('data') === true && data.status === 0 && data !== null) {
                 return data.data;
             }
-            else if (data.hasOwnProperty( 'id' ) === true)
-            {
+            else if (data.hasOwnProperty('id') === true) {
                 return data;
             }
-            else
-            {
-                if (this.logger !== null)
-                {
-                    this.logger.warn( this.Class.fullName,"Error while filtering Data." );
-                    this.logger.warn( data );
+            else {
+                if (this.logger !== null) {
+                    this.logger.warn(this.Class.fullName, "Error while filtering Data.");
+                    this.logger.warn(data);
                 }
             }
         }
@@ -216,24 +200,21 @@ $.Class( "fr.ina.amalia.player.LoaderBase",{},{
      * @method load
      * @param {Object} url
      */
-    load : function (url)
-    {
+    load: function (url) {
         var self = this;
-        $.ajax( {
-            type : this.requestType,
-            url : url,
-            timeout : this.timeout,
-            data : this.sendData,
-            dataType : this.dataType,
-            success : function (data,textStatus)
-            {
-                self.onSuccess( data,textStatus );
+        $.ajax({
+            type: this.requestType,
+            url: url,
+            timeout: this.timeout,
+            data: this.sendData,
+            dataType: this.dataType,
+            success: function (data, textStatus) {
+                self.onSuccess(data, textStatus);
             },
-            error : function (data,textStatus)
-            {
-                self.onError( textStatus );
+            error: function (data, textStatus) {
+                self.onError(textStatus);
             }
-        } );
+        });
     },
     /**
      * On success
@@ -241,17 +222,14 @@ $.Class( "fr.ina.amalia.player.LoaderBase",{},{
      * @param {Object} data
      * @param {String} textStatus
      */
-    onSuccess : function (data,textStatus)
-    {
-        if (this.logger !== null)
-        {
-            this.logger.trace( this.Class.fullName,"onSuccess status: " + textStatus );
+    onSuccess: function (data, textStatus) {
+        if (this.logger !== null) {
+            this.logger.trace(this.Class.fullName, "onSuccess status: " + textStatus);
         }
-        this.data = this.processFilterData( data );
+        this.data = this.processFilterData(data);
 
-        if (typeof this.completeHandler === 'function')
-        {
-            this.completeHandler( this.handlerData,textStatus );
+        if (typeof this.completeHandler === 'function') {
+            this.completeHandler(this.handlerData, textStatus);
         }
 
     },
@@ -260,16 +238,13 @@ $.Class( "fr.ina.amalia.player.LoaderBase",{},{
      * @method onError
      * @param {Object} textStatus
      */
-    onError : function (textStatus)
-    {
-        if (this.logger !== null)
-        {
-            this.logger.trace( this.Class.fullName,"onError status :" + textStatus );
+    onError: function (textStatus) {
+        if (this.logger !== null) {
+            this.logger.trace(this.Class.fullName, "onError status :" + textStatus);
         }
         this.data = null;
-        if (typeof this.completeHandler === 'function')
-        {
-            this.completeHandler( this.handlerData,textStatus );
+        if (typeof this.completeHandler === 'function') {
+            this.completeHandler(this.handlerData, textStatus);
         }
     }
-} );
+});

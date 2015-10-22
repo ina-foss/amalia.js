@@ -32,42 +32,42 @@
  * @param {Object} settings
  * @constructor
  */
-$.Class( "fr.ina.amalia.player.MediaFactory",{},{
+$.Class("fr.ina.amalia.player.MediaFactory", {}, {
     /**
      * Defines configuration
      * @property settings
      * @type {Object}
      * @default {}
      */
-    settings : {},
+    settings: {},
     /**
      * In charge to render messages in the web console output
      * @property logger
      * @type {Object}
      * @default null
      */
-    logger : null,
+    logger: null,
     /**
      * Player dom element
      * @property mediaContainer
      * @type {Object}
      * @default null
      */
-    mediaContainer : null,
+    mediaContainer: null,
     /**
      * Player instance
      * @property player
      * @type {Object}
      * @default null
      */
-    player : null,
+    player: null,
     /**
      * Error message container
      * @property errorContainer
      * @type {Object}
      * @default null
      */
-    errorContainer : null,
+    errorContainer: null,
     /**
      * Init this class
      * @constructor
@@ -75,24 +75,22 @@ $.Class( "fr.ina.amalia.player.MediaFactory",{},{
      * @param {Object} mediaContainer
      * @param {Object} settings
      */
-    init : function (mediaContainer,settings)
-    {
-        this.mediaContainer = $( mediaContainer );
-        this.settings = $.extend( {
-            src : null,
-            poster : "",
-            autoplay : false,
-            plugins : {},
-            callbacks : {},
-            debug : false
+    init: function (mediaContainer, settings) {
+        this.mediaContainer = $(mediaContainer);
+        this.settings = $.extend({
+                src: null,
+                poster: "",
+                autoplay: false,
+                plugins: {},
+                callbacks: {},
+                debug: false
 
-        },
-        settings || {} );
-        if (fr.ina.amalia.player.log !== undefined && fr.ina.amalia.player.log.LogHandler !== undefined)
-        {
-            this.logger = new fr.ina.amalia.player.log.LogHandler( {
-                enabled : this.settings.debug
-            } );
+            },
+            settings || {});
+        if (fr.ina.amalia.player.log !== undefined && fr.ina.amalia.player.log.LogHandler !== undefined) {
+            this.logger = new fr.ina.amalia.player.log.LogHandler({
+                enabled: this.settings.debug
+            });
         }
         this.initialize();
     },
@@ -101,23 +99,18 @@ $.Class( "fr.ina.amalia.player.MediaFactory",{},{
      * @method initialize
      * @throws {Object}
      */
-    initialize : function ()
-    {
-        try
-        {
+    initialize: function () {
+        try {
             this.loadPlayer();
-            if (this.logger !== null)
-            {
-                this.logger.trace( this.Class.fullName,"initialize" );
+            if (this.logger !== null) {
+                this.logger.trace(this.Class.fullName, "initialize");
             }
         }
-        catch (error)
-        {
+        catch (error) {
             this.createErrorContainer();
-            this.setErrorCode( 8000 );
-            if (this.logger !== null)
-            {
-                this.logger.error( error.stack );
+            this.setErrorCode(8000);
+            if (this.logger !== null) {
+                this.logger.error(error.stack);
             }
 
         }
@@ -126,27 +119,24 @@ $.Class( "fr.ina.amalia.player.MediaFactory",{},{
      * Method for create error container elements.
      * @method createErrorContainer
      */
-    createErrorContainer : function ()
-    {
-        this.errorContainer = $( '<div>',{
-            'class' : 'ajs-error'
-        } );
+    createErrorContainer: function () {
+        this.errorContainer = $('<div>', {
+            'class': 'ajs-error'
+        });
         this.errorContainer.hide();
-        this.mediaContainer.append( this.errorContainer );
+        this.mediaContainer.append(this.errorContainer);
     },
     /**
      * Set error code
      * @method setErrorCode
      * @param {Object} errorCode
      */
-    setErrorCode : function (errorCode)
-    {
-        if (typeof this.errorContainer !== "undefined")
-        {
-            var messageContainer = $( '<p>',{
-                text : fr.ina.amalia.player.PlayerErrorCode.getMessage( errorCode )
-            } );
-            this.errorContainer.html( messageContainer );
+    setErrorCode: function (errorCode) {
+        if (typeof this.errorContainer !== "undefined") {
+            var messageContainer = $('<p>', {
+                text: fr.ina.amalia.player.PlayerErrorCode.getMessage(errorCode)
+            });
+            this.errorContainer.html(messageContainer);
             this.errorContainer.show();
         }
     },
@@ -154,52 +144,42 @@ $.Class( "fr.ina.amalia.player.MediaFactory",{},{
      * Load player
      * @method loadPlayer
      */
-    loadPlayer : function ()
-    {
-        if (this.logger !== null)
-        {
-            this.logger.trace( this.Class.fullName,"Load html 5 media player" );
+    loadPlayer: function () {
+        if (this.logger !== null) {
+            this.logger.trace(this.Class.fullName, "Load html 5 media player");
         }
-        if (this.src !== null)
-        {
+        if (this.src !== null) {
             var browserFeatureDetection = new fr.ina.amalia.player.helpers.BrowserFeatureDetection();
-            if (browserFeatureDetection.isSupportsVideos())
-            {
+            if (browserFeatureDetection.isSupportsVideos()) {
                 this.loadHtml5MediaPlayer();
             }
-            else
-            {
-                if (this.logger !== null)
-                {
-                    this.logger.error( "Your browser does not support the video tag." );
+            else {
+                if (this.logger !== null) {
+                    this.logger.error("Your browser does not support the video tag.");
                 }
-                throw new Error( "Your browser does not support the video tag." );
+                throw new Error("Your browser does not support the video tag.");
             }
         }
-        else
-        {
-            throw new Error( "Can't find media src" );
+        else {
+            throw new Error("Can't find media src");
         }
     },
     /**
      * Load player html5
      * @method loadHtml5MediaPlayer
      */
-    loadHtml5MediaPlayer : function ()
-    {
-        if (this.logger !== null)
-        {
-            this.logger.info( "Load html 5 media player" );
+    loadHtml5MediaPlayer: function () {
+        if (this.logger !== null) {
+            this.logger.info("Load html 5 media player");
         }
-        this.player = new fr.ina.amalia.player.PlayerHtml5( this.settings,this.mediaContainer );
+        this.player = new fr.ina.amalia.player.PlayerHtml5(this.settings, this.mediaContainer);
     },
     /**
      * Return player instance
      * @method getPlayer
      * @returns {Object}
      */
-    getPlayer : function ()
-    {
+    getPlayer: function () {
         return this.player;
     }
-} );
+});

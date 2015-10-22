@@ -31,38 +31,35 @@
  * @submodule player-controlbar
  * @extends fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase
  */
-fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend( "fr.ina.amalia.player.plugins.controlBar.widgets.Label",{
-    classCss : "iplayer-Label label label-default",
-    style : "",
-    eventTypes : {}
-},
-{
-    /**
-     * Initialize the component
-     * @method initialize
-     */
-    initialize : function ()
-    {
-        // Create component
-        this.component = $( '<div>',{
-            'class' : this.Class.classCss,
-            'style' : this.Class.style,
-            text : this.parameter.defaultValue
-        } );
-        // Add to container
-        this.container.append( this.component );
-        if (this.logger !== null)
-        {
-            this.logger.trace( this.Class.fullName,"initialize" );
-        }
+fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia.player.plugins.controlBar.widgets.Label", {
+        classCss: "iplayer-Label label label-default",
+        style: "",
+        eventTypes: {}
     },
-    /**
-     * Set label text
-     * @method setValue
-     * @param {Object} value
-     */
-    setValue : function (value)
     {
-        this.component.text( value );
-    }
-} );
+        /**
+         * Initialize the component
+         * @method initialize
+         */
+        initialize: function () {
+            // Create component
+            this.component = $('<div>', {
+                'class': this.Class.classCss,
+                'style': this.Class.style,
+                text: this.parameter.defaultValue
+            });
+            // Add to container
+            this.container.append(this.component);
+            if (this.logger !== null) {
+                this.logger.trace(this.Class.fullName, "initialize");
+            }
+        },
+        /**
+         * Set label text
+         * @method setValue
+         * @param {Object} value
+         */
+        setValue: function (value) {
+            this.component.text(value);
+        }
+    });

@@ -32,46 +32,43 @@
  * @param {Object} settings
  * @param {Object} mediaPlayer player instance
  */
-$.Class( "fr.ina.amalia.player.mediaTypeManager",{},{
+$.Class("fr.ina.amalia.player.mediaTypeManager", {}, {
     /**
      * Instance of Player HTML5
      * @property mediaPlayer
      * @type {Object} HTMLVideoElement
      * @default null
      */
-    mediaPlayer : null,
+    mediaPlayer: null,
     /**
      * logger instance
      * @property logger
      * @type {Object} HTMLVideoElement
      * @default null
      */
-    logger : null,
+    logger: null,
     /**
      * Configuration
      * @property settings
      * @type {Object}
      * @default "{}"
      */
-    settings : {},
-    init : function (settings,mediaPlayer)
-    {
+    settings: {},
+    init: function (settings, mediaPlayer) {
         this.mediaPlayer = mediaPlayer;
         this.namespace = this.Class.fullName;
-        this.settings = $.extend( {
-            debug : false,
-            internalPlugin : false
-        },
-        settings || {} );
-        if (fr.ina.amalia.player.log !== undefined && fr.ina.amalia.player.log.LogHandler !== undefined)
-        {
-            this.logger = new fr.ina.amalia.player.log.LogHandler( {
-                enabled : this.settings.debug
-            } );
+        this.settings = $.extend({
+                debug: false,
+                internalPlugin: false
+            },
+            settings || {});
+        if (fr.ina.amalia.player.log !== undefined && fr.ina.amalia.player.log.LogHandler !== undefined) {
+            this.logger = new fr.ina.amalia.player.log.LogHandler({
+                enabled: this.settings.debug
+            });
         }
-        if (this.mediaPlayer === null)
-        {
-            throw new Error( "Can't initialize plugin name" + this.Class.fullName );
+        if (this.mediaPlayer === null) {
+            throw new Error("Can't initialize plugin name" + this.Class.fullName);
         }
         this.initialize();
     },
@@ -79,8 +76,7 @@ $.Class( "fr.ina.amalia.player.mediaTypeManager",{},{
      * initialize
      * @method initialize
      */
-    initialize : function ()
-    {
+    initialize: function () {
 
     }
-} );
+});

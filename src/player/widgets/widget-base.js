@@ -33,42 +33,42 @@
  * @param {Object} mediaPlayer player instance
  * @param {Object} container main container
  */
-$.Class( "fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase",{},{
+$.Class("fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase", {}, {
     /**
      * Defines configuration
      * @property settings
      * @type {Object}
      * @default {}
      */
-    settings : {},
+    settings: {},
     /**
      * In charge to render messages in the web console output
      * @property logger
      * @type {Object}
      * @default null
      */
-    logger : null,
+    logger: null,
     /**
      * Widget container element
      * @property element
      * @type {Object}
      * @default null
      */
-    element : null,
+    element: null,
     /**
      * Component container element
      * @property component
      * @type {Object}
      * @default null
      */
-    component : null,
+    component: null,
     /**
      * Player instance
      * @property mediaPlayer
      * @type {Object}
      * @default null
      */
-    mediaPlayer : null,
+    mediaPlayer: null,
     /**
      * Init this class
      * @constructor
@@ -77,18 +77,16 @@ $.Class( "fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase",{},{
      * @param {Object} mediaPlayer player instance
      * @param {Object} container main container
      */
-    init : function (parameter,mediaPlayer,container)
-    {
-        this.parameter = $.extend( {
-            debug : true
-        },
-        parameter || {} );
+    init: function (parameter, mediaPlayer, container) {
+        this.parameter = $.extend({
+                debug: true
+            },
+            parameter || {});
 
-        if (fr.ina.amalia.player.log !== undefined && fr.ina.amalia.player.log.LogHandler !== undefined)
-        {
-            this.logger = new fr.ina.amalia.player.log.LogHandler( {
-                enabled : this.parameter.debug
-            } );
+        if (fr.ina.amalia.player.log !== undefined && fr.ina.amalia.player.log.LogHandler !== undefined) {
+            this.logger = new fr.ina.amalia.player.log.LogHandler({
+                enabled: this.parameter.debug
+            });
         }
         this.container = container;
         this.mediaPlayer = mediaPlayer;
@@ -98,24 +96,21 @@ $.Class( "fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase",{},{
      * Initialize the component
      * @method initialize
      */
-    initialize : function ()
-    {
+    initialize: function () {
 
     },
     /**
      * Show this widget
      * @method show
      */
-    show : function ()
-    {
+    show: function () {
         this.component.show();
     },
     /**
      * Hide this widget
      * @method hide
      */
-    hide : function ()
-    {
+    hide: function () {
         this.component.hide();
     }
-} );
+});

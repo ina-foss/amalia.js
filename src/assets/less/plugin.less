@@ -28,39 +28,33 @@
  * Plugin
  */
 
-.ajs-plugin
-{
-    font-family: @fontMain;
-    color:#FFF;
-    clear: both;
-    overflow: hidden;
-    font-size:11px;
+.ajs-plugin {
+  font-family: @fontMain;
+  color: #FFF;
+  clear: both;
+  overflow: hidden;
+  font-size: 11px;
 
-    .error
-    {
-        text-align: center;
-    }
+  .error {
+    text-align: center;
+  }
 
-    .loader
-    {
-        text-align: center;
-        width: 100%;
-        top: 50%;
-        font-size: 3em;
-    }
+  .loader {
+    text-align: center;
+    width: 100%;
+    top: 50%;
+    font-size: 3em;
+  }
 
-    /* Custom de la scrollbar */
-    &::-webkit-scrollbar,
-    & ::-webkit-scrollbar
-    {
-        width: 10px;
-    }
-    &::-webkit-scrollbar-thumb,
-    & ::-webkit-scrollbar-thumb
-    {
-        background: rgba(108, 108, 108,.6);
-    }
-
+  /* Custom de la scrollbar */
+  &::-webkit-scrollbar,
+  & ::-webkit-scrollbar {
+    width: 10px;
+  }
+  &::-webkit-scrollbar-thumb,
+  & ::-webkit-scrollbar-thumb {
+    background: rgba(108, 108, 108, .6);
+  }
 }
 
 @import "player-custom-control-bar";
@@ -71,3 +65,5 @@
 @import "plugin-watermark";
 @import "plugin-menu-contextuel";
 @import "plugin-editor";
+@import "plugin-selected-item-editor";
+@import "plugin-storyboard";

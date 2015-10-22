@@ -31,93 +31,85 @@
  * @submodule player-controlbar
  * @extends fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase
  */
-fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend( "fr.ina.amalia.player.plugins.controlBar.widgets.FullscreenButton",{
-    classCss : "player-fullscreen-button",
-    classCssFullscreenOn : "ajs-icon ajs-icon-expand",
-    classCssFullscreenOff : "ajs-icon ajs-icon-compress",
-    style : "",
-    eventTypes : {
-        CLICK : "fr.ina.amalia.player.plugins.widgets.FullscreenButton.event.click"
-    }
-},
-{
-    /**
-     * Initialize the component
-     * @method initialize
-     */
-    initialize : function ()
+fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia.player.plugins.controlBar.widgets.FullscreenButton", {
+        classCss: "player-fullscreen-button",
+        classCssFullscreenOn: "ajs-icon ajs-icon-expand",
+        classCssFullscreenOff: "ajs-icon ajs-icon-compress",
+        style: "",
+        eventTypes: {
+            CLICK: "fr.ina.amalia.player.plugins.widgets.FullscreenButton.event.click"
+        }
+    },
     {
-        // Create component
-        this.component = $( '<div>',{
-            class : this.Class.classCss,
-            style : this.Class.style
-        } );
-        var icon = $( '<span>',{
-            class : this.Class.classCssFullscreenOn
-        } );
-        this.component.append( icon );
+        /**
+         * Initialize the component
+         * @method initialize
+         */
+        initialize: function () {
+            // Create component
+            this.component = $('<div>', {
+                class: this.Class.classCss,
+                style: this.Class.style
+            });
+            var icon = $('<span>', {
+                class: this.Class.classCssFullscreenOn
+            });
+            this.component.append(icon);
 
-        // set events
-        this.component.on( 'click',{
-            self : this,
-            component : this.component
+            // set events
+            this.component.on('click', {
+                    self: this,
+                    component: this.component
+                },
+                this.onClick);
+            // Add to container
+            this.container.append(this.component);
+            this.setFullscreenMode(false);
+            // Logger
+            if (this.logger !== null) {
+                this.logger.trace(this.Class.fullName, "initialize");
+            }
+            this.definePlayerEvents();
         },
-        this.onClick );
-        // Add to container
-        this.container.append( this.component );
-        this.setFullscreenMode( false );
-        // Logger
-        if (this.logger !== null)
-        {
-            this.logger.trace( this.Class.fullName,"initialize" );
-        }
-        this.definePlayerEvents();
-    },
-    /**
-     * Add player evnet listener
-     * @method definePlayerEvents
-     */
-    definePlayerEvents : function ()
-    {
-        this.mediaPlayer.mediaContainer.on( fr.ina.amalia.player.PlayerEventType.FULLSCREEN_CHANGE,{
-            self : this
+        /**
+         * Add player evnet listener
+         * @method definePlayerEvents
+         */
+        definePlayerEvents: function () {
+            this.mediaPlayer.mediaContainer.on(fr.ina.amalia.player.PlayerEventType.FULLSCREEN_CHANGE, {
+                    self: this
+                },
+                this.onFullscreenModeChange);
+
         },
-        this.onFullscreenModeChange );
-
-    },
-    /**
-     * Set full-screen mode
-     * @method setFullscreenMode
-     * @param {Boolean} state true pour le mode plein ecran
-     */
-    setFullscreenMode : function (state)
-    {
-        if (state === true)
-        {
-            this.component.find( 'span' ).removeClass( this.Class.classCssFullscreenOn ).addClass( this.Class.classCssFullscreenOff );
+        /**
+         * Set full-screen mode
+         * @method setFullscreenMode
+         * @param {Boolean} state true pour le mode plein ecran
+         */
+        setFullscreenMode: function (state) {
+            if (state === true) {
+                this.component.find('span').removeClass(this.Class.classCssFullscreenOn).addClass(this.Class.classCssFullscreenOff);
+            }
+            else {
+                this.component.find('span').removeClass(this.Class.classCssFullscreenOff).addClass(this.Class.classCssFullscreenOn);
+            }
+        },
+        /**
+         * On click event call toggle full-screen function
+         * @method onClick
+         * @param {Boolean} state true if in full screen state
+         */
+        onClick: function (event) {
+            event.data.self.mediaPlayer.toggleFullScreen();
+        },
+        /**
+         * Fired on full-screen mode change
+         * @method onFullscreenModeChange
+         * @param {Object} event
+         */
+        onFullscreenModeChange: function (event, data) {
+            event.data.self.setFullscreenMode(data.inFullScreen);
         }
-        else
-        {
-            this.component.find( 'span' ).removeClass( this.Class.classCssFullscreenOff ).addClass( this.Class.classCssFullscreenOn );
-        }
-    },
-    /**
-     * On click event call toggle full-screen function
-     * @method onClick
-     * @param {Boolean} state true if in full screen state
-     */
-    onClick : function (event)
-    {
-        event.data.self.mediaPlayer.toggleFullScreen();
-    },
-    /**
-     * Fired on full-screen mode change
-     * @method onFullscreenModeChange
-     * @param {Object} event
-     */
-    onFullscreenModeChange : function (event,data)
-    {
-        event.data.self.setFullscreenMode( data.inFullScreen );
-    }
 
-} );
+    });

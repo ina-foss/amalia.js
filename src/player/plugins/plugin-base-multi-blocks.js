@@ -33,56 +33,53 @@
  * @param {Object} mediaPlayer Instance of Player
  * @param {Object} pluginContainer plugin container element
  */
-fr.ina.amalia.player.plugins.PluginBase.extend( "fr.ina.amalia.player.plugins.PluginBaseMultiBlocks",{
-    METADATA_DISPLAY_TYPE : {
-        'STATIC' : 1,
-        'STATIC_DYNAMIC' : 2,
-        'DYNAMIC' : 3
+fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.PluginBaseMultiBlocks", {
+    METADATA_DISPLAY_TYPE: {
+        'STATIC': 1,
+        'STATIC_DYNAMIC': 2,
+        'DYNAMIC': 3
     }
-},{
+}, {
     /**
      * true if load data started anw
      * @property loadDataStarted
      * @default null
      */
-    loadDataStarted : false,
+    loadDataStarted: false,
     /**
      * List of id to deal
      * @property loadDataStarted
      * @default null
      */
-    dataToDeal : null,
+    dataToDeal: null,
     /**
      * List of data type managed by this plugin
      * @property managedDataTypes
      * @type {String}
      * @default null
      */
-    managedMetadataIds : [
-    ],
+    managedMetadataIds: [],
     /**
      * List of data id not managed by this plugin
      * @property managedDataTypes
      * @type {String}
      * @default null
      */
-    notManagedMetadataIds : null,
+    notManagedMetadataIds: null,
     /**
      * List of data type managed by this plugin
      * @property managedDataTypes
      * @type {String}
      * @default null
      */
-    listOfMetadataTypes : null,
+    listOfMetadataTypes: null,
     /**
      * Add data type to managed data type list
      * @param {String} type
      */
-    addManagedMetadataType : function (type)
-    {
-        if (typeof type === 'string' && type !== '')
-        {
-            this.listOfMetadataTypes.push( type );
+    addManagedMetadataType: function (type) {
+        if (typeof type === 'string' && type !== '') {
+            this.listOfMetadataTypes.push(type);
         }
     },
     /**
@@ -90,16 +87,14 @@ fr.ina.amalia.player.plugins.PluginBase.extend( "fr.ina.amalia.player.plugins.Pl
      * @param {String} type
      * @return Boolean
      */
-    isManagedMetadataType : function (type)
-    {
-        return $.inArray( type,this.listOfMetadataTypes ) > -1;
+    isManagedMetadataType: function (type) {
+        return $.inArray(type, this.listOfMetadataTypes) > -1;
     },
     /**
      * Return managed types
      * @return array
      */
-    getManagedMetadataTypes : function ()
-    {
+    getManagedMetadataTypes: function () {
         return this.listOfMetadataTypes;
     },
     /**
@@ -107,9 +102,8 @@ fr.ina.amalia.player.plugins.PluginBase.extend( "fr.ina.amalia.player.plugins.Pl
      * @param {String} id
      * @return Boolean
      */
-    isManagedMetadataId : function (id)
-    {
-        return $.inArray( id,this.managedMetadataIds ) > -1 || $.inArray( id,this.notManagedMetadataIds ) > -1;
+    isManagedMetadataId: function (id) {
+        return $.inArray(id, this.managedMetadataIds) > -1 || $.inArray(id, this.notManagedMetadataIds) > -1;
     },
     /**
      * Return true if  id
@@ -117,50 +111,43 @@ fr.ina.amalia.player.plugins.PluginBase.extend( "fr.ina.amalia.player.plugins.Pl
      * @method isBound
      * @return Boolean
      */
-    isBoundMetadataId : function (id)
-    {
-        return $.inArray( id,this.managedMetadataIds ) > -1;
+    isBoundMetadataId: function (id) {
+        return $.inArray(id, this.managedMetadataIds) > -1;
     },
     /**
      * Return bind ids
      * @method isBound
      * @return Boolean
      */
-    getBindIds : function ()
-    {
+    getBindIds: function () {
         return this.managedMetadataIds;
     },
     /**
      * Add data type to managed data type list
      * @param {String} id
      */
-    bindMetadataId : function (id)
-    {
-        this.addManagedMetadataId( id );
+    bindMetadataId: function (id) {
+        this.addManagedMetadataId(id);
     },
     /**
      * Add data type to managed data type list
      * @param {String} id
      */
-    unbindMetadataId : function (id)
-    {
-        this.removeManagedMetadataId( id );
+    unbindMetadataId: function (id) {
+        this.removeManagedMetadataId(id);
     },
     /**
      * Add data type to managed data type list
      * @param {String} id
      */
-    addManagedMetadataId : function (id)
-    {
+    addManagedMetadataId: function (id) {
         id = (typeof id === 'number') ? id.toString() : id;
 
-        if (typeof id === 'string' && id !== '' && this.managedMetadataIds.indexOf( id ) === -1)
-        {
-            this.managedMetadataIds.push( id );
-            var idx = this.notManagedMetadataIds.indexOf( id );
-            if (idx > -1)
-            {
-                this.notManagedMetadataIds.splice( idx,1 );
+        if (typeof id === 'string' && id !== '' && this.managedMetadataIds.indexOf(id) === -1) {
+            this.managedMetadataIds.push(id);
+            var idx = this.notManagedMetadataIds.indexOf(id);
+            if (idx > -1) {
+                this.notManagedMetadataIds.splice(idx, 1);
             }
         }
     },
@@ -168,17 +155,14 @@ fr.ina.amalia.player.plugins.PluginBase.extend( "fr.ina.amalia.player.plugins.Pl
      * Add data type to managed data type list
      * @param {String} id
      */
-    removeManagedMetadataId : function (id)
-    {
+    removeManagedMetadataId: function (id) {
         id = (typeof id === 'number') ? id.toString() : id;
-        if (typeof id === 'string' && id !== '' && this.notManagedMetadataIds.indexOf( id ) === -1)
-        {
-            this.notManagedMetadataIds.push( id );
-            var idx = this.managedMetadataIds.indexOf( id );
-            if (idx > -1)
-            {
-                this.managedMetadataIds.splice( idx,1 );
+        if (typeof id === 'string' && id !== '' && this.notManagedMetadataIds.indexOf(id) === -1) {
+            this.notManagedMetadataIds.push(id);
+            var idx = this.managedMetadataIds.indexOf(id);
+            if (idx > -1) {
+                this.managedMetadataIds.splice(idx, 1);
             }
         }
     }
-} );
+});

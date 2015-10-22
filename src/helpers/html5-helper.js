@@ -29,46 +29,40 @@
  * @namespace fr.ina.amalia.player.helpers
  * @module player-utils
  */
-$.Class( "fr.ina.amalia.player.helpers.HTML5Helper",{
-    /**
-     * Method checks whether the document is in full-screen mode.
-     * @method isFullScreen
-     * @returns {Boolean} Return true if the document is in full-screen mode.
-     */
-    isFullScreen : function ()
-    {
-        var doc = $( document ).context;
-        return doc.fullscreen || doc.mozFullScreen || doc.webkitIsFullScreen;
+$.Class("fr.ina.amalia.player.helpers.HTML5Helper", {
+        /**
+         * Method checks whether the document is in full-screen mode.
+         * @method isFullScreen
+         * @returns {Boolean} Return true if the document is in full-screen mode.
+         */
+        isFullScreen: function () {
+            var doc = $(document).context;
+            return doc.fullscreen || doc.mozFullScreen || doc.webkitIsFullScreen;
+        },
+        /**
+         * Method in charge to toggle full-screen mode
+         * @method toggleFullScreen
+         * @param dom container
+         * @param force force to call full-screen mode
+         * @return {Boolean} Return true if in full-screen mode.
+         */
+        toggleFullScreen: function (dom, force) {
+            var doc = $(document).context;
+            var isFullScreen = doc.fullscreen || doc.mozFullScreen || doc.webkitIsFullScreen ? true : false;
+            if (isFullScreen === false || force === true) {
+                var requestFullScreen = dom.requestFullScreen || dom.webkitRequestFullScreen || dom.mozRequestFullScreen || dom.msRequestFullscreen || dom.webkitEnterFullscreen;
+                if (typeof requestFullScreen !== "undefined" && requestFullScreen) {
+                    requestFullScreen.call(dom);
+                    return true;
+                }
+            }
+            else {
+                var cancelFullScreen = document.cancelFullScreen || document.mozCancelFullScreen || document.webkitCancelFullScreen;
+                if (typeof cancelFullScreen !== "undefined" && cancelFullScreen) {
+                    cancelFullScreen.call(document);
+                    return false;
+                }
+            }
+        }
     },
-    /**
-     * Method in charge to toggle full-screen mode
-     * @method toggleFullScreen
-     * @param dom container
-     * @param force force to call full-screen mode
-     * @return {Boolean} Return true if in full-screen mode.
-     */
-    toggleFullScreen : function (dom,force)
-    {
-        var doc = $( document ).context;
-        var isFullScreen = doc.fullscreen || doc.mozFullScreen || doc.webkitIsFullScreen ? true : false;
-        if (isFullScreen === false || force === true)
-        {
-            var requestFullScreen = dom.requestFullScreen || dom.webkitRequestFullScreen || dom.mozRequestFullScreen || dom.msRequestFullscreen || dom.webkitEnterFullscreen;
-            if (typeof requestFullScreen !== "undefined" && requestFullScreen)
-            {
-                requestFullScreen.call( dom );
-                return true;
-            }
-        }
-        else
-        {
-            var cancelFullScreen = document.cancelFullScreen || document.mozCancelFullScreen || document.webkitCancelFullScreen;
-            if (typeof cancelFullScreen !== "undefined" && cancelFullScreen)
-            {
-                cancelFullScreen.call( document );
-                return false;
-            }
-        }
-    }
-},
-{} );
+    {});

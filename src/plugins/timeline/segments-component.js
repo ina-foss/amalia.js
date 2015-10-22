@@ -34,216 +34,240 @@
  * @param {Object} settings
  * @param {Object} container
  */
-fr.ina.amalia.player.plugins.timeline.BaseComponent( "fr.ina.amalia.player.plugins.timeline.SegmentsComponent",{
-    ComponentClassCss : "segments-component",
-    ComponentModuleClassCss : "module-segments",
-    COMPONENT_NAME : 'segment',
-    eventTypes : {
-        DATA_CHANGE : "fr.ina.amalia.player.plugins.timeline.SegmentsComponent.eventTypes.DATA_CHANGE"
-    }
-},
-{
-    initialize : function ()
+fr.ina.amalia.player.plugins.timeline.BaseComponent("fr.ina.amalia.player.plugins.timeline.SegmentsComponent", {
+        ComponentClassCss: "segments-component",
+        ComponentModuleClassCss: "module-segments",
+        COMPONENT_NAME: 'segment',
+        eventTypes: {
+            DATA_CHANGE: "fr.ina.amalia.player.plugins.timeline.SegmentsComponent.eventTypes.DATA_CHANGE"
+        }
+    },
     {
-        this._super();
-
-        this.mainContainer.on( 'click','.segment',{
-            self : this
+        initialize: function () {
+            this._super();
+            this.mainContainer.on('dblclick ', '.segment', {
+                    self: this
+                },
+                this.onDBLClickAtSegment);
+            this.mainContainer.on('click', '.segment', {
+                    self: this
+                },
+                this.onClickAtSegment);
         },
-        this.onClickAtSegment );
-    },
-    /**
-     * In charge to create segment element
-     * @method createSegmentElement
-     * @param {Number} tcin time code
-     * @param {Number} tcout
-     * @param {Number} percentWidth
-     * @param {Number} width
-     * @param {String} title
-     * @return {Object} Dom
-     */
-    createSegmentElement : function (tcin,tcout,percentWidth,width,title)
-    {
-        var color = (this.settings.color !== "") ? 'color:' + this.settings.color + '; background-color:' + this.settings.color + ';' : '';
-
-        var styleClass = (this.settings.marker === true) ? 'item segment marker' : 'item segment';
-        var container = $( '<div>',{
-            class : styleClass,
-            style : 'left: ' + percentWidth + '%; width:' + width + '%;' + color,
-            title : title,
-            'data-tc' : tcin,
-            'data-tcin' : tcin,
-            'data-tcout' : tcout
-        } );
-        // Le composant sera dragable pour le mode édition
-        if (this.settings.editable === true)
-        {
-            // resizable
-            container.resizable( {
-                handles : 'e,w',
-                ghost : true,
-                helper : "ui-resizable-helper",
-                start : function (event,ui)
-                {
-                    var parentElement = $( event.target ).parent();
-                    var maxWidth = parentElement.width() - ui.element.position().left;
-                    // Limit la largeur max
-                    $( event.target ).resizable( "option","maxWidth",maxWidth );
-                }
-            } );
-            container.on( "resizestop",{
-                self : this
-            },
-            this.onResizeStop );
-            // draggable
-            container.draggable( {
-                axis : "x",
-                drag : function (event,ui)
-                {
-                    var targetElement = $( event.target );
-                    var parentElement = targetElement.parent();
-                    var newLeft = Math.max( 0,ui.position.left );
-                    ui.position.left = Math.min( parentElement.first().width() - targetElement.width(),newLeft );
-                }
-            } );
-            container.on( "dragstop",{
-                self : this
-            },
-            this.onDragStop );
-            container.css( "position","absolute" );
-        }
-        return container;
-    },
-    /**
-     * In charge to add item
-     * @method addItem
-     * @param {Object} data
-     */
-    addItem : function (data)
-    {
-        if (data.hasOwnProperty( 'tcin' ) && data.hasOwnProperty( 'tcout' ))
-        {
-            var itemTcin = parseFloat( data.tcin );
-            var itemTcout = parseFloat( data.tcout );
-            // global tc
-            var gtc = this.tcout - this.tcin;
-            var width = ((itemTcout - itemTcin) * 100) / gtc;
-            var percentWidth = ((itemTcin - this.tcin) * 100) / gtc;
-            var title = null;
-            var selectedData = (data.hasOwnProperty( 'selected' ) && data.selected === true);
-            if ((data.hasOwnProperty( 'label' ) === true && data.label !== '' && data.label !== null))
-            {
-                title = data.label;
-            }
-            else
-            {
-                title = 'Tc in: ' + fr.ina.amalia.player.helpers.UtilitiesHelper.formatTime( itemTcin,25,'ms' ) + '\n Tc out: ' + fr.ina.amalia.player.helpers.UtilitiesHelper.formatTime( itemTcout,25,'ms' );
-            }
-
-            var lineContent = this.mainContainer.find( '.line-content' ).first();
-            var itemContainer = null;
-            if (itemTcin < this.tcout && itemTcout > this.tcin)
-            {
-                itemContainer = this.createSegmentElement( itemTcin,itemTcout,percentWidth,width,title );
-                itemContainer.data( 'metadata',data );
-                if (selectedData)
-                {
-                    if (data.hasOwnProperty( 'formCreated' ) && data.formCreated === false)
-                    {
-                        this.mainContainer.trigger( this.Class.CLICK_SELECT,{
-                            tc : itemTcin,
-                            metadata : data
-                        } );
+        /**
+         * In charge to create segment element
+         * @method createSegmentElement
+         * @param {Number} tcin time code
+         * @param {Number} tcout
+         * @param {Number} percentWidth
+         * @param {Number} width
+         * @param {String} title
+         * @return {Object} Dom
+         */
+        createSegmentElement: function (tcin, tcout, percentWidth, width, title) {
+            var self = this;
+            var color = (this.settings.color !== "") ? 'color:' + this.settings.color + '; background-color:' + this.settings.color + ';' : '';
+            var styleClass = (this.settings.marker === true) ? 'item segment marker' : 'item segment';
+            var container = $('<div>', {
+                class: styleClass,
+                style: 'left: ' + percentWidth + '%; width:' + width + '%;' + color,
+                title: title,
+                'data-tc': tcin,
+                'data-tcin': tcin,
+                'data-tcout': tcout
+            });
+            // Le composant sera dragable pour le mode édition
+            if (this.settings.editable === true) {
+                // resizable
+                container.resizable({
+                    handles: 'e,w',
+                    ghost: true,
+                    helper: "ui-resizable-helper",
+                    start: function (event, ui) {
+                        var parentElement = $(event.target).parent();
+                        var maxWidth = parentElement.width() - ui.element.position().left;
+                        // Limit la largeur max
+                        $(event.target).resizable("option", "maxWidth", maxWidth);
+                    },
+                    resize: function (event, ui) {
+                        var resizeTcin = parseFloat(((self.zTcout - self.zTcin) * ui.position.left) / self.mainContainer.first().width()) + self.zTcin;
+                        var resizeTcout = tcin + parseFloat(((self.zTcout - self.zTcin) * ui.size.width) / self.mainContainer.first().width());
+                        container.attr('title', 'Tc in : ' + fr.ina.amalia.player.helpers.UtilitiesHelper.formatTime(resizeTcin, self.settings.framerate, self.settings.timeFormat) + '\n Tc out : ' + fr.ina.amalia.player.helpers.UtilitiesHelper.formatTime(resizeTcout, self.settings.framerate, self.settings.timeFormat));
+                        self.updateTooltip();
                     }
-                    itemContainer.addClass( 'selected' );
+
+                });
+                container.on("resizestop", {
+                        self: this
+                    },
+                    this.onResizeStop);
+                // draggable
+                container.draggable({
+                    axis: "x",
+                    drag: function (event, ui) {
+                        var targetElement = $(event.target);
+                        var parentElement = targetElement.parent();
+                        var newLeft = Math.max(0, ui.position.left);
+                        ui.position.left = Math.min(parentElement.first().width() - targetElement.width(), newLeft);
+                        var dragTcin = parseFloat(((self.zTcout - self.zTcin) * ui.position.left) / self.mainContainer.first().width()) + self.zTcin;
+                        var dragTcout = parseFloat(((self.zTcout - self.zTcin) * targetElement.width()) / self.mainContainer.first().width()) + dragTcin;
+                        container.attr('title', 'Tc in : ' + fr.ina.amalia.player.helpers.UtilitiesHelper.formatTime(dragTcin, self.settings.framerate, self.settings.timeFormat) + '\n Tc out : ' + fr.ina.amalia.player.helpers.UtilitiesHelper.formatTime(dragTcout, self.settings.framerate, self.settings.timeFormat));
+                        self.updateTooltip();
+                    }
+                });
+                container.on("dragstop", {
+                        self: this
+                    },
+                    this.onDragStop);
+                container.css("position", "absolute");
+            }
+            return container;
+        },
+        /**
+         * In charge to add item
+         * @method addItem
+         * @param {Object} data
+         */
+        addItem: function (data) {
+            if (data.hasOwnProperty('tcin') && data.hasOwnProperty('tcout')) {
+                var itemTcin = parseFloat(data.tcin);
+                var itemTcout = parseFloat(data.tcout);
+                // global tc
+                var gtc = this.tcout - this.tcin;
+                var width = ((itemTcout - itemTcin) * 100) / gtc;
+                var percentWidth = ((itemTcin - this.tcin) * 100) / gtc;
+                var title = null;
+                var selectedData = (data.hasOwnProperty('selected') && data.selected === true);
+                if ((data.hasOwnProperty('label') === true && data.label !== '' && data.label !== null)) {
+                    title = data.label;
                 }
-                //set type
-                if (data.hasOwnProperty( 'type' ) && data.type !== null)
-                {
-                    itemContainer.attr( 'data-item-type',data.type );
+                else {
+                    title = 'Tc in : ' + fr.ina.amalia.player.helpers.UtilitiesHelper.formatTime(itemTcin, this.settings.framerate, this.settings.timeFormat) + '\n Tc out : ' + fr.ina.amalia.player.helpers.UtilitiesHelper.formatTime(itemTcout, this.settings.framerate, this.settings.timeFormat);
                 }
-                lineContent.append( itemContainer );
-                if (this.logger !== null)
-                {
-                    this.logger.trace( this.Class.fullName,"addItem tcin: " + this.tcin + " tcout: " + this.tcout + " itemTcin:" + itemTcin + " itemTcout:" + itemTcout + " percentWidth:" + percentWidth );
+
+                var lineContent = this.mainContainer.find('.line-content').first();
+                var itemContainer = null;
+                if (itemTcin < this.tcout && itemTcout > this.tcin) {
+                    itemContainer = this.createSegmentElement(itemTcin, itemTcout, percentWidth, width, title);
+                    itemContainer.data('metadata', data);
+                    if (selectedData) {
+                        //Add style
+                        itemContainer.addClass('selected');
+                    }
+                    if (selectedData && data.hasOwnProperty('formCreated') && data.formCreated === false) {
+                        this.mainContainer.trigger(this.Class.CLICK_SELECT, {
+                            tc: itemTcin,
+                            metadata: data
+                        });
+                    }
+                    //set type
+                    if (data.hasOwnProperty('type') && data.type !== null) {
+                        itemContainer.attr('data-item-type', data.type);
+                    }
+                    lineContent.append(itemContainer);
+                    if (this.logger !== null) {
+                        this.logger.trace(this.Class.fullName, "addItem tcin: " + this.tcin + " tcout: " + this.tcout + " itemTcin:" + itemTcin + " itemTcout:" + itemTcout + " percentWidth:" + percentWidth);
+                    }
                 }
             }
-        }
-    },
-    /**
-     * In charge to remove items
-     * @method removeItems
-     */
-    removeItems : function ()
-    {
-        var lineContent = this.mainContainer.find( '.line-content' ).first();
-        lineContent.find( '.segment' ).remove();
-    },
-    /**
-     * Fired on click event
-     * @method onClickAtSegment
-     * @param {Object} event
-     * @event fr.ina.amalia.player.components.SegmentsComponent.eventTypes.CLICK
-     */
-    onClickAtSegment : function (event)
-    {
-        var currentTarget = $( event.currentTarget );
-        var tcin = parseFloat( currentTarget.data( 'tcin' ) );
-        var data = $( event.currentTarget ).data( 'metadata' );
-        // Ctrl+Click
-        if (event.ctrlKey && data.selected !== true && event.data.self.settings.editable === true)
-        {
-            data.selected = true;
-            data.formCreated = false;
-            currentTarget.addClass( 'selected' );
-            event.data.self.mainContainer.trigger( event.data.self.Class.CLICK_SELECT,{
-                tc : tcin,
-                metadata : data
-            } );
-        }
-        else
-        {
-            event.data.self.mainContainer.trigger( event.data.self.Class.CLICK_TC,{
-                tc : tcin
-            } );
-        }
+        },
+        /**
+         * In charge to remove items
+         * @method removeItems
+         */
+        removeItems: function () {
+            var lineContent = this.mainContainer.find('.line-content').first();
+            lineContent.find('.segment').remove();
+        },
+        /**
+         * Fired on click event
+         * @method onClickAtSegment
+         * @param {Object} event
+         * @event fr.ina.amalia.player.components.SegmentsComponent.eventTypes.CLICK
+         */
+        onClickAtSegment: function (event) {
+            event.stopPropagation();
+            var currentTarget = $(event.currentTarget);
+            var tcin = parseFloat(currentTarget.data('tcin'));
+            var data = $(event.currentTarget).data('metadata');
+            // Alt+Click
+            if (event.altKey && event.data.self.settings.editable === true && typeof data === "object" && data.selected !== true) {
+                data.selected = true;
+                data.formCreated = false;
+                currentTarget.addClass('selected');
+                event.data.self.mainContainer.trigger(event.data.self.Class.CLICK_SELECT, {
+                    tc: tcin,
+                    metadata: data
+                });
+            }
+            else {
+                event.data.self.mainContainer.trigger(event.data.self.Class.CLICK_TC, {
+                    tc: tcin
+                });
+            }
 
-        if (event.data.self.logger !== null)
-        {
-            event.data.self.logger.trace( event.data.self.Class.fullName,"onClickAtSegment tcin:" + tcin );
-        }
-    },
-    /**
-     * Fired on drag stop event
-     * @method onDragStop
-     * @param {Object} event
-     */
-    onDragStop : function (event)
-    {
-        var currentTarget = $( event.currentTarget );
-        var tcin = parseFloat( ((event.data.self.zTcout - event.data.self.zTcin) * currentTarget.position().left) / event.data.self.mainContainer.first().width() ) + event.data.self.zTcin;
-        var tcout = parseFloat( ((event.data.self.zTcout - event.data.self.zTcin) * currentTarget.width()) / event.data.self.mainContainer.first().width() ) + tcin;
-        $( event.currentTarget ).data( 'metadata' ).tcin = Math.max( 0,tcin );
-        $( event.currentTarget ).data( 'metadata' ).tcout = Math.min( event.data.self.zTcout,tcout );
-        event.data.self.mainContainer.trigger( event.data.self.Class.eventTypes.DATA_CHANGE,{
-            id : event.data.self.getMetadataId()
-        } );
-    },
-    /**
-     * Fired on resize stop event
-     * @method onResizeStop
-     * @param {Object} event
-     */
-    onResizeStop : function (event)
-    {
-        var currentTarget = $( event.currentTarget );
-        var tcin = parseFloat( ((event.data.self.zTcout - event.data.self.zTcin) * currentTarget.position().left) / event.data.self.mainContainer.first().width() ) + event.data.self.zTcin;
-        var tcout = tcin + parseFloat( ((event.data.self.zTcout - event.data.self.zTcin) * currentTarget.width()) / event.data.self.mainContainer.first().width() );
-        $( event.currentTarget ).data( 'metadata' ).tcin = Math.max( 0,tcin );
-        $( event.currentTarget ).data( 'metadata' ).tcout = Math.min( event.data.self.zTcout,tcout );
+            if (event.data.self.logger !== null) {
+                event.data.self.logger.trace(event.data.self.Class.fullName, "onClickAtSegment tcin:" + tcin);
+            }
+        },
+        /**
+         * Fired on click event
+         * @method onClickAtSegment
+         * @param {Object} event
+         * @event fr.ina.amalia.player.components.SegmentsComponent.eventTypes.CLICK
+         */
+        onDBLClickAtSegment: function (event) {
+            var currentTarget = $(event.currentTarget);
+            var tcin = parseFloat(currentTarget.data('tcin'));
+            var data = $(event.currentTarget).data('metadata');
+            event.preventDefault();
+            if (event.data.self.settings.editable === true && typeof data === "object") {
+                if (data.hasOwnProperty("selected") && data.selected === true) {
+                    data.selected = false;
+                    currentTarget.removeClass('selected');
+                }
+                else {
+                    data.selected = true;
+                    currentTarget.addClass('selected');
+                }
+                event.data.self.mainContainer.trigger(event.data.self.Class.CLICK_SELECT, {
+                    tc: tcin,
+                    metadata: data
+                });
+            }
+            if (event.data.self.logger !== null) {
+                event.data.self.logger.trace(event.data.self.Class.fullName, "onDBLClickAtSegment tcin:" + tcin);
+            }
+        },
+        /**
+         * Fired on drag stop event
+         * @method onDragStop
+         * @param {Object} event
+         */
+        onDragStop: function (event) {
+            var currentTarget = $(event.currentTarget);
+            var tcin = parseFloat(((event.data.self.zTcout - event.data.self.zTcin) * currentTarget.position().left) / event.data.self.mainContainer.first().width()) + event.data.self.zTcin;
+            var tcout = parseFloat(((event.data.self.zTcout - event.data.self.zTcin) * currentTarget.width()) / event.data.self.mainContainer.first().width()) + tcin;
+            $(event.currentTarget).data('metadata').tcin = Math.max(0, tcin);
+            $(event.currentTarget).data('metadata').tcout = Math.min(event.data.self.zTcout, tcout);
+            event.data.self.mainContainer.trigger(event.data.self.Class.eventTypes.DATA_CHANGE, {
+                id: event.data.self.getMetadataId()
+            });
+        },
+        /**
+         * Fired on resize stop event
+         * @method onResizeStop
+         * @param {Object} event
+         */
+        onResizeStop: function (event) {
+            var currentTarget = $(event.currentTarget);
+            var tcin = parseFloat(((event.data.self.zTcout - event.data.self.zTcin) * currentTarget.position().left) / event.data.self.mainContainer.first().width()) + event.data.self.zTcin;
+            var tcout = tcin + parseFloat(((event.data.self.zTcout - event.data.self.zTcin) * currentTarget.width()) / event.data.self.mainContainer.first().width());
+            $(event.currentTarget).data('metadata').tcin = Math.max(0, tcin);
+            $(event.currentTarget).data('metadata').tcout = Math.min(event.data.self.zTcout, tcout);
 
-        event.data.self.mainContainer.trigger( event.data.self.Class.eventTypes.DATA_CHANGE,{
-            id : event.data.self.getMetadataId()
-        } );
-    }
-} );
+            event.data.self.mainContainer.trigger(event.data.self.Class.eventTypes.DATA_CHANGE, {
+                id: event.data.self.getMetadataId()
+            });
+        }
+    });

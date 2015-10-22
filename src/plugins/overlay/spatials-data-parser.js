@@ -31,151 +31,130 @@
  * @submodule plugin-overlay
  * @extends fr.ina.amalia.player.plugins.overlay
  */
-$.Class( "fr.ina.amalia.player.plugins.overlay.SpatialsDataParser",{},{
+$.Class("fr.ina.amalia.player.plugins.overlay.SpatialsDataParser", {}, {
     /**
      * Parsed data
      * @property data
      * @type {Object}
      * @default null
      */
-    data : null,
+    data: null,
     /**
      * Spatials data
      * @property spatials
      * @type {Object}
      * @default null
      */
-    spatials : null,
+    spatials: null,
     /**
      * Defines configuration
      * @property settings
      * @type {Object}
      * @default null
      */
-    settings : {},
+    settings: {},
     /**
      * In charge to render messages in the web console output
      * @property logger
      * @type {Object}
      * @default null
      */
-    logger : null,
+    logger: null,
     /**
      * Localisation manager
      * @property localisationManager
      * @type {Object}
      * @default null
      */
-    localisationManager : null,
-    /**
-     * Id medata
-     * @property localisationManager
-     * @type {Object}
-     * @default null
-     */
-    medatadataId : '',
+    localisationManager: null,
     /**
      * In charge to inisialize this class
      * @constructor
      * @param {Object} settings
      * @param {Object} data
      */
-    init : function (settings)
-    {
-        this.spatials = [
-        ];
-        this.settings = $.extend( {
-            cuepointMinDuration : 0,
-            debug : false
-        },
-        settings || {} );
+    init: function (settings) {
+        this.spatials = [];
+        this.settings = $.extend({
+                cuepointMinDuration: 0,
+                debug: false
+            },
+            settings || {});
         this.localisationManager = new fr.ina.amalia.player.LocalisationManager();
-        if (typeof fr.ina.amalia.player.log !== "undefined" && typeof fr.ina.amalia.player.log.LogHandler !== "undefined")
-        {
-            this.logger = new fr.ina.amalia.player.log.LogHandler( {
-                enabled : this.settings.debug
-            } );
+        if (typeof fr.ina.amalia.player.log !== "undefined" && typeof fr.ina.amalia.player.log.LogHandler !== "undefined") {
+            this.logger = new fr.ina.amalia.player.log.LogHandler({
+                enabled: this.settings.debug
+            });
         }
     },
     /**
      * In charge to parse metadata data
      * @method parserMetadata
+     * @param {Object} color
      */
-    parserSpacialMetadata : function (data,metadataId)
-    {
+    parserSpacialMetadata: function (data, metadataId, color) {
         this.data = data;
-        this.metadataId = metadataId;
-        this.spatials = [
-        ];
+        this.spatials = [];
         var item = null;
         for (var i = 0;
-            i < this.data.length;
-            i++)
-        {
+             i < this.data.length;
+             i++) {
             item = this.data[i];
-            if (item.hasOwnProperty( 'sublocalisations' ) && item.sublocalisations !== null && item.sublocalisations.hasOwnProperty( 'localisation' ) && item.sublocalisations.localisation.length > 0)
-            {
-                this.createSpatialItem( item );
+            if (item.hasOwnProperty('sublocalisations') && item.sublocalisations !== null && item.sublocalisations.hasOwnProperty('localisation') && item.sublocalisations.localisation.length > 0) {
+                this.createSpatialItem(item, metadataId, color);
             }
-            else if (item.hasOwnProperty( 'sublocalisations' ) && item.sublocalisations === null && item.hasOwnProperty( 'shape' ) && item.shape !== null)
-            {
-                this.createSpatialItemPoint( item );
+            else if (item.hasOwnProperty('sublocalisations') && item.sublocalisations === null && item.hasOwnProperty('shape') && item.shape !== null) {
+                this.createSpatialItemPoint(item, metadataId, color);
             }
         }
-        if (this.logger !== null)
-        {
-            this.logger.trace( this.Class.fullName,"parserMetadata" );
-            this.logger.info( this.data );
+        if (this.logger !== null) {
+            this.logger.trace(this.Class.fullName, "parserMetadata");
+            this.logger.info(this.data);
         }
         return this.getData();
     },
     /**
      * In charge to parse spatials block
-     * @param {Object} localisation
-     * @returns {undefined}
+     * @param {Object} metadataId
+     * @param {Object} color
      */
-    createSpatialItemPoint : function (localisation)
-    {
+    createSpatialItemPoint: function (localisation, metadataId, color) {
         var startPos = localisation;
-        var endPos = $.extend( true,[
-        ],localisation );
+        var endPos = $.extend(true, [], localisation);
         endPos.tc += this.settings.cuepointMinDuration;
-        this.addSpatial( startPos,endPos,localisation );
+        this.addSpatial(startPos, endPos, localisation, color);
 
     },
     /**
      * In charge to parse spatials block
      * @param {Object} data
+     * @param {Object} metadataId
+     * @param {Object} color
      */
-    createSpatialItem : function (data)
-    {
-        this.localisationManager.setLoc( data.sublocalisations.localisation );
+    createSpatialItem: function (data, metadataId, color) {
+        this.localisationManager.setLoc(data.sublocalisations.localisation);
         var locTc = this.localisationManager.getLocTc();
-        if (locTc !== null)
-        {
+        if (locTc !== null) {
             //update main tc
             data.tcin = locTc.tcin;
             data.tcout = locTc.tcout;
+
             var localisations = data.sublocalisations.localisation;
             var startPos = null;
             var endPos = null;
             for (var i = 0;
-                i < localisations.length;
-                i++)
-            {
+                 i < localisations.length;
+                 i++) {
 
-                if (startPos === null)
-                {
+                if (startPos === null) {
                     startPos = localisations[i];
                 }
-                else
-                {
+                else {
                     endPos = localisations[i];
-                    this.addSpatial( startPos,endPos,data );
+                    this.addSpatial(startPos, endPos, data, metadataId, color);
                     startPos = localisations[i];
                 }
             }
-
         }
 
     },
@@ -184,33 +163,32 @@ $.Class( "fr.ina.amalia.player.plugins.overlay.SpatialsDataParser",{},{
      * @param {Number} startPos
      * @param {Number} endPos
      * @param {Object} item
+     * @param {Object} metadataId
+     * @param {Object} color
      */
-    addSpatial : function (startPos,endPos,item)
-    {
-        if (typeof startPos === "object" && typeof endPos === "object" && startPos.hasOwnProperty( 'tc' ) && endPos.hasOwnProperty( 'tc' ))
-        {
-            this.spatials.push( {
-                start : startPos,
-                end : endPos,
-                type : this.getType( startPos ),
-                data : item.data,
-                label : item.label,
-                thumb : item.thumb,
-                tcin : (typeof startPos.tc === "string") ? fr.ina.amalia.player.helpers.UtilitiesHelper.convertHourToSeconde( startPos.tc ) : startPos.tc,
-                tcout : (typeof endPos.tc === "string") ? fr.ina.amalia.player.helpers.UtilitiesHelper.convertHourToSeconde( endPos.tc ) : endPos.tc,
-                refLoc : item,
-                metadataId : this.metadataId
-            } );
+    addSpatial: function (startPos, endPos, item, metadataId, color) {
+        if (typeof startPos === "object" && typeof endPos === "object" && startPos.hasOwnProperty('tc') && endPos.hasOwnProperty('tc')) {
+            this.spatials.push({
+                start: startPos,
+                end: endPos,
+                type: this.getType(startPos),
+                data: item.data,
+                label: item.label,
+                thumb: item.thumb,
+                tcin: (typeof startPos.tc === "string") ? fr.ina.amalia.player.helpers.UtilitiesHelper.convertHourToSeconde(startPos.tc) : startPos.tc,
+                tcout: (typeof endPos.tc === "string") ? fr.ina.amalia.player.helpers.UtilitiesHelper.convertHourToSeconde(endPos.tc) : endPos.tc,
+                refLoc: item,
+                metadataId: metadataId,
+                color: color
+            });
         }
-        else
-        {
-            if (this.logger !== null)
-            {
-                this.logger.warn( this.Class.fullName + ": Error to add spatial" );
-                this.logger.warn( [
+        else {
+            if (this.logger !== null) {
+                this.logger.warn(this.Class.fullName + ": Error to add spatial");
+                this.logger.warn([
                     startPos,
                     endPos
-                ] );
+                ]);
             }
         }
     },
@@ -219,14 +197,11 @@ $.Class( "fr.ina.amalia.player.plugins.overlay.SpatialsDataParser",{},{
      * @param {Object} data
      * @return {String} rect/point/ellipse
      */
-    getType : function (data)
-    {
-        if (data.hasOwnProperty( "shape" ) && data.shape !== null && data.shape.hasOwnProperty( 't' ) && typeof data.shape.t === "string")
-        {
+    getType: function (data) {
+        if (data.hasOwnProperty("shape") && data.shape !== null && data.shape.hasOwnProperty('t') && typeof data.shape.t === "string") {
             return data.shape.t.toString();
         }
-        else
-        {
+        else {
             return "rectangle";
         }
     },
@@ -234,8 +209,7 @@ $.Class( "fr.ina.amalia.player.plugins.overlay.SpatialsDataParser",{},{
      * Return spacial data with start and end position
      * @returns {Object}
      */
-    getData : function ()
-    {
+    getData: function () {
         return this.spatials;
     }
-} );
+});

@@ -31,81 +31,77 @@
  * @namespace fr.ina.amalia.player.plugins.controlBar.widgets
  * @extends fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase
  */
-fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend( "fr.ina.amalia.player.plugins.controlBar.widgets.PauseButton",{
-    classCss : "player-pause-button",
-    style : ""
-},
-{
-    /**
-     * Initialize the component
-     * @method initialize
-     */
-    initialize : function ()
+fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia.player.plugins.controlBar.widgets.PauseButton", {
+        classCss: "player-pause-button",
+        style: "",
+        pauseIcon: 'ajs-icon ajs-icon-control-pause'
+    },
     {
-        // Create component
-        this.component = $( '<div>',{
-            'class' : this.Class.classCss,
-            'style' : this.Class.style
-        } );
-        var buttonContainer = $( "<span>",{
-            class : "button-container round"
-        } );
-        var pauseIcon = $( '<i>',{
-            class : 'ajs-icon ajs-icon-control-pause'
-        } );
-        buttonContainer.append( pauseIcon );
-        this.component.append( buttonContainer );
-        // set events
-        this.component.on( 'click',{
-            self : this,
-            component : this.component
+        /**
+         * Initialize the component
+         * @method initialize
+         */
+        initialize: function () {
+            // Create component
+            this.component = $('<div>', {
+                'class': this.Class.classCss,
+                'style': this.Class.style
+            });
+            var buttonContainer = $("<span>", {
+                class: "button-container round"
+            });
+            var pauseIcon = $('<i>', {
+                class: this.Class.pauseIcon
+            });
+            buttonContainer.append(pauseIcon);
+            this.component.append(buttonContainer);
+            // set events
+            this.component.on('click', {
+                    self: this,
+                    component: this.component
+                },
+                this.onClick);
+            // Add to container
+            this.container.append(this.component);
+            this.definePlayerEvents();
+            this.component.addClass('off').removeClass('on');
         },
-        this.onClick );
-        // Add to container
-        this.container.append( this.component );
-        this.definePlayerEvents();
-        this.component.addClass( 'off' ).removeClass( 'on' );
-    },
-    /**
-     * Add player event listener
-     * @method definePlayerEvents
-     */
-    definePlayerEvents : function ()
-    {
-        this.mediaPlayer.mediaContainer.on( fr.ina.amalia.player.PlayerEventType.PLAYING,{
-            self : this
+        /**
+         * Add player event listener
+         * @method definePlayerEvents
+         */
+        definePlayerEvents: function () {
+            this.mediaPlayer.mediaContainer.on(fr.ina.amalia.player.PlayerEventType.PLAYING, {
+                    self: this
+                },
+                this.onPlaying);
+            this.mediaPlayer.mediaContainer.on(fr.ina.amalia.player.PlayerEventType.PAUSED, {
+                    self: this
+                },
+                this.onPaused);
         },
-        this.onPlaying );
-        this.mediaPlayer.mediaContainer.on( fr.ina.amalia.player.PlayerEventType.PAUSED,{
-            self : this
+        /**
+         * Fired on click event
+         * @method onClick
+         * @param {Object} event
+         */
+        onClick: function (event) {
+            event.data.self.mediaPlayer.pause();
         },
-        this.onPaused );
-    },
-    /**
-     * Fired on click event
-     * @method onClick
-     * @param {Object} event
-     */
-    onClick : function (event)
-    {
-        event.data.self.mediaPlayer.pause();
-    },
-    /**
-     * Fired on playing event for show pause button.
-     * @method onPlaying
-     * @param {Object} event
-     */
-    onPlaying : function (event)
-    {
-        event.data.self.component.addClass( 'on' ).removeClass( 'off' );
-    },
-    /**
-     * Fired on paused event for hide pause button.
-     * @method onPaused
-     * @param {Object} event
-     */
-    onPaused : function (event)
-    {
-        event.data.self.component.addClass( 'off' ).removeClass( 'on' );
-    }
-} );
+        /**
+         * Fired on playing event for show pause button.
+         * @method onPlaying
+         * @param {Object} event
+         */
+        onPlaying: function (event) {
+            event.data.self.component.addClass('on').removeClass('off');
+        },
+        /**
+         * Fired on paused event for hide pause button.
+         * @method onPaused
+         * @param {Object} event
+         */
+        onPaused: function (event) {
+            event.data.self.component.addClass('off').removeClass('on');
+        }
+    });

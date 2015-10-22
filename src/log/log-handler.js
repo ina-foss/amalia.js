@@ -30,20 +30,19 @@
  * @constructor
  * @param {Object} settings Defines the configuration of this class
  */
-$.Class( "fr.ina.amalia.player.log.LogHandler",{},{
+$.Class("fr.ina.amalia.player.log.LogHandler", {}, {
     /**
      * Defines configuration
      * @property settings
      * @type {Object}
      * @default {}
      */
-    settings : {},
-    init : function (settings)
-    {
-        this.settings = $.extend( {
-            enabled : false
-        },
-        settings || {} );
+    settings: {},
+    init: function (settings) {
+        this.settings = $.extend({
+                enabled: false
+            },
+            settings || {});
     },
     /**
      * Trace
@@ -52,13 +51,11 @@ $.Class( "fr.ina.amalia.player.log.LogHandler",{},{
      * @param {Object} functionName function name
      * @return {String} Returns log message
      */
-    trace : function (className,functionName)
-    {
+    trace: function (className, functionName) {
         var message = null;
-        if (this.settings.enabled && window.console && window.console.info)
-        {
+        if (this.settings.enabled && window.console && window.console.info) {
             message = className + ":" + functionName;
-            console.info( message );
+            console.info(message);
         }
         return message;
     },
@@ -68,12 +65,10 @@ $.Class( "fr.ina.amalia.player.log.LogHandler",{},{
      * @param {String|Object} message log message
      * @return {String|Object} log message
      */
-    info : function (message)
-    {
+    info: function (message) {
         var msg = (message) ? message : null;
-        if (this.settings.enabled && window.console && window.console.debug)
-        {
-            console.info( msg );
+        if (this.settings.enabled && window.console && window.console.debug) {
+            console.info(msg);
         }
         return msg;
     },
@@ -83,12 +78,10 @@ $.Class( "fr.ina.amalia.player.log.LogHandler",{},{
      * @param {String|Object} message log message
      * @return {String|Object} log message
      */
-    error : function (message)
-    {
+    error: function (message) {
         var msg = (message) ? message : null;
-        if (this.settings.enabled && window.console && window.console.error)
-        {
-            console.error( msg );
+        if (this.settings.enabled && window.console && window.console.error) {
+            console.error(msg);
         }
         return msg;
     },
@@ -98,12 +91,10 @@ $.Class( "fr.ina.amalia.player.log.LogHandler",{},{
      * @param {String|Object} message log message
      * @return {String|Object} log message
      */
-    warn : function (message)
-    {
+    warn: function (message) {
         var msg = (message) ? message : null;
-        if (this.settings.enabled && window.console && window.console.warn)
-        {
-            console.warn( msg );
+        if (this.settings.enabled && window.console && window.console.warn) {
+            console.warn(msg);
         }
         return msg;
     },
@@ -113,14 +104,12 @@ $.Class( "fr.ina.amalia.player.log.LogHandler",{},{
      * @param {String|Object} message log message
      * @return {String|Object} log message
      */
-    debug : function (message)
-    {
+    debug: function (message) {
         var msg = (message) ? message : null;
-        if (this.settings.enabled && window.console && window.console.debug)
-        {
-            console.debug( msg );
+        if (this.settings.enabled && window.console && window.console.debug) {
+            console.debug(msg);
         }
         return msg;
     }
 
-} );
+});
