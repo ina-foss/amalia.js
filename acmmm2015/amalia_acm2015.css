@@ -1,0 +1,24 @@
+body, td{
+	margin: 0; padding: 0
+}
+
+.ajs-plugin.plugin-text-sync .line-component .line .info .thumb {
+    height: 100px;
+    width: 190px;
+}
+
+.ajs-plugin.plugin-text-sync .line-component .line .info .badge.tcin {
+	position: relative !important;
+    top: -100px  !important;
+    left: 200px  !important;
+}
+
+.ajs-plugin.plugin-text-sync .line-component .line .info .badge.tcout  {
+    position: relative !important;
+    top: -122px  !important;
+    left: 270px  !important;
+}
+
+.ajs-plugin.plugin-text-sync .line-component .line .content {
+	padding-top: 26px;
+}
