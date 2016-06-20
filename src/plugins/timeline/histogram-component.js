@@ -57,11 +57,10 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent.extend("fr.ina.amalia.player
         initialize: function () {
             this._super();
             this.settings = $.extend({
-                    mirror: false,
-                    color: '#ffffff'
-                    // in charge to duplicate hitogram line
-                },
-                this.settings || {});
+                mirror: false,
+                color: '#ffffff'
+                // in charge to duplicate hitogram line
+            }, this.settings || {});
             this.histogramIsCreated = false;
             this.canvas = new Raphael(this.mainContainer.find('.line-content').get(0));
             this.mainContainer.on('click', {
@@ -80,7 +79,7 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent.extend("fr.ina.amalia.player
             var positiveValues = fr.ina.amalia.player.helpers.UtilitiesHelper.base64DecToArr(posbins, nbbins);
             var negativeValues = null;
             var maxHeight = parseInt(posmax);
-            if (negbins !== null) {
+            if (negbins !== null && negmax !== null) {
                 negativeValues = fr.ina.amalia.player.helpers.UtilitiesHelper.base64DecToArr(negbins, nbbins);
                 maxHeight = parseInt(posmax + negmax);
             }
@@ -89,7 +88,7 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent.extend("fr.ina.amalia.player
             this.canvas.canvas.setAttribute('preserveAspectRatio', 'none');
             var itemPositiveValue = null;
             var itemNegativeValue = null;
-            var color = this.settings.color === "undefined" ? this.settings.color : "#FFFFFF";
+            var color = typeof this.settings.color === "undefined" ? "#FFFFFF" : this.settings.color;
             for (var i = 0;
                  i < nbbins;
                  i++) {
@@ -159,8 +158,8 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent.extend("fr.ina.amalia.player
                 var _tcout = parseInt(this.settings.duration);
                 var dt = _tcout - _tcin;
                 var d = this.zTcout - this.zTcin;
-                var left = (100 * (this.zTcin - parseInt(this.settings.tcOffset))) / dt;
                 var pW = (100 * dt) / d;
+                var left = (pW * (this.zTcin - parseInt(this.settings.tcOffset))) / dt;
                 this.mainContainer.find('.line-content').css({
                     'left': -left + '%',
                     'width': pW + '%'
@@ -178,13 +177,13 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent.extend("fr.ina.amalia.player
                      i < data.data.histogram.length;
                      i++) {
                     var item = data.data.histogram[i];
-                    if (item.hasOwnProperty('posbins') && item.hasOwnProperty('negbins') && item.hasOwnProperty('nbbins') && item.hasOwnProperty('posmax') && item.hasOwnProperty('negmax')) {
+                    if (item.hasOwnProperty('posbins') && item.hasOwnProperty('posmax') && item.hasOwnProperty('nbbins')) {
                         try {
                             if (this.settings.mirror === true) {
                                 this.createHistogramWithMirror(item.posbins, item.posmax, item.nbbins);
                             }
                             else {
-                                this.createHistogram(item.posbins, item.posmax, item.negbins, item.negmax, item.nbbins);
+                                this.createHistogram(item.posbins, item.posmax, item.hasOwnProperty('negbins') ? item.negbins : null, item.hasOwnProperty('negmax') ? item.negmax : null, item.nbbins);
                             }
                         }
                         catch (error) {

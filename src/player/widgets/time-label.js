@@ -111,10 +111,9 @@ fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia
          * @method definePlayerEvents
          */
         definePlayerEvents: function () {
-            this.mediaPlayer.mediaContainer.on(fr.ina.amalia.player.PlayerEventType.TIME_CHANGE, {
-                    self: this
-                },
-                this.onTimechange);
+            this.mediaPlayer.getContainer().on(fr.ina.amalia.player.PlayerEventType.TIME_CHANGE, {
+                self: this
+            }, this.onTimechange);
         },
         /**
          * Fired on time change event

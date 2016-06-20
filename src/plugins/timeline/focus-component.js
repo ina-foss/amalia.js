@@ -99,6 +99,13 @@ $.Class("fr.ina.amalia.player.plugins.components.FocusComponent", {
          */
         duration: 0,
         /**
+         * Tc Offset
+         * @property tcOffset
+         * @type {Object}
+         * @default "{}"
+         */
+        tcOffset: 0,
+        /**
          * In charge to init this component
          * @constructor
          * @param {Object} container
@@ -107,18 +114,17 @@ $.Class("fr.ina.amalia.player.plugins.components.FocusComponent", {
          */
         init: function (container, duration, settings) {
             this.settings = $.extend({
-                    debug: false,
-                    modeFocus: true,
-                    tcOffset: 0
-                },
-                settings || {});
+                debug: false,
+                modeFocus: true,
+                tcOffset: 0
+            }, settings || {});
             this.modeFocus = this.settings.modeFocus;
+            this.tcOffset = parseFloat(this.settings.tcOffset);
             if (typeof fr.ina.amalia.player.log !== "undefined" && typeof fr.ina.amalia.player.log.LogHandler !== "undefined") {
                 this.logger = new fr.ina.amalia.player.log.LogHandler({
                     enabled: this.settings.debug
                 });
             }
-
             this.mainContainer = container;
             this.duration = parseFloat(duration);
             if (this.mainContainer.length === 0 || typeof this.mainContainer !== "object") {
@@ -136,9 +142,8 @@ $.Class("fr.ina.amalia.player.plugins.components.FocusComponent", {
             this.createContainer();
             this.setMode();
             this.mainContainer.on(fr.ina.amalia.player.plugins.timeline.TimeAxisComponent.eventTypes.RANGE_CHANGE, {
-                    self: this
-                },
-                this.onTimeRangeChange);
+                self: this
+            }, this.onTimeRangeChange);
         },
         /**
          * In charge to create focus component
@@ -164,9 +169,8 @@ $.Class("fr.ina.amalia.player.plugins.components.FocusComponent", {
                 }
             });
             this.container.on("resizestop", {
-                    self: this
-                },
-                this.onResizeStop);
+                self: this
+            }, this.onResizeStop);
             // draggable
             this.container.draggable({
                 axis: "x",
@@ -178,9 +182,8 @@ $.Class("fr.ina.amalia.player.plugins.components.FocusComponent", {
                 }
             }).css("position", "absolute");
             this.container.on("dragstop", {
-                    self: this
-                },
-                this.onDragStop);
+                self: this
+            }, this.onDragStop);
             this.mainContainer.append(this.container);
             if (this.logger !== null) {
                 this.logger.trace(this.Class.fullName, "createContainer");
@@ -266,8 +269,8 @@ $.Class("fr.ina.amalia.player.plugins.components.FocusComponent", {
             else {
                 // Trigger zoom event
                 this.mainContainer.trigger(this.Class.eventTypes.ZOOM_ZONE_CHANGE, {
-                    zTcin: focusTcin + this.settings.tcOffset,
-                    zTcout: focusTcout + this.settings.tcOffset
+                    zTcin: focusTcin,
+                    zTcout: focusTcout
                 });
                 if (this.logger !== null) {
                     this.logger.trace(this.Class.fullName, "selectedZoneChange trigger event : " + this.Class.eventTypes.ZOOM_ZONE_CHANGE + " focus zTcin:" + focusTcin + " zTcout:" + focusTcout);
@@ -290,8 +293,8 @@ $.Class("fr.ina.amalia.player.plugins.components.FocusComponent", {
          */
         getFocusTcout: function () {
             var focusTcin = this.getFocusTcin();
-            var selectedTcout = parseFloat(((this.tcout - this.settings.tcOffset - this.tcin) * (this.mainContainer.find("." + this.Class.CONTAINER_NAME).first().width())) / this.mainContainer.first().width());
-            return Math.min(this.duration - this.settings.tcOffset, focusTcin + selectedTcout);
+            var selectedTcout = parseFloat(((this.tcout - this.tcOffset - this.tcin) * (this.mainContainer.find("." + this.Class.CONTAINER_NAME).first().width())) / this.mainContainer.first().width());
+            return Math.min(this.duration, focusTcin + selectedTcout);
         },
         /**
          * Fired on time range change event

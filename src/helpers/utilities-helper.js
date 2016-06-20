@@ -62,6 +62,9 @@ $.Class("fr.ina.amalia.player.helpers.UtilitiesHelper", {
                 case 's' :
                     formatTime = hours + ":" + minutes + ":" + seconds;
                     break;
+                case 'seconds' :
+                    formatTime = parseFloat(parseFloat(hours) * 3600 + parseFloat(minutes) * 60 + parseFloat(milliseconds)).toFixed(4);
+                    break;
                 case 'mms' :
                     formatTime = hours + ":" + minutes + ":" + seconds + "." + milliseconds.toFixed(4).split('.')[1];
                     break;

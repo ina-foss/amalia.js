@@ -32,241 +32,23 @@
  * @param {Object} settings
  * @param {Object} mediaContainer
  */
-$.Class("fr.ina.amalia.player.PlayerHtml5", {
-        mediaPlayerClassCss: "player",
-        mediaPlayerStyleCss: "position: relative; width: inherit; height: inherit; background-color: black; "
-    },
+fr.ina.amalia.player.BasePlayer.extend("fr.ina.amalia.player.PlayerHtml5", {},
     {
-        logger: null,
-        settings: {},
-        /**
-         * Main container
-         * @property mediaContainer
-         * @type {Object}
-         * @default null
-         */
-        mediaContainer: null,
-        /**
-         * Player instance
-         * @property mediaPlayer
-         * @type {Object}
-         * @default null
-         */
-        mediaPlayer: null,
-        /**
-         * Plugin manager instance
-         * @property pluginManager
-         * @type {Object} fr.ina.amalia.player.plugins.PluginManager
-         * @default null
-         */
-        pluginManager: null,
-        /**
-         * Instance of local storage manager.
-         * @property localStorageManager
-         * @type {Object} fr.ina.amalia.player.LocalStorageManager
-         * @default null
-         */
-        localStorageManager: null,
-        /**
-         * Element to display loader
-         * @property loaderContainer
-         * @type {Object}
-         * @default null
-         */
-        loaderContainer: null,
-        /**
-         * Element to display error
-         * @property errorContainer
-         * @type {Object}
-         * @default null
-         */
-        errorContainer: null,
-        /**
-         * True if ios devices
-         * @property isIOSDevices
-         * @type {Boolean}
-         * @default false
-         */
-        isIOSDevices: false,
-        /**
-         * True play only range
-         * @property isRangePlayer
-         * @type {Boolean}
-         * @default false
-         */
-        isRangePlayer: false,
-        /**
-         * Tc for stop player in range mode
-         * @property rangePlayerTcout
-         * @type {Number}
-         * @default null
-         */
-        rangePlayerTcout: null,
-        /**
-         * Image capture id
-         * @property captureId
-         * @type {Number}
-         * @default null
-         */
-        captureId: null,
-        /**
-         * Image capture tc
-         * @property captureTc
-         * @type {Number}
-         * @default null
-         */
-        captureTc: null,
-        /**
-         * Image caputre ratio
-         * @property captureScale
-         * @type {Number}
-         * @default 100
-         */
-        captureScale: 1,
-        /**
-         * Zoom tcin
-         * @property zTcin
-         * @type {Number}
-         * @default null
-         */
-        zTcin: null,
-        /**
-         * Zoom tcout
-         * @property zTcout
-         * @type {Number}
-         * @default null
-         */
-        zTcout: null,
-        /**
-         * Tc offset
-         * @property tcOffset
-         * @type {Number}
-         * @default 0
-         */
-        tcOffset: 0,
-        /**
-         * Media type manager, if your media is not mp4 file.
-         * @property tcOffset
-         * @type {Number}
-         * @default 0
-         */
-        mediaTypeManager: null,
-        /**
-         * In charge to manage all metadata
-         * @property metadataManager
-         * @type {Object}
-         * @default null
-         */
-        metadataManager: null,
-        /**
-         * timeout representing the ID
-         * @property intervalRewind
-         * @type {Object}
-         * @default null
-         */
-        intervalRewind: null,
-        /**
-         * Shortcut manager
-         * @property shortcutManager
-         * @type {Object}
-         * @default null
-         */
-        shortcutManager: null,
-        /**
-         * playbackRate speed
-         * @property playbackRate
-         * @type {Number}
-         * @default null
-         */
-        playbackRateIdx: 7,
-        playbackRateList: [
-            -2,
-            -1.5,
-            -1,
-            -0.75,
-            -0.5,
-            -0.25,
-            -0.1,
-            1,
-            0.5,
-            0.75,
-            1.5,
-            2,
-            4,
-            6,
-            8
-        ],
-        /**
-         * Init player class
-         * @constructor
-         * @param {Object} settings
-         * @param {Object} mediaContainer
-         */
-        init: function (settings, mediaContainer) {
-            this.settings = $.extend({
-                    autoplay: false,
-                    poster: "",
-                    src: "",
-                    defaultVolume: 75,
-                    crossorigin: '',
-                    shortcuts: {}
-                },
-                settings || {});
-            if (fr.ina.amalia.player.log !== undefined && fr.ina.amalia.player.log.LogHandler !== undefined) {
-                this.logger = new fr.ina.amalia.player.log.LogHandler({
-                    enabled: this.settings.debug
-                });
-            }
-            this.mediaContainer = mediaContainer;
-            this.initialize();
-        },
+
+
         /**
          * Method in charge to initialize player : - Create containers - Load
          * plugins
          * @method initialize
+         * @override
          */
         initialize: function () {
-            if (this.logger !== null) {
-                this.logger.trace(this.Class.fullName, "initialize");
-            }
-            var IsiPhone = navigator.userAgent.indexOf("iPhone") !== -1;
-            var IsiPod = navigator.userAgent.indexOf("iPod") !== -1;
-            var IsiPad = navigator.userAgent.indexOf("iPad") !== -1;
-            this.playbackRateIdx = 7;
-            this.isIOSDevices = IsiPhone || IsiPad || IsiPod;
-            this.tcOffset = parseInt(this.settings.tcOffset);
-            this.createLoaderContainer();
-            this.createErrorContainer();
+            this.lastSeekTime = 0;
             this.createPlayer();
-            // plugins
-            this.initializePlugins();
-            this.initializeMetadataManager();
-            this.localStorageManager = new fr.ina.amalia.player.LocalStorageManager({});
-
-            this.shortcutManager = new fr.ina.amalia.player.ShortcutsManager(this.settings.shortcuts, this);
             this.setSrc(this.settings.src, this.settings.autoplay);
             // set default volume
             this.setVolume((this.localStorageManager.hasItem('volume') === false) ? this.settings.defaultVolume : this.localStorageManager.getItem('volume'));
-        },
-        /**
-         * initialize plugin manager
-         * @method initializePlugins
-         */
-        initializePlugins: function () {
-            if (this.logger !== null) {
-                this.logger.trace(this.Class.fullName, "initializePlugins");
-            }
-            this.pluginManager = new fr.ina.amalia.player.plugins.PluginManager(this.settings, this, this.mediaContainer);
-        },
-        /**
-         * initialize plugin manager
-         * @method initializePlugins
-         */
-        initializeMetadataManager: function () {
-            if (this.logger !== null) {
-                this.logger.trace(this.Class.fullName, "initializePlugins");
-            }
-            this.metadataManager = new fr.ina.amalia.player.MetadataManager(this.settings, this, this.mediaContainer);
+            this._super();
         },
         /**
          * In charge to set source with autoplay state
@@ -280,7 +62,7 @@ $.Class("fr.ina.amalia.player.PlayerHtml5", {
             }
 
             if (this.settings.mediaType === "mpd") {
-                this.mediaTypeManager = new fr.ina.amalia.player.media.type.DashMpeg(this.settings, this.mediaPlayer);
+                this.mediaTypeManager = new fr.ina.amalia.player.media.type.DashMpeg(this.settings, this);
                 this.mediaTypeManager.setSrc(src);
             }
             else {
@@ -288,12 +70,12 @@ $.Class("fr.ina.amalia.player.PlayerHtml5", {
                 this.mediaPlayer.find('source:first').attr({
                     src: src
                 });
-                this.load();
-                if (autoplay === true) {
-                    this.play();
+                if (this.settings.mediaType !== "") {
+                    this.mediaPlayer.find('source:first').attr('type', this.settings.mediaType);
                 }
+                this.load();
             }
-
+            this._super(src, autoplay);
         },
         /**
          * In charge to create Player dom element
@@ -310,14 +92,21 @@ $.Class("fr.ina.amalia.player.PlayerHtml5", {
                 'x-webkit-airplay': 'allow'
                 //'webkit-playsinline':''
             });
+            // Add cross origin
             if (this.settings.crossorigin !== "") {
                 this.mediaPlayer.attr('crossorigin', this.settings.crossorigin);
             }
-
-            // fix pour firefox
-            if (this.settings.poster !== "") {
-                this.mediaPlayer.attr('poster', this.settings.poster);
+            // preload
+            if (this.settings.hasOwnProperty('preload') && this.settings.preload !== "") {
+                this.mediaPlayer.attr('preload', this.settings.preload);
             }
+
+            if (this.getPoster() !== "") {
+                this.mediaPlayer.attr('poster', this.getPoster());
+            }
+
+
+            //support mpeg dash
             if (this.settings.mediaType !== "mpd") {
                 var source = $('<source />');
                 this.mediaPlayer.append(source);
@@ -325,82 +114,47 @@ $.Class("fr.ina.amalia.player.PlayerHtml5", {
             this.mediaContainer.append(this.mediaPlayer);
             this.initEvents();
         },
-        /**
-         * In charge to create loader container
-         * @method createLoaderContainer
-         */
-        createLoaderContainer: function () {
-            this.loaderContainer = $('<div>', {
-                'class': 'ajs-loader'
-            });
-            var loader = $('<i>', {
-                class: 'ajs-icon ajs-icon-cogs'
-            });
-            this.loaderContainer.append(loader);
-            this.loaderContainer.hide();
-            this.mediaContainer.append(this.loaderContainer);
-            this.showLoader();
-        },
-        /**
-         * In charge to create error container
-         * @method createErrorContainer
-         */
-        createErrorContainer: function () {
-            this.errorContainer = $('<div>', {
-                'class': 'ajs-error'
-            });
-            this.errorContainer.hide();
-            this.mediaContainer.append(this.errorContainer);
-        },
+
         /**
          * In charge to set player events
          * @method initEvents
          */
         initEvents: function () {
+            this._super();
             if (this.logger !== null) {
                 this.logger.trace(this.Class.fullName, "adEvents");
             }
             this.mediaPlayer.on('loadstart', {
-                    self: this
-                },
-                this.onLoadstart);
+                self: this
+            }, this.onLoadstart);
             this.mediaPlayer.on('playing', {
-                    self: this
-                },
-                this.onPlay);
+                self: this
+            }, this.onPlay);
             this.mediaPlayer.on('pause', {
-                    self: this
-                },
-                this.onPause);
+                self: this
+            }, this.onPause);
             this.mediaPlayer.on('ended', {
-                    self: this
-                },
-                this.onEnded);
-
+                self: this
+            }, this.onEnded);
             this.mediaPlayer.one('durationchange', {
-                    self: this
-                },
-                this.onDurationchange);
+                self: this
+            }, this.onDurationchange);
             this.mediaPlayer.on('timeupdate', {
-                    self: this
-                },
-                this.onTimeupdate);
+                self: this
+            }, this.onTimeupdate);
             this.mediaPlayer.find("source").on('error', {
-                    self: this
-                },
-                this.onSourceError);
+                self: this
+            }, this.onSourceError);
             this.mediaPlayer.on('seeked', {
-                    self: this
-                },
-                this.onSeeked);
-            this.mediaPlayer.on(fr.ina.amalia.player.PlayerEventType.ERROR, {
-                    self: this
-                },
-                this.onError);
-            $(document).on('webkitfullscreenchange mozfullscreenchange fullscreenchange MSFullscreenChange', {
-                    self: this
-                },
-                this.fullScreenHandler);
+                self: this
+            }, this.onSeeked);
+            if (this.settings.togglePlayPause === true) {
+                this.mediaPlayer.on('click', $.proxy(this.togglePlayPause, this));
+            }
+            $(document).on('webkitfullscreenchange mozfullscreenchange fullscreenChange MSFullscreenChange', {
+                self: this
+            }, this.onFullscreenHandler);
+
         },
         /**
          * In charge to load media
@@ -409,125 +163,34 @@ $.Class("fr.ina.amalia.player.PlayerHtml5", {
         load: function () {
             this.mediaPlayer.get(0).load();
         },
-        /**
-         * In charge to show loader.
-         * @method showLoader
-         */
-        showLoader: function () {
-            this.loaderContainer.show();
-        },
-        /**
-         * In charge to hide loader.
-         * @method hideLoader
-         */
-        hideLoader: function () {
-            this.loaderContainer.hide();
-        },
+
         /**
          * In charge to play media
          * @method play
          */
         play: function () {
             this.mediaPlayer.get(0).play();
-            this.playbackRateIdx = 7;
-            this.setPlaybackrate(1);
-            if (typeof this.settings.callbacks.onPlay !== "undefined") {
-                try {
-                    /* jslint evil: true */
-                    eval(this.settings.callbacks.onPlay + '()');
-                }
-                catch (e) {
-                    if (this.logger !== null) {
-                        this.logger.warn("Send callback failed.");
-                    }
-                }
-            }
+            this._super();
         },
         /**
          * In charge to pause media
          * @method pause
          */
         pause: function () {
+            this._super();
             this.mediaPlayer.get(0).pause();
-            this.playbackRateIdx = 7;
-            this.setPlaybackrate(1);
 
-            this.isRangePlayer = false;
-            this.rangePlayerTcout = null;
-            if (typeof this.settings.callbacks.onPause !== "undefined") {
-                try {
-                    /* jslint evil: true */
-                    eval(this.settings.callbacks.onPause + '()');
-                }
-                catch (e) {
-                    if (this.logger !== null) {
-                        this.logger.warn("Send callback failed.");
-                    }
-                }
-            }
         },
         /**
          * In charge to stop media
          * @method stop
          */
         stop: function () {
-            this.playbackRateIdx = 7;
-            this.setPlaybackrate(1);
             this.mediaPlayer.get(0).pause();
             this.mediaPlayer.get(0).currentTime = 0;
-            if (typeof this.settings.callback.onStop !== "undefined") {
-                try {
-                    /* jslint evil: true */
-                    eval(this.settings.callbacks.onStop + '()');
-                }
-                catch (e) {
-                    if (this.logger !== null) {
-                        this.logger.warn("Send callback failed.");
-                    }
-                }
-            }
+            this._super();
         },
-        /**
-         * In charge toggle Play
-         * @method stop
-         */
-        togglePlayPause: function () {
-            if (this.isPaused()) {
-                this.play();
-            }
-            else {
-                this.pause();
-            }
-        },
-        /**
-         * In charge to seek
-         * @method seek
-         * @param {Number} time
-         * @return {Number} current time
-         */
-        seek: function (time) {
-            return this.setCurrentTime(time);
-        },
-        /**
-         * Set current time to the beginning of the file
-         * @method seek
-         * @param {Number} time
-         * @return {Number} current time
-         */
-        seekToBegin: function () {
-            this.mediaPlayer.get(0).currentTime = 0;
-            return this.mediaPlayer.get(0).currentTime;
-        },
-        /**
-         * Set current time to the end of the file
-         * @method seek
-         * @param {Number} time
-         * @return {Number} current time
-         */
-        seekToEnd: function () {
-            this.mediaPlayer.get(0).currentTime = this.mediaPlayer.get(0).duration;
-            return this.mediaPlayer.get(0).currentTime;
-        },
+
         /**
          * In charge to set mute state
          * @method mute
@@ -535,12 +198,8 @@ $.Class("fr.ina.amalia.player.PlayerHtml5", {
          * @return {Number}
          */
         mute: function () {
-            this.mediaPlayer.trigger(fr.ina.amalia.player.PlayerEventType.MUTE);
-            this.mediaPlayer.trigger(fr.ina.amalia.player.PlayerEventType.VOLUME_CHANGE, {
-                volume: 0
-            });
             this.mediaPlayer.get(0).volume = 0;
-            return this.mediaPlayer.get(0).volume;
+            this._super();
         },
         /**
          * In charge to set unmute state
@@ -548,96 +207,44 @@ $.Class("fr.ina.amalia.player.PlayerHtml5", {
          * @event fr.ina.amalia.player.PlayerEventType.UN_MUTE
          */
         unmute: function () {
-            this.mediaPlayer.trigger(fr.ina.amalia.player.PlayerEventType.UN_MUTE);
-            this.mediaPlayer.trigger(fr.ina.amalia.player.PlayerEventType.VOLUME_CHANGE, {
-                volume: 100
-            });
             this.mediaPlayer.get(0).volume = 1;
+            this._super();
         },
-        isMust: function () {
-            return this.mediaPlayer.get(0).volume === 0;
-        },
-        /**
-         * Return player instance
-         * @method muteUnmute
-         * @return {Object}
-         */
-        muteUnmute: function () {
-            if (this.isMust()) {
-                this.unmute();
-            }
-            else {
-                this.mute();
-            }
-        },
-        /**
-         * Return player instance
-         * @method getMediaPlayer
-         * @return {Object}
-         */
-        getMediaPlayer: function () {
-            return this.mediaPlayer;
-        },
+
         /**
          * Return media duration with tc offset
          * @method getDuration
          * @return {Number}
          */
         getDuration: function () {
-            return this.mediaPlayer.get(0).duration;
+            return this._super(this.settings.duration === null ? this.mediaPlayer.get(0).duration : parseFloat(this.settings.duration));
         },
+
         /**
-         * Return tc offset
-         * @returns {Number}
-         */
-        getTcOffset: function () {
-            return this.tcOffset;
-        },
-        /**
-         * Returns the current playback volume percentage, as a number from 0 to
-         * 100.
+         * Returns the player's current volume, an integer between 0 and 100. Note that getVolume() will return the volume even if the player is muted.
          * @method getVolume
          * @return {Number}
          */
         getVolume: function () {
             return this.mediaPlayer.get(0).volume * 100;
         },
+
         /**
-         * In charge to play segment
-         * @param {Number} tcin
-         * @param {Number} tcout
-         * @param {Boolean} autoplay true for autolay
+         * Sets the volume. Accepts an integer between 0 and 100.
+         * @method setVolume
+         * @param {Number} volume
          */
-        rangePlay: function (tcin, tcout, autoplay) {
-            autoplay = (typeof autoplay === "undefined") ? false : autoplay;
-            this.isRangePlayer = true;
-            this.rangePlayerTcout = tcout + this.tcOffset;
-            this.setCurrentTime(tcin);
-            if (autoplay === true) {
-                this.play();
-            }
+        setVolume: function (volume) {
+            this.mediaPlayer.get(0).volume = volume / 100;
+            return this._super(volume);
         },
         /**
-         * Sets the player's audio volume percentage, as a number between 0 and 100.
-         * @method setVolume
-         * @param {Number} value
+         * Return current position in seconds
+         * @method getCurrentTime
+         * @return {Number}
          */
-        setVolume: function (value) {
-            if (value >= 0 && value <= 100) {
-                this.mediaPlayer.trigger(fr.ina.amalia.player.PlayerEventType.VOLUME_CHANGE, {
-                    volume: value
-                });
-                this.localStorageManager.setItem('volume', value);
-                if (this.logger !== null) {
-                    this.logger.trace(this.Class.fullName, "setVolume" + value);
-                }
-                this.mediaPlayer.get(0).volume = value / 100;
-
-                return this.mediaPlayer.get(0).volume;
-            }
-            else {
-                return null;
-            }
+        getCurrentTime: function () {
+            return this._super(this.mediaPlayer.get(0).currentTime);
         },
         /**
          * Set seek position in seconds
@@ -648,11 +255,22 @@ $.Class("fr.ina.amalia.player.PlayerHtml5", {
          */
         setCurrentTime: function (value) {
             var currentTime = isNaN(value) ? 0 : value;
-            this.mediaPlayer.trigger(fr.ina.amalia.player.PlayerEventType.SEEK, {
-                currentTime: currentTime
-            });
-            this.mediaPlayer.get(0).currentTime = Math.max(0, currentTime - this.tcOffset);
-            return this.mediaPlayer.get(0).currentTime;
+            if (this.settings.duration === null) {
+                this.mediaPlayer.get(0).currentTime = Math.max(0, currentTime - this.tcOffset);
+            } else {
+                this.lastSeekTime = Math.max(0, currentTime - this.tcOffset);
+                var startTime = Math.max(0, currentTime - this.tcOffset);
+                var newSrc = this.settings.src.search(/\?/) === -1 ? this.settings.src + '?start=' + startTime : this.settings.src + '&start=' + startTime;
+                this.setSrc(newSrc, true);
+            }
+            this._super(currentTime);
+        },
+        /**
+         * Return playback rate
+         * @returns the current playback speed of the audio/video.
+         */
+        getPlaybackrate: function () {
+            return this.mediaPlayer.get(0).playbackRate;
         },
         /**
          * Set playback rate
@@ -679,53 +297,38 @@ $.Class("fr.ina.amalia.player.PlayerHtml5", {
             }
             else {
                 clearInterval(self.intervalRewind);
+                if (this.isPaused()) {
+                    this.play();
+                }
                 self.mediaPlayer.get(0).playbackRate = parseFloat(speed);
             }
-            this.mediaPlayer.trigger(fr.ina.amalia.player.PlayerEventType.PLAYBACK_RATE_CHANGE, {
+            this.mediaContainer.trigger(fr.ina.amalia.player.PlayerEventType.PLAYBACK_RATE_CHANGE, {
                 rate: speed
             });
             if (this.logger !== null) {
                 this.logger.trace(this.Class.fullName, "setPlaybackrate :" + speed);
             }
         },
-        upPlaybackrate: function () {
-            this.playbackRateIdx = Math.min(this.playbackRateList.length, this.playbackRateIdx + 1);
-            this.setPlaybackrate(parseInt(this.playbackRateList[this.playbackRateIdx]));
-        },
-        downPlaybackrate: function () {
-            this.playbackRateIdx = Math.max(0, this.playbackRateIdx - 1);
-            this.setPlaybackrate(parseInt(this.playbackRateList[this.playbackRateIdx]));
-        },
         /**
-         * Set Error
-         * @method setErrorCode
-         * @param {Object} errorCode
+         * return media content type
+         * @method getContentType
+         * @return {Boolean} description
          */
-        setErrorCode: function (errorCode) {
-            if (typeof this.errorContainer !== "undefined") {
-                var messageContainer = $('<p>', {
-                    text: fr.ina.amalia.player.PlayerErrorCode.getMessage(errorCode)
-                });
-                this.errorContainer.html(messageContainer);
-                this.errorContainer.show();
+        getContentType: function () {
+            if (this.logger !== null) {
+                this.logger.trace(this.Class.fullName, "getContentType");
             }
+            return this.mediaPlayer.find('source').get(0);
         },
         /**
          * Returns the current fullscreen state
-         * @method getFullscreen
-         * @return {Boolean} description
+         * @method getFullscreenState
+         * @return {Boolean} true  if container is in full-screen mode
          */
-        getFullscreen: function () {
-            return fr.ina.amalia.player.helpers.HTML5Helper.isFullScreen();
+        getFullscreenState: function () {
+            return fr.ina.amalia.player.helpers.HTML5Helper.inFullScreen();
         },
-        /**
-         * Return current position in seconds
-         * @method getCurrentTime
-         * @return {Number}
-         */
-        getCurrentTime: function () {
-            return this.mediaPlayer.get(0).currentTime + this.tcOffset;
-        },
+
         /**
          * Return true if media is paused
          * @method isPaused
@@ -734,203 +337,34 @@ $.Class("fr.ina.amalia.player.PlayerHtml5", {
         isPaused: function () {
             return this.mediaPlayer.get(0).paused;
         },
-        /**
-         * In charge to toggle full-screen state
-         * @see HTML5 Fullscreen API
-         * @method toggleFullScreen
-         * @return {Boolean} true
-         */
-        toggleFullScreen: function () {
-            var container = (this.isIOSDevices) ? this.mediaPlayer.get(0) : this.mediaContainer.get(0);
-            var inFullScreen = fr.ina.amalia.player.helpers.HTML5Helper.toggleFullScreen(container, this.isIOSDevices);
-            if (typeof this.settings.callbacks.onFullscreen !== "undefined") {
-                try {
-                    /* jslint evil: true */
-                    eval(this.settings.callbacks.onFullscreen + '(inFullScreen)');
-                }
-                catch (e) {
-                    if (this.logger !== null) {
-                        this.logger.warn("Send callback failed.");
-                    }
-                }
-            }
-            if (this.logger !== null) {
-                this.logger.trace(this.Class.fullName, "onClickFullscreenButton :" + inFullScreen);
-            }
-            return inFullScreen;
-        },
+
         /**
          * Fired on full-screen state change
-         * @method fullScreenHandler
+         * @method onFullscreenHandler
          * @event fr.ina.amalia.player.PlayerEventType.FULLSCREEN_CHANGE
          * @param {Object} event
          */
-        fullScreenHandler: function (event) {
-            var doc = $(document).context;
-            var inFullScreen = doc.fullscreen || doc.mozFullScreen || doc.webkitIsFullScreen ? true : false;
-            event.data.self.mediaPlayer.trigger(fr.ina.amalia.player.PlayerEventType.FULLSCREEN_CHANGE, {
-                inFullScreen: inFullScreen
-            });
+        onFullscreenHandler: function (event) {
+            var inFullScreen = fr.ina.amalia.player.helpers.HTML5Helper.inFullScreen();
+            var targetElement = (typeof event.originalEvent.originalTarget === "object" && typeof event.originalEvent.originalTarget.mozFullScreenElement === "object") ? $(event.originalEvent.originalTarget.mozFullScreenElement) : $(event.originalEvent.target);
+            if (targetElement.attr('id') === event.data.self.mediaContainer.attr('id') || inFullScreen === false) {
+                event.data.self.mediaContainer.trigger(fr.ina.amalia.player.PlayerEventType.FULLSCREEN_CHANGE, {
+                    inFullScreen: inFullScreen
+                });
+            }
+            else if (event.type === "MSFullscreenChange") {
+                if ($(document.msFullscreenElement).attr('id') === event.data.self.mediaContainer.attr('id') || inFullScreen === false) {
+                    event.data.self.mediaContainer.trigger(fr.ina.amalia.player.PlayerEventType.FULLSCREEN_CHANGE, {
+                        inFullScreen: inFullScreen
+                    });
+                }
+            }
+            event.data.self.mediaContainer.toggleClass('ajs-fullscreen', inFullScreen);
             if (event.data.self.logger !== null) {
-                event.data.self.logger.trace(event.data.self.Class.fullName, "fullScreenHandler :" + inFullScreen);
+                event.data.self.logger.trace(event.data.self.Class.fullName, "onFullscreenHandler :" + inFullScreen);
             }
         },
-        /**
-         * Return instance of metadata manager
-         */
-        getMetadataManager: function () {
-            return this.metadataManager;
-        },
-        /**
-         * Return the block of metadata
-         */
-        getBlocksMetadata: function () {
-            return this.metadataManager.getBlocksMetadata();
-        },
-        /**
-         * Return the block of metadata
-         */
-        getBlockMetadata: function (id) {
-            return this.metadataManager.getBlockMetadata(id);
-        },
-        /**
-         * Update the block metadata
-         */
-        updateBlockMetadata: function (id, data, action) {
-            this.metadataManager.updateBlockMetadata(id, data, action);
-        },
-        /**
-         * Remove the block metadata with id metadata
-         */
-        removeBlockMetadata: function (id) {
-            return this.metadataManager.removeBlockMetadata(id);
-        },
-        /**
-         * In charge to add metadata, it is called by metadata parser
-         * @method addAllMetadata
-         * @param {Object} data
-         * @event fr.ina.amalia.player.PlayerEventType.DATA_CHANGE
-         */
-        addAllMetadata: function (parsedData) {
-            this.metadataManager.addAllMetadata(parsedData);
-        },
-        /**
-         * In charge to return metadata by id
-         * @method addMetadataById
-         * @param {Object} data
-         * @event fr.ina.amalia.player.PlayerEventType.DATA_CHANGE
-         */
-        addMetadataById: function (id, parsedData) {
-            this.metadataManager.addMetadataById(id, parsedData);
-        },
-        /**
-         * In charge to replace metadata by id
-         * @method replaceAllMetadataById
-         * @param {Object} data
-         * @event fr.ina.amalia.player.PlayerEventType.DATA_CHANGE
-         */
-        replaceAllMetadataById: function (id, parsedData) {
-            this.metadataManager.replaceAllMetadataById(id, parsedData);
-        },
-        /**
-         * In charge to delete metadata by id
-         * @method deleteAllMetadataById
-         * @param {Object} data
-         * @event fr.ina.amalia.player.PlayerEventType.DATA_CHANGE
-         */
-        deleteAllMetadataById: function (id) {
-            this.metadataManager.deleteAllMetadataById(id);
-        },
-        /**
-         * Return metadata by id
-         * @method getMetadataById
-         * @param {String} id
-         * @return {Array}
-         */
-        getMetadataById: function (id) {
-            return this.metadataManager.getMetadataById(id);
-        },
-        /**
-         * Set metadata by id
-         * @method setMetadataById
-         * @param {String} id
-         * @param {Object} data
-         * @return {Array}
-         */
-        setMetadataById: function (id, data) {
-            return this.metadataManager.setMetadataById(id, data);
-        },
-        /**
-         * In charge to remove metadata
-         * @method removeMetadataById
-         */
-        removeMetadataById: function (id) {
-            return this.metadataManager.removeMetadataById(id);
-        },
-        /**
-         * Return a metadata by specified time code.
-         * @method getMetadataWithRange
-         * @param id
-         * @param tcin
-         * @param tcout
-         * @return {Array}
-         */
-        getMetadataWithRange: function (id, tcin, tcout) {
-            return this.metadataManager.getMetadataWithRange(id, tcin, tcout);
-        },
-        /**
-         * Return selected component id
-         * @method getSelectedMetadataId
-         */
-        getSelectedMetadataId: function () {
-            return this.metadataManager.getSelectedMetadataId();
-        },
-        /**
-         * Set selected component id
-         * @method setSelectedMetadataId
-         */
-        setSelectedMetadataId: function (metadataId) {
-            this.metadataManager.setSelectedMetadataId(metadataId);
-        },
-        /**
-         * In charge to add metadata item
-         * @method addMetadataItem
-         */
-        addMetadataItem: function (metadataId, data) {
-            return this.metadataManager.addMetadataItem(metadataId, data);
-        },
-        /**
-         * Return selected items
-         */
-        getSelectedItems: function () {
-            return this.metadataManager.getSelectedItems();
-        },
-        /**
-         * Add selected item
-         */
-        addSelectedItem: function (item) {
-            this.metadataManager.addSelectedItem(item);
-        },
-        /**
-         * Remove all selected items
-         */
-        removeAllSelectedItems: function () {
-            this.metadataManager.removeAllSelectedItems();
-        },
-        /**
-         * Return tcin with tc offset
-         * @returns {Number}
-         */
-        getTcin: function () {
-            return this.getTcOffset();
-        },
-        /**
-         * Return Tcout with tcoffset and media duration
-         * @returns {Number}
-         */
-        getTcout: function () {
-            return this.getTcOffset() + this.getDuration();
-        },
+
         /**
          * In charge to set zoom tc
          * @param {Number} zTcin
@@ -945,7 +379,7 @@ $.Class("fr.ina.amalia.player.PlayerHtml5", {
                 if (this.logger !== null) {
                     this.logger.info("SetZoomTc: // Tcin: " + this.zTcin + " // Tcout:" + this.zTcout + " // Event Tag Name:" + eventTag);
                 }
-                this.mediaPlayer.trigger(fr.ina.amalia.player.PlayerEventType.ZOOM_RANGE_CHANGE, {
+                this.mediaContainer.trigger(fr.ina.amalia.player.PlayerEventType.ZOOM_RANGE_CHANGE, {
                     zTcin: parseFloat(zTcin),
                     zTcout: parseFloat(zTcout),
                     eventTag: eventTag
@@ -968,7 +402,7 @@ $.Class("fr.ina.amalia.player.PlayerHtml5", {
                 canvas.height = videoContent.videoHeight * scale;
                 canvas.getContext('2d').drawImage(videoContent, 0, 0, canvas.width, canvas.height);
                 image = canvas.toDataURL("image/png");
-                this.mediaPlayer.trigger(fr.ina.amalia.player.PlayerEventType.IMAGE_CAPTURE, {
+                this.mediaContainer.trigger(fr.ina.amalia.player.PlayerEventType.IMAGE_CAPTURE, {
                     currentTime: this.getCurrentTime(),
                     captureTc: this.getCurrentTime(),
                     captureId: this.getCurrentTime(),
@@ -1007,7 +441,7 @@ $.Class("fr.ina.amalia.player.PlayerHtml5", {
          */
         moveNextFrame: function () {
             this.pause();
-            this.setCurrentTime(Math.min(this.getDuration(), this.getCurrentTime() + (1 / this.settings.framerate)));
+            this.setCurrentTime(Math.min(this.getDuration() + this.tcOffset, this.getCurrentTime() + (1 / this.settings.framerate)));
         },
         /**
          * In charge to move prev frame
@@ -1050,7 +484,7 @@ $.Class("fr.ina.amalia.player.PlayerHtml5", {
             if (event.data.self.logger !== null) {
                 event.data.self.logger.trace(event.data.self.Class.fullName, "onPlay");
             }
-            event.data.self.mediaPlayer.trigger(fr.ina.amalia.player.PlayerEventType.PLAYING, [
+            event.data.self.mediaContainer.trigger(fr.ina.amalia.player.PlayerEventType.PLAYING, [
                 event.data.self
             ]);
         },
@@ -1064,7 +498,7 @@ $.Class("fr.ina.amalia.player.PlayerHtml5", {
             if (event.data.self.logger !== null) {
                 event.data.self.logger.trace(event.data.self.Class.fullName, "onPause");
             }
-            event.data.self.mediaPlayer.trigger(fr.ina.amalia.player.PlayerEventType.PAUSED, [
+            event.data.self.mediaContainer.trigger(fr.ina.amalia.player.PlayerEventType.PAUSED, [
                 event.data.self
             ]);
         },
@@ -1074,7 +508,7 @@ $.Class("fr.ina.amalia.player.PlayerHtml5", {
          * @event fr.ina.amalia.player.PlayerEventType.SEEK
          */
         onSeeked: function (event) {
-            event.data.self.mediaPlayer.trigger(fr.ina.amalia.player.PlayerEventType.SEEK, {
+            event.data.self.mediaContainer.trigger(fr.ina.amalia.player.PlayerEventType.SEEK, {
                 currentTime: event.data.self.getCurrentTime()
             });
             // Lecture d'un segment
@@ -1095,13 +529,18 @@ $.Class("fr.ina.amalia.player.PlayerHtml5", {
          * Ended event occurs when the audio/video has reached the end.
          * @method onEnded
          * @param {Object} event
-         * @event fr.ina.amalia.player.PlayerEventType.ENDEN
+         * @event fr.ina.amalia.player.PlayerEventType.ENDED
          */
         onEnded: function (event) {
+
+            if (event.data.self.settings.duration !== null) {
+                event.data.self.setCurrentTime(event.data.self.tcOffset);
+                event.data.self.stop();
+            }
             if (event.data.self.logger !== null) {
                 event.data.self.logger.trace(event.data.self.Class.fullName, "onEnded");
             }
-            event.data.self.mediaPlayer.trigger(fr.ina.amalia.player.PlayerEventType.ENDED, [
+            event.data.self.mediaContainer.trigger(fr.ina.amalia.player.PlayerEventType.ENDED, [
                 event.data.self
             ]);
             if (typeof event.data.self.settings.callbacks.onComplete !== "undefined") {
@@ -1124,8 +563,8 @@ $.Class("fr.ina.amalia.player.PlayerHtml5", {
          */
         onDurationchange: function (event) {
             event.data.self.hideLoader();
-            if (!isNaN(event.data.self.getDuration())) {
-                event.data.self.mediaPlayer.trigger(fr.ina.amalia.player.PlayerEventType.STARTED, [
+            if (!isNaN(event.data.self.getDuration()) && event.data.self.getDuration() !== 0) {
+                event.data.self.mediaContainer.trigger(fr.ina.amalia.player.PlayerEventType.STARTED, [
                     event.data.self
                 ]);
                 if (event.data.self.settings.autoplay === true) {
@@ -1134,9 +573,8 @@ $.Class("fr.ina.amalia.player.PlayerHtml5", {
             }
             else {
                 event.data.self.mediaPlayer.one('durationchange', {
-                        self: event.data.self
-                    },
-                    event.data.self.onDurationchange);
+                    self: event.data.self
+                }, event.data.self.onDurationchange);
             }
         },
         /**
@@ -1151,7 +589,7 @@ $.Class("fr.ina.amalia.player.PlayerHtml5", {
             var duration = event.data.self.getDuration() + tcOffset;
             var percentage = ((currentTime - tcOffset) * 100) / (duration - tcOffset);
 
-            event.data.self.mediaPlayer.trigger(fr.ina.amalia.player.PlayerEventType.TIME_CHANGE, {
+            event.data.self.mediaContainer.trigger(fr.ina.amalia.player.PlayerEventType.TIME_CHANGE, {
                 self: event.data.self,
                 currentTime: currentTime,
                 duration: duration,
@@ -1185,49 +623,10 @@ $.Class("fr.ina.amalia.player.PlayerHtml5", {
                 event.data.self.logger.warn(event.data.self.Class.fullName + " :: onSourceError");
                 event.data.self.logger.warn(event);
             }
-            event.data.self.mediaPlayer.trigger(fr.ina.amalia.player.PlayerEventType.ERROR, {
+            event.data.self.mediaContainer.trigger(fr.ina.amalia.player.PlayerEventType.ERROR, {
                 self: event.data.self,
                 errorCode: fr.ina.amalia.player.PlayerErrorCode.MEDIA_FILE_NOT_FOUND
             });
-        },
-        /**
-         * Fired on player has errors.
-         * @method onError
-         * @param {Object} event
-         * @param {Object} data
-         * @event fr.ina.amalia.player.PlayerEventType.ERROR
-         */
-        onError: function (event, data) {
-            if (event.data.self.logger !== null) {
-                event.data.self.logger.trace(event.data.self.Class.fullName, "onError");
-            }
-            var errorCode = (typeof data.errorCode === "undefined") ? '' : data.errorCode;
-            event.data.self.setErrorCode(errorCode);
-            if (typeof event.data.self.settings.callbacks.onError !== "undefined") {
-                try {
-                    /* jslint evil: true */
-                    eval(event.data.self.settings.callbacks.onError + '(errorCode)');
-                }
-                catch (e) {
-                    if (event.data.self.logger !== null) {
-                        event.data.self.logger.warn("Send callback failed.");
-                    }
-                }
-            }
-        },
-        /**
-         * In charge to add menu context item
-         * @param {String} title
-         * @param {String} link
-         * @param {String} className
-         */
-        addMenuItemWithLink: function (title, link, className) {
-            if (typeof this.pluginManager === "object" && typeof this.pluginManager.getContextMenuPlugin === "function") {
-                var contextMenuPlugin = this.pluginManager.getContextMenuPlugin();
-                if (typeof contextMenuPlugin === "object" && typeof contextMenuPlugin.addItemWithLink === "function") {
-                    return contextMenuPlugin.addItemWithLink(title, link, className);
-                }
-            }
-            return false;
         }
+
     });

@@ -105,7 +105,7 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Pro
          * @method defineListeners
          */
         defineListeners: function () {
-            this.mediaPlayer.mediaContainer.on(fr.ina.amalia.player.PlayerEventType.TIME_CHANGE, {
+            this.mediaPlayer.getContainer().on(fr.ina.amalia.player.PlayerEventType.TIME_CHANGE, {
                 self: this
             }, this.onTimechange);
 
@@ -118,6 +118,14 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Pro
          * @method createWatermarkElement
          */
         createProgressBarElement: function () {
+            this.timeIndicatorContainer = $('<div>', {
+                class: 'ajs-time-indicator'
+            });
+            var timeIndicator = $('<span>', {
+                class: 'ajs-tooltip-text'
+            });
+            this.timeIndicatorContainer.append(timeIndicator);
+            this.container.append(this.timeIndicatorContainer);
             this.progressBar = $('<div>', {
                 'class': 'ajs-progress-bar'
             });
@@ -146,6 +154,10 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Pro
                 component: this.component
             }, this.onSlideStop);
             this.container.append(this.progressBar);
+            //Set events
+            this.container.find('.ajs-progress-bar').on('mouseover', $.proxy(this.onProgressBarMouseover, this));
+            this.container.find('.ajs-progress-bar').on('mouseout', $.proxy(this.onProgressBarMouseoout, this));
+            this.container.find('.ajs-progress-bar').on('mousemove', $.proxy(this.onProgressBarMousemove, this));
         },
         /**
          * Set progress bar value.
@@ -188,7 +200,7 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Pro
         onSlideStart: function (event, ui) {
             event.data.self.sliding = true;
             event.data.self.mediaPlayer.pause();
-            event.data.self.mediaPlayer.getMediaPlayer().trigger(fr.ina.amalia.player.PlayerEventType.START_SEEKING, {
+            event.data.self.mediaPlayer.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.START_SEEKING, {
                 percentage: ui.value / 10
             });
             if (event.data.self.logger !== null) {
@@ -202,8 +214,7 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Pro
          * @param {Object} ui
          */
         onSlide: function (event, ui) {
-
-            event.data.self.mediaPlayer.getMediaPlayer().trigger(fr.ina.amalia.player.PlayerEventType.SEEKING, {
+            event.data.self.mediaPlayer.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.SEEKING, {
                 percentage: ui.value / 10
             });
         },
@@ -219,11 +230,42 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Pro
             var percentage = ui.value / 10;
             var tc = (duration * percentage) / 100;
             event.data.self.mediaPlayer.setCurrentTime(tc + event.data.self.mediaPlayer.getTcOffset());
-            event.data.self.mediaPlayer.getMediaPlayer().trigger(fr.ina.amalia.player.PlayerEventType.STOP_SEEKING, {
+            event.data.self.mediaPlayer.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.STOP_SEEKING, {
                 percentage: ui.value / 10
             });
+            event.data.self.mediaPlayer.play();
             if (event.data.self.logger !== null) {
                 event.data.self.logger.trace(event.data.self.Class.fullName, "onSlideStop value : " + ui.value);
             }
+        },
+        /**
+         * Fired on mouse over in progress bar
+         * @method onTimeChange
+         * @param {Object} event
+         */
+        onProgressBarMouseover: function () {
+            this.timeIndicatorContainer.show();
+        },
+        /**
+         * Fired on mouseout in progress bar
+         * @method onTimeChange
+         * @param {Object} event
+         */
+        onProgressBarMouseoout: function () {
+            this.timeIndicatorContainer.hide();
+        },
+        /**
+         * Fired on mouse move in progress bar
+         * @method onTimeChange
+         * @param {Object} event
+         */
+        onProgressBarMousemove: function (event) {
+            var currentTarget = $(event.currentTarget);
+            var tooltipMid = this.timeIndicatorContainer.width() / 2;
+            var mPos = event.clientX - currentTarget.offset().left;
+            var leftPos = Math.max(tooltipMid, Math.min(mPos, currentTarget.width() - tooltipMid));
+            var tc = ((mPos * this.mediaPlayer.getDuration()) / currentTarget.width()) + this.mediaPlayer.getTcOffset();
+            this.timeIndicatorContainer.css('left', leftPos);
+            this.timeIndicatorContainer.find('.ajs-tooltip-text').html(fr.ina.amalia.player.helpers.UtilitiesHelper.formatTime(tc, this.settings.framerate, this.settings.timeFormat));
         }
     });

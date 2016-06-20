@@ -177,6 +177,7 @@ $.Class("fr.ina.amalia.player.PluginBindingManager", {
             this.pluginAndDataTypeMap[fr.ina.amalia.player.PluginBindingManager.dataTypes.SYNCHRONIZED_TEXT] = [];
             this.pluginAndDataTypeMap[fr.ina.amalia.player.PluginBindingManager.dataTypes.SYNCHRONIZED_TEXT].push(fr.ina.amalia.player.PluginBindingManager.pluginTypes.CAPTION);
             this.pluginAndDataTypeMap[fr.ina.amalia.player.PluginBindingManager.dataTypes.SYNCHRONIZED_TEXT].push(fr.ina.amalia.player.PluginBindingManager.pluginTypes.TEXT_SYNC);
+            this.pluginAndDataTypeMap[fr.ina.amalia.player.PluginBindingManager.dataTypes.SYNCHRONIZED_TEXT].push(fr.ina.amalia.player.PluginBindingManager.pluginTypes.TIMELINE_SEGMENT);
             // KEYFRAMES
             this.pluginAndDataTypeMap[fr.ina.amalia.player.PluginBindingManager.dataTypes.KEYFRAMES] = [];
             this.pluginAndDataTypeMap[fr.ina.amalia.player.PluginBindingManager.dataTypes.KEYFRAMES].push(fr.ina.amalia.player.PluginBindingManager.pluginTypes.TIMELINE_IMAGE);
@@ -202,6 +203,9 @@ $.Class("fr.ina.amalia.player.PluginBindingManager", {
             }
             else if (dataType === fr.ina.amalia.player.PluginBindingManager.dataTypes.HISTOGRAM) {
                 return fr.ina.amalia.player.PluginBindingManager.pluginTypes.TIMELINE_HISTOGRAM;
+            }
+            else if (dataType === fr.ina.amalia.player.PluginBindingManager.dataTypes.SYNCHRONIZED_TEXT) {
+                return fr.ina.amalia.player.PluginBindingManager.pluginTypes.TIMELINE_SEGMENT;
             }
             else if (dataType === fr.ina.amalia.player.PluginBindingManager.dataTypes.VISUAL_DETECTION || dataType === fr.ina.amalia.player.PluginBindingManager.dataTypes.VISUAL_TRACKING) {
                 return fr.ina.amalia.player.PluginBindingManager.pluginTypes.TIMELINE_VISUAL;

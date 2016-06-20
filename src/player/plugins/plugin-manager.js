@@ -137,15 +137,13 @@ $.Class("fr.ina.amalia.player.plugins.PluginManager", {}, {
         this.mediaContainer = mediaContainer;
         this.httpDataServicesCount = 0;
         this.settings = $.extend({
-                debug: false
-            },
-            settings || {});
+            debug: false
+        }, settings || {});
         this.pluginsSettings = $.extend({
-                debug: this.settings.debug,
-                dataServices: [],
-                list: []
-            },
-            settings.plugins || {});
+            debug: this.settings.debug,
+            dataServices: [],
+            list: []
+        }, settings.plugins || {});
         if (fr.ina.amalia.player.log !== undefined && fr.ina.amalia.player.log.LogHandler !== undefined) {
             this.logger = new fr.ina.amalia.player.log.LogHandler({
                 enabled: this.settings.debug
@@ -163,15 +161,12 @@ $.Class("fr.ina.amalia.player.plugins.PluginManager", {}, {
             this.logger.trace(this.Class.fullName, "initialize");
         }
         this.bindingManager = new fr.ina.amalia.player.PluginBindingManager(this.settings, this.mediaPlayer);
-
-        this.mediaPlayer.mediaPlayer.one(fr.ina.amalia.player.PlayerEventType.STARTED, {
-                self: this
-            },
-            this.onStarted);
-        this.mediaPlayer.mediaPlayer.on(fr.ina.amalia.player.PlayerEventType.ERROR, {
-                self: this
-            },
-            this.onError);
+        this.mediaContainer.one(fr.ina.amalia.player.PlayerEventType.STARTED, {
+            self: this
+        }, this.onStarted);
+        this.mediaContainer.on(fr.ina.amalia.player.PlayerEventType.ERROR, {
+            self: this
+        }, this.onError);
     },
     loadPlugins: function () {
         // Load static plugins
@@ -179,14 +174,17 @@ $.Class("fr.ina.amalia.player.plugins.PluginManager", {}, {
             internalPlugin: true
         };
         this.contextMenuPlugin = this.loadPlugin('fr.ina.amalia.player.plugins.ContextMenuPlugin', settingsContextMenuPlugin, this.mediaPlayer, this.mediaContainer);
+
         // default configuration
         var settingsControlBar = $.extend({
-                internalPlugin: true,
-                framerate: this.settings.framerate,
-                debug: this.settings.debug
-            },
-            this.settings.controlBar || {});
-        this.loadPlugin(this.settings.controlBarClassName, settingsControlBar, this.mediaPlayer, this.mediaContainer);
+            internalPlugin: true,
+            framerate: this.settings.framerate,
+            debug: this.settings.debug,
+            hide: false
+        }, this.settings.controlBar || {});
+        if (settingsControlBar.hide !== true) {
+            this.loadPlugin(this.settings.controlBarClassName, settingsControlBar, this.mediaPlayer, this.mediaContainer);
+        }
         // Load dynamic plugins
         this.loadDynamicPlugins(this.pluginsSettings.list);
     },
@@ -212,7 +210,7 @@ $.Class("fr.ina.amalia.player.plugins.PluginManager", {}, {
      * @param {Object} event
      */
     onError: function (event) {
-        event.data.self.mediaPlayer.mediaPlayer.trigger(fr.ina.amalia.player.PlayerEventType.PLUGIN_ERROR, {
+        event.data.self.mediaContainer.trigger(fr.ina.amalia.player.PlayerEventType.PLUGIN_ERROR, {
             errorCode: fr.ina.amalia.player.PlayerErrorCode.ERROR_LOAD_PLUGIN
         });
     },
@@ -223,7 +221,7 @@ $.Class("fr.ina.amalia.player.plugins.PluginManager", {}, {
      */
     loadData: function (hosts) {
         // Send BEGIN_DATA_CHANGE event
-        this.mediaPlayer.mediaPlayer.trigger(fr.ina.amalia.player.PlayerEventType.BEGIN_DATA_CHANGE);
+        this.mediaContainer.trigger(fr.ina.amalia.player.PlayerEventType.BEGIN_DATA_CHANGE);
 
         if ($.isArray(hosts)) {
             var i = 0;
@@ -299,23 +297,22 @@ $.Class("fr.ina.amalia.player.plugins.PluginManager", {}, {
      * @event fr.ina.amalia.player.PlayerEventType.PLUGIN_READY
      */
     dataLoadedHandler: function (event, status) {
-        if (status === "success") {
-            event.self.dataLoaded++;
-            if (event.self.dataLoaded === event.self.httpDataServicesCount) {
-                // Event BEGIN_DATA_CHANGE
-                event.self.mediaPlayer.mediaPlayer.trigger(fr.ina.amalia.player.PlayerEventType.END_DATA_CHANGE);
-                // Deprecated
-                event.self.mediaPlayer.mediaPlayer.trigger(fr.ina.amalia.player.PlayerEventType.PLUGIN_READY);
-            }
-        }
-        else {
+        if (status !== "success") {
+
             if (this.logger !== null) {
                 this.logger.warn("Failed to load data. status: " + status);
                 this.logger.warn(event);
             }
-            event.self.mediaPlayer.mediaPlayer.trigger(fr.ina.amalia.player.PlayerEventType.PLUGIN_ERROR, {
+            event.self.mediaContainer.trigger(fr.ina.amalia.player.PlayerEventType.PLUGIN_ERROR, {
                 errorCode: fr.ina.amalia.player.PlayerErrorCode.ERROR_LOAD_PLUGIN
             });
+        }
+        event.self.dataLoaded++;
+        if (event.self.dataLoaded === event.self.httpDataServicesCount) {
+            // Event BEGIN_DATA_CHANGE
+            event.self.mediaContainer.trigger(fr.ina.amalia.player.PlayerEventType.END_DATA_CHANGE);
+            // Deprecated
+            event.self.mediaContainer.trigger(fr.ina.amalia.player.PlayerEventType.PLUGIN_READY);
         }
     },
     /**

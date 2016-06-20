@@ -123,10 +123,10 @@ $.Class("fr.ina.amalia.player.PlayerMessage", {
         PLUGIN_TIMELINE_LABEL_NAV_POINT_NEXT: "Aller au marqueur suivant",
         /**
          * @constant
-         * @property PLUGIN_TIMELINE_LABEL_TIMEAXE
+         * @property PLUGIN_TIMELINE_LABEL_TIMEAXIS
          * @type {String}
          */
-        PLUGIN_TIMELINE_LABEL_TIMEAXE: "Axe temporel",
+        PLUGIN_TIMELINE_LABEL_TIMEAXIS: "Axe temporel",
         /**
          * @constant
          * @property PLUGIN_TIMELINE_LABEL_FOCUS
@@ -222,6 +222,12 @@ $.Class("fr.ina.amalia.player.PlayerMessage", {
          * @property PLUGIN_TIMELINE_LABEL_BIND
          * @type {String}
          */
-        PLUGIN_TIMELINE_LABEL_BIND: "Attacher/Detacher"
+        PLUGIN_TIMELINE_LABEL_BIND: "Attacher/Detacher",
+        /**
+         * @constant
+         * @property PLUGIN_TIMELINE_LABEL_BIND
+         * @type {String}
+         */
+        PLUGIN_D3JS_CHART_LABELS: ['Groupés', 'Empilés']
     },
     {});

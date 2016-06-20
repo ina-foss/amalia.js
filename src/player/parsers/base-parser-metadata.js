@@ -172,6 +172,7 @@ $.Class("fr.ina.amalia.player.parsers.BaseParserMetadata", {}, {
 
                     if (localisation.hasOwnProperty('tcin') === true && localisation.hasOwnProperty('tcout') === true) {
                         entry = {
+                            id: (localisation.hasOwnProperty('id') === true) ? localisation.id : null,
                             shape: (localisation.hasOwnProperty('shape') === true) ? localisation.shape : null,
                             data: (localisation.hasOwnProperty('data') === true) ? localisation.data : null,
                             sublocalisations: (localisation.hasOwnProperty('sublocalisations') === true) ? localisation.sublocalisations : null,
@@ -182,12 +183,14 @@ $.Class("fr.ina.amalia.player.parsers.BaseParserMetadata", {}, {
                             tcin: (typeof localisation.tcin === "number") ? localisation.tcin : fr.ina.amalia.player.helpers.UtilitiesHelper.convertHourToSeconde(localisation.tcin),
                             tcout: (typeof localisation.tcout === "number") ? localisation.tcout : fr.ina.amalia.player.helpers.UtilitiesHelper.convertHourToSeconde(localisation.tcout),
                             duration: fr.ina.amalia.player.helpers.UtilitiesHelper.convertHourToSeconde(localisation.tcout) - fr.ina.amalia.player.helpers.UtilitiesHelper.convertHourToSeconde(localisation.tcin),
-                            type: (localisation.hasOwnProperty('type') === true) ? localisation.type : null
+                            type: (localisation.hasOwnProperty('type') === true) ? localisation.type : null,
+                            score: (localisation.hasOwnProperty('score') === true) ? parseFloat(localisation.score) : null
                         };
                         parsedMetadata.list.push(entry);
                     }
                     else if (localisation.hasOwnProperty('tc') === true && localisation.tc !== null) {
                         entry = {
+                            id: (localisation.hasOwnProperty('id') === true) ? localisation.id : null,
                             shape: (localisation.hasOwnProperty('shape') === true) ? localisation.shape : null,
                             data: (localisation.hasOwnProperty('data') === true) ? localisation.data : null,
                             sublocalisations: (localisation.hasOwnProperty('sublocalisations') === true) ? localisation.sublocalisations : null,
@@ -195,7 +198,8 @@ $.Class("fr.ina.amalia.player.parsers.BaseParserMetadata", {}, {
                             thumb: thumb,
                             tclevel: (localisation.hasOwnProperty('tclevel') === true) ? localisation.tclevel : 0,
                             tc: (typeof localisation.tc === "number") ? localisation.tc : fr.ina.amalia.player.helpers.UtilitiesHelper.convertHourToSeconde(localisation.tc),
-                            type: (localisation.hasOwnProperty('type') === true) ? localisation.type : null
+                            type: (localisation.hasOwnProperty('type') === true) ? localisation.type : null,
+                            score: (localisation.hasOwnProperty('score') === true) ? parseFloat(localisation.score) : null
                         };
                         parsedMetadata.list.push(entry);
                     }

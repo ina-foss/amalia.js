@@ -52,11 +52,9 @@ fr.ina.amalia.player.BaseLoader.extend("fr.ina.amalia.player.WsLoader", {}, {
         this.socket = null;
         this.listOfMetadata = [];
         this.connect(this.settings.url);
-
-        this.player.getMediaPlayer().on(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
-                self: this
-            },
-            this.onPlayerDataChange);
+        this.player.getContainer().on(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
+            self: this
+        }, this.onPlayerDataChange);
     },
     /**
      * In charge to create a new WebSocket

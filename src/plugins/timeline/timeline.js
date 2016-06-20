@@ -131,38 +131,16 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend("fr.ina.amalia.player.
         zTcout: 0,
         /**
          * Default height of time axe
-         * @property timeAxeHeight
+         * @property timeAxisHeight
          * @default 150
          */
-        timeAxeHeight: 150,
+        timeAxisHeight: 150,
         /**
          * Tool tip configuration
          * @property tooltipConfiguration
          * @default 150
          */
-        tooltipConfiguration: {
-            position: {
-                my: "center bottom-20",
-                at: "center top",
-                delay: 3000,
-                using: function (position, feedback) {
-                    $(this).css(position);
-                    $("<div>").addClass("ajs-arrow").addClass(feedback.vertical).addClass(feedback.horizontal).appendTo(this);
-                }
-            },
-            content: function () {
-                var element = $(this);
-                var title = element.attr('title');
-                if (element.is("[data-src]")) {
-                    var src = element.attr('data-src');
-                    return "<img class='image' alt='" + title + "' src='" + src + "' />";
-                }
-                else {
-                    title = title.replace(/(?:\r\n|\r|\n)/g, '<br />');
-                    return "<p>" + title + "</p>";
-                }
-            }
-        },
+        tooltipConfiguration: {},
         /**
          * Instance of local storage
          * @property localStorageManager
@@ -208,6 +186,7 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend("fr.ina.amalia.player.
             this.notManagedMetadataIds = [];
             this.managedMetadataIds = [];
             this.listOfComponents = [];
+            this.tooltipConfiguration = $.extend(true, fr.ina.amalia.player.plugins.timeline.DefaultConfiguration.tooltipConfiguration, {});
             // Default configuration
             this.settings = $.extend({
                     debug: this.settings.debug,
@@ -224,15 +203,16 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend("fr.ina.amalia.player.
                     // Attribute name use for zoom
                     zoomProperty: 'tclevel',
                     // To enable the time axis
-                    timeaxe: true,
+                    timeaxis: true,
                     displayState: '',
                     // To enable resizable mode
                     resizable: false,
                     viewZoomSync: false,
                     viewZoomSyncOffset: 1,
+                    mouseWheelCoef: 5,
                     // To enable time cursor
                     timecursor: true,
-                    timeaxeExpandable: false,
+                    timeaxisExpandable: false,
                     editingMode: false,
                     thumbRootDirectory: this.settings.thumbRootDirectory,
                     thumbDirectory: '',
@@ -261,7 +241,7 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend("fr.ina.amalia.player.
             }
 
             // Enable time axe
-            if (this.settings.timeaxe === true) {
+            if (this.settings.timeaxis === true) {
                 this.timeAxisComponentContainer = $('<div>', {
                     class: 'timeaxis'
                 });
@@ -273,7 +253,7 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend("fr.ina.amalia.player.
 
             this.componentsContainer = $('<div>', {
                 class: 'components',
-                style: 'height:' + (this.pluginContainer.height() - this.timeAxeHeight) + 'px;'
+                style: 'height:' + (this.pluginContainer.height() - this.timeAxisHeight) + 'px;'
             });
             // jquery ui sortable
             this.componentsContainer.sortable({
@@ -312,8 +292,14 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend("fr.ina.amalia.player.
          * @method registerMetadataTypes
          */
         registerMetadataTypes: function () {
-            this.addManagedMetadataType(fr.ina.amalia.player.PluginBindingManager.dataTypes.DIGINPIX_TRANS);
-            this.addManagedMetadataType(fr.ina.amalia.player.PluginBindingManager.dataTypes.TRANS);
+            this.addManagedMetadataType(fr.ina.amalia.player.PluginBindingManager.dataTypes.DETECTION);
+            this.addManagedMetadataType(fr.ina.amalia.player.PluginBindingManager.dataTypes.SEGMENTATION);
+            this.addManagedMetadataType(fr.ina.amalia.player.PluginBindingManager.dataTypes.TRANSCRIPTION);
+            this.addManagedMetadataType(fr.ina.amalia.player.PluginBindingManager.dataTypes.SYNCHRONIZED_TEXT);
+            this.addManagedMetadataType(fr.ina.amalia.player.PluginBindingManager.dataTypes.KEYFRAMES);
+            this.addManagedMetadataType(fr.ina.amalia.player.PluginBindingManager.dataTypes.HISTOGRAM);
+            this.addManagedMetadataType(fr.ina.amalia.player.PluginBindingManager.dataTypes.VISUAL_DETECTION);
+            this.addManagedMetadataType(fr.ina.amalia.player.PluginBindingManager.dataTypes.VISUAL_TRACKING);
         },
         /**
          * In charge to register this plugin types
@@ -348,7 +334,7 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend("fr.ina.amalia.player.
             this.timeProgressContainer = $('<div>', {
                 'class': 'timeline-progress-container'
             });
-            this.initializeTimeAxeComponent();
+            this.initializeTimeAxisComponent();
             // Add to main container
             this.pluginContainer.append(this.timeProgressContainer);
 
@@ -453,40 +439,34 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend("fr.ina.amalia.player.
             return dropup;
         },
         /**
-         * Initialize time axe component
-         * @method initializeTimeAxeComponent
+         * Initialize timeaxis component
+         * @method initializeTimeAxisComponent
          */
-        initializeTimeAxeComponent: function () {
+        initializeTimeAxisComponent: function () {
             var componentSettings = $.extend({
-                    debug: this.settings.debug,
-                    container: this.timeAxisComponentContainer,
-                    duration: this.mediaPlayer.getDuration() + this.mediaPlayer.getTcOffset(),
-                    expand: this.settings.timeaxeExpandable,
-                    tcOffset: this.mediaPlayer.getTcOffset(),
-                    timeFormat: this.settings.timeFormat,
-                    framerate: this.settings.framerate,
-                    displayState: this.settings.displayState
-                },
-                this.settings.timeAxisSettings || {});
+                debug: this.settings.debug,
+                container: this.timeAxisComponentContainer,
+                duration: this.mediaPlayer.getDuration() + this.mediaPlayer.getTcOffset(),
+                expand: this.settings.timeaxisExpandable,
+                tcOffset: this.mediaPlayer.getTcOffset(),
+                timeFormat: this.settings.timeFormat,
+                framerate: this.settings.framerate,
+                displayState: this.settings.displayState
+            }, this.settings.timeAxisSettings || {});
             try {
                 this.timeAxisComponent = new fr.ina.amalia.player.plugins.timeline.TimeAxisComponent(componentSettings);
-
                 this.timeAxisComponent.getContainer().on(fr.ina.amalia.player.plugins.timeline.TimeAxisComponent.eventTypes.RANGE_CHANGE, {
-                        self: this
-                    },
-                    this.onRangeChange);
+                    self: this
+                }, this.onRangeChange);
                 this.timeAxisComponent.getContainer().on(fr.ina.amalia.player.plugins.timeline.TimeAxisComponent.eventTypes.CHANGE_DISPLAY, {
-                        self: this
-                    },
-                    this.onDisplayStateChange);
-                this.timeAxisComponent.getContainer().on(fr.ina.amalia.player.plugins.timeline.TimeAxisComponent.eventTypes.CHANGE_TIMEAXE_DISPLAY_STATE, {
-                        self: this
-                    },
-                    this.onTimeaxeDisplayStateChange);
+                    self: this
+                }, this.onDisplayStateChange);
+                this.timeAxisComponent.getContainer().on(fr.ina.amalia.player.plugins.timeline.TimeAxisComponent.eventTypes.CHANGE_TIMEAXIS_DISPLAY_STATE, {
+                    self: this
+                }, this.onTimeaxisDisplayStateChange);
                 this.timeAxisComponent.getContainer().on(fr.ina.amalia.player.plugins.timeline.TimeAxisComponent.eventTypes.CLICK_AT_TIC, {
-                        self: this
-                    },
-                    this.onClickTc);
+                    self: this
+                }, this.onClickTc);
             }
             catch (error) {
                 if (this.logger !== null) {
@@ -500,69 +480,60 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend("fr.ina.amalia.player.
          * @method definePlayerListeners
          */
         defineListeners: function () {
-            var player = this.mediaPlayer.getMediaPlayer();
+            var mainContainer = this.mediaPlayer.getContainer();
+
             // On time change
-            player.on(fr.ina.amalia.player.PlayerEventType.TIME_CHANGE, {
-                    self: this
-                },
-                this.onTimeupdate);
-            player.on(fr.ina.amalia.player.PlayerEventType.BEGIN_DATA_CHANGE, {
-                    self: this
-                },
-                this.onBeginDataChange);
-            player.on(fr.ina.amalia.player.PlayerEventType.END_DATA_CHANGE, {
-                    self: this
-                },
-                this.onEndDataChange);
-            player.on(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
-                    self: this
-                },
-                this.onDataChange);
-            player.on(fr.ina.amalia.player.PlayerEventType.ZOOM_RANGE_CHANGE, {
-                    self: this
-                },
-                this.onZoomRangeChange);
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.TIME_CHANGE, {
+                self: this
+            }, this.onTimeupdate);
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.BEGIN_DATA_CHANGE, {
+                self: this
+            }, this.onBeginDataChange);
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.END_DATA_CHANGE, {
+                self: this
+            }, this.onEndDataChange);
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
+                self: this
+            }, this.onDataChange);
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.ZOOM_RANGE_CHANGE, {
+                self: this
+            }, this.onZoomRangeChange);
 
             //Selected metadata changed event
-            player.on(fr.ina.amalia.player.PlayerEventType.SELECTED_METADATA_CHANGE, {
-                    self: this
-                },
-                this.onSelectedMetadataChange);
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.SELECTED_METADATA_CHANGE, {
+                self: this
+            }, this.onSelectedMetadataChange);
 
             // Add data change events
             this.pluginContainer.on(fr.ina.amalia.player.plugins.timeline.CuepointsComponent.eventTypes.DATA_CHANGE, {
-                    self: this
-                },
-                this.onCuepointDataChange);
+                self: this
+            }, this.onCuepointDataChange);
             this.pluginContainer.on(fr.ina.amalia.player.plugins.timeline.SegmentsComponent.eventTypes.DATA_CHANGE, {
-                    self: this
-                },
-                this.onSegmentDataChange);
+                self: this
+            }, this.onSegmentDataChange);
 
             this.pluginContainer.on(fr.ina.amalia.player.plugins.components.FocusComponent.eventTypes.ZOOM_ZONE_CHANGE, {
-                    self: this
-                },
-                this.onZoomZoneChangeWithFocusComponent);
+                self: this
+            }, this.onZoomZoneChangeWithFocusComponent);
             // /onCuepointDataChange
             this.pluginContainer.on(fr.ina.amalia.player.plugins.timeline.BaseComponent.CLICK_SELECT, {
-                    self: this
-                },
-                this.onSelectItem);
+                self: this
+            }, this.onSelectItem);
+            this.pluginContainer.on(fr.ina.amalia.player.plugins.timeline.BaseComponent.CLICK_REMOVE_SELECT_ITEM, {
+                self: this
+            }, this.onRemoveSelectItem);
+
             ///Visual component
 
             this.pluginContainer.on(fr.ina.amalia.player.plugins.timeline.VisualComponent.eventTypes.DATA_CHANGE, {
-                    self: this
-                },
-                this.onVisualComponentDataChange);
+                self: this
+            }, this.onVisualComponentDataChange);
             this.pluginContainer.on(fr.ina.amalia.player.plugins.timeline.VisualComponent.eventTypes.BIND, {
-                    self: this
-                },
-                this.onVisualComponentBindMetadata);
+                self: this
+            }, this.onVisualComponentBindMetadata);
             this.pluginContainer.on(fr.ina.amalia.player.plugins.timeline.VisualComponent.eventTypes.UNBIND, {
-                    self: this
-                },
-                this.onVisualComponentUnBindMetadata);
-
+                self: this
+            }, this.onVisualComponentUnBindMetadata);
 
             if (this.logger !== null) {
                 this.logger.trace(this.Class.fullName, "definePlayerListeners");
@@ -696,11 +667,11 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend("fr.ina.amalia.player.
             try {
                 if (componentSettings.hasOwnProperty('className') === true) {
                     /* jslint evil: true */
-                    component = eval("new " + componentSettings.className + '(componentSettings)');
+                    component = eval("new " + componentSettings.className + '(componentSettings,this.mediaPlayer)');
                 }
                 else {
                     /* jslint evil: true */
-                    component = eval("new " + this.getComponentType(settings.type) + '(componentSettings)');
+                    component = eval("new " + this.getComponentType(settings.type) + '(componentSettings,this.mediaPlayer)');
                 }
             }
             catch (error) {
@@ -788,14 +759,12 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend("fr.ina.amalia.player.
                         this.listOfComponents.push(component);
 
                         component.getContainer().on(fr.ina.amalia.player.plugins.timeline.BaseComponent.CLICK_TC, {
-                                self: this
-                            },
-                            this.onClickTc);
+                            self: this
+                        }, this.onClickTc);
                         component.getContainer().on(fr.ina.amalia.player.plugins.timeline.BaseComponent.NAV_CLICK, {
-                                self: this,
-                                component: component
-                            },
-                            this.onClickNavControls);
+                            self: this,
+                            component: component
+                        }, this.onClickNavControls);
                     }
                 }
                 else {
@@ -934,8 +903,8 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend("fr.ina.amalia.player.
             }
             offset = this.displayLinesNb * offset;
             var lh = (this.displayLinesNb * lineHeight) + this.navBarContainer.height();
-            if (this.settings.timeaxe) {
-                this.pluginContainer.css('height', lh + this.timeAxeHeight + 'px');
+            if (this.settings.timeaxis) {
+                this.pluginContainer.css('height', lh + this.timeAxisHeight + 'px');
             }
             else {
                 this.pluginContainer.css('height', lh + 'px');
@@ -1028,7 +997,7 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend("fr.ina.amalia.player.
          * @param {Object} event
          * @param {Object} data
          */
-        onTimeaxeDisplayStateChange: function (event, data) {
+        onTimeaxisDisplayStateChange: function (event, data) {
             if (event.data.self.timeProgressContainer !== null) {
                 if (data.state === true) {
                     event.data.self.timeProgressContainer.css('height', '102px');
@@ -1160,7 +1129,6 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend("fr.ina.amalia.player.
             if (event.data.self.settings.displayLines === false) {
                 event.data.self.updateComponentsLineHeight();
             }
-
             if (event.data.self.logger !== null) {
                 event.data.self.logger.trace(event.data.self.Class.fullName, "EndDataChange");
             }
@@ -1195,9 +1163,8 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend("fr.ina.amalia.player.
                 if (typeof movePos === 'object' && movePos.hasOwnProperty('top')) {
                     scrollTop = Math.min(scrollTop, event.data.self.componentsContainer.get(0).scrollHeight);
                     event.data.self.componentsContainer.stop().animate({
-                            scrollTop: scrollTop + movePos.top
-                        },
-                        500, 'easeInOutExpo');
+                        scrollTop: scrollTop + movePos.top
+                    }, 500, 'easeInOutExpo');
                 }
             }
         },
@@ -1207,10 +1174,9 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend("fr.ina.amalia.player.
          * @param {Object} data
          */
         onCuepointDataChange: function (event, data) {
-            event.data.self.mediaPlayer.getMediaPlayer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
+            event.data.self.mediaPlayer.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
                 id: data.id
             });
-
         },
         /**
          * Fired on segment data change event
@@ -1218,7 +1184,7 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend("fr.ina.amalia.player.
          * @param {Object} data
          */
         onSegmentDataChange: function (event, data) {
-            event.data.self.mediaPlayer.getMediaPlayer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
+            event.data.self.mediaPlayer.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
                 id: data.id
             });
         },
@@ -1228,7 +1194,7 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend("fr.ina.amalia.player.
          * @param {Object} data
          */
         onVisualComponentDataChange: function (event, data) {
-            event.data.self.mediaPlayer.getMediaPlayer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
+            event.data.self.mediaPlayer.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
                 id: data.id
             });
         },
@@ -1265,9 +1231,8 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend("fr.ina.amalia.player.
             var scrollTop = event.data.self.componentsContainer.get(0).scrollTop + moveHeight;
             scrollTop = Math.min(scrollTop, event.data.self.componentsContainer.get(0).scrollHeight);
             event.data.self.componentsContainer.stop().animate({
-                    scrollTop: scrollTop
-                },
-                500, 'easeInOutExpo');
+                scrollTop: scrollTop
+            }, 500, 'easeInOutExpo');
         },
         /**
          * Fired on Mousewheel event
@@ -1278,7 +1243,7 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend("fr.ina.amalia.player.
             event.preventDefault();
             var delta = Math.max(-1, Math.min(1, (event.originalEvent.wheelDelta || -event.originalEvent.detail)));
             if (typeof delta === "number") {
-                var scrollTop = event.data.self.componentsContainer.get(0).scrollTop - delta * 10;
+                var scrollTop = event.data.self.componentsContainer.get(0).scrollTop - delta * event.data.self.settings.mouseWheelCoef;
                 scrollTop = Math.min(scrollTop, event.data.self.componentsContainer.get(0).scrollHeight);
                 event.data.self.componentsContainer.get(0).scrollTop = scrollTop;
             }
@@ -1294,6 +1259,19 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend("fr.ina.amalia.player.
                 event.data.self.mediaPlayer.setSelectedMetadataId(metadataId);
             }
             event.data.self.mediaPlayer.addSelectedItem(data.metadata);
+        },
+        /**
+         * Remove select item
+         * @param event
+         * @param data
+         */
+        onRemoveSelectItem: function (event, data) {
+            if (data.metadata !== null && typeof data.metadata === "object") {
+                data.metadata.selected = false;
+            }
+            if (event.data.self.logger !== null) {
+                event.data.self.logger.trace(event.data.self.Class.fullName, "onRemoveSelectItem ", data);
+            }
         },
         /**
          * Fired on zoom zone change
@@ -1337,7 +1315,7 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend("fr.ina.amalia.player.
          * @param {Object} data
          */
         onVisualComponentBindMetadata: function (event, data) {
-            event.data.self.mediaPlayer.getMediaPlayer().trigger(fr.ina.amalia.player.PlayerEventType.BIND_METADATA, {
+            event.data.self.mediaPlayer.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.BIND_METADATA, {
                 id: data.id
             });
             if (event.data.self.logger !== null) {
@@ -1350,7 +1328,7 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend("fr.ina.amalia.player.
          * @param {Object} data
          */
         onVisualComponentUnBindMetadata: function (event, data) {
-            event.data.self.mediaPlayer.getMediaPlayer().trigger(fr.ina.amalia.player.PlayerEventType.UNBIND_METADATA, {
+            event.data.self.mediaPlayer.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.UNBIND_METADATA, {
                 id: data.id
             });
             if (event.data.self.logger !== null) {

@@ -88,25 +88,19 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Met
          * @method defineListeners
          */
         defineListeners: function () {
-            var player = this.mediaPlayer.getMediaPlayer();
-
-            player.on(fr.ina.amalia.player.PlayerEventType.SELECTED_METADATA_CHANGE, {
-                    self: this
-                },
-                this.onSelectedMetadataChange);
-            player.on(fr.ina.amalia.player.PlayerEventType.BEGIN_DATA_CHANGE, {
-                    self: this
-                },
-                this.onBeginDataChange);
-            player.on(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
-                    self: this
-                },
-                this.onDataChange);
-            player.on(fr.ina.amalia.player.PlayerEventType.END_DATA_CHANGE, {
-                    self: this
-                },
-                this.onEndDataChange);
-
+            var mainContainer = this.mediaPlayer.getContainer();
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.SELECTED_METADATA_CHANGE, {
+                self: this
+            }, this.onSelectedMetadataChange);
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.BEGIN_DATA_CHANGE, {
+                self: this
+            }, this.onBeginDataChange);
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
+                self: this
+            }, this.onDataChange);
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.END_DATA_CHANGE, {
+                self: this
+            }, this.onEndDataChange);
             if (this.logger !== null) {
                 this.logger.trace(this.Class.fullName, "definePlayerListeners");
             }
@@ -152,9 +146,8 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Met
             var btnAddMetadata = $('<button>', {
                 'class': 'add-metadata ajs-icon ajs-icon-plus'
             }).on('click', {
-                    self: this
-                },
-                this.onAddMetadata);
+                self: this
+            }, this.onAddMetadata);
             element.append(btnAddMetadata);
             this.container.append(element);
         },
@@ -192,9 +185,8 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Met
                 }
             }
             list.find('li').on('click', {
-                    self: this
-                },
-                this.onSelectMetadata);
+                self: this
+            }, this.onSelectMetadata);
             var selectedMetadataId = this.mediaPlayer.getSelectedMetadataId();
             list.find('li.item').removeClass('selected');
             if (selectedMetadataId !== null) {
@@ -263,9 +255,8 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Met
          * @param e event
          */
         onSelectMetadata: function (e) {
-            var metadataId = $(event.currentTarget).attr('data-metadata-id');
-            var targetElement = $(event.target);
-
+            var metadataId = $(e.currentTarget).attr('data-metadata-id');
+            var targetElement = $(e.target);
             if (targetElement.hasClass('delete')) {
                 e.data.self.removeMetadataById(metadataId);
             }

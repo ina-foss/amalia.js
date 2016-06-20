@@ -116,15 +116,22 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Cus
          */
         autoHideStarted: false,
         /**
+         * Time Indicator Container
+         * @property timeIndicator
+         * @type {Number}
+         * @default 0
+         */
+        timeIndicatorContainer: null,
+        /**
          * Initialize the component
          * @method initialize
          */
         initialize: function () {
             this.settings = $.extend({
-                    height: (this.settings.sticky === true) ? '45' : '130',
+                    height: '80',
                     autohide: true,
                     hideDuration: 500,
-                    timeFormat: (this.settings.sticky === true) ? 's' : 'ms',
+                    timeFormat: 'ms',
                     framerate: 25,
                     framepreview: false,
                     framepreviewTimeBound: 500,
@@ -136,9 +143,11 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Cus
                         mid: {
                             'playWidget': 'fr.ina.amalia.player.plugins.controlBar.widgets.PlayButton',
                             'pauseWidget': 'fr.ina.amalia.player.plugins.controlBar.widgets.PauseButton'
+                            //'jogShuttleButton':'fr.ina.amalia.player.plugins.controlBar.widgets.JogShuttleButton'
                         },
                         right: {
                             'full': 'fr.ina.amalia.player.plugins.controlBar.widgets.FullscreenButton',
+                            //'volume': 'fr.ina.amalia.player.plugins.controlBar.widgets.ChannelVolumeControlBar'
                             'volume': 'fr.ina.amalia.player.plugins.controlBar.widgets.VolumeControlBar'
                         },
                         settings: {}
@@ -146,6 +155,7 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Cus
                 },
                 this.settings || {});
 
+            this.timeIndicatorContainer = null;
             this.leftContainer = null;
             this.midContainer = null;
             this.rightContainer = null;
@@ -174,6 +184,15 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Cus
             this.container = $('<div>', {
                 'class': classCss
             });
+
+            this.timeIndicatorContainer = $('<div>', {
+                class: 'ajs-time-indicator'
+            });
+            var timeIndicator = $('<span>', {
+                class: 'ajs-tooltip-text'
+            });
+            this.timeIndicatorContainer.append(timeIndicator);
+            this.container.append(this.timeIndicatorContainer);
             var row = $('<div>', {
                 'class': 'ajs-row'
             });
@@ -233,6 +252,12 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Cus
                     framepreviewTimeBound: this.settings.framepreviewTimeBound
                 }, this.mediaPlayer, this.container);
             }
+
+            //Set events
+            this.container.find('.player-progress-bar').on('mouseover', $.proxy(this.onProgressBarMouseover, this));
+            this.container.find('.player-progress-bar').on('mouseout', $.proxy(this.onProgressBarMouseoout, this));
+            this.container.find('.player-progress-bar').on('mousemove', $.proxy(this.onProgressBarMousemove, this));
+
         },
         /**
          * Initialize widget
@@ -243,7 +268,7 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Cus
          */
         initWidget: function (widgetName, widgetClassName, container) {
             try {
-                var settings = (typeof this.settings.widgets.settings[widgetName] === "object") ? this.settings.widgets.settings[widgetName] : this.settings;
+                var settings = (this.settings.widgets.hasOwnProperty('settings') && typeof this.settings.widgets.settings[widgetName] === "object") ? this.settings.widgets.settings[widgetName] : this.settings;
                 /* jslint evil: true */
                 /* jshint unused:false */
                 var obj = eval('new ' + widgetClassName + '(settings,this.mediaPlayer,container)');
@@ -261,21 +286,21 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Cus
          * @method definePlayerListeners
          */
         definePlayerListeners: function () {
-            this.mediaPlayer.mediaContainer.on(fr.ina.amalia.player.PlayerEventType.FULLSCREEN_CHANGE, {
+            this.mediaPlayer.getContainer().on(fr.ina.amalia.player.PlayerEventType.FULLSCREEN_CHANGE, {
                 self: this
             }, this.onFullscreenModeChange);
             if (this.autoHide === true) {
-                this.mediaPlayer.mediaContainer.one(fr.ina.amalia.player.PlayerEventType.PLAYING, {
+                this.mediaPlayer.getContainer().one(fr.ina.amalia.player.PlayerEventType.PLAYING, {
                     self: this
                 }, this.onPlaying);
-                this.mediaPlayer.mediaContainer.one(fr.ina.amalia.player.PlayerEventType.SEEK, {
+                this.mediaPlayer.getContainer().one(fr.ina.amalia.player.PlayerEventType.SEEK, {
                     self: this
                 }, this.onSeeking);
             }
-
-            if (this.logger !== null) {
-                this.logger.trace(this.Class.fullName, "defineWidgetsListeners");
-            }
+            // call function 200 ms after resize is complete.
+            $(window).on('debouncedresize', {
+                self: this
+            }, this.onWindowResize);
         },
         /**
          * Update control bar height
@@ -285,14 +310,20 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Cus
         updatePlayerSize: function (inFullScreen) {
             if (this.settings.sticky === true) {
                 if (inFullScreen === true) {
-                    this.mediaPlayer.mediaContainer.find('video').first().css('height', parseInt(window.screen.height - this.height));
+                    this.mediaPlayer.getContainer().find('video').first().css('height', $(window).height()- this.height);
                 }
                 else {
-                    this.mediaPlayer.mediaContainer.find('video').first().css('height', parseInt(this.mediaPlayer.mediaContainer.parent().height() - this.height));
+                    this.mediaPlayer.getContainer().find('video').first().css('height', parseInt(this.mediaPlayer.mediaContainer.parent().height() - this.height));
+                }
+                if (this.logger !== null) {
+                    this.logger.trace(this.Class.fullName, "size : " + this.mediaPlayer.getContainer().find('video').first().css('height'));
                 }
             }
-            else {
+            else if (this.autoHideStarted === false) {
                 this.container.css('bottom', this.height + 'px');
+            }
+            else {
+                this.container.css('bottom', this.displayState === true ? this.height : 10 + 'px');
             }
         },
         /**
@@ -301,11 +332,8 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Cus
          */
         show: function () {
             var self = this;
-
             if (self.displayState === false) {
                 self.container.find('.ajs-row').show();
-                self.container.find('.player-progress-bar').css('height', '20px');
-                self.container.find('.player-progress-bar .ui-slider-handle').css('width', '20px');
                 self.container.animate({
                     bottom: self.height + 'px'
                 }, 250, function () {
@@ -324,8 +352,6 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Cus
                     bottom: '10px'
                 }, 250, function () {
                     self.container.find('.ajs-row').hide();
-                    self.container.find('.player-progress-bar').css('height', '10px');
-                    self.container.find('.player-progress-bar .ui-slider-handle').css('width', '10px');
                     self.displayState = false;
                 });
             }
@@ -375,14 +401,12 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Cus
         onPlaying: function (event) {
             if (event.data.self.autoHideStarted === false) {
                 event.data.self.autoHideStarted = true;
-                event.data.self.mediaPlayer.mediaContainer.on('mouseenter touchstart', {
-                        self: event.data.self
-                    },
-                    event.data.self.onPlayerMouseEnter);
-                event.data.self.mediaPlayer.mediaContainer.on('mouseleave touchleave', {
-                        self: event.data.self
-                    },
-                    event.data.self.onPlayerMouseLeave);
+                event.data.self.mediaPlayer.getContainer().on('mouseenter touchstart', {
+                    self: event.data.self
+                }, event.data.self.onPlayerMouseEnter);
+                event.data.self.mediaPlayer.getContainer().on('mouseleave touchleave', {
+                    self: event.data.self
+                }, event.data.self.onPlayerMouseLeave);
             }
         },
         /**
@@ -401,5 +425,47 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Cus
                     self: event.data.self
                 }, event.data.self.onPlayerMouseLeave);
             }
+        },
+        /**
+         * Fired on mouse over in progress bar
+         * @method onTimeChange
+         * @param {Object} event
+         */
+        onProgressBarMouseover: function () {
+            this.timeIndicatorContainer.show();
+        },
+        /**
+         * Fired on mouseout in progress bar
+         * @method onTimeChange
+         * @param {Object} event
+         */
+        onProgressBarMouseoout: function () {
+            this.timeIndicatorContainer.hide();
+        },
+        /**
+         * Fired on mouse move in progress bar
+         * @method onTimeChange
+         * @param {Object} event
+         */
+        onProgressBarMousemove: function (event) {
+            var currentTarget = $(event.currentTarget);
+            var tooltipMid = this.timeIndicatorContainer.width() / 2;
+            var mPos = event.clientX - currentTarget.offset().left;
+            var leftPos = Math.max(tooltipMid, Math.min(mPos, currentTarget.width() - tooltipMid));
+            var tc = ((mPos * this.mediaPlayer.getDuration()) / currentTarget.width()) + this.mediaPlayer.getTcOffset();
+            this.timeIndicatorContainer.css('left', leftPos);
+            this.timeIndicatorContainer.find('.ajs-tooltip-text').html(fr.ina.amalia.player.helpers.UtilitiesHelper.formatTime(tc, this.settings.framerate, this.settings.timeFormat));
+        },
+        /**
+         * Fired on windows resize
+         * @method onWindowResize
+         * @param {Object} event
+         */
+        onWindowResize: function (event) {
+            event.data.self.updatePlayerSize(event.data.self.mediaPlayer.getFullscreenState());
+            if (event.data.self.logger !== null) {
+                event.data.self.logger.trace(event.data.self.Class.fullName, "onWindowResize");
+            }
         }
+
     });

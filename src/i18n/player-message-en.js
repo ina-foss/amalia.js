@@ -38,7 +38,7 @@ fr.ina.amalia.player.PlayerMessage.PLUGIN_TIMELINE_LABEL_EXPAND = "Expand";
 fr.ina.amalia.player.PlayerMessage.PLUGIN_TIMELINE_LABEL_SORT = "Sort";
 fr.ina.amalia.player.PlayerMessage.PLUGIN_TIMELINE_LABEL_NAV_POINT_PREV = "Go to previous marker";
 fr.ina.amalia.player.PlayerMessage.PLUGIN_TIMELINE_LABEL_NAV_POINT_NEXT = "Go to next marker";
-fr.ina.amalia.player.PlayerMessage.PLUGIN_TIMELINE_LABEL_TIMEAXE = "Time axis";
+fr.ina.amalia.player.PlayerMessage.PLUGIN_TIMELINE_LABEL_TIMEAXIS = "Time axis";
 fr.ina.amalia.player.PlayerMessage.PLUGIN_TIMELINE_LABEL_CLOSE = "Close";
 fr.ina.amalia.player.PlayerMessage.PLUGIN_METADATA_LIST_EDITOR_LABEL_HEADER = "Metadata list editor";
 fr.ina.amalia.player.PlayerMessage.PLUGIN_METADATA_BLOCK_EDITOR_LABEL_HEADER = "Metadata block editor";
@@ -53,4 +53,5 @@ fr.ina.amalia.player.PlayerMessage.PLUGIN_METADATA_BLOCK_EDITOR_FORM_LABEL_METAD
 fr.ina.amalia.player.PlayerMessage.PLUGIN_METADATA_BLOCK_EDITOR_FORM_LABEL_METADATA_COLOR = 'Color';
 fr.ina.amalia.player.PlayerMessage.PLUGIN_METADATA_ITEMS_EDITOR_NEED_METADTA = 'You need to select metadata item type.';
 fr.ina.amalia.player.PlayerMessage.PLUGIN_TIMELINE_LABEL_BIND = "Bind/Unbind";
+fr.ina.amalia.player.PlayerMessage.PLUGIN_D3JS_CHART_LABELS = ['Grouped', 'Stacked'];
 

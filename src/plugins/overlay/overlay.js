@@ -192,42 +192,35 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend("fr.ina.amalia.player.
          * @method defineListeners
          */
         definePlayerListeners: function () {
-            var player = this.mediaPlayer.getMediaPlayer();
+            var mainContainer = this.mediaPlayer.getContainer();
             // Player events
-            // L'événement sera déclenché une seul fois
-            player.one(fr.ina.amalia.player.PlayerEventType.PLUGIN_READY, {
-                    self: this
-                },
-                this.onFirstTimechange);
-            player.on(fr.ina.amalia.player.PlayerEventType.ENDEN, {
-                    self: this
-                },
-                this.onEnd);
-            player.on(fr.ina.amalia.player.PlayerEventType.TIME_CHANGE, {
-                    self: this
-                },
-                this.onTimeupdate);
-            player.on(fr.ina.amalia.player.PlayerEventType.SEEK, {
-                    self: this
-                },
-                this.onSeek);
+            mainContainer.one(fr.ina.amalia.player.PlayerEventType.PLUGIN_READY, {
+                self: this
+            }, this.onFirstTimechange);
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.ENDED, {
+                self: this
+            }, this.onEnd);
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.TIME_CHANGE, {
+                self: this
+            }, this.onTimeupdate);
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.SEEK, {
+                self: this
+            }, this.onSeek);
             // call function 200 ms after resize is complete
             $(window).on('debouncedresize', {
-                    self: this
-                },
-                this.onWindowResize);
-            player.on(fr.ina.amalia.player.PlayerEventType.SELECTED_METADATA_CHANGE, {
-                    self: this
-                },
-                this.onSelectedMetadataChange);
-            player.on(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
+                self: this
+            }, this.onWindowResize);
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.SELECTED_METADATA_CHANGE, {
+                self: this
+            }, this.onSelectedMetadataChange);
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
                 self: this
             }, this.onDataChange);
             ///bind metadata
-            player.on(fr.ina.amalia.player.PlayerEventType.BIND_METADATA, {
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.BIND_METADATA, {
                 self: this
             }, this.onBindMetadata);
-            player.on(fr.ina.amalia.player.PlayerEventType.UNBIND_METADATA, {
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.UNBIND_METADATA, {
                 self: this
             }, this.onUnBindMetadata);
             if (this.logger !== null) {
@@ -1154,7 +1147,7 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend("fr.ina.amalia.player.
                 ft.unplug();
                 ft.subject.remove();
                 ft.self.setEraseState(false);
-                ft.self.mediaPlayer.getMediaPlayer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
+                ft.self.mediaPlayer.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
                     id: ft.self.getSelectedMetadataId()
                 });
             }
@@ -1236,7 +1229,7 @@ fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.extend("fr.ina.amalia.player.
                     });
                 }
 
-                _player.getMediaPlayer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
+                _player.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
                     id: data.hasOwnProperty('metadataId') ? data.metadataId : _player.getSelectedMetadataId()
                 });
             }

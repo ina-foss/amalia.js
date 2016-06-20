@@ -107,17 +107,15 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Wat
          * @method defineListeners
          */
         defineListeners: function () {
-            var player = this.mediaPlayer.getMediaPlayer();
+            var mainContainer = this.mediaPlayer.getContainer();
             // Player events
-            player.one(fr.ina.amalia.player.PlayerEventType.TIME_CHANGE, {
-                    self: this
-                },
-                this.onPluginReady);
+            mainContainer.one(fr.ina.amalia.player.PlayerEventType.TIME_CHANGE, {
+                self: this
+            }, this.onPluginReady);
             // call function 200 ms after resize is complete.
             $(window).on('debouncedresize', {
-                    self: this
-                },
-                this.onWindowResize);
+                self: this
+            }, this.onWindowResize);
             if (this.logger !== null) {
                 this.logger.trace(this.Class.fullName, "definePlayerListeners");
             }

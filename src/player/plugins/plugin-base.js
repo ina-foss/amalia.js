@@ -196,9 +196,10 @@ $.Class("fr.ina.amalia.player.plugins.PluginBase", {
          */
         createLoader: function () {
             this.loaderContainer = $('<div>', {
-                'class': 'ajs-loader fa fa-cog fa-spin',
+                'class': 'ajs-loader ajs-icon ajs-icon-cog',
                 'style': ''
             });
+
             this.loaderContainer.hide();
             this.pluginContainer.append(this.loaderContainer);
         },

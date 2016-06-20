@@ -41,6 +41,14 @@ $.Class("fr.ina.amalia.player.mediaTypeManager", {}, {
      */
     mediaPlayer: null,
     /**
+     * Instance of main class
+     * @property mainObj
+     * @type {Object} HTMLVideoElement
+     * @default null
+     */
+    mainObj: null,
+
+    /**
      * logger instance
      * @property logger
      * @type {Object} HTMLVideoElement
@@ -54,8 +62,9 @@ $.Class("fr.ina.amalia.player.mediaTypeManager", {}, {
      * @default "{}"
      */
     settings: {},
-    init: function (settings, mediaPlayer) {
-        this.mediaPlayer = mediaPlayer;
+    init: function (settings, mainObj) {
+        this.mediaPlayer = mainObj.mediaPlayer;
+        this.mainObj=mainObj;
         this.namespace = this.Class.fullName;
         this.settings = $.extend({
                 debug: false,

@@ -64,10 +64,21 @@ fr.ina.amalia.player.mediaTypeManager.extend("fr.ina.amalia.player.media.type.Da
         this.dashPlayer.setAutoPlay(this.settings.autoplay);
         this.dashPlayer.startup();
         this.dashPlayer.attachView(this.mediaPlayer.get(0));
-        this.dashPlayer.attachSource(url);
+        // Fetches and parses the manifest - WARNING the callback is non-standard "error-last" style
+        this.dashPlayer.retrieveManifest(url, $.proxy(this.initializeDashJS, this));
         this.dashPlayer.videoElementExt = this.mediaPlayer.get(0);
         if (this.logger !== null) {
             this.logger.trace(this.Class.fullName, "set dash src :" + this.url);
         }
+    },
+    initializeDashJS: function (manifest, err) {
+        if (typeof err === "object") {
+            this.mainObj.setErrorCode(fr.ina.amalia.player.PlayerErrorCode.ERROR_MANIFEST_DASH);
+        }
+        else {
+            // Attach the source with any protection data
+            this.dashPlayer.attachSource(manifest);
+        }
     }
+
 });

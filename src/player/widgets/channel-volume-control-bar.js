@@ -32,6 +32,7 @@
  * @extends fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase
  */
 fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia.player.plugins.controlBar.widgets.ChannelVolumeControlBar", {
+        mainClassCss: "player-channel-volume-control-position",
         classCss: "player-channel-volume-control",
         classCssVolumeOn: "ajs-icon ajs-icon-controlbar-volume_max",
         classCssVolumeDown: "ajs-icon ajs-icon-controlbar-volume-min",
@@ -99,7 +100,15 @@ fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia
          * @default null
          */
         panRight: null,
+
+        /***
+         * Specific if channel is merged
+         */
         channelMerger: false,
+        /***
+         * Specific channel to merge
+         */
+        channelMergerNode: null,
         unifyVolumeState: true,
         /**
          * Initialize the component
@@ -108,12 +117,12 @@ fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia
         initialize: function () {
             this.defaultValue = 100;
             this.unifyVolumeState = true;
-            if (this.parameter.hasOwnProperty('channelMerger') === true) {
-                this.channelMerger = this.parameter.channelMerger;
-            }
-            else {
-                this.channelMerger = true;
-            }
+            this.channelMerger = (this.parameter.hasOwnProperty('channelMerger') === true) ? this.parameter.channelMerger : true;
+            this.channelMergerNode = (this.parameter.hasOwnProperty('channelMergerNode') === true && this.parameter.channelMergerNode !== "" ) ? this.parameter.channelMergerNode : null;
+            // Create component
+            var mainContainer = $('<div>', {
+                'class': this.Class.mainClassCss
+            });
             // Create component
             this.component = $('<div>', {
                 'class': this.Class.classCss,
@@ -129,6 +138,9 @@ fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia
             }
             catch (e) {
                 this.audioContext = null;
+                if (this.logger !== null) {
+                    this.logger.warn(e);
+                }
             }
 
             if (this.audioContext !== null) {
@@ -138,7 +150,9 @@ fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia
             }
 
             // Add to container
-            this.container.append(this.component);
+            mainContainer.append( this.component);
+            this.container.append(mainContainer);
+
             if (this.logger !== null) {
                 this.logger.trace(this.Class.fullName, "initialize");
             }
@@ -148,36 +162,50 @@ fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia
          * @returns {undefined}
          */
         setupAudioNodes: function () {
-            this.panLeft = this.audioContext.createGain();
-            this.panRight = this.audioContext.createGain();
             //Connect to source
             var source = this.audioContext.createMediaElementSource(this.mediaPlayer.getMediaPlayer().get(0));
+            this.panLeft = this.audioContext.createGain();
+            this.panRight = this.audioContext.createGain();
             var splitter = this.audioContext.createChannelSplitter(2);
             //Connect the source to the splitter
             source.connect(splitter, 0, 0);
-
             //Connect splitter' outputs to each Gain Nodes
-            splitter.connect(this.panLeft, 1);
-            splitter.connect(this.panRight, 0);
-
-            if (this.channelMerger === true) {
-                //Connect Left and Right Nodes to the output
-                //Assuming stereo as initial status
-                this.panLeft.connect(this.audioContext.destination, 0);
-                this.panRight.connect(this.audioContext.destination, 0);
+            splitter.connect(this.panLeft, 0);
+            splitter.connect(this.panRight, 1);
+            if (this.channelMergerNode !== null) {
+                var panner = this.audioContext.createPanner();
+                panner.coneOuterGain = 1;
+                panner.coneOuterAngle = 180;
+                panner.coneInnerAngle = 0;
+                if (this.channelMergerNode === 'l') {
+                    panner.setPosition(-1, 0, 0);
+                }
+                else if (this.channelMergerNode === 'r') {
+                    panner.setPosition(1, 0, 0);
+                }
+                this.panLeft.connect(panner);
+                this.panRight.connect(panner);
+                panner.connect(this.audioContext.destination);
             }
             else {
-                //Create a merger node, to get both signals back together
-                var merger = this.audioContext.createChannelMerger(2);
+                if (this.channelMerger === true) {
+                    //Connect Left and Right Nodes to the output
+                    //Assuming stereo as initial status
+                    this.panLeft.connect(this.audioContext.destination, 0);
+                    this.panRight.connect(this.audioContext.destination, 0);
+                }
+                else if (this.channelMergerNode === null) {
+                    //Create a merger node, to get both signals back together
+                    var merger = this.audioContext.createChannelMerger(2);
 
-                //Connect both channels to the Merger
-                this.panLeft.connect(merger, 0, 0);
-                this.panRight.connect(merger, 0, 1);
+                    //Connect both channels to the Merger
+                    this.panLeft.connect(merger, 0, 0);
+                    this.panRight.connect(merger, 0, 1);
 
-                //Connect the Merger Node to the final audio destination
-                merger.connect(this.audioContext.destination);
+                    //Connect the Merger Node to the final audio destination
+                    merger.connect(this.audioContext.destination);
+                }
             }
-
         },
         /**
          * In charge to create channel volume container
@@ -331,10 +359,9 @@ fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia
          * @method definePlayerEvents
          */
         definePlayerEvents: function () {
-            this.mediaPlayer.mediaContainer.on(fr.ina.amalia.player.PlayerEventType.VOLUME_CHANGE, {
-                    self: this
-                },
-                this.onPlayerVolumeChange);
+            this.mediaPlayer.getContainer().on(fr.ina.amalia.player.PlayerEventType.VOLUME_CHANGE, {
+                self: this
+            }, this.onPlayerVolumeChange);
         },
         /**
          * Set volume value
@@ -473,6 +500,5 @@ fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia
                 event.data.self.component.find('.right-volume-slider').slider("value", 0);
             }
         }
-
 
     });

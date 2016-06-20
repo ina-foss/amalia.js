@@ -40,7 +40,7 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent.extend("fr.ina.amalia.player
             CLICK_AT_TIC: "fr.ina.amalia.player.plugins.timeline.TimeAxisComponent.event.clickattic",
             RANGE_CHANGE: "fr.ina.amalia.player.plugins.timeline.TimeAxisComponent.event.rangechange",
             CHANGE_DISPLAY: "fr.ina.amalia.player.plugins.timeline.TimeAxisComponent.event.changedisplay",
-            CHANGE_TIMEAXE_DISPLAY_STATE: "fr.ina.amalia.player.plugins.timeline.TimeAxisComponent.event.changetimeaxedisplaystate"
+            CHANGE_TIMEAXIS_DISPLAY_STATE: "fr.ina.amalia.player.plugins.timeline.TimeAxisComponent.event.changetimeaxisdisplaystate"
         }
     },
     {
@@ -80,11 +80,26 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent.extend("fr.ina.amalia.player
          */
         timeZoomComponent: null,
         /**
+         * Start time code
+         * @property currentTcin
+         * @type {Number}
+         * @default 0
+         */
+        currentTcin: 0,
+        /**
+         * End time code
+         * @property currentTcout
+         * @type {Number}
+         * @default 0
+         */
+        currentTcout: 0,
+        /**
          * Init this class
          * @method init
          * @param {Object} settings
          */
         init: function (settings) {
+
             this.settings = $.extend({
                     debug: false,
                     container: null,
@@ -100,7 +115,9 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent.extend("fr.ina.amalia.player
             }
             this.mainContainer = this.settings.container;
             this.tcin = parseFloat(this.settings.tcOffset);
+            this.currentTcin = parseFloat(this.settings.tcOffset);
             this.tcout = parseFloat(this.settings.duration) + parseFloat(this.settings.tcOffset);
+            this.currentTcout = parseFloat(this.settings.duration) + parseFloat(this.settings.tcOffset);
             this.duration = parseFloat(this.settings.duration);
             this.segmentsGenerator = null;
             this.timeZoomComponent = null;
@@ -165,7 +182,7 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent.extend("fr.ina.amalia.player
             });
             timeAxisLabel.append($('<p>', {
                 'class': 'label',
-                'text': fr.ina.amalia.player.PlayerMessage.PLUGIN_TIMELINE_LABEL_TIMEAXE
+                'text': fr.ina.amalia.player.PlayerMessage.PLUGIN_TIMELINE_LABEL_TIMEAXIS
             }));
             this.mainContainer.append(timeAxisLabel);
         },
@@ -202,30 +219,24 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent.extend("fr.ina.amalia.player
             this.segmentsGenerator = new fr.ina.amalia.player.plugins.timeline.TicComponent(lineContent, this.settings);
 
             timeAxis.on(fr.ina.amalia.player.plugins.timeline.ZoomComponent.eventTypes.CHANGE, {
-                    self: this
-                },
-                this.onTimeRangeChange);
-
+                self: this
+            }, this.onTimeRangeChange);
 
             this.mainContainer.on('mousewheel', {
-                    self: this
-                },
-                this.onMousewheel);
+                self: this
+            }, this.onMousewheel);
             this.mainContainer.on('DOMMouseScroll', {
-                    self: this
-                },
-                this.onDOMMouseScroll);
+                self: this
+            }, this.onDOMMouseScroll);
 
             // add event listener on tic click event
             lineContent.on(fr.ina.amalia.player.plugins.timeline.TicComponent.eventTypes.CLICK, {
-                    self: this
-                },
-                this.onClickAtTic);
+                self: this
+            }, this.onClickAtTic);
             // add event listener on update time code
             lineContent.on(fr.ina.amalia.player.plugins.timeline.TicComponent.eventTypes.UPDATE_TC, {
-                    self: this
-                },
-                this.onUpdateTicRange);
+                self: this
+            }, this.onUpdateTicRange);
 
             if (this.logger !== null) {
                 this.logger.trace(this.Class.fullName, "createTimeAxis");
@@ -237,6 +248,7 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent.extend("fr.ina.amalia.player
          * @param {Object} container
          */
         createToolsBar: function (container) {
+            var self = this;
             var rowContainer = $('<div>', {
                 class: 'ajs-row'
             });
@@ -252,36 +264,46 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent.extend("fr.ina.amalia.player
 
             var zoomInBtn = this.createButton(fr.ina.amalia.player.PlayerMessage.PLUGIN_TIMELINE_LABEL_ZOOM_IN, 'plus');
             zoomInBtn.on('click', {
-                    self: this
-                },
-                this.onZoomIn);
+                self: this
+            }, this.onZoomIn);
             middleContainer.append(zoomInBtn);
             var zoomOutBtn = this.createButton(fr.ina.amalia.player.PlayerMessage.PLUGIN_TIMELINE_LABEL_ZOOM_OUT, 'minus');
             zoomOutBtn.on('click', {
-                    self: this
-                },
-                this.onZoomOut);
+                self: this
+            }, this.onZoomOut);
             middleContainer.append(zoomOutBtn);
             var changeDisplayBtn = this.createButton(fr.ina.amalia.player.PlayerMessage.PLUGIN_TIMELINE_LABEL_CHANGE_DISPLAY, 'arrows-v');
             changeDisplayBtn.on('click', {
-                    self: this
-                },
-                this.onChangeDisplay);
+                self: this
+            }, this.onChangeDisplay);
             middleContainer.append(changeDisplayBtn);
-
+            ///Slider Left and Right
+            var slideLeftInterval = null;
             var slideLeftBtn = this.createButton(fr.ina.amalia.player.PlayerMessage.PLUGIN_TIMELINE_LABEL_SLIDE_LEFT, 'chevron-left');
-            slideLeftBtn.on('click', {
-                    self: this
-                },
-                this.onSlideLeft);
+            slideLeftBtn.on('click', $.proxy(this.onSlideLeft, this));
+            slideLeftBtn.on('mousedown', function () {
+                slideLeftInterval = setInterval(function () {
+                    self.onSlideLeft();
+                }, 75);
+            });
+            slideLeftBtn.on('mouseup', function () {
+                clearTimeout(slideLeftInterval);
+            });
             slideLeftBtn.addClass('pull-left');
             leftContainer.append(slideLeftBtn);
 
+            var slideRightInterval = null;
             var slideRightBtn = this.createButton(fr.ina.amalia.player.PlayerMessage.PLUGIN_TIMELINE_LABEL_SLIDE_RIGHT, 'chevron-right');
-            slideRightBtn.on('click', {
-                    self: this
-                },
-                this.onSlideRight);
+            slideRightBtn.on('click', $.proxy(this.onSlideRight, this));
+            slideRightBtn.on('mousedown', function () {
+                slideRightInterval = setInterval(function () {
+                    self.onSlideRight();
+                }, 75);
+            });
+            slideRightBtn.on('mouseup', function () {
+                clearTimeout(slideRightInterval);
+            });
+
             slideRightBtn.addClass('pull-right');
             rightContainer.append(slideRightBtn);
             rowContainer.append(leftContainer);
@@ -303,14 +325,14 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent.extend("fr.ina.amalia.player
          * Handle a zoom event
          * @param {String} _state up/down
          */
-        zoom: function (_state) {
+        zoom: function (_state, tc) {
             var state = (typeof _state === "undefined") ? 'in' : _state;
             // Default zoom out
             if (state === "in") {
-                this.timeZoomComponent.zoomIn();
+                this.timeZoomComponent.zoomIn(tc);
             }
             else {
-                this.timeZoomComponent.zoomOut();
+                this.timeZoomComponent.zoomOut(tc);
             }
         },
         /**
@@ -334,6 +356,8 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent.extend("fr.ina.amalia.player
          * @param {Object} data
          */
         onTimeRangeChange: function (event, data) {
+            event.data.self.currentTcin = parseFloat(data.tcin);
+            event.data.self.currentTcout = parseFloat(data.tcout);
             event.data.self.segmentsGenerator.updateSegments(data.tcin, data.tcout);
             // Trigger
             event.data.self.mainContainer.trigger(event.data.self.Class.eventTypes.RANGE_CHANGE, {
@@ -346,7 +370,8 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent.extend("fr.ina.amalia.player
          * @param {Object} event
          */
         onZoomIn: function (event) {
-            event.data.self.zoom("in");
+            var tc = (event.data.self.currentTcout - event.data.self.currentTcin) / 2 + event.data.self.currentTcin;
+            event.data.self.zoom("in", tc);
             if (event.data.self.logger !== null) {
                 event.data.self.logger.trace(event.data.self.Class.fullName, "onZoomIn");
             }
@@ -356,7 +381,8 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent.extend("fr.ina.amalia.player
          * @param {Object} event
          */
         onZoomOut: function (event) {
-            event.data.self.zoom("out");
+            var tc = (event.data.self.currentTcout - event.data.self.currentTcin) / 2 + event.data.self.currentTcin;
+            event.data.self.zoom("out", tc);
             if (event.data.self.logger !== null) {
                 event.data.self.logger.trace(event.data.self.Class.fullName, "onZoomOut");
             }
@@ -365,20 +391,20 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent.extend("fr.ina.amalia.player
          * Fired slide left event
          * @param {Object} event
          */
-        onSlideLeft: function (event) {
-            event.data.self.slide("left");
-            if (event.data.self.logger !== null) {
-                event.data.self.logger.trace(event.data.self.Class.fullName, "slideLeft");
+        onSlideLeft: function () {
+            this.slide("left");
+            if (this.logger !== null) {
+                this.logger.trace(this.Class.fullName, "slideLeft");
             }
         },
         /**
          * Fired slide right event
          * @param {Object} event
          */
-        onSlideRight: function (event) {
-            event.data.self.slide("right");
-            if (event.data.self.logger !== null) {
-                event.data.self.logger.trace(event.data.self.Class.fullName, "slideRight");
+        onSlideRight: function () {
+            this.slide("right");
+            if (this.logger !== null) {
+                this.logger.trace(this.Class.fullName, "slideRight");
             }
         },
         /**
@@ -392,6 +418,15 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent.extend("fr.ina.amalia.player
             }
         },
         /**
+         * return tc of event
+         * @method getTcOfEvent
+         * @param {Object} event
+         */
+        getTcOfEvent: function (event) {
+            var currentTarget = $(event.currentTarget);
+            return ((event.data.self.currentTcout - event.data.self.currentTcin) * (event.clientX - currentTarget.offset().left) / currentTarget.width()) + event.data.self.currentTcin;
+        },
+        /**
          * Fired on mouse scroll
          * @method onDOMMouseScroll
          * @param {Object} event
@@ -400,12 +435,13 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent.extend("fr.ina.amalia.player
             // prevent default process
             event.preventDefault();
             var rot = (event.originalEvent.wheelDelta) ? event.originalEvent.wheelDelta : event.originalEvent.detail;
+            var tc = event.data.self.getTcOfEvent(event);
             if (typeof rot === "number") {
                 if (rot < 0) {
-                    event.data.self.zoom("in");
+                    event.data.self.zoom("in", tc);
                 }
                 else {
-                    event.data.self.zoom("out");
+                    event.data.self.zoom("out", tc);
                 }
             }
 
@@ -413,6 +449,7 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent.extend("fr.ina.amalia.player
                 event.data.self.logger.trace(event.data.self.Class.fullName, "onDOMMouseScroll");
             }
         },
+
         /**
          * Fired on Mousewheel event
          * @method onMousewheel
@@ -422,12 +459,13 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent.extend("fr.ina.amalia.player
             // prevent default process
             event.preventDefault();
             var rot = (event.originalEvent.wheelDelta) ? event.originalEvent.wheelDelta : event.originalEvent.detail;
+            var tc = event.data.self.getTcOfEvent(event);
             if (typeof rot === "number") {
                 if (rot > 0) {
-                    event.data.self.zoom("in");
+                    event.data.self.zoom("in", tc);
                 }
                 else {
-                    event.data.self.zoom("out");
+                    event.data.self.zoom("out", tc);
                 }
             }
 
@@ -474,14 +512,14 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent.extend("fr.ina.amalia.player
                 if (event.data.self.mainContainer.hasClass('off')) {
                     event.data.self.mainContainer.removeClass("off").addClass('on');
                     event.data.self.mainContainer.find('.expand-btn.plugin-btn').removeClass(event.data.self.Class.STYLE_CLASSNAME_EXPAND_OFF).addClass(event.data.self.Class.STYLE_CLASSNAME_EXPAND_ON);
-                    event.data.self.mainContainer.trigger(event.data.self.Class.eventTypes.CHANGE_TIMEAXE_DISPLAY_STATE, {
+                    event.data.self.mainContainer.trigger(event.data.self.Class.eventTypes.CHANGE_TIMEAXIS_DISPLAY_STATE, {
                         state: true
                     });
                 }
                 else {
                     event.data.self.mainContainer.removeClass("on").addClass('off');
                     event.data.self.mainContainer.find('.expand-btn.plugin-btn').removeClass(event.data.self.Class.STYLE_CLASSNAME_EXPAND_ON).addClass(event.data.self.Class.STYLE_CLASSNAME_EXPAND_OFF);
-                    event.data.self.mainContainer.trigger(event.data.self.Class.eventTypes.CHANGE_TIMEAXE_DISPLAY_STATE, {
+                    event.data.self.mainContainer.trigger(event.data.self.Class.eventTypes.CHANGE_TIMEAXIS_DISPLAY_STATE, {
                         state: false
                     });
                 }

@@ -1,0 +1,53 @@
+/**
+ * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ *
+ * This file is part of amalia.js
+ *
+ * Amalia.js is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version
+ *
+ * Redistributions of source code, javascript and css minified versions must
+ * retain the above copyright notice, this list of conditions and the following
+ * disclaimer
+ *
+ * Neither the name of the copyright holder nor the names of its contributors
+ * may be used to endorse or promote products derived from this software without
+ * specific prior written permission
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * amalia.js. If not, see <http://www.gnu.org/licenses/>
+ *
+ * Amalia.js is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details
+ */
+/**
+* Plugin custom control bar
+*/
+
+// Mixins : transiition
+/**
+ * global animation
+ * $properties transition
+ * $param : Time duration (s), function
+ */
+@mixin transition($property:all, $time-duration:1s, $function-style:ease-out) {
+
+  -webkit-transition: $property $time-duration $function-style;
+  -moz-transition: $property $time-duration $function-style;
+  -ms-transition: $property $time-duration $function-style;
+  -o-transition: $property $time-duration $function-style;
+  transition: $property $time-duration $function-style;
+}
+
+
+// Transformation
+@mixin transform-scale($scale:1.5) {
+  -webkit-transform: scale($scale);
+  -ms-transform: scale($scale);
+  transform: scale($scale);
+  transform: scale($scale);
+}
+

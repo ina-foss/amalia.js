@@ -21,6 +21,10 @@
     "Raphael",
     "MediaPlayer",
     "Dash",
-    "AudioContext"
+    "AudioContext",
+    "YT",
+    "chrome",
+    "d3",
+    "nv"
   ]
 }

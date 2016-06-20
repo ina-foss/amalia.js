@@ -75,7 +75,7 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Sto
             this._super();
             this.thumbnailOverlayCanvas = null;
             this.settings = $.extend({
-                topOffset: 45,
+                topOffset: 80,
                 framePositionCalculator: 'fr.ina.amalia.player.BaseFramePositionCalculator',
                 storyboardSourceFile: '',
                 framePreviewWidth: 160,
@@ -116,18 +116,18 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Sto
          * @method defineListeners
          */
         defineListeners: function () {
-            var player = this.mediaPlayer.getMediaPlayer();
+            var mainContainer = this.mediaPlayer.getContainer();
             // Player events
-            player.one(fr.ina.amalia.player.PlayerEventType.TIME_CHANGE, {
+            mainContainer.one(fr.ina.amalia.player.PlayerEventType.TIME_CHANGE, {
                 self: this
             }, this.onPluginReady);
-            player.on(fr.ina.amalia.player.PlayerEventType.START_SEEKING, {
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.START_SEEKING, {
                 self: this
             }, this.onStartSeeking);
-            player.on(fr.ina.amalia.player.PlayerEventType.SEEKING, {
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.SEEKING, {
                 self: this
             }, this.onSeeking);
-            player.on(fr.ina.amalia.player.PlayerEventType.STOP_SEEKING, {
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.STOP_SEEKING, {
                 self: this
             }, this.onStopSeeking);
             // call function 200 ms after resize is complete.

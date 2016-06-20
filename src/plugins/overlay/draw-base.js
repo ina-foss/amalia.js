@@ -165,20 +165,16 @@ $.Class("fr.ina.amalia.player.plugins.overlay.DrawBase", {
                 this.initialize();
             }
             if (this.mediaPlayer !== null) {
-                var player = this.mediaPlayer.getMediaPlayer();
-                player.on(fr.ina.amalia.player.PlayerEventType.PLAYING, {
-                        self: this
-                    },
-                    this.onPlay);
-                player.on(fr.ina.amalia.player.PlayerEventType.PAUSED, {
-                        self: this
-                    },
-                    this.onPause);
-
-                player.on(fr.ina.amalia.player.PlayerEventType.SEEK, {
-                        self: this
-                    },
-                    this.onSeek);
+                var mainContainer = this.mediaPlayer.getContainer();
+                mainContainer.on(fr.ina.amalia.player.PlayerEventType.PLAYING, {
+                    self: this
+                }, this.onPlay);
+                mainContainer.on(fr.ina.amalia.player.PlayerEventType.PAUSED, {
+                    self: this
+                }, this.onPause);
+                mainContainer.on(fr.ina.amalia.player.PlayerEventType.SEEK, {
+                    self: this
+                }, this.onSeek);
             }
         },
         /**
@@ -304,13 +300,13 @@ $.Class("fr.ina.amalia.player.plugins.overlay.DrawBase", {
                     });
                 }
 
-                _player.getMediaPlayer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
+                _player.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
                     id: this.data.hasOwnProperty('metadataId') ? this.data.metadataId : _player.getSelectedMetadataId()
                 });
             }
             else if (this.data.hasOwnProperty('refLoc') && typeof this.data.refLoc === "object") {
                 this.data.refLoc.shape = shapePos;
-                _player.getMediaPlayer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
+                _player.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
                     id: this.data.hasOwnProperty('metadataId') ? this.data.metadataId : _player.getSelectedMetadataId()
                 });
             }
@@ -412,7 +408,7 @@ $.Class("fr.ina.amalia.player.plugins.overlay.DrawBase", {
                 ft.unplug();
                 ft.subject.remove();
                 ft.self.localisationManager.updateLocBlock(ft.self.mediaPlayer.getMetadataById(ft.self.data.metadataId));
-                ft.self.mediaPlayer.getMediaPlayer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
+                ft.self.mediaPlayer.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
                     id: ft.self.data.hasOwnProperty('metadataId') ? ft.self.data.metadataId : ft.self.mediaPlayer.getSelectedMetadataId()
                 });
                 ft.self.overlayManager.setEraseState(false);

@@ -95,10 +95,9 @@ $.Class("fr.ina.amalia.player.MetadataManager", {}, {
         this.selectedMetadataId = null;
         // Settings
         this.settings = $.extend({
-                debug: false,
-                internalPlugin: false
-            },
-            settings || {});
+            debug: false,
+            internalPlugin: false
+        }, settings || {});
         // Logger
         if (fr.ina.amalia.player.log !== undefined && fr.ina.amalia.player.log.LogHandler !== undefined) {
             this.logger = new fr.ina.amalia.player.log.LogHandler({
@@ -197,7 +196,7 @@ $.Class("fr.ina.amalia.player.MetadataManager", {}, {
             if (this.listOfBlocks[id].hasOwnProperty('localisation') && this.listOfBlocks[id].localisation) {
                 this.listOfMetadata[id] = this.listOfBlocks[id].localisation;
             }
-            this.mediaPlayer.getMediaPlayer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
+            this.mediaPlayer.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
                 id: id,
                 action: action
             });
@@ -251,7 +250,7 @@ $.Class("fr.ina.amalia.player.MetadataManager", {}, {
                         else {
                             this.updateBlockMetadata(parsedData[d].id, {});
                         }
-                        this.mediaPlayer.getMediaPlayer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
+                        this.mediaPlayer.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
                             id: parsedData[d].id
                         });
                         if (this.logger !== null) {
@@ -282,7 +281,7 @@ $.Class("fr.ina.amalia.player.MetadataManager", {}, {
                     type: parsedData.hasOwnProperty('type') ? parsedData.type : '',
                     viewControl: parsedData.hasOwnProperty('viewControl') ? parsedData.viewControl : null
                 });
-                this.mediaPlayer.getMediaPlayer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
+                this.mediaPlayer.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
                     id: parsedData.id
                 });
                 if (this.logger !== null) {
@@ -315,7 +314,7 @@ $.Class("fr.ina.amalia.player.MetadataManager", {}, {
                 var obj = parsedData[j];
                 this.listOfMetadata[id].push(obj);
             }
-            this.mediaPlayer.getMediaPlayer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
+            this.mediaPlayer.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
                 id: id
             });
         }
@@ -336,7 +335,7 @@ $.Class("fr.ina.amalia.player.MetadataManager", {}, {
                 var obj = parsedData[j];
                 this.listOfMetadata[id].push(obj);
             }
-            this.mediaPlayer.getMediaPlayer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
+            this.mediaPlayer.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
                 id: id
             });
         }
@@ -357,10 +356,10 @@ $.Class("fr.ina.amalia.player.MetadataManager", {}, {
             if (deleted) {
                 this.removeBlockMetadata(id);
                 this.selectedMetadataId = null;
-                this.mediaPlayer.getMediaPlayer().trigger(fr.ina.amalia.player.PlayerEventType.SELECTED_METADATA_CHANGE, {
+                this.mediaPlayer.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.SELECTED_METADATA_CHANGE, {
                     metadataId: this.selectedMetadataId
                 });
-                this.mediaPlayer.getMediaPlayer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
+                this.mediaPlayer.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
                     id: id,
                     action: 'deleteBlock'
                 });
@@ -380,7 +379,7 @@ $.Class("fr.ina.amalia.player.MetadataManager", {}, {
         if (typeof data === "object") {
             var len = this.listOfMetadata[metadataId].push(data);
             var refData = this.listOfMetadata[metadataId][len - 1];
-            this.mediaPlayer.getMediaPlayer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
+            this.mediaPlayer.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
                 id: metadataId
             });
             return refData;
@@ -419,7 +418,7 @@ $.Class("fr.ina.amalia.player.MetadataManager", {}, {
         else {
             return false;
         }
-        this.mediaPlayer.getMediaPlayer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
+        this.mediaPlayer.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
             id: id
         });
         return true;
@@ -430,7 +429,7 @@ $.Class("fr.ina.amalia.player.MetadataManager", {}, {
      */
     removeMetadataById: function (id) {
         this.listOfMetadata[id] = [];
-        this.mediaPlayer.getMediaPlayer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
+        this.mediaPlayer.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
             id: id
         });
     },
@@ -448,7 +447,7 @@ $.Class("fr.ina.amalia.player.MetadataManager", {}, {
         var results = [];
         if (metadatas !== null && typeof metadatas === "object") {
             results = $.grep(metadatas, function (n) {
-                return (n.tc >= tcin && n.tc <= tcout);
+                return (n.hasOwnProperty('tc') && n.tc !== null) ? (n.tc >= tcin && n.tc <= tcout) : true;
             });
             if (this.logger !== null) {
                 this.logger.trace(this.Class.fullName, "getMetadataWithRange Id:" + id + " Tcin:" + tcin + " Tcout:" + tcout + " Number of Elements:" + metadatas.length);
@@ -475,10 +474,16 @@ $.Class("fr.ina.amalia.player.MetadataManager", {}, {
      * @method setSelectedMetadataId
      */
     setSelectedMetadataId: function (metadataId) {
-        this.selectedMetadataId = metadataId;
-        this.mediaPlayer.getMediaPlayer().trigger(fr.ina.amalia.player.PlayerEventType.SELECTED_METADATA_CHANGE, {
-            metadataId: this.selectedMetadataId
-        });
+        if (this.selectedMetadataId !== metadataId) {
+            this.removeAllSelectedItems();
+            this.mediaPlayer.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
+                id: this.selectedMetadataId
+            });
+            this.selectedMetadataId = metadataId;
+            this.mediaPlayer.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.SELECTED_METADATA_CHANGE, {
+                metadataId: this.selectedMetadataId
+            });
+        }
     },
     /** selected items* */
     /**
@@ -495,8 +500,13 @@ $.Class("fr.ina.amalia.player.MetadataManager", {}, {
      * @param item
      */
     addSelectedItem: function (item) {
+        if (item !== null && typeof item === "object") {
+            item.selected = true;
+
+
+        }
         this.listOfSelectedItems.push(item);
-        this.mediaPlayer.getMediaPlayer().trigger(fr.ina.amalia.player.PlayerEventType.SELECTED_ITEMS_CHANGE, {item: item});
+        this.mediaPlayer.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.SELECTED_ITEMS_CHANGE, {item: item});
     },
     /**
      * In charge to clear selected iteme
@@ -506,11 +516,12 @@ $.Class("fr.ina.amalia.player.MetadataManager", {}, {
     removeSelectedItem: function (idx) {
         if (this.listOfSelectedItems[idx] !== 'undefined' && isNaN(idx) === false) {
             var data = this.listOfSelectedItems[idx];
-            if (data !== null) {
+            if (data !== null && typeof data === "object" && data.hasOwnProperty('selected') === true) {
                 data.selected = false;
-                data.formCreated = true;
             }
-            this.listOfSelectedItems[idx] = null;
+            if (idx > -1) {
+                this.listOfSelectedItems.splice(idx, 1);
+            }
         }
     },
     /**
@@ -524,9 +535,9 @@ $.Class("fr.ina.amalia.player.MetadataManager", {}, {
                  i++) {
                 var data = this.listOfSelectedItems[i];
 
-                if (data !== null) {
+                if (data !== null && typeof data === "object" && data.hasOwnProperty('selected') === true) {
                     data.selected = false;
-                    data.formCreated = true;
+
                 }
             }
         }

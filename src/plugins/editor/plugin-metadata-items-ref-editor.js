@@ -84,6 +84,11 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Met
          * @method createHeaderElement
          */
         createMetadataItemsBlock: function () {
+            var titleElement = $('<div>', {
+                'class': 'heading off'
+            });
+            titleElement.append("<p class='title'></p>");
+
             var element = $('<div>', {
                 'class': 'body'
             });
@@ -93,10 +98,9 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Met
             var listOfItemsElement = $('<ul>', {
                 'class': 'listOfSelectedItems'
             });
-
+            element.append(titleElement);
             element.append(messagesElement);
             element.append(listOfItemsElement);
-
             this.container.append(element);
         },
         createItem: function (data) {
@@ -156,6 +160,23 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Met
             itemElement.append(editDataElements);
             return itemElement;
         },
+
+        /**
+         * In charge to update metadata block
+         */
+        updataFormHeader: function () {
+            var metadataBlock = this.mediaPlayer.getBlockMetadata(this.metadataId);
+            if (metadataBlock !== null && typeof metadataBlock === "object" && metadataBlock.hasOwnProperty('label')) {
+                this.container.find('div.heading').removeClass('off').addClass('on');
+                this.container.find('div.heading p.title').html(metadataBlock.label);
+            }
+            else {
+                this.container.find('div.heading').removeClass('on').addClass('off');
+            }
+        },
+        /**
+         * Update form items
+         */
         updateFormItems: function () {
             var listOfSelectedItemsElement = this.container.find('ul.listOfSelectedItems');
             listOfSelectedItemsElement.empty();
@@ -210,18 +231,14 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Met
          * @method defineListeners
          */
         defineListeners: function () {
-            //PLAYER
-            var player = this.mediaPlayer.getMediaPlayer();
-
-            player.on(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
-                    self: this
-                },
-                this.onDataChange);
+            var mainContainer = this.mediaPlayer.getContainer();
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
+                self: this
+            }, this.onDataChange);
             //On select metadata
-            player.on(fr.ina.amalia.player.PlayerEventType.SELECTED_METADATA_CHANGE, {
-                    self: this
-                },
-                this.onSelectedMetadataChange);
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.SELECTED_METADATA_CHANGE, {
+                self: this
+            }, this.onSelectedMetadataChange);
             if (this.logger !== null) {
                 this.logger.trace(this.Class.fullName, "definePlayerListeners");
             }
@@ -234,6 +251,7 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Met
          */
         onDataChange: function (event, data) {
             if (event.data.self.metadataId !== null && event.data.self.metadataId === data.id) {
+                event.data.self.updataFormHeader();
                 event.data.self.updateFormItems();
                 if (event.data.self.logger !== null) {
                     event.data.self.logger.trace(event.data.self.Class.fullName, "onSelectedItemsChange");
@@ -248,6 +266,7 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Met
          */
         onSelectedMetadataChange: function (event, data) {
             event.data.self.metadataId = data.metadataId !== null ? data.metadataId.toString() : null;
+            event.data.self.updataFormHeader();
             event.data.self.updateFormItems();
             if (event.data.self.logger !== null) {
                 event.data.self.logger.trace(event.data.self.Class.fullName, "onSelectedMetadataChange:" + data.metadataId);

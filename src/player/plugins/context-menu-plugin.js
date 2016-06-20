@@ -89,14 +89,12 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Con
             this.pluginContainer.append(this.container);
             // events
             this.container.on('mouseleave', {
-                    self: this
-                },
-                this.onMouseleave);
+                self: this
+            }, this.onMouseleave);
 
             this.pluginContainer.parent().on('contextmenu', {
-                    self: this
-                },
-                this.onContextmenu);
+                self: this
+            }, this.onContextmenu);
         },
         /**
          * Add menu item with link

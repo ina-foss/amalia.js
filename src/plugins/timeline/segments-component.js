@@ -46,13 +46,17 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent("fr.ina.amalia.player.plugin
         initialize: function () {
             this._super();
             this.mainContainer.on('dblclick ', '.segment', {
-                    self: this
-                },
-                this.onDBLClickAtSegment);
+                self: this
+            }, this.onDBLClickAtSegment);
             this.mainContainer.on('click', '.segment', {
-                    self: this
-                },
-                this.onClickAtSegment);
+                self: this
+            }, this.onClickAtSegment);
+            if (this.settings.editable === true && this.settings.selectable === true) {
+                this.mainContainer.find('.module-segments').selectable({
+                    filter: '.item',
+                    stop: $.proxy(this.onSelectStop, this)
+                });
+            }
         },
         /**
          * In charge to create segment element
@@ -88,9 +92,12 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent("fr.ina.amalia.player.plugin
                         var maxWidth = parentElement.width() - ui.element.position().left;
                         // Limit la largeur max
                         $(event.target).resizable("option", "maxWidth", maxWidth);
+                        var targetOriginalEventElement = $(event.originalEvent.target);
+                        $(ui.element).data('resizeTcin', targetOriginalEventElement.hasClass('ui-resizable-w'));
+                        $(ui.element).data('resizeTcout', targetOriginalEventElement.hasClass('ui-resizable-e'));
                     },
                     resize: function (event, ui) {
-                        var resizeTcin = parseFloat(((self.zTcout - self.zTcin) * ui.position.left) / self.mainContainer.first().width()) + self.zTcin;
+                        var resizeTcin = parseFloat(((self.zTcout - self.zTcin) * Math.max(0,ui.position.left)) / self.mainContainer.first().width()) + self.zTcin;
                         var resizeTcout = tcin + parseFloat(((self.zTcout - self.zTcin) * ui.size.width) / self.mainContainer.first().width());
                         container.attr('title', 'Tc in : ' + fr.ina.amalia.player.helpers.UtilitiesHelper.formatTime(resizeTcin, self.settings.framerate, self.settings.timeFormat) + '\n Tc out : ' + fr.ina.amalia.player.helpers.UtilitiesHelper.formatTime(resizeTcout, self.settings.framerate, self.settings.timeFormat));
                         self.updateTooltip();
@@ -98,9 +105,8 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent("fr.ina.amalia.player.plugin
 
                 });
                 container.on("resizestop", {
-                        self: this
-                    },
-                    this.onResizeStop);
+                    self: this
+                }, this.onResizeStop);
                 // draggable
                 container.draggable({
                     axis: "x",
@@ -111,14 +117,20 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent("fr.ina.amalia.player.plugin
                         ui.position.left = Math.min(parentElement.first().width() - targetElement.width(), newLeft);
                         var dragTcin = parseFloat(((self.zTcout - self.zTcin) * ui.position.left) / self.mainContainer.first().width()) + self.zTcin;
                         var dragTcout = parseFloat(((self.zTcout - self.zTcin) * targetElement.width()) / self.mainContainer.first().width()) + dragTcin;
-                        container.attr('title', 'Tc in : ' + fr.ina.amalia.player.helpers.UtilitiesHelper.formatTime(dragTcin, self.settings.framerate, self.settings.timeFormat) + '\n Tc out : ' + fr.ina.amalia.player.helpers.UtilitiesHelper.formatTime(dragTcout, self.settings.framerate, self.settings.timeFormat));
+
+                        if (event.shiftKey === true) {
+                            var dataOffsetTc = dragTcin - targetElement.data('metadata').tcin;
+                            container.attr('title', 'Offset seconds : ' + fr.ina.amalia.player.helpers.UtilitiesHelper.formatTime(dataOffsetTc, self.settings.framerate, 'seconds'));
+                        }
+                        else {
+                            container.attr('title', 'Tc in : ' + fr.ina.amalia.player.helpers.UtilitiesHelper.formatTime(dragTcin, self.settings.framerate, self.settings.timeFormat) + '\n Tc out : ' + fr.ina.amalia.player.helpers.UtilitiesHelper.formatTime(dragTcout, self.settings.framerate, self.settings.timeFormat));
+                        }
                         self.updateTooltip();
                     }
                 });
                 container.on("dragstop", {
-                        self: this
-                    },
-                    this.onDragStop);
+                    self: this
+                }, this.onDragStop);
                 container.css("position", "absolute");
             }
             return container;
@@ -130,12 +142,14 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent("fr.ina.amalia.player.plugin
          */
         addItem: function (data) {
             if (data.hasOwnProperty('tcin') && data.hasOwnProperty('tcout')) {
+                var tcin = parseFloat((this.zoomable === false) ? this.tcOffset : this.tcin);
+                var tcout = parseFloat((this.zoomable === false) ? this.duration : this.tcout);
                 var itemTcin = parseFloat(data.tcin);
                 var itemTcout = parseFloat(data.tcout);
-                // global tc
-                var gtc = this.tcout - this.tcin;
-                var width = ((itemTcout - itemTcin) * 100) / gtc;
-                var percentWidth = ((itemTcin - this.tcin) * 100) / gtc;
+
+                var duration = tcout - tcin;
+                var width = ((itemTcout - itemTcin) * 100) / duration;
+                var percentWidth = ((itemTcin - tcin) * 100) / duration;
                 var title = null;
                 var selectedData = (data.hasOwnProperty('selected') && data.selected === true);
                 if ((data.hasOwnProperty('label') === true && data.label !== '' && data.label !== null)) {
@@ -147,7 +161,7 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent("fr.ina.amalia.player.plugin
 
                 var lineContent = this.mainContainer.find('.line-content').first();
                 var itemContainer = null;
-                if (itemTcin < this.tcout && itemTcout > this.tcin) {
+                if (itemTcin < tcout && itemTcout > tcin) {
                     itemContainer = this.createSegmentElement(itemTcin, itemTcout, percentWidth, width, title);
                     itemContainer.data('metadata', data);
                     if (selectedData) {
@@ -166,7 +180,7 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent("fr.ina.amalia.player.plugin
                     }
                     lineContent.append(itemContainer);
                     if (this.logger !== null) {
-                        this.logger.trace(this.Class.fullName, "addItem tcin: " + this.tcin + " tcout: " + this.tcout + " itemTcin:" + itemTcin + " itemTcout:" + itemTcout + " percentWidth:" + percentWidth);
+                        this.logger.trace(this.Class.fullName, "addItem tcin: " + tcin + " tcout: " + tcout + " itemTcin:" + itemTcin + " itemTcout:" + itemTcout + " percentWidth:" + percentWidth);
                     }
                 }
             }
@@ -192,8 +206,6 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent("fr.ina.amalia.player.plugin
             var data = $(event.currentTarget).data('metadata');
             // Alt+Click
             if (event.altKey && event.data.self.settings.editable === true && typeof data === "object" && data.selected !== true) {
-                data.selected = true;
-                data.formCreated = false;
                 currentTarget.addClass('selected');
                 event.data.self.mainContainer.trigger(event.data.self.Class.CLICK_SELECT, {
                     tc: tcin,
@@ -201,8 +213,10 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent("fr.ina.amalia.player.plugin
                 });
             }
             else {
+                event.data.self.clearSelectedItems();
                 event.data.self.mainContainer.trigger(event.data.self.Class.CLICK_TC, {
-                    tc: tcin
+                    tc: tcin,
+                    metadata: data
                 });
             }
 
@@ -222,18 +236,22 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent("fr.ina.amalia.player.plugin
             var data = $(event.currentTarget).data('metadata');
             event.preventDefault();
             if (event.data.self.settings.editable === true && typeof data === "object") {
+                event.data.self.clearSelectedItems();
                 if (data.hasOwnProperty("selected") && data.selected === true) {
-                    data.selected = false;
                     currentTarget.removeClass('selected');
+                    event.data.self.mainContainer.trigger(event.data.self.Class.CLICK_REMOVE_SELECT_ITEM, {
+                        tc: tcin,
+                        metadata: data
+                    });
                 }
                 else {
-                    data.selected = true;
                     currentTarget.addClass('selected');
+                    event.data.self.mainContainer.trigger(event.data.self.Class.CLICK_SELECT, {
+                        tc: tcin,
+                        metadata: data
+                    });
                 }
-                event.data.self.mainContainer.trigger(event.data.self.Class.CLICK_SELECT, {
-                    tc: tcin,
-                    metadata: data
-                });
+
             }
             if (event.data.self.logger !== null) {
                 event.data.self.logger.trace(event.data.self.Class.fullName, "onDBLClickAtSegment tcin:" + tcin);
@@ -246,10 +264,18 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent("fr.ina.amalia.player.plugin
          */
         onDragStop: function (event) {
             var currentTarget = $(event.currentTarget);
-            var tcin = parseFloat(((event.data.self.zTcout - event.data.self.zTcin) * currentTarget.position().left) / event.data.self.mainContainer.first().width()) + event.data.self.zTcin;
-            var tcout = parseFloat(((event.data.self.zTcout - event.data.self.zTcin) * currentTarget.width()) / event.data.self.mainContainer.first().width()) + tcin;
-            $(event.currentTarget).data('metadata').tcin = Math.max(0, tcin);
-            $(event.currentTarget).data('metadata').tcout = Math.min(event.data.self.zTcout, tcout);
+            var zTcin = parseFloat((event.data.self.zoomable === false) ? event.data.self.tcOffset : event.data.self.zTcin);
+            var zTcout = parseFloat((event.data.self.zoomable === false) ? event.data.self.duration : event.data.self.zTcout);
+            var tcin = parseFloat(((zTcout - zTcin) * currentTarget.position().left) / event.data.self.mainContainer.first().width()) + zTcin;
+            var tcout = parseFloat(((zTcout - zTcin) * currentTarget.width()) / event.data.self.mainContainer.first().width()) + tcin;
+            if (event.shiftKey === true) {
+                var offsetTc = tcin - currentTarget.data('metadata').tcin;
+                event.data.self.localisationManager.shiftLocBlock(event.data.self.mediaPlayer.getMetadataById(event.data.self.getMetadataId()), offsetTc, event.data.self.mediaPlayer.getTcin(), event.data.self.mediaPlayer.getTcout(), event.altKey);
+            }
+            else {
+                currentTarget.data('metadata').tcin = tcin;
+                currentTarget.data('metadata').tcout = tcout;
+            }
             event.data.self.mainContainer.trigger(event.data.self.Class.eventTypes.DATA_CHANGE, {
                 id: event.data.self.getMetadataId()
             });
@@ -259,15 +285,43 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent("fr.ina.amalia.player.plugin
          * @method onResizeStop
          * @param {Object} event
          */
-        onResizeStop: function (event) {
+        onResizeStop: function (event, ui) {
             var currentTarget = $(event.currentTarget);
-            var tcin = parseFloat(((event.data.self.zTcout - event.data.self.zTcin) * currentTarget.position().left) / event.data.self.mainContainer.first().width()) + event.data.self.zTcin;
-            var tcout = tcin + parseFloat(((event.data.self.zTcout - event.data.self.zTcin) * currentTarget.width()) / event.data.self.mainContainer.first().width());
-            $(event.currentTarget).data('metadata').tcin = Math.max(0, tcin);
-            $(event.currentTarget).data('metadata').tcout = Math.min(event.data.self.zTcout, tcout);
-
+            var zTcin = parseFloat((event.data.self.zoomable === false) ? event.data.self.tcOffset : event.data.self.zTcin);
+            var zTcout = parseFloat((event.data.self.zoomable === false) ? event.data.self.duration : event.data.self.zTcout);
+            var tcin = parseFloat(((zTcout - zTcin) * Math.max(0,currentTarget.position().left)) / event.data.self.mainContainer.first().width()) + zTcin;
+            var tcout = tcin + parseFloat(((zTcout - zTcin) * currentTarget.width()) / event.data.self.mainContainer.first().width());
+            // Fix for resize only one side
+            var element = $(ui.element);
+            if (element.data('resizeTcin') === true) {
+                $(event.currentTarget).data('metadata').tcin = tcin;
+            }
+            if (element.data('resizeTcout') === true) {
+                $(event.currentTarget).data('metadata').tcout = tcout;
+            }
+            event.data.self.updateTooltip();
             event.data.self.mainContainer.trigger(event.data.self.Class.eventTypes.DATA_CHANGE, {
                 id: event.data.self.getMetadataId()
             });
+        },
+        /**
+         * Triggered at the end of the select operation.
+         */
+        onSelectStop: function () {
+            this.clearSelectedItems();
+            var self = this;
+            this.mainContainer.find('.module-segments').find('.item.ui-selected').each(function (i, e) {
+                var element = $(e);
+                element.addClass('selected');
+                var metadata = element.data('metadata');
+                if (metadata !== null) {
+                    metadata.selected = true;
+                    self.mainContainer.trigger(self.Class.CLICK_SELECT, {
+                        tc: metadata.tc,
+                        metadata: metadata
+                    });
+                }
+            });
+            this.mainContainer.find('.module-segments').selectable("option", "cancel", ".item");
         }
     });

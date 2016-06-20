@@ -34,6 +34,7 @@
  * @param {Object} container
  */
 $.Class("fr.ina.amalia.player.plugins.timeline.ZoomComponent", {
+        styleCss: 'display: block; position: absolute;height: 100px;width: 1px;background: aqua;margin-top: -50px;',
         eventTypes: {
             CHANGE: "fr.ina.amalia.player.plugins.timeline.ZoomComponent.event.change"
         }
@@ -112,7 +113,7 @@ $.Class("fr.ina.amalia.player.plugins.timeline.ZoomComponent", {
         init: function (container, duration, settings) {
             this.settings = $.extend({
                     'debug': false,
-                    'zoomSpeed': 10,
+                    'zoomSpeed': 5,
                     'tcOffset': 0
                 },
                 settings || {});
@@ -139,12 +140,12 @@ $.Class("fr.ina.amalia.player.plugins.timeline.ZoomComponent", {
                 this.logger.trace(this.Class.fullName, "Initialize  tcin" + tcin + " tcout:" + tcout + " duration : " + this.duration);
             }
             this.container.append($('<span>', {
-                class: 'time',
-                'style': 'display: block; position: absolute;height: 100px;width: 1px;background: aqua;margin-top: -50px;'
+                'class': 'time',
+                'style': this.Class.styleCss
             }));
 
             var list = $('<div>', {
-                class: 'list'
+                'class': 'list'
             });
             this.container.append(list);
             this.setTc(tcin, tcout);
@@ -156,7 +157,7 @@ $.Class("fr.ina.amalia.player.plugins.timeline.ZoomComponent", {
          * @param tcout
          */
         setTc: function (tcin, tcout) {
-            if (typeof tcin === "number" && typeof tcout === "number") {
+            if (typeof tcin === "number" && typeof tcout === "number" && isFinite(tcin) && isFinite(tcout)) {
                 this.currentTcin = tcin;
                 this.currentTcout = tcout;
                 this.updateTime();
@@ -170,16 +171,13 @@ $.Class("fr.ina.amalia.player.plugins.timeline.ZoomComponent", {
          * @method updateTime
          */
         updateTime: function () {
-            if (this.currentTcin < this.tcOffset || this.currentTcout > this.duration) {
-                this.currentTcin = this.tcOffset;
-                this.currentTcout = this.duration;
-            }
+            this.currentTcin = Math.max(this.tcOffset, this.currentTcin);
+            this.currentTcout = Math.min(this.currentTcout, this.duration + this.currentTcout);
             this.updateTc();
             this.sendEvent();
             if (this.logger !== null) {
                 this.logger.trace(this.Class.fullName, "updateTime currentTcin :" + this.currentTcin + " currentTcout:" + this.currentTcout);
             }
-
         },
         /**
          * Trigger event zoom change event
@@ -187,8 +185,8 @@ $.Class("fr.ina.amalia.player.plugins.timeline.ZoomComponent", {
          */
         sendEvent: function () {
             this.container.trigger(this.Class.eventTypes.CHANGE, {
-                tcin: this.currentTcin,
-                tcout: this.currentTcout
+                'tcin': this.currentTcin,
+                'tcout': this.currentTcout
             });
             if (this.logger !== null) {
                 this.logger.trace(this.Class.fullName, "sendEvent sendEvent :" + this.Class.eventTypes.CHANGE + " currentTcin:" + this.currentTcin + " currentTcout " + this.currentTcout);
@@ -208,13 +206,13 @@ $.Class("fr.ina.amalia.player.plugins.timeline.ZoomComponent", {
          * Handle zoom in
          * @method zoomIn
          */
-        zoomIn: function () {
+        zoomIn: function (tc) {
             var duration = (this.currentTcout - this.currentTcin);
             var coef = Math.round(duration / this.zoomSpeed);
             if (coef !== 0) {
                 this.slideSpeed = coef;
-                this.currentTcin += coef;
-                this.currentTcout -= coef;
+                this.currentTcin = tc - coef;
+                this.currentTcout = tc + coef;
                 this.updateTime();
             }
         },

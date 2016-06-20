@@ -42,6 +42,12 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Plu
      */
     managedDataType: '',
     /**
+     * Selected metadata id provide by player core.
+     * @property loadDataStarted
+     * @default ''
+     */
+    selectedMetadataId: '',
+    /**
      * Add data type to managed data type list
      * @param type string
      */
@@ -57,11 +63,31 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Plu
     isManagedType: function (type) {
         return (this.managedDataType === type);
     },
+
+
     /**
      * Return managed types
      * @return array
      */
     getManagedType: function () {
         return this.managedDataType;
+    },
+
+    /**
+     * Return managed types
+     * @return array
+     */
+    getSelectedMetadata: function () {
+        return this.selectedMetadataId.toString();
+    },
+
+    /**
+     * Fired on selected metadata change
+     * @method onSelectedMetadataChange
+     */
+    onSelectedMetadataChange: function (event, data) {
+        if (data.metadataId !== null) {
+            this.selectedMetadataId = data.metadataId.toString();
+        }
     }
 });

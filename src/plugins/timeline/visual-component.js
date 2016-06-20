@@ -47,23 +47,21 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent("fr.ina.amalia.player.plugin
         }
     },
     {
-        localisationManager: null,
+
         initialize: function () {
             this._super();
-            this.localisationManager = new fr.ina.amalia.player.LocalisationManager();
+
             this.mainContainer.on('click', '.cuepoint', {
-                    self: this
-                },
-                this.onClickAtCuepoint);
+                self: this
+            }, this.onClickAtCuepoint);
         },
         createToolBar: function () {
             var toolbarContainer = this._super();
             // expend bouton
             var bindBtn = this.createButton(fr.ina.amalia.player.PlayerMessage.PLUGIN_TIMELINE_LABEL_BIND, "bind-btn");
             bindBtn.on('click', {
-                    self: this
-                },
-                this.onClickBindBtn);
+                self: this
+            }, this.onClickBindBtn);
             bindBtn.addClass(this.Class.STYLE_CLASSNAME_BIND_ON);
             toolbarContainer.append(bindBtn);
         },
@@ -229,8 +227,6 @@ fr.ina.amalia.player.plugins.timeline.BaseComponent("fr.ina.amalia.player.plugin
             var data = $(event.currentTarget).data('metadata');
             // Alt+Click
             if (event.altKey && data.selected !== true && event.data.self.settings.editable === true) {
-                data.selected = true;
-                data.formCreated = false;
                 currentTarget.addClass('selected');
                 event.data.self.mainContainer.trigger(event.data.self.Class.CLICK_SELECT, {
                     tc: tc,

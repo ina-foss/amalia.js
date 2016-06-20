@@ -47,10 +47,10 @@ fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia
                 'style': this.Class.style
             });
             var buttonContainer = $("<span>", {
-                class: "button-container"
+                'class': "button-container"
             });
             var icon = $('<span>', {
-                class: this.parameter.style
+                'class': this.parameter.style
             });
             if (this.parameter.hasOwnProperty('title') === true) {
                 icon.attr('title', this.parameter.title);
@@ -58,10 +58,9 @@ fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia
             buttonContainer.append(icon);
             // set events
             this.component.on('click', {
-                    self: this,
-                    component: this.component
-                },
-                this.onClick);
+                self: this,
+                component: this.component
+            }, this.onClick);
             this.component.append(buttonContainer);
             // Add to container
             this.container.append(this.component);

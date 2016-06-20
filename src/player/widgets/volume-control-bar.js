@@ -33,9 +33,10 @@
  */
 fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia.player.plugins.controlBar.widgets.VolumeControlBar", {
         classCss: "player-volume-control",
-        classCssVolumeOn: "ajs-icon ajs-icon-volume-up",
-        classCssVolumeDown: "ajs-icon ajs-icon-volume-down",
-        classCssVolumeOff: "ajs-icon ajs-icon-volume-off",
+        classCssVolumeOn: "ajs-icon ajs-icon-controlbar-volume_max",
+        classCssVolumeUp: "ajs-icon ajs-icon-controlbar-volume_max",
+        classCssVolumeDown: "ajs-icon ajs-icon-controlbar-volume-min",
+        classCssVolumeOff: "ajs-icon ajs-icon-controlbar-volume-off",
         style: "",
         eventTypes: {
             CLICK: "fr.ina.amalia.player.plugins.widgets.VolumeControlBar.event.click",
@@ -73,10 +74,18 @@ fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia
          */
         volumeControlComponent: null,
         /**
+         * Volume slider component
+         * @property volumeSliderComponent
+         * @type {Object}
+         * @default null
+         */
+        volumeSliderComponent: null,
+        /**
          * Initialize the component
          * @method initialize
          */
         initialize: function () {
+            this.volumeSliderComponent = null;
             // Create component
             this.component = $('<div>', {
                 'class': this.Class.classCss,
@@ -87,9 +96,9 @@ fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia
             var volumeControleElement = $('<div>', {
                 class: 'volume-control-btn'
             });
+
             var volumeControleBtn = $('<span>');
             volumeControleElement.append(volumeControleBtn);
-
             // self object for knob events
             var self = this;
             this.component.find('input.volume-control').knob({
@@ -97,11 +106,40 @@ fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia
                     self.onSlide(v);
                 }
             });
-            volumeControleElement.on('click', {
-                    self: this
-                },
-                this.onClickVolume);
+            //Set events
+            volumeControleElement.on('mouseover', {
+                self: this
+            }, this.onMouseover);
+            volumeControleElement.find('span').on('click', {
+                self: this
+            }, this.onClickVolume);
+
             this.component.find('div').append(volumeControleElement);
+            // Slider
+            var sliderElement = $('<div>', {
+                'class': 'volume-slider-ctn off'
+            });
+            this.volumeSliderComponent = $('<div>', {
+                'class': 'slider-volume'
+            });
+            sliderElement.append(this.volumeSliderComponent);
+            volumeControleElement.append(sliderElement);
+            this.volumeSliderComponent.slider({
+                orientation: "vertical",
+                min: 0,
+                max: 100,
+                range: "min",
+
+                value: this.mediaPlayer.getVolume(),
+                slide: function (event, ui) {
+                    self.onSlide(ui.value);
+                }
+            });
+
+            sliderElement.on('mouseleave', {
+                self: this
+            }, this.onMouseleave);
+
             // Add to container
             this.container.append(this.component);
             this.definePlayerEvents();
@@ -115,10 +153,9 @@ fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia
          * @method definePlayerEvents
          */
         definePlayerEvents: function () {
-            this.mediaPlayer.mediaContainer.on(fr.ina.amalia.player.PlayerEventType.VOLUME_CHANGE, {
-                    self: this
-                },
-                this.onPlayerVolumeChange);
+            this.mediaPlayer.getContainer().on(fr.ina.amalia.player.PlayerEventType.VOLUME_CHANGE, {
+                self: this
+            }, this.onPlayerVolumeChange);
         },
         /**
          * Fired on click event
@@ -144,10 +181,13 @@ fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia
             if (value === 0) {
                 volumeIcon.addClass(this.Class.classCssVolumeOff);
             }
-            else if (value < 75) {
+            else if (value < 50) {
                 volumeIcon.addClass(this.Class.classCssVolumeDown);
             }
-            else {
+            else if (value >= 50 && value < 75) {
+                volumeIcon.addClass(this.Class.classCssVolumeUp);
+            }
+            else if (value >= 75) {
                 volumeIcon.addClass(this.Class.classCssVolumeOn);
             }
         },
@@ -173,7 +213,7 @@ fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia
          * @event fr.ina.amalia.player.plugins.controlBar.widgets.VolumeControlBar.event.type.CHANGE
          */
         onClickVolume: function (event) {
-            var value = ($(event.currentTarget).find('span:first').hasClass(event.data.self.Class.classCssVolumeOn) === true) ? 0 : 100;
+            var value = event.data.self.mediaPlayer.getVolume() > 50 ? 0 : 100;
             event.data.self.mediaPlayer.setVolume(value);
             if (event.data.self.logger !== null) {
                 event.data.self.logger.trace(event.data.self.Class.fullName, "onClickVolume:" + event.data.self.Class.eventTypes.CHANGE + " Value " + value);
@@ -189,5 +229,29 @@ fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia
                 event.data.self.logger.trace(event.data.self.Class.fullName, "onPlayerVolumeChange" + parseInt(data.volume));
             }
             event.data.self.setValue(parseInt(data.volume));
+            event.data.self.volumeSliderComponent.slider('value', parseInt(data.volume));
+        },
+        /**
+         * Fired on mouse over
+         * @param {Object} event
+         * @param {Object} data
+         */
+        onMouseover: function (event) {
+            event.data.self.component.find('.volume-slider-ctn').addClass('on').removeClass('off');
+            if (event.data.self.logger !== null) {
+                event.data.self.logger.trace(event.data.self.Class.fullName, "onMouseover");
+            }
+        },
+
+        /**
+         * Fired on mouse leave
+         * @param {Object} event
+         * @param {Object} data
+         */
+        onMouseleave: function (event) {
+            event.data.self.component.find('.volume-slider-ctn').addClass('off').removeClass('on');
+            if (event.data.self.logger !== null) {
+                event.data.self.logger.trace(event.data.self.Class.fullName, "onMouseover");
+            }
         }
     });

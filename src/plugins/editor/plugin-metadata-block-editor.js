@@ -255,9 +255,8 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Met
             var btnAddMetadata = $('<button>', {
                 'class': 'save-metadata ajs-icon ajs-icon-check'
             }).on('click', {
-                    self: this
-                },
-                this.onSaveMetadata);
+                self: this
+            }, this.onSaveMetadata);
             element.append(btnAddMetadata);
             this.container.append(element);
         },
@@ -300,13 +299,10 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Met
          * @method defineListeners
          */
         defineListeners: function () {
-            var player = this.mediaPlayer.getMediaPlayer();
-
-            player.on(fr.ina.amalia.player.PlayerEventType.SELECTED_METADATA_CHANGE, {
-                    self: this
-                },
-                this.onSelectedMetadataChange);
-
+            var mainContainer = this.mediaPlayer.getContainer();
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.SELECTED_METADATA_CHANGE, {
+                self: this
+            }, this.onSelectedMetadataChange);
             if (this.logger !== null) {
                 this.logger.trace(this.Class.fullName, "definePlayerListeners");
             }

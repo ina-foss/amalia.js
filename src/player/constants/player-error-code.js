@@ -92,6 +92,13 @@ $.Class("fr.ina.amalia.player.PlayerErrorCode", {
          */
         ERROR_LOAD_PLUGIN: 9001,
         /**
+         * @constant
+         * @property ERROR_MANIFEST_DASH
+         * @type {Number}
+         */
+        ERROR_MANIFEST_DASH: 9002,
+
+        /**
          * Return message by code error
          * @param {Number} errorCode
          * @returns {String} Return message
@@ -120,6 +127,8 @@ $.Class("fr.ina.amalia.player.PlayerErrorCode", {
                     return MessageClass.ERROR;
                 case CodeClass.ERROR_HTML5_SUPPORT :
                     return MessageClass.ERROR_HTML5_SUPPORT;
+                case CodeClass.ERROR_MANIFEST_DASH:
+                    return MessageClass.ERROR_MANIFEST_DASH;
                 default :
                     return MessageClass.DEFAULT;
             }
@@ -135,16 +144,16 @@ $.Class("fr.ina.amalia.player.PlayerErrorCode", {
  * @submodule player-constants
  */
 $.Class("fr.ina.amalia.player.PlayerErrorMessage", {
-        ACCESS_DENIED: 'Accès refusé.',
-        MEDIA_FILE_NOT_FOUND: 'Erreur lors du chargement du média.',
-        EXCEPTION: 'An exception occurred.',
-        HTTP_ERROR: 'Http response at 400 or 500 level.',
-        ABORT: 'Votre requête a été interrompue.',
-        TIMEOUT: 'Demande dépassé.',
-        ERROR_LOAD_PLUGIN: 'Erreur inattendue lors de l\'initialisation du plug-in.',
-        CUSTOM_ERROR: 'Une erreur s\'est produite sur votre lecteur.',
-        ERROR: 'Une erreur s\'est produite sur votre lecteur.',
-        DEFAULT: 'Une erreur s\'est produite sur votre lecteur.',
-        ERROR_HTML5_SUPPORT: 'Une erreur s\'est produite sur votre lecteur: Votre navigateur ne gère pas les balises HTML5.'
-    },
-    {});
+    ACCESS_DENIED: 'Accès refusé.',
+    MEDIA_FILE_NOT_FOUND: 'Erreur lors du chargement du média.',
+    EXCEPTION: 'An exception occurred.',
+    HTTP_ERROR: 'Http response at 400 or 500 level.',
+    ABORT: 'Votre requête a été interrompue.',
+    TIMEOUT: 'Demande dépassé.',
+    ERROR_LOAD_PLUGIN: 'Erreur inattendue lors de l\'initialisation du plug-in.',
+    CUSTOM_ERROR: 'Une erreur s\'est produite sur votre lecteur.',
+    ERROR: 'Une erreur s\'est produite sur votre lecteur.',
+    DEFAULT: 'Une erreur s\'est produite sur votre lecteur.',
+    ERROR_HTML5_SUPPORT: 'Une erreur s\'est produite sur votre lecteur: Votre navigateur ne gère pas les balises HTML5.',
+    ERROR_MANIFEST_DASH: 'Erreur lors du chargement du manifest dash'
+}, {});

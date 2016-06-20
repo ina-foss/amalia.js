@@ -34,7 +34,7 @@
 fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia.player.plugins.controlBar.widgets.PauseButton", {
         classCss: "player-pause-button",
         style: "",
-        pauseIcon: 'ajs-icon ajs-icon-control-pause'
+        pauseIcon: 'ajs-icon ajs-icon-controlbar-pause'
     },
     {
         /**
@@ -48,7 +48,7 @@ fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia
                 'style': this.Class.style
             });
             var buttonContainer = $("<span>", {
-                class: "button-container round"
+                class: "button-container"
             });
             var pauseIcon = $('<i>', {
                 class: this.Class.pauseIcon
@@ -71,14 +71,19 @@ fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia
          * @method definePlayerEvents
          */
         definePlayerEvents: function () {
-            this.mediaPlayer.mediaContainer.on(fr.ina.amalia.player.PlayerEventType.PLAYING, {
-                    self: this
-                },
-                this.onPlaying);
-            this.mediaPlayer.mediaContainer.on(fr.ina.amalia.player.PlayerEventType.PAUSED, {
-                    self: this
-                },
-                this.onPaused);
+            this.mediaPlayer.getContainer().on(fr.ina.amalia.player.PlayerEventType.PLAYING, {
+                self: this
+            }, this.onPlaying);
+            this.mediaPlayer.getContainer().on(fr.ina.amalia.player.PlayerEventType.PAUSED, {
+                self: this
+            }, this.onPaused);
+
+            this.mediaPlayer.getContainer().on(fr.ina.amalia.player.PlayerEventType.CAST_PLAYING, {
+                self: this
+            }, this.onPlaying);
+            this.mediaPlayer.getContainer().on(fr.ina.amalia.player.PlayerEventType.CAST_PAUSED, {
+                self: this
+            }, this.onPaused);
         },
         /**
          * Fired on click event
@@ -86,7 +91,17 @@ fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia
          * @param {Object} event
          */
         onClick: function (event) {
-            event.data.self.mediaPlayer.pause();
+            if (!event.data.self.mediaPlayer.getCastMode()) {
+                if (event.data.self.mediaPlayer.isPaused()) {
+                    event.data.self.mediaPlayer.play();
+                }
+                else {
+                    event.data.self.mediaPlayer.pause();
+                }
+            }
+            else {
+                event.data.self.mediaPlayer.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.CAST_PAUSED);
+            }
         },
         /**
          * Fired on playing event for show pause button.

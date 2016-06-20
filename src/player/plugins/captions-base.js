@@ -54,12 +54,11 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.cap
      * @method definePlayerListeners
      */
     definePlayerListeners: function () {
-        var player = this.mediaPlayer.getMediaPlayer();
+        var container = this.mediaPlayer.getContainer();
         // Player events
-        player.on(fr.ina.amalia.player.PlayerEventType.TIME_CHANGE, {
-                self: this
-            },
-            this.onTimeupdate);
+        container.on(fr.ina.amalia.player.PlayerEventType.TIME_CHANGE, {
+            self: this
+        }, this.onTimeupdate);
 
         if (this.logger !== null) {
             this.logger.trace(this.Class.fullName, "definePlayerListeners");
@@ -113,17 +112,16 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.cap
                 var text = this._getText(localisation.data);
                 if (text !== '') {
                     data = {
-                        tcin: (typeof localisation.tcin === "number") ? localisation.tcin : fr.ina.amalia.player.helpers.UtilitiesHelper.convertHourToSeconde(localisation.tcin),
-                        tcout: (typeof localisation.tcout === "number") ? localisation.tcout : fr.ina.amalia.player.helpers.UtilitiesHelper.convertHourToSeconde(localisation.tcout),
-                        text: text,
-                        label: localisation.label,
-                        thumb: localisation.thumb,
-                        level: localisation.tclevel
+                        'tcin': (typeof localisation.tcin === "number") ? localisation.tcin : fr.ina.amalia.player.helpers.UtilitiesHelper.convertHourToSeconde(localisation.tcin),
+                        'tcout': (typeof localisation.tcout === "number") ? localisation.tcout : fr.ina.amalia.player.helpers.UtilitiesHelper.convertHourToSeconde(localisation.tcout),
+                        'text': text,
+                        'label': localisation.label,
+                        'thumb': localisation.thumb,
+                        'level': localisation.tclevel
                     };
                     this.listOfData.push(data);
                 }
             }
-
             if (localisation.hasOwnProperty('sublocalisations') === true && localisation.sublocalisations !== null && localisation.sublocalisations.hasOwnProperty('localisation') === true && $.isArray(localisation.sublocalisations.localisation)) {
                 this._parseSubLocalisations(localisation.sublocalisations, level, withMainLevel);
             }

@@ -52,6 +52,7 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Plu
      * @default null
      */
     dataToDeal: null,
+
     /**
      * List of data type managed by this plugin
      * @property managedDataTypes
@@ -73,6 +74,12 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Plu
      * @default null
      */
     listOfMetadataTypes: null,
+    /**
+     * Selected metadata id provide by player core.
+     * @property loadDataStarted
+     * @default ''
+     */
+    selectedMetadataId: '',
     /**
      * Add data type to managed data type list
      * @param {String} type
@@ -163,6 +170,24 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Plu
             if (idx > -1) {
                 this.managedMetadataIds.splice(idx, 1);
             }
+        }
+    },
+
+    /**
+     * Return managed types
+     * @return array
+     */
+    getSelectedMetadata: function () {
+        return this.selectedMetadataId.toString();
+    },
+
+    /**
+     * Fired on selected metadata change
+     * @method onSelectedMetadataChange
+     */
+    onSelectedMetadataChange: function (event, data) {
+        if (data.metadataId !== null) {
+            this.selectedMetadataId = data.metadataId.toString();
         }
     }
 });

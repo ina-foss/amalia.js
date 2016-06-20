@@ -72,10 +72,19 @@ fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia
          */
         lastSlideEvent: 0,
         /**
+         * Last playback state, true for playing state
+         * @property lastPlaybackState
+         * @type {Boolean}
+         * @default 0
+         */
+        lastPlaybackState: false,
+
+        /**
          * Initialize the component
          * @method initialize
          */
         initialize: function () {
+            this.lastPlaybackState = false;
             // Create component
             this.component = $('<div>', {
                 'class': this.Class.classCss,
@@ -87,7 +96,7 @@ fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia
                 min: this.sliderStart,
                 max: this.sliderEnd,
                 value: this.defaultValue,
-                height: 20,
+                height: 10,
                 framepreview: true,
                 framepreviewTimeBound: 500
             });
@@ -149,10 +158,9 @@ fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia
          * @method definePlayerEvents
          */
         definePlayerEvents: function () {
-            this.mediaPlayer.mediaContainer.on(fr.ina.amalia.player.PlayerEventType.TIME_CHANGE, {
-                    self: this
-                },
-                this.onTimechange);
+            this.mediaPlayer.getContainer().on(fr.ina.amalia.player.PlayerEventType.TIME_CHANGE, {
+                self: this
+            }, this.onTimechange);
         },
         /**
          * Fired on time change event for update progress bar position
@@ -166,10 +174,12 @@ fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia
             event.data.self.setValue(data.percentage);
             // Set tooltip time
             event.data.self.setTitle(currentTime);
-            // The buffered regions of the video
-            var currentBuffer = event.data.self.mediaPlayer.getMediaPlayer().get(0).buffered.end(0);
-            var bufferPercentage = 100 * currentBuffer / (data.duration - data.tcOffset);
-            event.data.self.updateBuffer(0, bufferPercentage);
+            if (event.data.self.mediaPlayer.getMediaPlayer() !== null && typeof event.data.self.mediaPlayer.getMediaPlayer().get(0).buffered !== "undefined" && event.data.self.mediaPlayer.getMediaPlayer().get(0).buffered.length > 0) {
+                // The buffered regions of the video
+                var currentBuffer = event.data.self.mediaPlayer.getMediaPlayer().get(0).buffered.end(Math.max(0, event.data.self.mediaPlayer.getMediaPlayer().get(0).buffered.length - 1));
+                var bufferPercentage = 100 * currentBuffer / (data.duration - data.tcOffset);
+                event.data.self.updateBuffer(0, bufferPercentage);
+            }
         },
         /**
          * Fired on slide start
@@ -179,8 +189,9 @@ fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia
          */
         onSlideStart: function (event, ui) {
             event.data.self.sliding = true;
+            event.data.self.lastPlaybackState = !event.data.self.mediaPlayer.isPaused();
             event.data.self.mediaPlayer.pause();
-            event.data.self.mediaPlayer.getMediaPlayer().trigger(fr.ina.amalia.player.PlayerEventType.START_SEEKING, {
+            event.data.self.mediaPlayer.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.START_SEEKING, {
                 percentage: ui.value / 10
             });
             if (event.data.self.logger !== null) {
@@ -199,8 +210,10 @@ fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia
             var percentage = ui.value / 10;
             var tc = (duration * percentage) / 100;
             event.data.self.mediaPlayer.setCurrentTime(tc + event.data.self.mediaPlayer.getTcOffset());
-            event.data.self.mediaPlayer.play();
-            event.data.self.mediaPlayer.getMediaPlayer().trigger(fr.ina.amalia.player.PlayerEventType.STOP_SEEKING, {
+            if (event.data.self.lastPlaybackState === true) {
+                event.data.self.mediaPlayer.play();
+            }
+            event.data.self.mediaPlayer.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.STOP_SEEKING, {
                 percentage: ui.value / 10
             });
             if (event.data.self.logger !== null) {
@@ -215,7 +228,7 @@ fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia
          */
         onSlide: function (event, ui) {
 
-            event.data.self.mediaPlayer.getMediaPlayer().trigger(fr.ina.amalia.player.PlayerEventType.SEEKING, {
+            event.data.self.mediaPlayer.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.SEEKING, {
                 percentage: ui.value / 10
             });
             // Only if framepreview is enabled

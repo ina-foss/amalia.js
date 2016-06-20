@@ -42,7 +42,8 @@ $.Class("fr.ina.amalia.player.plugins.timeline.BaseComponent", {
         NAV_CLICK: 'fr.ina.amalia.player.plugins.timeline.event.NavClick',
         CLOSE_EVENT: 'fr.ina.amalia.player.plugins.timeline.component.event.CloseEvent',
         CLICK_TC: 'fr.ina.amalia.player.plugins.timeline.BaseComponent.event.click',
-        CLICK_SELECT: 'fr.ina.amalia.player.plugins.timeline.BaseComponent.event.click_select'
+        CLICK_SELECT: 'fr.ina.amalia.player.plugins.timeline.BaseComponent.event.click_select',
+        CLICK_REMOVE_SELECT_ITEM: 'fr.ina.amalia.player.plugins.timeline.BaseComponent.event.click_remove_select_item'
     },
     {
         /**
@@ -72,29 +73,7 @@ $.Class("fr.ina.amalia.player.plugins.timeline.BaseComponent", {
          * @type {Object}
          * @default null
          */
-        tooltipConfiguration: {
-            position: {
-                my: "center bottom-20",
-                at: "center top",
-                delay: 3000,
-                using: function (position, feedback) {
-                    $(this).css(position);
-                    $("<div>").addClass("ajs-arrow").addClass(feedback.vertical).addClass(feedback.horizontal).appendTo(this);
-                }
-            },
-            content: function () {
-                var element = $(this);
-                var title = element.attr('title');
-                if (element.is("[data-src]")) {
-                    var src = element.attr('data-src');
-                    return "<img class='image' alt='" + title + "' src='" + src + "' />";
-                }
-                else {
-                    title = title.replace(/(?:\r\n|\r|\n)/g, '<br />');
-                    return "<p>" + title + "</p>";
-                }
-            }
-        },
+        tooltipConfiguration: {},
         /**
          * zoom level
          * @property zoomLevel
@@ -241,11 +220,21 @@ $.Class("fr.ina.amalia.player.plugins.timeline.BaseComponent", {
          */
         tcOffset: 0,
         /**
+         * in charge to manage localisations
+         * @property localisationManager
+         * @type {Object}
+         * @default null
+         */
+        localisationManager: null,
+        mediaPlayer: null,
+        /**
          * Init this class
          * @method init
          * @param settings
          */
-        init: function (settings) {
+        init: function (settings, mediaPlayer) {
+            this.mediaPlayer = mediaPlayer;
+            this.tooltipConfiguration = $.extend(true, fr.ina.amalia.player.plugins.timeline.DefaultConfiguration.tooltipConfiguration, {});
             this.settings = $.extend({
                     debug: false,
                     icon: 'circle',
@@ -285,8 +274,10 @@ $.Class("fr.ina.amalia.player.plugins.timeline.BaseComponent", {
             this.focusable = this.settings.focusable;
             this.zoomable = this.settings.zoomable;
             this.duration = parseFloat(this.settings.duration);
-            this.zTcout = parseFloat(this.settings.duration);
             this.tcOffset = parseFloat(this.settings.tcOffset);
+            this.zTcin = parseFloat(this.tcOffset);
+            this.zTcout = parseFloat(this.tcOffset + this.settings.duration);
+            this.localisationManager = new fr.ina.amalia.player.LocalisationManager();
 
             if (this.mainContainer.length === 0 || typeof this.mainContainer !== "object") {
                 throw new Error("Your container is empty.");
@@ -316,9 +307,8 @@ $.Class("fr.ina.amalia.player.plugins.timeline.BaseComponent", {
             if (this.settings.timecursor === true) {
                 this.createTimeCursor();
                 this.mainContainer.parents('.ajs-plugin.plugin-timeline').first().on(fr.ina.amalia.player.plugins.TimelinePlugin.eventTypes.TIME_CHANGE, {
-                        self: this
-                    },
-                    this.onPluginTimeChange);
+                    self: this
+                }, this.onPluginTimeChange);
             }
 
             if (this.settings.focusable === false && this.settings.zoomable === false && this.settings.viewZoom === true) {
@@ -402,9 +392,8 @@ $.Class("fr.ina.amalia.player.plugins.timeline.BaseComponent", {
             // expend bouton
             var expandBtn = this.createButton(fr.ina.amalia.player.PlayerMessage.PLUGIN_TIMELINE_LABEL_EXPAND, "expand-btn");
             expandBtn.on('click', {
-                    self: this
-                },
-                this.onClickExpandBtn);
+                self: this
+            }, this.onClickExpandBtn);
             expandBtn.addClass(this.Class.STYLE_CLASSNAME_EXPAND_ON);
             toolbarContainer.append(expandBtn);
             // sort bouton
@@ -498,9 +487,8 @@ $.Class("fr.ina.amalia.player.plugins.timeline.BaseComponent", {
             if (this.settings.focusable === true) {
                 var focusZoomBtn = this.createButton(fr.ina.amalia.player.PlayerMessage.PLUGIN_TIMELINE_LABEL_FOCUS, "zoom-in focus-btn");
                 focusZoomBtn.on('click', {
-                        self: this
-                    },
-                    this.onClickFocusBtn);
+                    self: this
+                }, this.onClickFocusBtn);
                 bottomToolbarContainer.append(focusZoomBtn);
             }
             this.mainContainer.append(bottomToolbarContainer);
@@ -678,7 +666,7 @@ $.Class("fr.ina.amalia.player.plugins.timeline.BaseComponent", {
             this.zTcin = parseFloat(tcin);
             this.zTcout = parseFloat(tcout);
             if (this.zoomableZone !== null) {
-                this.zoomableZone.setZoomTc(this.zTcin, this.zTcout);
+                this.zoomableZone.setZoomTc(parseFloat(tcin), parseFloat(tcout));
             }
         },
         /**
@@ -701,7 +689,7 @@ $.Class("fr.ina.amalia.player.plugins.timeline.BaseComponent", {
             }
         },
         /**
-         * Retrun true if component has elements
+         * Return true if component has elements
          * @method getHasElements
          * @returns {Boolean}
          */
@@ -717,7 +705,7 @@ $.Class("fr.ina.amalia.player.plugins.timeline.BaseComponent", {
             return this.focusable;
         },
         /**
-         * Retourne true if this component is zoomable
+         * Return true if this component is zoomable
          * @method isZoomable
          * @returns {Boolean}
          */
@@ -799,15 +787,8 @@ $.Class("fr.ina.amalia.player.plugins.timeline.BaseComponent", {
          * @returns {undefined}
          */
         clearSelectedItems: function () {
-            for (var i = 0;
-                 i < this.listOfdata.length;
-                 i++) {
-                var data = this.listOfdata[i];
-                if (data.hasOwnProperty('selected') && data.selected === true) {
-                    data.selected = false;
-                }
-            }
-            this.mainContainer.find('.line-content .item.cuepoint').removeClass('selected');
+            this.mediaPlayer.removeAllSelectedItems();
+            this.mainContainer.find('.line-content .item').removeClass('selected');
         },
         /**
          * In charge to update display tool tip state.
@@ -822,7 +803,9 @@ $.Class("fr.ina.amalia.player.plugins.timeline.BaseComponent", {
          * @method updateTimeCursor
          */
         updateTimeCursor: function () {
-            this.mainContainer.find('.timecursor').css('left', ((this.currentTime - this.tcin) * 100) / (this.tcout - this.tcin) + '%');
+            var tcin = parseFloat((this.zoomable === false) ? this.tcOffset : this.tcin);
+            var tcout = parseFloat((this.zoomable === false) ? this.duration : this.tcout);
+            this.mainContainer.find('.timecursor').css('left', ((this.currentTime - tcin) * 100) / (tcout - tcin) + '%');
         },
         /**
          * Return data with zoom level

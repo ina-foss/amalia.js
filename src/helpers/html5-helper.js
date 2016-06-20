@@ -32,12 +32,28 @@
 $.Class("fr.ina.amalia.player.helpers.HTML5Helper", {
         /**
          * Method checks whether the document is in full-screen mode.
-         * @method isFullScreen
+         * @method inFullScreen
          * @returns {Boolean} Return true if the document is in full-screen mode.
          */
-        isFullScreen: function () {
-            var doc = $(document).context;
-            return doc.fullscreen || doc.mozFullScreen || doc.webkitIsFullScreen;
+        inFullScreen: function () {
+            if (
+                document.fullscreenEnabled ||
+                document.webkitFullscreenEnabled ||
+                document.mozFullScreenEnabled ||
+                document.msFullscreenEnabled
+            ) {
+                if (
+                    document.fullscreenElement ||
+                    document.webkitFullscreenElement ||
+                    document.mozFullScreenElement ||
+                    document.msFullscreenElement
+                ) {
+                    return true;
+                }
+            }
+
+                return false;
+
         },
         /**
          * Method in charge to toggle full-screen mode
@@ -47,9 +63,8 @@ $.Class("fr.ina.amalia.player.helpers.HTML5Helper", {
          * @return {Boolean} Return true if in full-screen mode.
          */
         toggleFullScreen: function (dom, force) {
-            var doc = $(document).context;
-            var isFullScreen = doc.fullscreen || doc.mozFullScreen || doc.webkitIsFullScreen ? true : false;
-            if (isFullScreen === false || force === true) {
+            var inFullScreen = fr.ina.amalia.player.helpers.HTML5Helper.inFullScreen();
+            if (inFullScreen === false || force === true) {
                 var requestFullScreen = dom.requestFullScreen || dom.webkitRequestFullScreen || dom.mozRequestFullScreen || dom.msRequestFullscreen || dom.webkitEnterFullscreen;
                 if (typeof requestFullScreen !== "undefined" && requestFullScreen) {
                     requestFullScreen.call(dom);
@@ -57,7 +72,7 @@ $.Class("fr.ina.amalia.player.helpers.HTML5Helper", {
                 }
             }
             else {
-                var cancelFullScreen = document.cancelFullScreen || document.mozCancelFullScreen || document.webkitCancelFullScreen;
+                var cancelFullScreen = document.cancelFullScreen || document.mozCancelFullScreen || document.webkitCancelFullScreen || document.exitFullscreen || document.msExitFullscreen;
                 if (typeof cancelFullScreen !== "undefined" && cancelFullScreen) {
                     cancelFullScreen.call(document);
                     return false;

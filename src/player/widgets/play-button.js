@@ -34,7 +34,7 @@
 fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia.player.plugins.controlBar.widgets.PlayButton", {
         classCss: "player-play-button",
         style: "",
-        playIcon: 'ajs-icon ajs-icon-control-play'
+        playIcon: 'ajs-icon ajs-icon-controlbar-play'
     },
     {
         /**
@@ -70,14 +70,18 @@ fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia
          * @method definePlayerEvents
          */
         definePlayerEvents: function () {
-            this.mediaPlayer.mediaContainer.on(fr.ina.amalia.player.PlayerEventType.PLAYING, {
-                    self: this
-                },
-                this.onPlaying);
-            this.mediaPlayer.mediaContainer.on(fr.ina.amalia.player.PlayerEventType.PAUSED, {
-                    self: this
-                },
-                this.onPaused);
+            this.mediaPlayer.getContainer().on(fr.ina.amalia.player.PlayerEventType.PLAYING, {
+                self: this
+            }, this.onPlaying);
+            this.mediaPlayer.getContainer().on(fr.ina.amalia.player.PlayerEventType.PAUSED, {
+                self: this
+            }, this.onPaused);
+            this.mediaPlayer.getContainer().on(fr.ina.amalia.player.PlayerEventType.CAST_PLAYING, {
+                self: this
+            }, this.onPlaying);
+            this.mediaPlayer.getContainer().on(fr.ina.amalia.player.PlayerEventType.CAST_PAUSED, {
+                self: this
+            }, this.onPaused);
         },
         /**
          * Fired on click event
@@ -85,7 +89,12 @@ fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia
          * @param {Object} event
          */
         onClick: function (event) {
-            event.data.self.mediaPlayer.play();
+            if (!event.data.self.mediaPlayer.getCastMode()) {
+                event.data.self.mediaPlayer.play();
+            }
+            else {
+                event.data.self.mediaPlayer.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.CAST_PLAYING);
+            }
         },
         /**
          * Fired on playing event for hide play button.

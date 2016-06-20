@@ -43,6 +43,7 @@
                 return null;
             }
             settings = $.extend({
+                    player: 'default',
                     plugins: {},
                     src: null,
                     framerate: 25,
@@ -50,8 +51,10 @@
                     controlBarClassName: "fr.ina.amalia.player.plugins.CustomControlBarPlugin",
                     controlBar: {},
                     tcOffset: 0,
-                    mediaType: 'mp4',
+                    mediaType: '',
                     thumbRootDirectory: '',
+                    duration: null,
+                    togglePlayPause: false,
                     debug: false
                 },
                 settings || {});

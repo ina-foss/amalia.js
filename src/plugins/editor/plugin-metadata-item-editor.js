@@ -188,21 +188,17 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Met
                 self: this
             }, this.onCloseItem);
 
-            //PLAYER
-            var player = this.mediaPlayer.getMediaPlayer();
-
-            player.on(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
+            var mainContainer = this.mediaPlayer.getContainer();
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
                 self: this
             }, this.onDataChange);
-
-            player.on(fr.ina.amalia.player.PlayerEventType.SELECTED_ITEMS_CHANGE, {
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.SELECTED_ITEMS_CHANGE, {
                 self: this
             }, this.onSelectedItemsChange);
             //On select metadata
-            player.on(fr.ina.amalia.player.PlayerEventType.SELECTED_METADATA_CHANGE, {
-                    self: this
-                },
-                this.onSelectedMetadataChange);
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.SELECTED_METADATA_CHANGE, {
+                self: this
+            }, this.onSelectedMetadataChange);
             if (this.logger !== null) {
                 this.logger.trace(this.Class.fullName, "definePlayerListeners");
             }
@@ -229,7 +225,7 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Met
                     this.selectedItem.tcin = fr.ina.amalia.player.helpers.UtilitiesHelper.convertTimeFPSToSeconde(tcin);
                     this.selectedItem.tcout = fr.ina.amalia.player.helpers.UtilitiesHelper.convertTimeFPSToSeconde(tcout);
                     this.clearSelectedData();
-                    this.mediaPlayer.getMediaPlayer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
+                    this.mediaPlayer.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
                         id: this.metadataId
                     });
                 }
@@ -445,14 +441,14 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Met
             event.data.self.clearSelectedData();
 
             //Send data change evnet
-            event.data.self.mediaPlayer.getMediaPlayer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
+            event.data.self.mediaPlayer.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
                 id: event.data.self.metadataId
             });
         },
         onCloseItem: function (event) {
             event.data.self.selectedItem = null;
             event.data.self.mediaPlayer.removeAllSelectedItems();
-            event.data.self.mediaPlayer.getMediaPlayer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
+            event.data.self.mediaPlayer.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
                 id: event.data.self.metadataId
             });
             event.data.self.clearSelectedData();

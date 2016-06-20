@@ -122,7 +122,7 @@ $.Class("fr.ina.amalia.player.plugins.textSyncPlugin.Component", {
          * @param {String} text
          * @param {String} thumb
          */
-        createLine: function (tcin, tcout, label, text, thumb) {
+        createLine: function (tcin, tcout, label, text, thumb,metadata) {
             var line = $('<li>', {
                 'class': 'line media',
                 'data-tcin': tcin,
@@ -140,9 +140,8 @@ $.Class("fr.ina.amalia.player.plugins.textSyncPlugin.Component", {
             });
             leftBlock.append(imgContainer);
             imgContainer.on('click', {
-                    self: this
-                },
-                this.onClickAtTc);
+                self: this
+            }, this.onClickAtTc);
 
             var tcinContainer = $('<time>', {
                 class: 'tcin badge',
@@ -150,9 +149,8 @@ $.Class("fr.ina.amalia.player.plugins.textSyncPlugin.Component", {
                 'data-tc': tcin,
                 text: fr.ina.amalia.player.helpers.UtilitiesHelper.formatTime(tcin, this.settings.framerate, "s")
             }).tooltip(this.tooltipConfiguration).on('click', {
-                    self: this
-                },
-                this.onClickAtTc);
+                self: this
+            }, this.onClickAtTc);
 
             var tcoutContainer = $('<time>', {
                 class: 'tcout badge',
@@ -160,9 +158,8 @@ $.Class("fr.ina.amalia.player.plugins.textSyncPlugin.Component", {
                 'data-tc': tcout,
                 text: fr.ina.amalia.player.helpers.UtilitiesHelper.formatTime(tcout, this.settings.framerate, "s")
             }).tooltip(this.tooltipConfiguration).on('click', {
-                    self: this
-                },
-                this.onClickAtTc);
+                self: this
+            }, this.onClickAtTc);
 
             var progressbarContainer = $('<div>', {
                 class: 'ajs-progress'
@@ -188,16 +185,17 @@ $.Class("fr.ina.amalia.player.plugins.textSyncPlugin.Component", {
                 'class': 'text'
             });
             if (typeof text === 'string') {
-                this.textContainer.text(text);
+                this.textContainer.html(text);
             }
             else {
                 this.textContainer.append(text);
             }
+
             contentBlock.append(this.textContainer);
             contentBlock.append(progressbarContainer);
             line.append(leftBlock);
             line.append(contentBlock);
-
+            line.data('metadata',metadata);
             this.mainContainer.append(line);
         },
         /**
@@ -208,6 +206,9 @@ $.Class("fr.ina.amalia.player.plugins.textSyncPlugin.Component", {
         addText: function (text) {
             if (this.textContainer !== null) {
                 this.textContainer.append(text);
+                this.textContainer.find('.word').on('click', {
+                    self: this
+                }, this.onClickAtTc);
             }
         },
         /** events* */

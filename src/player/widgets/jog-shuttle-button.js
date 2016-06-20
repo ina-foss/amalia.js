@@ -236,11 +236,9 @@ fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia
          * @returns {undefined}
          */
         definePlayerEvents: function () {
-            this.mediaPlayer.mediaContainer.on(fr.ina.amalia.player.PlayerEventType.PLAYBACK_RATE_CHANGE, {
-                    self: this
-                },
-                this.onPlaybackRateChange);
-
+            this.mediaPlayer.getContainer().on(fr.ina.amalia.player.PlayerEventType.PLAYBACK_RATE_CHANGE, {
+                self: this
+            }, this.onPlaybackRateChange);
         },
         /**
          * In charge to set player playback rate

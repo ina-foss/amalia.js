@@ -33,8 +33,8 @@
  */
 fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia.player.plugins.controlBar.widgets.FullscreenButton", {
         classCss: "player-fullscreen-button",
-        classCssFullscreenOn: "ajs-icon ajs-icon-expand",
-        classCssFullscreenOff: "ajs-icon ajs-icon-compress",
+        classCssFullscreenOn: "ajs-icon ajs-icon-controlbar-fullscreen",
+        classCssFullscreenOff: "ajs-icon ajs-icon-controlbar-compress",
         style: "",
         eventTypes: {
             CLICK: "fr.ina.amalia.player.plugins.widgets.FullscreenButton.event.click"
@@ -58,10 +58,9 @@ fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia
 
             // set events
             this.component.on('click', {
-                    self: this,
-                    component: this.component
-                },
-                this.onClick);
+                self: this,
+                component: this.component
+            }, this.onClick);
             // Add to container
             this.container.append(this.component);
             this.setFullscreenMode(false);
@@ -76,11 +75,9 @@ fr.ina.amalia.player.plugins.controlBar.widgets.WidgetBase.extend("fr.ina.amalia
          * @method definePlayerEvents
          */
         definePlayerEvents: function () {
-            this.mediaPlayer.mediaContainer.on(fr.ina.amalia.player.PlayerEventType.FULLSCREEN_CHANGE, {
-                    self: this
-                },
-                this.onFullscreenModeChange);
-
+            this.mediaPlayer.getContainer().on(fr.ina.amalia.player.PlayerEventType.FULLSCREEN_CHANGE, {
+                self: this
+            }, this.onFullscreenModeChange);
         },
         /**
          * Set full-screen mode

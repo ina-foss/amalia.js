@@ -34,10 +34,31 @@ $.Class("fr.ina.amalia.player.PlayerEventType", {
         /**
          * Fired when the player has initialized.
          * @constant
+         * @property INIT
+         * @type {String}
+         */
+        INIT: "fr.ina.amalia.player.PlayerEventType.INIT",
+        /**
+         * Fired when the player has started with duration.
+         * @constant
          * @property STARTED
          * @type {String}
          */
         STARTED: "fr.ina.amalia.player.PlayerEventType.STARTED",
+        /**
+         * Fires when playing event.
+         * @constant
+         * @property PLAYING
+         * @type {String}
+         */
+        CAST_PLAYING: "fr.ina.amalia.player.PlayerEventType.CAST_PLAYING",
+        /**
+         * Fires the paused/resumed
+         * @constant
+         * @property PAUSED
+         * @type {String}
+         */
+        CAST_PAUSED: "fr.ina.amalia.player.PlayerEventType.CAST_PAUSED",
         /**
          * Fires when playing event.
          * @constant
@@ -133,14 +154,14 @@ $.Class("fr.ina.amalia.player.PlayerEventType", {
          */
         DATA_CHANGE: "fr.ina.amalia.player.PlayerEventType.DATA_CHANGE",
         /**
-         * Fired when data change
+         * Fired at the beginning of data change
          * @constant
          * @property BEGIN_DATA_CHANGE
          * @type {String}
          */
         BEGIN_DATA_CHANGE: "fr.ina.amalia.player.PlayerEventType.BEGIN_DATA_CHANGE",
         /**
-         * Fired when data change
+         * Fired end of data change
          * @constant
          * @property END_DATA_CHANGE
          * @type {String}

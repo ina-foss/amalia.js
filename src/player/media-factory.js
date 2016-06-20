@@ -68,6 +68,16 @@ $.Class("fr.ina.amalia.player.MediaFactory", {}, {
      * @default null
      */
     errorContainer: null,
+
+    /**
+     * Last Seek time
+     * @property lastSeekTime
+     * @type {Object}
+     * @default null
+     */
+    lastSeekTime: null,
+
+
     /**
      * Init this class
      * @constructor
@@ -77,14 +87,16 @@ $.Class("fr.ina.amalia.player.MediaFactory", {}, {
      */
     init: function (mediaContainer, settings) {
         this.mediaContainer = $(mediaContainer);
+        this.lastSeekTime = 0;
         this.settings = $.extend({
+                player: 'default',
                 src: null,
                 poster: "",
                 autoplay: false,
                 plugins: {},
                 callbacks: {},
+                duration: null,
                 debug: false
-
             },
             settings || {});
         if (fr.ina.amalia.player.log !== undefined && fr.ina.amalia.player.log.LogHandler !== undefined) {
@@ -101,18 +113,23 @@ $.Class("fr.ina.amalia.player.MediaFactory", {}, {
      */
     initialize: function () {
         try {
-            this.loadPlayer();
-            if (this.logger !== null) {
-                this.logger.trace(this.Class.fullName, "initialize");
+            if (this.settings.src !== null) {
+                this.loadPlayer();
+                if (this.logger !== null) {
+                    this.logger.trace(this.Class.fullName, "initialize");
+                }
+            }
+            else {
+                this.createErrorContainer();
+                this.setErrorCode(fr.ina.amalia.player.PlayerErrorCode.MEDIA_FILE_NOT_FOUND);
             }
         }
         catch (error) {
             this.createErrorContainer();
-            this.setErrorCode(8000);
+            this.setErrorCode(fr.ina.amalia.player.PlayerErrorCode.ERROR_HTML5_SUPPORT);
             if (this.logger !== null) {
                 this.logger.error(error.stack);
             }
-
         }
     },
     /**
@@ -145,23 +162,13 @@ $.Class("fr.ina.amalia.player.MediaFactory", {}, {
      * @method loadPlayer
      */
     loadPlayer: function () {
-        if (this.logger !== null) {
-            this.logger.trace(this.Class.fullName, "Load html 5 media player");
-        }
-        if (this.src !== null) {
-            var browserFeatureDetection = new fr.ina.amalia.player.helpers.BrowserFeatureDetection();
-            if (browserFeatureDetection.isSupportsVideos()) {
-                this.loadHtml5MediaPlayer();
-            }
-            else {
-                if (this.logger !== null) {
-                    this.logger.error("Your browser does not support the video tag.");
-                }
-                throw new Error("Your browser does not support the video tag.");
-            }
+
+        if (this.settings.player === "default") {
+            this.loadHtml5MediaPlayer();
         }
         else {
-            throw new Error("Can't find media src");
+            /* jslint evil: true */
+            this.player = eval("new " + this.settings.player + "(this.settings, this.mediaContainer);");
         }
     },
     /**
@@ -172,7 +179,16 @@ $.Class("fr.ina.amalia.player.MediaFactory", {}, {
         if (this.logger !== null) {
             this.logger.info("Load html 5 media player");
         }
-        this.player = new fr.ina.amalia.player.PlayerHtml5(this.settings, this.mediaContainer);
+        var browserFeatureDetection = new fr.ina.amalia.player.helpers.BrowserFeatureDetection();
+        if (browserFeatureDetection.isSupportsVideos()) {
+            this.player = new fr.ina.amalia.player.PlayerHtml5(this.settings, this.mediaContainer);
+        }
+        else {
+            if (this.logger !== null) {
+                this.logger.error("Your browser does not support the video tag.");
+            }
+            throw new Error("Your browser does not support the video tag.");
+        }
     },
     /**
      * Return player instance

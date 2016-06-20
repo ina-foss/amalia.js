@@ -59,14 +59,13 @@ $.Class("fr.ina.amalia.player.LocalisationManager", {}, {
     /**
      * in charge to set localisation
      * @param {type} localisation
-     * @returns {undefined}
      */
     setLoc: function (localisation) {
         this.localisation = localisation;
     },
     /**
      * Return localisation tcin tcout
-     * @returns {localisation-managerAnonym$1.getLocTc.localisation-managerAnonym$2}
+     * @returns return timecode
      */
     getLocTc: function () {
         if (this.localisation !== null && this.localisation.length > 1) {
@@ -169,7 +168,7 @@ $.Class("fr.ina.amalia.player.LocalisationManager", {}, {
     },
     /**
      * In  charge to updata localisation block for spatial data
-     * @method updateSpacialLocBlock
+     * @method updateLocBlock
      * @param {Object} localisations
      */
     updateLocBlock: function (localisations) {
@@ -195,7 +194,7 @@ $.Class("fr.ina.amalia.player.LocalisationManager", {}, {
     },
     /**
      * In  charge to shift localisation block with spatial data
-     * @method updateSpacialLocBlock
+     * @method shiftSpacialLocBlock
      * @param {Object} localisations
      */
     shiftSpacialLocBlock: function (loc, tcin) {
@@ -212,6 +211,38 @@ $.Class("fr.ina.amalia.player.LocalisationManager", {}, {
                      j++) {
                     var item = loc.sublocalisations.localisation[j];
                     item.tc += shiftTc;
+                }
+
+            }
+            return true;
+        }
+        return false;
+    },
+    /**
+     * In charge to shift localisation with tc
+     * @method shiftLocBlock
+     * @param {Object} localisations
+     */
+    shiftLocBlock: function (metadata, shiftTc, tcin, tcout, selected) {
+        if (typeof metadata === "object" && metadata.length > 0) {
+            metadata.sort(function (obj1, obj2) {
+                return obj1.tc - obj2.tc;
+            });
+            for (var j = 0;
+                 j < metadata.length;
+                 j++) {
+                var item = metadata[j];
+                if ((selected === false) || (selected === true && item.hasOwnProperty('selected') && item.selected === true)) {
+                    if (item.hasOwnProperty('tc') && item.tc !== null) {
+                        //item.tc = Math.min(Math.max(tcin, item.tc + shiftTc), tcout);
+                        item.tc += shiftTc;
+                    }
+                    if (item.hasOwnProperty('tcin') && item.tcin !== null) {
+                        item.tcin += shiftTc;
+                    }
+                    if (item.hasOwnProperty('tcout') && item.tcout !== null) {
+                        item.tcout += shiftTc;
+                    }
                 }
 
             }

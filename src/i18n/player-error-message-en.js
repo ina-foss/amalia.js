@@ -34,3 +34,4 @@ fr.ina.amalia.player.PlayerErrorMessage.CUSTOM_ERROR = 'An error has occurred on
 fr.ina.amalia.player.PlayerErrorMessage.ERROR = 'Error has occurred please try again later.';
 fr.ina.amalia.player.PlayerErrorMessage.DEFAULT = 'Error has occurred please try again later.';
 fr.ina.amalia.player.PlayerErrorMessage.ERROR_HTML5_SUPPORT = 'Error loading player: HTML5 video not supported';
+fr.ina.amalia.player.PlayerErrorMessage.ERROR_MANIFEST_DASH = 'Error to load manifest dash';

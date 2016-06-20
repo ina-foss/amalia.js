@@ -151,22 +151,19 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Met
             var addBtnElement = $('<span>', {
                 'class': 'button add ajs-icon ajs-icon-plus'
             }).on('click', {
-                    self: this
-                },
-                this.onAddItem);
+                self: this
+            }, this.onAddItem);
             var validateBtnElement = $('<span>', {
                 'class': 'button validateAll ajs-icon ajs-icon-check'
             }).on('click', {
-                    self: this
-                },
-                this.onValidateItems);
+                self: this
+            }, this.onValidateItems);
 
             var clearBtnElement = $('<span>', {
                 'class': 'button clear ajs-icon ajs-icon-eject'
             }).on('click', {
-                    self: this
-                },
-                this.onClearItems);
+                self: this
+            }, this.onClearItems);
 
             element.append(addBtnElement);
             element.append(validateBtnElement);
@@ -216,22 +213,18 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Met
          * @method defineListeners
          */
         defineListeners: function () {
-            var player = this.mediaPlayer.getMediaPlayer();
+            var mainContainer = this.mediaPlayer.getContainer();
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.SELECTED_METADATA_CHANGE, {
+                self: this
+            }, this.onSelectedMetadataChange);
 
-            player.on(fr.ina.amalia.player.PlayerEventType.SELECTED_METADATA_CHANGE, {
-                    self: this
-                },
-                this.onSelectedMetadataChange);
-
-            player.on(fr.ina.amalia.player.PlayerEventType.SELECTED_ITEMS_CHANGE, {
-                    self: this
-                },
-                this.onSelectedItemsChange);
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.SELECTED_ITEMS_CHANGE, {
+                self: this
+            }, this.onSelectedItemsChange);
             //On data change event
-            player.on(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
-                    self: this
-                },
-                this.onDataChange);
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
+                self: this
+            }, this.onDataChange);
 
             if (this.logger !== null) {
                 this.logger.trace(this.Class.fullName, "definePlayerListeners");
@@ -372,8 +365,9 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Met
                      i < listOfSelectedItems.length;
                      i++) {
                     var data = listOfSelectedItems[i];
+                    var addForm = ( data !== null && data.hasOwnProperty('formCreated')) ? data.formCreated === false : true;
+                    if (data !== null && addForm) {
 
-                    if (data !== null && data.hasOwnProperty('formCreated') && data.formCreated === false) {
                         var itemForm = this.createFormData(data);
                         var item = $('<li>', {
                             'class': 'item item-' + i
@@ -386,38 +380,33 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Met
             }
             // Add events
             listOfSelectedItemsElement.find('.form-input').on('click', {
-                    self: this
-                },
-                this.onFormEdit);
+                self: this
+            }, this.onFormEdit);
             listOfSelectedItemsElement.find('.form-input input.input').on('focusout', {
-                    self: this
-                },
-                this.onFormFocusout);
+                self: this
+            }, this.onFormFocusout);
             listOfSelectedItemsElement.find('.form-data .form-controls .button.valid').on('click', {
-                    self: this
-                },
-                this.onSaveForm);
+                self: this
+            }, this.onSaveForm);
             listOfSelectedItemsElement.find('.form-data .form-controls .button.remove').on('click', {
-                    self: this
-                },
-                this.onDeleteItem);
+                self: this
+            }, this.onDeleteItem);
             listOfSelectedItemsElement.find('.form-data .form-controls .button.close').on('click', {
-                    self: this
-                },
-                this.onCloseForm);
+                self: this
+            }, this.onCloseForm);
         },
         /**
          * In charge close item
          * @param {Object} itemDataElement
          */
         _closeItem: function (itemDataElement) {
-            var itemIdx = parseInt(itemDataElement.attr('class').match(/item-([0-9]+)/)[1]);
+            // var itemIdx = parseInt(itemDataElement.attr('class').match(/item-([0-9]+)/)[1]);
             var formData = itemDataElement.find('form').first();
             var itemData = formData.data('metadata');
             itemData.selected = false;
             itemData.formCreated = false;
             itemDataElement.remove();
-            this.metadataManager.removeSelectedItem(itemIdx);
+            //this.metadataManager.removeSelectedItem(itemIdx);
         },
         /**
          * In charge of validate item
@@ -553,7 +542,7 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Met
         onSaveForm: function (event) {
             var isValid = event.data.self._validateItem($(event.currentTarget).parents('li.item').first(), event.data.self.metadataId);
             if (isValid) {
-                event.data.self.mediaPlayer.getMediaPlayer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
+                event.data.self.mediaPlayer.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
                     id: event.data.self.metadataId
                 });
             }
@@ -568,7 +557,7 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Met
          */
         onCloseForm: function (event) {
             event.data.self._closeItem($(event.currentTarget).parents('li.item').first());
-            event.data.self.mediaPlayer.getMediaPlayer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
+            event.data.self.mediaPlayer.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
                 id: event.data.self.metadataId
             });
         },
@@ -596,8 +585,8 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Met
                 event.data.self.localisationManager.updateSpacialLocBlock(data);
             }
             itemDataElement.remove();
-            //Send data change evnet
-            event.data.self.mediaPlayer.getMediaPlayer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
+            //Send data change event
+            event.data.self.mediaPlayer.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
                 id: event.data.self.metadataId
             });
         },
@@ -696,7 +685,7 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Met
                  selectedItemElementIdx++) {
                 event.data.self._closeItem($(listOfSelectedItemsElement[selectedItemElementIdx]));
             }
-            event.data.self.mediaPlayer.getMediaPlayer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
+            event.data.self.mediaPlayer.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
                 id: event.data.self.metadataId
             });
         },
@@ -714,7 +703,7 @@ fr.ina.amalia.player.plugins.PluginBase.extend("fr.ina.amalia.player.plugins.Met
                     $(listOfSelectedItemsElement[selectedItemElementIdx]).addClass('error');
                 }
             }
-            event.data.self.mediaPlayer.getMediaPlayer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
+            event.data.self.mediaPlayer.getContainer().trigger(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
                 id: event.data.self.metadataId
             });
         },

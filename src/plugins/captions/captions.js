@@ -78,36 +78,30 @@ fr.ina.amalia.player.plugins.captions.CaptionsBase.extend("fr.ina.amalia.player.
          * @method definePlayerListeners
          */
         definePlayerListeners: function () {
-            var player = this.mediaPlayer.getMediaPlayer();
+            var mainContainer = this.mediaPlayer.getContainer();
             if (this.settings.metadataId === '') {
-                player.on(fr.ina.amalia.player.PlayerEventType.SELECTED_METADATA_CHANGE, {
-                        self: this
-                    },
-                    this.onSelectedMetadataChange);
+                mainContainer.on(fr.ina.amalia.player.PlayerEventType.SELECTED_METADATA_CHANGE, {
+                    self: this
+                }, this.onSelectedMetadataChange);
             }
-            player.on(fr.ina.amalia.player.PlayerEventType.BEGIN_DATA_CHANGE, {
-                    self: this
-                },
-                this.onBeginDataChange);
-            player.on(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
-                    self: this
-                },
-                this.onDataChange);
-            player.on(fr.ina.amalia.player.PlayerEventType.END_DATA_CHANGE, {
-                    self: this
-                },
-                this.onEndDataChange);
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.BEGIN_DATA_CHANGE, {
+                self: this
+            }, this.onBeginDataChange);
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
+                self: this
+            }, this.onDataChange);
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.END_DATA_CHANGE, {
+                self: this
+            }, this.onEndDataChange);
 
             // Player events
-            player.on(fr.ina.amalia.player.PlayerEventType.TIME_CHANGE, {
-                    self: this
-                },
-                this.onTimeupdate);
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.TIME_CHANGE, {
+                self: this
+            }, this.onTimeupdate);
             // Player full screen events
-            player.on(fr.ina.amalia.player.PlayerEventType.FULLSCREEN_CHANGE, {
-                    self: this
-                },
-                this.onFullscreenModeChange);
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.FULLSCREEN_CHANGE, {
+                self: this
+            }, this.onFullscreenModeChange);
 
             if (this.logger !== null) {
                 this.logger.trace(this.Class.fullName, "definePlayerListeners");
@@ -203,7 +197,7 @@ fr.ina.amalia.player.plugins.captions.CaptionsBase.extend("fr.ina.amalia.player.
          */
         onDataChange: function (event, data) {
             if (event.data.self.loadDataStarted === false && event.data.self.selectedMetadataId === data.id) {
-                this.updataBlockData();
+                event.data.self.updataBlockData();
             }
         },
         /**

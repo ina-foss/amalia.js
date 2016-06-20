@@ -77,7 +77,8 @@ fr.ina.amalia.player.plugins.captions.CaptionsBase.extend("fr.ina.amalia.player.
                     title: '',
                     description: '',
                     displayLevel: '',
-                    autoScroll: false
+                    autoScroll: false,
+                    karaokeOffsetTime: 1
                 },
                 this.settings.parameters || {});
             this.settings.displayLevel = (this.settings.displayLevel === "") ? this.settings.level : this.settings.displayLevel;
@@ -89,9 +90,8 @@ fr.ina.amalia.player.plugins.captions.CaptionsBase.extend("fr.ina.amalia.player.
 
             // events
             this.container.on(fr.ina.amalia.player.plugins.textSyncPlugin.Component.eventTypes.CLICK, {
-                    self: this
-                },
-                this.onClickTc);
+                self: this
+            }, this.onClickTc);
 
             this.pluginContainer.append(this.container);
             this.defineEventListeners();
@@ -101,34 +101,28 @@ fr.ina.amalia.player.plugins.captions.CaptionsBase.extend("fr.ina.amalia.player.
          * @method defineEventListeners
          */
         defineEventListeners: function () {
-            var player = this.mediaPlayer.getMediaPlayer();
-            player.on(fr.ina.amalia.player.PlayerEventType.BEGIN_DATA_CHANGE, {
-                    self: this
-                },
-                this.onBeginDataChange);
-            player.on(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
-                    self: this
-                },
-                this.onDataChange);
-            player.on(fr.ina.amalia.player.PlayerEventType.END_DATA_CHANGE, {
-                    self: this
-                },
-                this.onEndDataChange);
+            var mainContainer = this.mediaPlayer.getContainer();
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.BEGIN_DATA_CHANGE, {
+                self: this
+            }, this.onBeginDataChange);
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.DATA_CHANGE, {
+                self: this
+            }, this.onDataChange);
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.END_DATA_CHANGE, {
+                self: this
+            }, this.onEndDataChange);
 
-            player.on(fr.ina.amalia.player.PlayerEventType.TIME_CHANGE, {
-                    self: this
-                },
-                this.onTimeupdate);
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.TIME_CHANGE, {
+                self: this
+            }, this.onTimeupdate);
             if (this.settings.autoScroll === true) {
-                player.on(fr.ina.amalia.player.PlayerEventType.SEEK, {
-                        self: this
-                    },
-                    this.onSeek);
-            }
-            player.on(fr.ina.amalia.player.PlayerEventType.SELECTED_METADATA_CHANGE, {
+                mainContainer.on(fr.ina.amalia.player.PlayerEventType.SEEK, {
                     self: this
-                },
-                this.onSelectedMetadataChange);
+                }, this.onSeek);
+            }
+            mainContainer.on(fr.ina.amalia.player.PlayerEventType.SELECTED_METADATA_CHANGE, {
+                self: this
+            }, this.onSelectedMetadataChange);
         },
         /**
          * In charge to update display items
@@ -148,7 +142,7 @@ fr.ina.amalia.player.plugins.captions.CaptionsBase.extend("fr.ina.amalia.player.
                     component = this.createComponent(this.container);
                     if (component !== null) {
                         if (typeof component.createLine === "function") {
-                            component.createLine(data.tcin, data.tcout, data.label, (this.withMainLevel === true) ? '' : data.text, data.thumb);
+                            component.createLine(data.tcin, data.tcout, data.label, (this.withMainLevel === true) ? '' : data.text, data.thumb, data);
                         }
                     }
                     else {
@@ -157,7 +151,7 @@ fr.ina.amalia.player.plugins.captions.CaptionsBase.extend("fr.ina.amalia.player.
                         }
                     }
                 }
-                else {
+                else  if (data.level > displayLevel)  {
                     if (component !== null) {
                         component.addText(this.createWord(data));
                     }
@@ -172,11 +166,12 @@ fr.ina.amalia.player.plugins.captions.CaptionsBase.extend("fr.ina.amalia.player.
          */
         createWord: function (data) {
             return $('<span>', {
-                class: 'word',
-                text: data.text,
+                'class': 'word',
+                'text': data.text,
+                'data-tc': data.tcin,
                 'data-tcin': data.tcin,
                 'data-tcout': data.tcout
-            });
+            }).data('metadata', data);
         },
         /**
          * In charge to create text sync component
@@ -186,10 +181,9 @@ fr.ina.amalia.player.plugins.captions.CaptionsBase.extend("fr.ina.amalia.player.
         createComponent: function (container, settings) {
             var component = null;
             var componentSettings = $.extend({
-                    debug: this.settings.debug,
-                    container: container
-                },
-                settings || {});
+                debug: this.settings.debug,
+                container: container
+            }, settings || {});
 
             try {
                 component = new fr.ina.amalia.player.plugins.textSyncPlugin.Component(componentSettings);
@@ -207,6 +201,7 @@ fr.ina.amalia.player.plugins.captions.CaptionsBase.extend("fr.ina.amalia.player.
          * @param {Object} currentTime
          */
         updatePos: function (currentTime) {
+
             currentTime = parseFloat(currentTime);
             // Line
             this.container.find('.line').removeClass('on');
@@ -214,18 +209,18 @@ fr.ina.amalia.player.plugins.captions.CaptionsBase.extend("fr.ina.amalia.player.
                 return (currentTime >= Math.round(parseFloat($(element).attr('data-tcin'))) && currentTime < Math.round(parseFloat($(element).attr('data-tcout'))));
             }).addClass('on').each(function (index, element) {
                 element = $(element);
-                var percentWidth = 0;
                 var tcin = Math.round(parseInt($(element).attr('data-tcin')));
                 var tcout = Math.round(parseInt($(element).attr('data-tcout')));
-                percentWidth = ((Math.round(currentTime) - tcin) * 100) / (tcout - tcin);
+                var percentWidth = ((Math.round(currentTime) - tcin) * 100) / (tcout - tcin);
                 element.find('.ajs-progress').show();
                 element.find('.ajs-progress-bar').css('width', Math.round(percentWidth) + '%');
             });
             // Word
             if (this.karaoke === true) {
                 this.container.find('.word').removeClass('on');
+                var self = this;
                 this.container.find('.word').filter(function (index, element) {
-                    return (currentTime >= parseFloat($(element).attr('data-tcin')) && currentTime < parseFloat($(element).attr('data-tcout')));
+                    return (currentTime >= parseFloat($(element).attr('data-tcin')) && currentTime < parseFloat($(element).attr('data-tcout')) + self.settings.karaokeOffsetTime);
                 }).addClass('on');
             }
             if (this.settings.autoScroll === true) {
@@ -275,7 +270,6 @@ fr.ina.amalia.player.plugins.captions.CaptionsBase.extend("fr.ina.amalia.player.
                 this.updateMetadata(this.selectedMetadataId, this.settings.level, 0, this.mediaPlayer.getDuration(), true);
                 this.updateListOfDisplayItems(this.settings.displayLevel);
             }
-
         },
         /**
          * Fired on click event
@@ -301,9 +295,8 @@ fr.ina.amalia.player.plugins.captions.CaptionsBase.extend("fr.ina.amalia.player.
             }).first().position();
             if (elementPosition && offsetPosition) {
                 event.data.self.container.stop().animate({
-                        scrollTop: elementPosition.top - offsetPosition.top
-                    },
-                    1500, 'easeInOutExpo');
+                    scrollTop: elementPosition.top - offsetPosition.top
+                }, 1500, 'easeInOutExpo');
             }
         },
         /**
@@ -336,7 +329,7 @@ fr.ina.amalia.player.plugins.captions.CaptionsBase.extend("fr.ina.amalia.player.
          */
         onDataChange: function (event) {
             if (event.data.self.loadDataStarted === false) {
-                this.updateBlockData();
+                event.data.self.updateBlockData();
             }
         },
         /**
