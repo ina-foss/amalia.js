@@ -75,67 +75,32 @@
         <div class="row row-centered">
             <div class="col-md-8">
 
-                <div class="doc-build">
-                    <h3 class="title">Building the source code</h3>
-                    <p>
-                        If you want to build the amalia.js library yourself, you will need a fully functionnal <a href="https://www.npmjs.com/">npm</a> / <a href="http://bower.io/">bower</a>/ <a href="http://gruntjs.com/">grunt</a> environment. If you want
-                        to use the trunk directly instead of stable releases, you also need to have <a href="https://git-scm.com/">git</a> installed. For Ubuntu, you can install everything quite easily :
-                        <pre class="smallpre">
+                <h3 class="title">Releases Notes</h3>
 
-sudo apt-get install git
+                <h4>1.3.2</h4>
+                <ul>
+                    <li>Bug fixes and improvements</li>
+                    <li>Change base class for implementation YouTube wrapper</li>
+                    <li>Improve documentation (Javascript API)</li>
+                </ul>
+                <h4>1.3.1</h4>
+                <ul>
+                    <li>Add Annotations plugin</li>
+                    <li>Add Metadata manager</li>
+                    <li>Add Shortcut manager</li>
+                    <li>Bug fixes and improvements</li>
+                    <li>Improve documentation (plugins)</li>
+                </ul>
 
-sudo apt-get install npm
-
-sudo ln -s /usr/bin/nodejs /usr/bin/node
-
-sudo npm install -g bower
-
-sudo npm install -g grunt-cli    	</pre>If you are behind a proxy, don't forget to configure correctly these tools :
-                        <pre class="smallpre">
-
-git config --global http.proxy http://proxy.mycompany.fr
-
-git config --global https.proxy http://proxy.mycompany.fr
-
-npm config set proxy http://proxy.mycompany.fr
-
-npm config set https-proxy http://proxy.mycompany.fr
-
-
-
-# Create or edit ~/.bowerrc with the following lines
-
-{
-
-  "proxy":"http://proxy.mycompany.fr",
-
-  "https-proxy":"http://proxy.mycompany.fr"
-
-}    	</pre>You are now ready to compile amalia.js. First get the source code
-                        <pre class="smallpre">
-
-git clone https://github.com/ina-foss/amalia.js.git amalia.js</pre>Then compile
-                        <pre class="smallpre">
-
-cd amalia.js
-
-bower install
-
-npm install
-
-grunt</pre>We use PhantomJS to run some unit tests. Unfortunately, this tool has a dependency on FontConfig that is hidden. If you have an error while building amalia.js regarding this library, simply install it
-                        <pre class="smallpre">
-
-sudo apt-get install fontconfig</pre>Make sure your build directory is available trough a web server. As an example, if you have Apache installed under Ubuntu
-                        <pre class="smallpre">
-
-sudo ln -s ~/amalia.js /var/www/html/amalia.js</pre>You can now acces the sample applications with your freshly build amalia.js at
-                        <pre class="smallpre">
-
-http://localhost/amalia.js/samples/</pre>
-                    </p>
-
-                </div>
+                <h4>1.3.0</h4>
+                <ul>
+                    <li>Delete bootstrap dependence</li>
+                    <li>Embed Third party libraries dash.js, jquery knob, jqueryhotkeys, touch punch, raphael free transforme</li>
+                </ul>
+                <h4>1.2.3</h4>
+                <ul>
+                    <li>Add first open source version</li>
+                </ul>
 
                 <!-- /build -->
             </div>

@@ -108,3 +108,15 @@ h4.title {
     margin-top: 60px;
 }
 
+.dl-horizontal dt {
+    width: initial !important;
+    padding-right: 5px !important;
+}
+
+.dl-horizontal dd {
+    margin-left: initial !important;
+}
+
+.doc-js-api {
+    font-size: 10px;
+}

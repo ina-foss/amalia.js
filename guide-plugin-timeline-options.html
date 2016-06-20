@@ -26,7 +26,10 @@
     <script type="text/javascript" src="libs/amalia-js/js/amalia.js-plugin-text-sync.min.js"></script>
     <script type="text/javascript" src="libs/amalia-js/js/amalia.js-plugin-timeline.min.js"></script>
     <script type="text/javascript" src="libs/amalia-js/js/amalia.js-plugin-editor.min.js"></script>
+    <script type="text/javascript" src="libs/amalia-js/js/amalia.js-yt-player.min.js"></script>
     <script type="text/javascript" src="libs/amalia-js/js/i18n/amalia.js-message-en.js"></script>
+    <!--Youtube IFrame API-->
+    <script src="//s.ytimg.com/yts/jsbin/www-widgetapi-vflpCdzwa/www-widgetapi.js"></script>
 
     <!-- // -->
     <!-- See at the end od this file for other Javascript stuff  -->
@@ -245,19 +248,13 @@
                                         <td></td>
                                     </tr>
                                     <tr>
-                                        <td>timeaxeExpandable</td>
+                                        <td>timeaxisExpandable</td>
                                         <td>Boolean</td>
                                         <td>(default : false)</td>
                                         <td></td>
                                     </tr>
                                     <tr>
                                         <td>editingMode</td>
-                                        <td>Boolean</td>
-                                        <td>(default : false)</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>timeaxeExpandable</td>
                                         <td>Boolean</td>
                                         <td>(default : false)</td>
                                         <td></td>
@@ -568,7 +565,7 @@ $("#myplayer-timeline").mediaPlayer({
                         </noscript>
                     </p>
                 </div>
-                <div class="hidden-print hidden-xs hidden-sm affix-top docssidebar">
+                <div>
                     <h4 class="scroll-to" href="#documentation">Documentation</h4>
                     <ul class="nav nav-pills nav-stacked">
                         <li><a class="scroll-to" href="index.html#quick-start">Quick start</a>
@@ -595,6 +592,12 @@ $("#myplayer-timeline").mediaPlayer({
                         </li>
                         <li><a href="guide-metadata-java-library.html">Metadata Java library</a>
                         </li>
+                        <li><a href="guide-player-api.html">JavaScript API</a>
+                        </li>
+                        <li><a href="guide-player-yt.html">YouTube Video Embed</a>
+                        </li>
+                        <li><a href="release-notes.html">Release notes</a>
+                        </li>
                     </ul>
                 </div>
 
@@ -608,10 +611,10 @@ $("#myplayer-timeline").mediaPlayer({
         <div class="container">
             <div class="row" style="vertical-align: middle">
 
-                <div class="col-md-6">Last updated : 2015-10-22</div>
+                <div class="col-md-6">Last updated : 2016-06-20</div>
                 <div class="col-md-6 text-right">
                     <a href="http://www.institut-national-audiovisuel.fr/en/home">
-                        <img class="logo-ina" src="img/logo_ina.jpg" style=" margin-right:10px; width: 32x; height: 32px" />Institut National de l'Audiovisuel - INA</a>©2015
+                        <img class="logo-ina" src="img/logo_ina.jpg" style=" margin-right:10px; width: 32x; height: 32px" />Institut National de l'Audiovisuel - INA</a>©2016
                 </div>
 
             </div>
@@ -620,11 +623,11 @@ $("#myplayer-timeline").mediaPlayer({
 
     <script type="text/javascript">
         $(function() {
-            $('.latestversion-filename').html('amalia.js-1.3.1');
-            $('.latestversion').html('Last stable version - v1.3.1');
-            $('.download-link-alone').attr('href', 'download/1.3.1/amalia.js-1.3.1.zip');
-            $('.download-link-full').attr('href', 'download/1.3.1/amalia.js-full-1.3.1.zip');
-            $('.download-link-source').attr('href', 'https://github.com/ina-foss/amalia.js/releases/tag/1.3.1');
+            $('.latestversion-filename').html('amalia.js-1.3.2');
+            $('.latestversion').html('Last stable version - v1.3.2');
+            $('.download-link-alone').attr('href', 'download/1.3.2/amalia.js-1.3.2.zip');
+            $('.download-link-full').attr('href', 'download/1.3.2/amalia.js-full-1.3.2.zip');
+            $('.download-link-source').attr('href', 'https://github.com/ina-foss/amalia.js/releases/tag/1.3.2');
         });
     </script>
 
