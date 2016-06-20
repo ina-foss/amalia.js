@@ -1,0 +1,32 @@
+{
+  "name": "player-amalia-build",
+  "description": "Amalia.js",
+  "author": "INA",
+  "version": "0.1.0",
+  "public_site": "site",
+  "engines": {
+    "node": ">= 0.11"
+  },
+  "license": "GPL-3.0",
+  "scripts": {
+    "test": "grunt qunit"
+  },
+  "repository": {
+    "type": "svn",
+    "url": "http://svn2.ina.fr:8190/svn/Player_Ina_Labs"
+  },
+  "cacheDirectories": [
+    "node_modules",
+    "bower_components"
+  ],
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-browser-sync": "^2.2.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-sass": "^1.1.0",
+    "load-grunt-tasks": "^3.5.0"
+  },
+  "dependencies": {
+    "browser-sync": "^2.12.3"
+  }
+}

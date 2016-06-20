@@ -1,0 +1,305 @@
+/**
+ * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ *
+ * This file is part of amalia.js
+ *
+ * Amalia.js is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version
+ *
+ * Redistributions of source code, javascript and css minified versions must
+ * retain the above copyright notice, this list of conditions and the following
+ * disclaimer
+ *
+ * Neither the name of the copyright holder nor the names of its contributors
+ * may be used to endorse or promote products derived from this software without
+ * specific prior written permission
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * amalia.js. If not, see <http://www.gnu.org/licenses/>
+ *
+ * Amalia.js is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details
+ */
+.padding-none {
+  padding: 0; }
+
+.padding-left-none {
+  padding-left: 0; }
+
+.padding-right-none {
+  padding-right: 0; }
+
+.margin-left-none {
+  margin-left: 0; }
+
+.margin-bottom {
+  margin-bottom: 40px; }
+
+.margin-top {
+  margin-top: 40px; }
+
+.width-full {
+  width: 100%; }
+
+.button {
+  cursor: pointer; }
+
+.border {
+  border: solid 1px #d2d2d2; }
+
+.divider-vertical {
+  border-right: solid 1px #525252;
+  display: inline-block;
+  min-height: 20px; }
+
+.round-shape {
+  background: #525252;
+  border-radius: 50%;
+  color: white;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  line-height: 25px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 5px; }
+  .round-shape.big {
+    background: #0099cc;
+    display: table-cell;
+    font-size: 12px;
+    width: 91px;
+    height: 91px;
+    word-break: break-all;
+    text-transform: uppercase;
+    line-height: 15px;
+    vertical-align: middle;
+    position: relative;
+    left: 55%; }
+    .round-shape.big:hover {
+      background: deepskyblue;
+      color: white; }
+    .round-shape.big.information {
+      background: none;
+      border: solid 1px #00e0a8;
+      color: #00e0a8;
+      font-size: 20px;
+      text-transform: none; }
+  .round-shape.outline {
+    background: none;
+    border: solid 1px #00e0a8;
+    color: #00e0a8;
+    font-size: 20px;
+    line-height: 55px;
+    text-transform: none; }
+    .round-shape.outline.small {
+      width: 60px;
+      height: 60px;
+      line-height: 55px; }
+    .round-shape.outline.big {
+      width: 91px;
+      height: 91px;
+      line-height: 15px; }
+
+.arrow-left {
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid #333333; }
+
+.arrow-right {
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid #333333; }
+
+.unit-px:after {
+  content: "px";
+  padding-left: 2px; }
+
+.add-value,
+.remove-value {
+  border: solid 1px white;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 15px;
+  width: 16px;
+  height: 16px;
+  line-height: 14px;
+  bottom: 5px;
+  position: relative;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
+  .add-value:hover,
+  .remove-value:hover {
+    border: solid 1px #0099cc;
+    color: #0099cc; }
+
+.background-video {
+  background-color: #333333;
+  display: block; }
+  .background-video.bottom {
+    border-bottom: solid 10px #2DFFCB; }
+
+.video-height {
+  height: 320px; }
+
+.option-panel {
+  display: block;
+  padding-top: 10px;
+  padding-bottom: 0; }
+  .option-panel .option-item {
+    border-bottom: solid 1px white;
+    padding-bottom: 5px; }
+    .option-panel .option-item.height-medium {
+      height: 55px; }
+    .option-panel .option-item .option-value.space {
+      padding-left: 15px;
+      padding-right: 15px;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none; }
+  .option-panel .option-label {
+    color: white;
+    display: block;
+    font-family: 'Arial Normal', 'Arial';
+    font-weight: 400;
+    font-size: 13px;
+    height: 24px; }
+    .option-panel .option-label .ajs-icon {
+      display: inline-block;
+      font-size: 50px;
+      top: -5px;
+      position: relative; }
+  .option-panel .option-value {
+    box-shadow: none;
+    color: #2DFFCB;
+    display: block;
+    font-family: 'Arial Normal', 'Arial';
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 30px;
+    text-align: center; }
+  .option-panel .parameter {
+    display: inline-block;
+    text-align: center;
+    height: 69px; }
+    .option-panel .parameter.half-width {
+      width: 48%; }
+    .option-panel .parameter.tc-button {
+      margin: 0;
+      padding: 0;
+      position: relative;
+      top: -18px; }
+      .option-panel .parameter.tc-button .round-shape-outline {
+        background-color: white;
+        border-radius: 50%;
+        display: block;
+        width: 10px;
+        height: 10px;
+        position: relative;
+        margin-left: 5px; }
+        .option-panel .parameter.tc-button .round-shape-outline:after {
+          border: solid 1px white;
+          content: "";
+          border-radius: 50%;
+          display: block;
+          width: 18px;
+          height: 18px;
+          position: relative;
+          top: -0.30em;
+          left: -0.28em; }
+        .option-panel .parameter.tc-button .round-shape-outline.active {
+          background-color: #2DFFCB; }
+  .option-panel .keywords-value,
+  .option-panel .keywords-text {
+    color: white;
+    display: block; }
+  .option-panel .keywords-value {
+    font-size: 36px;
+    height: 50px; }
+  .option-panel .keywords-text {
+    font-size: 18px;
+    height: 20px; }
+
+.info-panel {
+  display: block;
+  padding-top: 0; }
+  .info-panel .info-item {
+    height: 134px; }
+  .info-panel .title {
+    color: #333333;
+    display: block;
+    font-size: 18px; }
+  .info-panel .sub-title {
+    color: #00e0a8;
+    display: block;
+    font-size: 16px; }
+  .info-panel .divider-vertical {
+    border-right: solid 1px #d2d2d2;
+    height: 100%; }
+
+.screenshot-panel .video-height {
+  height: 266px; }
+
+.screenshot-panel .background-video {
+  min-height: 132px; }
+
+.screenshot-panel .round-shape.overlay {
+  position: absolute;
+  top: 10px;
+  left: 10px; }
+
+.screenshot-panel .option-panel .option-item {
+  padding-bottom: 32px; }
+
+.screenshot-panel .arrow-left {
+  left: -10px;
+  position: absolute;
+  top: 56px; }
+
+.screenshot-panel .arrow-right {
+  right: -10px;
+  position: absolute;
+  top: 20%;
+  z-index: 10; }
+
+.screenshot-panel .capture {
+  top: 10px; }
+
+.screenshot-panel .img-analysed .background-video {
+  min-height: 265px; }
+
+.tab-panel.keywords {
+  display: block;
+  width: 100%;
+  border-bottom: none; }
+
+.tab-panel .tab-item {
+  height: 180px;
+  width: 100%;
+  top: 55%;
+  margin-top: 10px;
+  position: absolute; }
+
+.ajs.xs .player-volume-control, .ajs.xs .player-channel-volume-control-position {
+  display: block; }
+
+.ajs .plugin-custom-controlbar .player-channel-volume-control-position {
+  margin-left: -25px; }
+
+.ajs .ajs-container.left-container {
+  text-align: left; }

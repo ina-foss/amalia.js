@@ -1,0 +1,203 @@
+/**
+ * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ *
+ * This file is part of amalia.js
+ *
+ * Amalia.js is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version
+ *
+ * Redistributions of source code, javascript and css minified versions must
+ * retain the above copyright notice, this list of conditions and the following
+ * disclaimer
+ *
+ * Neither the name of the copyright holder nor the names of its contributors
+ * may be used to endorse or promote products derived from this software without
+ * specific prior written permission
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * amalia.js. If not, see <http://www.gnu.org/licenses/>
+ *
+ * Amalia.js is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details
+ */
+.ajs-plugin.plugin-selected-item-editor {
+  position: relative;
+  .auto-fill-up-form {
+    display: none;
+    height: 60px;
+    width: 700px;
+    color: #000;
+    background-color: #797979;
+    position: absolute;
+    bottom: 5px;
+    z-index: 900;
+    .message,
+    .form-item {
+      float: left;
+    }
+    .message {
+      width: 520px;
+      color: white;
+      font-size: 16px;
+      padding: 21px 0px 0px 18px;
+    }
+    .form-item {
+
+    }
+    &.on {
+      display: block;
+    }
+    &:after {
+      clear: both;
+    }
+    .form-item {
+      .form-ctrl-item-yes {
+        height: 60px;
+        width: 90px;
+        background-color: #1485cc;
+        border: none;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+      }
+      .form-ctrl-item-no {
+        height: 60px;
+        width: 90px;
+        background-color: #0b486c;
+        border: none;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+      }
+    }
+
+  }
+  .form {
+    height: 50px;
+    width: 100%;
+    color: #000;
+
+    .form-item {
+      float: left;
+
+      .form-item-label {
+        height: 60px;
+        background-color: #f2f2f2;
+        width: 170px;
+        border: none;
+        color: #666666;
+        font-size: 16px;
+        text-align: center;
+        font-weight: normal;
+      }
+      .form-item-tcin,
+      .form-item-tcout {
+        height: 60px;
+        width: 100px;
+        border: none;
+        color: #666666;
+        font-size: 16px;
+        text-align: center;
+        &.error {
+          background-color: #ba6868;
+        }
+      }
+      .form-ctrl-item-tcin,
+      .form-ctrl-item-tcout {
+        background-color: #1485cc;
+        border-radius: 0;
+        color: #FFFFFF;
+        display: block;
+        font-size: 16px;
+        height: 60px;
+        line-height: 20px;
+        padding: 10px;
+        text-transform: uppercase;
+        outline: none;
+        width: 70px;
+        border: none;
+        padding: 0px;
+
+      }
+      .form-ctrl-item-valid {
+        background-color: #797979;
+        height: 60px;
+        border: none;
+        color: white;
+        font-size: 16px;
+        &.valid {
+          background-color: #1485cc;
+        }
+        &:hover {
+          background-color: #6ab6e8;
+        }
+      }
+      .form-ctrl-item-delete {
+        background-color: #B71C1C;
+        height: 60px;
+        border: none;
+        color: white;
+        font-size: 16px;
+        display: none;
+        &.on {
+          display: block;
+        }
+        &:hover {
+          background-color: #C62828;
+        }
+      }
+      .form-ctrl-item-close-item {
+        background-color: #B71C1C;
+        height: 60px;
+        border: none;
+        color: white;
+        font-size: 16px;
+        display: none;
+        &.on {
+          display: block;
+        }
+        &:hover {
+          background-color: #C62828;
+        }
+      }
+      .form-ctrl-item-auto-fill-up {
+        background-color: #a1a1a1;
+        width: 60px;
+        height: 60px;
+        border: none;
+        font-size: 52px;
+        font-weight: 100;
+        padding-top: 10px;
+        color: white;
+        &:hover {
+          background-color: #6ab6e8;
+        }
+      }
+      &.delete {
+        display: none;
+        &.on {
+          display: block;
+        }
+        .form-ctrl-item-delete {
+          background-color: #22baa0;
+        }
+      }
+      &.label {
+        background-color: #f2f2f2;
+        padding: 0px;
+        border: medium none;
+        border-radius: 0;
+        box-shadow: none;
+        display: inline-block;
+        margin: 0;
+        border: none;
+      }
+    }
+  }
+  &.ajs-plugin {
+    overflow: visible !important;
+  }
+}

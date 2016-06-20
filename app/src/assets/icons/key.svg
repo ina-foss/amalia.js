@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100%"
+     height="100%" viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
+<g id="Engrenage">
+</g>
+<g id="Calque_3">
+	<g>
+		<path fill="none" stroke="#2D2D2D" stroke-width="2.5" stroke-miterlimit="10" d="M18.695,28.197l4.238-5.152l-5.151-7.129
+			L2.808,28.056c0,0-1.602,4.507-0.008,6.476c1.593,1.965,6.61,1.017,6.61,1.017L6.813,32.5L11,29l2.533,3.205l4.408-3.573
+			l-2.359-2.905"/>
+		<path fill="none" stroke="#2D2D2D" stroke-width="3" stroke-miterlimit="10" d="M37.351,12.401
+			c-0.89-5.565-6.12-9.359-11.687-8.473c-5.564,0.886-9.358,6.117-8.472,11.685c0.887,5.565,6.117,9.358,11.684,8.475
+			C34.441,23.198,38.235,17.97,37.351,12.401z"/>
+		<circle fill="#2D2D2D" stroke="#2D2D2D" stroke-width="2" stroke-miterlimit="10" cx="28.442" cy="13.057" r="2.126"/>
+		<line fill="none" stroke="#2D2D2D" stroke-miterlimit="10" x1="19.944" y1="19.944" x2="3.083" y2="33.614"/>
+		<line fill="none" stroke="#2D2D2D" stroke-width="2" stroke-miterlimit="10" x1="34.119" y1="8.457" x2="29.188" y2="12.452"/>
+	</g>
+</g>
+<g id="Calque_2" display="none">
+	<path display="inline" fill="none" stroke="#2D2D2D" stroke-width="3" stroke-miterlimit="10" d="M38.617,19.417
+		c0.503,0.918,0.457,1.909-0.104,2.212l-9.867,5.396c-0.561,0.308-1.418-0.188-1.92-1.106l-7.334-13.414
+		c-0.499-0.914-0.452-1.908,0.104-2.213l9.87-5.396c0.558-0.303,1.421,0.191,1.921,1.108L38.617,19.417z"/>
+	<path display="inline" fill="none" stroke="#2D2D2D" stroke-width="2" stroke-miterlimit="10" d="M33.263,17.826
+		c0.235,0.438,0.248,0.905,0.009,1.031l-4.132,2.256c-0.235,0.131-0.617-0.125-0.86-0.567l-3.525-6.449
+		c-0.24-0.439-0.248-0.904-0.013-1.032l4.131-2.257c0.231-0.13,0.622,0.127,0.863,0.566L33.263,17.826z"/>
+</g>
+</svg>

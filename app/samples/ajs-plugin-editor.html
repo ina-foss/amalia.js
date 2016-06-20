@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Amalia.js</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="images/favicon.ico">
+        <link href="css/default.css" rel="stylesheet">
+        <script src="../bower_components/jquery/dist/jquery.js"></script>
+        <script src="../bower_components/jquery-ui/jquery-ui.min.js"></script>        
+        <script src="../bower_components/raphael/raphael.js"></script>
+        <!-- style-player -->        
+        <link href="../build/css/amalia.js.min.css" rel="stylesheet">
+        <!-- /style-player -->        
+        <!-- script-player -->        
+        <script src="../build/js/amalia.js.min.js"></script>
+        <script src="../build/js/amalia.js-plugin-timeline.min.js"></script>    
+        <script src="../build/js/amalia.js-plugin-editor.min.js"></script>    
+        <!-- /script-player -->
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>Text synchronization plugin</h1>  
+            </div>
+            <div class="content">           
+                <div class="demo">
+                    <div style=" clear: both;">
+
+                        <div style="width: 70%;float: left;">
+                            <div style="height: 350px;">
+                                <div id="defaultPlayer"></div>
+                            </div> 
+                            <div id="player_timelinePlugin" style="height: 500px;"></div>
+                        </div>
+                        <div style="width: 30%; float: left;">
+                            <div id='player-list-editor-plugin'></div>
+                            <br />
+                            <div id='player-block-editor-plugin'></div>
+                            <br />
+                            <div id='player-items-editor-plugin'></div>
+                        </div>
+                    </div>
+
+                    <script>
+                        $( function () {
+                            $( "#defaultPlayer" ).mediaPlayer( {
+                                autoplay : false,
+                                src : "../samples-data/examples/vid/amalia01.mp4",
+                                controlBar :
+                                    {
+                                        sticky : true
+                                    },
+                                plugins :
+                                    {
+                                        dataServices : [
+                                            '../samples-data/examples/json/amalia01-events.json',
+                                            '../samples-data/examples/json/amalia01-kf.json',
+                                            '../samples-data/examples/json/amalia01-ball.json'
+                                        ],
+                                        list : [
+                                            {
+                                                'className' : 'fr.ina.amalia.player.plugins.MetadataListEditorPlugin',
+                                                'container' : '#player-list-editor-plugin',
+                                                'debug' : true,
+                                                'parameters' : {
+                                                    defaultDataType : fr.ina.amalia.player.PluginBindingManager.dataTypes.VISUAL_DETECTION,
+                                                    defaultAuthor : 'Amalia.js',
+                                                    defaultColor : '#2196f3',
+                                                    defaultShape : 'car'
+                                                }
+                                            },
+                                            {
+                                                'className' : 'fr.ina.amalia.player.plugins.MetadataBlockEditorPlugin',
+                                                'container' : '#player-block-editor-plugin',
+                                                'debug' : true,
+                                                'parameters' : {
+                                                }
+                                            },
+                                            {
+                                                'className' : 'fr.ina.amalia.player.plugins.MetadataItemsEditorPlugin',
+                                                'container' : '#player-items-editor-plugin',
+                                                'debug' : true,
+                                                'parameters' : {
+                                                }
+                                            },
+                                            {
+                                                'className' : 'fr.ina.amalia.player.plugins.TimelinePlugin',
+                                                'container' : '#player_timelinePlugin',
+                                                'debug' : false,
+                                                'parameters' : {
+                                                    editingMode : true,
+                                                    displayLines : 3,
+                                                    resizable : true,
+                                                    lineDisplayMode : fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.METADATA_DISPLAY_TYPE.STATIC_DYNAMIC,//STATIC//STATIC_DYNAMIC//DYNAMIC                           
+                                                    listOfLines : [
+                                                        {
+                                                            title : 'Events',
+                                                            type : 'cuepoint',
+                                                            metadataId : 'events-amalia01',
+                                                            color : '#3CF',
+                                                            pointNav : true
+                                                        },
+                                                        {
+                                                            title : 'Ball moving up',
+                                                            type : 'segment',
+                                                            metadataId : 'ball-amalia01',
+                                                            color : '#F00'
+                                                        }
+                                                    ]
+                                                }
+                                            }
+                                        ]
+
+                                    }
+                            } );
+                        } );
+                    </script>
+
+                </div>
+            </div>
+            <div class="footer">
+                <p>
+                    <a href="http://www.institut-national-audiovisuel.fr/en/home"><img class="logo-ina" src="images/logo_ina.jpg" style=" margin-right:10px; width: 32x; height: 32px" />Institut National de l'Audiovisuel - INA</a>© 2015
+                </p>
+            </div>
+        </div>
+    </body>
+</html>

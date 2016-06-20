@@ -1,0 +1,55 @@
+{
+    "localisation": [
+        {
+            "sublocalisations": {
+                "localisation": [
+                    {
+                        "thumb": "samples-data/examples/kf/amalia01/f_25.jpg",
+                        "tc": "00:00:01.0000",
+                        "tclevel": 1
+                    },
+                    {
+                        "thumb": "samples-data/examples/kf/amalia01/f_75.jpg",
+                        "tc": "00:00:03.0000",
+                        "tclevel": 1
+                    },
+                    {
+                        "thumb": "samples-data/examples/kf/amalia01/f_125.jpg",
+                        "tc": "00:00:05.0000",
+                        "tclevel": 1
+                    },
+                    {
+                        "thumb": "samples-data/examples/kf/amalia01/f_175.jpg",
+                        "tc": "00:00:07.0000",
+                        "tclevel": 1
+                    },
+                    {
+                        "thumb": "samples-data/examples/kf/amalia01/f_225.jpg",
+                        "tc": "00:00:09.0000",
+                        "tclevel": 1
+                    },
+                    {
+                        "thumb": "samples-data/examples/kf/amalia01/f_275.jpg",
+                        "tc": "00:00:11.0000",
+                        "tclevel": 1
+                    },
+                    {
+                        "thumb": "samples-data/examples/kf/amalia01/f_325.jpg",
+                        "tc": "00:00:13.0000",
+                        "tclevel": 1
+                    }
+                ]
+            },
+            "type": "keyframes",
+            "tcin": "00:00:00.0000",
+            "tcout": "00:00:15.0000",
+            "tclevel": 0
+        }
+    ],
+    "id": "kf-amalia01",
+    "type": "keyframes",
+    "algorithm": "demo-video-generator",
+    "processor": "Ina Research Department - N. HERVE",
+    "processed": 1421141589291,
+    "version": 1
+}

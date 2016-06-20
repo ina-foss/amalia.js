@@ -1,0 +1,18 @@
+{
+  "id": "metadata-1",
+  "type": "segmentation",
+  "localisation": [
+    {
+      "sublocalisations": {
+        "localisation": [
+          {
+            "label": "",
+            "tcin": "00:00:03:10",
+            "tcout": "00:01:08:19",
+            "tclevel": 1
+          }
+        ]
+      }
+    }
+  ]
+}

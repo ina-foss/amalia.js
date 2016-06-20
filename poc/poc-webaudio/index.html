@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Poc Audio tracks with Amalia.js</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/default.css" rel="stylesheet" type="text/css"/>
+
+    <link href="http://www-player-i.ina.fr/libs/amalia.js/css/amalia.js.min.css" rel="stylesheet">
+    <link href="default.css" rel="stylesheet" type="text/css"/>
+    <!--Utils-->
+    <script src="http://www-player-i.ina.fr/libs/bower_components/jquery/dist/jquery.js"
+            type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/bower_components/jquery-ui/jquery-ui.min.js"
+            type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/bower_components/raphael/raphael-min.js"
+            type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js.min.js" type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js-logger.min.js" type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js-plugin-overlay.min.js"
+            type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js-plugin-timeline.min.js"
+            type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js-plugin-text-sync.min.js"
+            type="text/javascript"></script>
+
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="../" class="navbar-brand">Poc Audio tracks with Amalia.js</a>
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="page-header">
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Media players</h3>
+                </div>
+                <div class="panel-body">
+                    <div style="height: 350px;">
+                        <div id="player"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Mpeg Dash with track</h3>
+                </div>
+                <div class="panel-body">
+                    <div style="height: 350px;">
+                        <div id="player-mpeg-dash"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Info</h3>
+                </div>
+                <div class="panel-body">
+                    <p>Web audio tracks</p>
+                    <ul id="listOfTrack">
+
+                    </ul>
+                    <p>Mpeg Dash</p>
+                    <ul>
+
+                    </ul>
+                    <p>Links</p>
+                    <ul>
+                        <li><a target="_blank"
+                               href="http://www.w3.org/TR/html5/embedded-content-0.html#audiotracklist-and-videotracklist-objects">W3C</a>
+                        </li>
+                        <li><a target="_blank" href="https://msdn.microsoft.com/en-us/library/hh772479(v=vs.85).aspx">msdn</a>
+                        </li>
+                        <li><a target="_blank" href="http://caniuse.com/#feat=audiotracks">Browser capabilities</a></li>
+                        <li><a target="_blank"
+                               href="http://gingertech.net/2011/05/01/html5-multi-track-audio-or-video/">blog</a></li>
+                        <li><a target="_blank"
+                               href="https://code.google.com/p/chromium/issues/detail?id=249427">blog</a></li>
+                        <li><a target="_blank"
+                               href="http://app01-player-i.ina.fr:9080/medias/dash/GALAXIE3/S3S1P022_UwIx9pe$/MGCPG0000001_VIS_02.MP4/manifest-v1-a1.mpd">Manifest
+                            Mpeg Dash</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12"><a href="http://www.institut-national-audiovisuel.fr/en/home">Institut
+            National de l'Audiovisuel - INA</a> © 2015
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var video = null;
+
+    $(function () {
+        $("#player").mediaPlayer({
+            autoplay: false,
+            src: "http://www-player-i.ina.fr/medias/demo/poc-webaudio/multi-lang-movie.mp4",
+            debug: false,
+            crossorigin: 'Anonymous',
+            controlBar: {
+                sticky: true
+            }
+        });
+        $("#player-mpeg-dash").mediaPlayer({
+            autoplay: false,
+            src: "http://app01-player-i.ina.fr:9080/medias/dash/GALAXIE3/S3S1P022_UwIx9pe$/MGCPG0000001_VIS_02.MP4/manifest-v1-a1.mpd",
+            mediaType: 'mpd',
+            debug: true,
+            crossorigin: 'Anonymous',
+            controlBar: {
+                sticky: true
+            },
+            callbacks: {
+                onReady: 'onReadyPlayerMpegDash',
+            }
+        });
+
+        $("#player").on("fr.ina.amalia.player.PlayerEventType.PLAYING", function (event, data) {
+            video = event.target;
+            if (video != null) {
+                var oAudioTracks = video.audioTracks;
+                if (typeof oAudioTracks === "undefined" || oAudioTracks.length === 1) {
+                    $('#listOfTrack').html('<li style="color: red">AudioTracks not supported.</li>');
+                }
+                else {
+                    $('#listOfTrack').html('');
+                    updateAudioTrack(0);
+                }
+            }
+        });
+    });
+    function updateAudioTrack(j) {
+        if (video != null) {
+            var oAudioTracks = video.audioTracks;
+            $('#listOfTrack').empty();
+            for (var i = 0; i < oAudioTracks.length; i++) {  // Step through audio track list
+                var audioTrack = oAudioTracks[i]; //  Get tracks
+                var itemElement = $('<li>', {'onclick': 'updateAudioTrack(' + i + ')'});
+                $('#listOfTrack').append(itemElement);
+                if (i == j) {
+                    audioTrack.enabled = true;
+                }
+                else {
+                    audioTrack.enabled = false;
+                }
+                itemElement.text("Language: " + audioTrack.language + " is " + ((audioTrack.enabled) ? "enabled" : "not enabled"));
+            }
+        }
+    }
+
+    function updateMpegDashTrack(i) {
+        var baseUrl = "http://app01-player-i.ina.fr:9080/medias/dash/GALAXIE3/S3S1P022_UwIx9pe$/MGCPG0000001_VIS_02.MP4";
+        $("#player-mpeg-dash").data("fr.ina.amalia.player").player.setSrc(baseUrl + '/manifest-v1-a' + i + '.mpd');
+
+    }
+    function onReadyPlayerMpegDash() {
+        $("#player-mpeg-dash").data("fr.ina.amalia.player").player.setCurrentTime(0);
+        $("#player-mpeg-dash").data("fr.ina.amalia.player").player.play();
+    }
+</script>
+
+</body>
+</html>

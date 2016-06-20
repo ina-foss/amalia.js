@@ -1,0 +1,179 @@
+<div class='doc-player-options' id="doc-player-options">
+    <h3 class="title">Player options</h3>
+
+    <p>Player contains a large number of options for configuring the playback and the plugins behavior.</p>
+
+    <p>These are the bacic options for configuring the player :</p>
+
+    <div id="player-options" class="panel panel-default">
+        <div class="panel-body">
+            <table class="table table-striped table-hover">
+                <thead>
+                <th>Options</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th></th>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>src</td>
+                    <td>String</td>
+                    <td>URL to a video or audio file</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>poster</td>
+                    <td>String</td>
+                    <td>URL to a poster image to display before playback starts</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>autoplay</td>
+                    <td>Boolean</td>
+                    <td>Automatically start playing the video on page load</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>defaultVolume</td>
+                    <td>Number</td>
+                    <td>75 by default.This value is overloaded by the volume set by the user which is kept
+                        in a cookie
+                    </td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td>plugins</td>
+                    <td>Object</td>
+                    <td>Plugin configuration</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>framerate</td>
+                    <td>Number</td>
+                    <td>video framerate</td>
+                    <td>Default value: 25</td>
+                </tr>
+                <tr>
+                    <td>controlBarClassName</td>
+                    <td>String</td>
+                    <td>Control bar class name</td>
+                    <td>Default value: "fr.ina.amalia.player.plugins.CustomControlBarPlugin"</td>
+                </tr>
+                <tr>
+                    <td>controlBar</td>
+                    <td>Object</td>
+                    <td>Attribute to set default control bar.</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>tcOffset</td>
+                    <td>Number</td>
+                    <td>time code offset</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>thumbRootDirectory</td>
+                    <td>String</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>crossorigin</td>
+                    <td>String</td>
+                    <td>CORS settings attribute</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>shortcuts</td>
+                    <td>Object</td>
+                    <td>To configure shortcuts.</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>debug</td>
+                    <td>Boolean</td>
+                    <td>To enable debug mode</td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<p>
+    As already mentioned in the <a href="index.html#quick-start" class="scroll-to">quickstart section</a>
+    the
+    <code>src</code>
+    parameter is the only one that is mandatory. One might also generally consider setting the
+    <code>autoplay</code>
+    to false.
+</p>
+
+<p>If you need to change the appearence of the player, have a look at the CSS styles. Depending on the
+    part you
+    want to change, it is a good starting point. You may also have to modify the
+    plugin directly.</p>
+
+<h3 class="title">Example</h3>
+
+<div class="example">
+                <pre class="smallpre">
+$("#container").mediaPlayer({
+    autoplay: true,
+    crossorigin: 'Anonymous',
+    src: "samples-data/examples/vid/amalia01.mp4",
+    debug:true,
+    shortcuts: {
+        enabled: true,
+        debug: false,
+        listOfShortcuts: [
+            {'s': 'f3', 'c': 'moveNextFrame'},
+            {'s': 'f4', 'c': 'movePrevFrame'}
+        ]
+    },
+    controlBar:
+            {
+                sticky: true,
+                autohide: false,
+                enableProgressBar: false,
+                height: 75,
+                widgets:
+                        {
+                            left: {
+                                'timelabelWidget': 'fr.ina.amalia.player.plugins.controlBar.widgets.TimeLabel',
+                                'playWidget': 'fr.ina.amalia.player.plugins.controlBar.widgets.PlayButton',
+                                'pauseWidget': 'fr.ina.amalia.player.plugins.controlBar.widgets.PauseButton'
+                            },
+                            mid: {
+                                'JogShuttle': 'fr.ina.amalia.player.plugins.controlBar.widgets.JogShuttleButton'
+                            },
+                            right: {
+                                'volume': 'fr.ina.amalia.player.plugins.controlBar.widgets.ChannelVolumeControlBar',
+                                'full': 'fr.ina.amalia.player.plugins.controlBar.widgets.FullscreenButton'
+                            },
+                            settings: {
+                                timelabelWidget: {
+                                    timeFormat: 's',
+                                    framerate: 20
+                                },
+                                sample: {
+                                    style: 'fa fa-eye fa-2x',
+                                    callback: 'myCallback'
+                                },
+                                secNext: {
+                                    style: 'ajs-icon ajs-icon-control-forward',
+                                    callback: 'myCallbackControl',
+                                    action: 'next'
+                                },
+                                volume: {
+                                    channelMerger: false
+                                }
+                            }
+                        }
+            },
+    plugins: {...}
+});
+                </pre>
+</div>
+

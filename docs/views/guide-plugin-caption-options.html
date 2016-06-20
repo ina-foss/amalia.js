@@ -1,0 +1,93 @@
+<h3 class="title">Caption plugin</h3>
+
+
+<div id="myplayer-caption-container">
+    <div style="height: 350px;">
+        <div id="myplayer-caption"></div>
+    </div>
+</div>
+
+<p>This plugin is used to display some text over the video. It is typically used for subtitles.
+    See <a href="#metadata-text" class="scroll-to">the metadata section for textual informations
+        representation</a> in our generic format.
+</p>
+
+<p>These are the specific options for configuring plugin behavior:</p>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <table class="table table-striped table-hover ">
+            <thead>
+            <th>Options</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th></th>
+            </thead>
+            <tbody>
+            <tr>
+                <td>metadataId</td>
+                <td>String</td>
+                <td>Metadata block id to bind to</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>level</td>
+                <td>String</td>
+                <td>which <code>tclevel</code> of textual metadata will be displayed.</td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div>
+    <h3 class="title">Example</h3>
+
+    <div class="example">
+<pre class="smallpre">
+$("#myplayer-caption").mediaPlayer({
+    src : "samples-data/examples/vid/amalia01.mp4",
+    plugins : {
+        dataServices : [
+            'samples-data/examples/json/amalia01-text.json'
+        ],
+        list : [
+            {
+                'className' : 'fr.ina.amalia.player.plugins.CaptionsPlugin',
+                'parameters' : {
+                    metadataId : 'text-amalia01',
+                    level : 1
+                }
+            }
+        ]
+    }
+});
+        </pre>
+    </div>
+</div>
+<!-- Tutorial - caption plugin -->
+<script type="text/javascript">
+    $(function () {
+        $("#myplayer-caption").mediaPlayer({
+            autoplay: false,
+            src: "samples-data/examples/vid/amalia01.mp4",
+            controlBar: {
+                sticky: true
+            },
+            plugins: {
+                dataServices: [
+                    'samples-data/examples/json/amalia01-text.json'
+                ],
+                list: [
+                    {
+                        'className': 'fr.ina.amalia.player.plugins.CaptionsPlugin',
+                        'parameters': {
+                            metadataId: 'text-amalia01',
+                            level: 1
+                        }
+                    }
+                ]
+            }
+        });
+    });
+</script>

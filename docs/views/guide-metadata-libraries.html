@@ -1,0 +1,49 @@
+<div class="doc-model-java" id="doc-model-java">
+    <h3 class="title">Metadata Java library</h3>
+    In order to generate the Json metadata blocks, we also provide a Java library called <a
+        href="https://github.com/ina-foss/amalia-model">amalia-model</a>.
+    Some examples are already available, you will find them in the <a
+        href="https://github.com/ina-foss/amalia-model/tree/master/src/test/java/fr/ina/research/amalia/model"><code>test</code></a>
+     directory.
+    This library is also <a href="http://search.maven.org/#browse|-378018234">published on Maven central</a>.
+    The last stable release is <a
+        href="http://search.maven.org/#artifactdetails|fr.ina.research|amalia-model|0.2.6|jar">0.2.6</a>.
+    Snapshots are also available on <a
+        href="https://oss.sonatype.org/content/repositories/snapshots/fr/ina/research/amalia-model/">Sonatype
+    repository</a>.
+    You can use it easily in your own application by adding a dependency
+<pre class="smallpre">
+&lt;dependency&gt;
+    &lt;groupId&gt;fr.ina.research&lt;/groupId&gt;
+    &lt;artifactId&gt;amalia-model&lt;/artifactId&gt;
+    &lt;version&gt;0.2.6&lt;/version&gt;
+&lt;/dependency&gt;
+</pre>
+	Some tools are also available in a separate project <a href="https://github.com/ina-foss/amalia-tools">amalia-tools</a>. These are mainly small applications to generate json metadata for specific applications.
+</div>
+
+<div class="doc-model-php" id="doc-model-php">
+    <h3 class="title">Metadata PHP library</h3>
+    In PHP we also provide a library called <a
+        href="https://github.com/ina-foss/amalia-php">amalia-php</a>.
+    Some examples are already available, you will find them in the <a
+        href="https://github.com/ina-foss/amalia-php/blob/master/tests/"><code>test</code></a>
+    directory.
+    This library is also <a href="https://packagist.org/packages/ina/amalia-model">published with composer</a>.
+    The last stable release is <a
+        href="https://github.com/ina-foss/amalia-php/releases/tag/0.1.0">0.1.0</a>.
+    There is one recommended way to install amalia-model via Composer:
+<pre class="smallpre">
+"require": {
+      ..
+      "goetas/xsd2php":"^2.0",
+      "jms/serializer": "serializer-master-dev as 1.0",
+      "ina/amalia-model":"0.1.0",
+      ..
+  },
+  "repositories": [{
+      "type": "vcs",
+      "url": "https://github.com/goetas/serializer.git"
+  }],
+</pre>
+</div>

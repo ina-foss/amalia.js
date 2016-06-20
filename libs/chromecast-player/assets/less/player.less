@@ -1,0 +1,729 @@
+/*
+* Copyright 2016 Google Inc. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+**/
+/* NOTE: this must be first statement in file to work on device */
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400);
+
+/* ------------------------------------------------- */
+/* Animations                                        */
+/* ------------------------------------------------- */
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes loading {
+  0% {
+    margin-left: -100%;
+  }
+  100% {
+    margin-left: 100%;
+  }
+}
+
+/* ------------------------------------------------- */
+/* Player                                            */
+/* ------------------------------------------------- */
+
+body {
+  background-color: #000;
+}
+
+.player {
+  background-image: url("assets/background.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #f1f1f1;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.player .logo {
+  display: none;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  background-image: url("assets/logo.png");
+  margin-bottom: -96px;
+  margin-left: -96px;
+  width: 192px;
+  height: 192px;
+}
+
+.player .placeholder-image {
+  background-image: url("assets/placeholder-audio.jpg");
+}
+
+.player .gradient {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+}
+
+.player img, .player video {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  object-fit: fill;
+}
+
+.player .media-info {
+  padding-bottom: 54px;
+  display: flex;
+  overflow: hidden;
+}
+
+.player .media-artwork {
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  align-self: flex-end;
+  height: 143px;
+  margin-right: 32px;
+  min-width: 96px;
+  max-width: 266px;
+  width: 100%;
+}
+
+.player .media-text {
+  width: 100%;
+  align-self: flex-end;
+}
+
+.player .media-info .media-title {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 44px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 80%;
+}
+
+.player .media-info .media-subtitle {
+  color: rgba(203, 203, 203, 0.8);
+  font-size: 22px;
+  overflow: hidden;
+  width: 80%;
+}
+
+.player .media-info .media-subtitle span:not(:first-child):before {
+  content: '\00B7';
+  padding-left: 10px;
+  padding-right: 10px;
+  font-weight: bold;
+}
+
+.player .controls {
+  display: none;
+  bottom: 0;
+  height: 30px;
+  left: 0;
+  position: absolute;
+  right: 0;
+}
+
+.player .controls-play-pause {
+  background-size: cover;
+  border: 0;
+  float: left;
+  height: 36px;
+  margin-left: -4px;
+  margin-top: -3px;
+  width: 32px;
+}
+
+.player .overlay {
+  position: absolute;
+  left: 64px;
+  bottom: 64px;
+  right: 64px;
+  display: block; // none: default
+  top: auto;
+}
+
+.player .watermark {
+  position: absolute;
+  top: 64px;
+  left: 64px;
+  bottom: 64px;
+  right: 64px;
+  display: none;
+  background-position: bottom right;
+  background-repeat: no-repeat;
+  margin-bottom: 54px;
+  background-image: url("assets/watermark.png");
+}
+
+.player .gradient {
+  display: none;
+  opacity: 0.9;
+  background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 1.0),
+          rgba(0, 0, 0, 0.0) 72%,
+          rgba(0, 0, 0, 0.0) 100%
+  );
+}
+
+.player .progressBar {
+  background-color: rgb(250, 178, 49);
+}
+
+.player .controls-progress {
+  background-color: rgba(255, 255, 255, 0.2);
+  height: 8px;
+  margin-top: 11px;
+  margin-bottom: 11px;
+  overflow: hidden;
+  position: relative;
+}
+
+.player .controls-progress-inner {
+  height: 100%;
+  opacity: 0.8;
+}
+
+.player .controls-progress-thumb {
+  height: 100%;
+  width: 3px;
+  background-color: rgba(255, 255, 255, 0.5);
+  position: absolute;
+  top: 0;
+  margin-left: -3px;
+}
+
+.player .controls-cur-time,
+.player .controls-total-time {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.player .controls-cur-time {
+  float: left;
+  line-height: 30px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.player .controls-total-time {
+  float: right;
+  line-height: 30px;
+  margin-left: 15px;
+}
+
+.player .preview-mode-info {
+  padding-bottom: 54px;
+  display: none;
+  margin: -143px 0 0 0;
+  overflow: hidden;
+}
+
+.player .preview-mode-artwork {
+  background-image: url("assets/logo.png");
+  background-size: cover;
+  background-position: bottom;
+  background-repeat: no-repeat;
+  align-self: flex-end;
+  height: 143px;
+  margin-right: 32px;
+  min-width: 96px;
+  max-width: 266px;
+  width: 100%;
+}
+
+.player .preview-mode-info .preview-mode-text {
+  width: 100%;
+  align-self: flex-end;
+}
+
+.player .preview-mode-info .preview-mode-title {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 44px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 80%;
+}
+
+.player .preview-mode-info .preview-mode-subtitle {
+  color: rgba(203, 203, 203, 0.8);
+  font-size: 22px;
+  overflow: hidden;
+  width: 80%;
+}
+
+.player .preview-mode-info .preview-mode-subtitle span:not(:first-child):before {
+  content: '\00B7';
+  padding-left: 10px;
+  padding-right: 10px;
+  font-weight: bold;
+}
+
+.player .preview-mode-info .preview-mode-timer {
+  display: flex;
+  color: rgb(250, 178, 49);
+  font-size: 22px;
+  overflow: hidden;
+  width: 80%;
+}
+
+.player .preview-mode-info .preview-mode-timer-starts {
+  font-weight: bold;
+}
+
+/* ------------------------------------------------- */
+/* Player - Video                                    */
+/* ------------------------------------------------- */
+
+/* ------------------------------------------------- */
+/* Player - Video - Launching                        */
+/* ------------------------------------------------- */
+
+.player[type="video"][state="launching"] .overlay {
+  display: block;
+}
+
+.player[type="video"][state="launching"] .logo {
+  display: block;
+}
+
+.player[type="video"][state="launching"] .controls,
+.player[type="video"][state="launching"] .media-info,
+.player[type="video"][state="launching"] .media-artwork {
+  display: none;
+}
+
+.player[type="video"][state="launching"] .spinner {
+  -webkit-animation: spin 1s infinite linear;
+  height: 36px;
+  width: 32px;
+  display: block;
+  position: absolute;
+  background-image: url("assets/buffering.png");
+  bottom: 64px;
+  left: 50%;
+  margin-left: 32px / -2;
+}
+
+/* ------------------------------------------------- */
+/* Player - Video - Loading                          */
+/* ------------------------------------------------- */
+
+.player[type="video"][state="loading"] .overlay,
+.player[type="video"][state="loading"] .controls,
+.player[type="video"][state="loading"] .watermark {
+  display: block;
+}
+
+.player[type="video"][state="loading"] .controls-cur-time,
+.player[type="video"][state="loading"] .controls-total-time,
+.player[type="video"][state="loading"] .controls-progress-thumb,
+.player[type="video"][state="loading"] .controls-play-pause {
+  display: none;
+}
+
+.player[type="video"][state="loading"] .controls-progress-inner {
+  width: 90% !important;
+  -webkit-animation: loading 2s infinite linear;
+}
+
+/* ------------------------------------------------- */
+/* Player - Video - Buffering                        */
+/* ------------------------------------------------- */
+
+.player[type="video"][state="buffering"] .overlay,
+.player[type="video"][state="buffering"] .gradient {
+  display: block;
+  visibility: visible;
+}
+
+.player[type="video"][state="buffering"] .gradient {
+  opacity: 0.1;
+}
+
+.player[type="video"][state="buffering"] .media-artwork,
+.player[type="video"][state="buffering"] .media-info {
+  display: none;
+}
+
+.player[type="video"][state="buffering"] .controls {
+  display: block;
+}
+
+.player[type="video"][state="buffering"] .controls-play-pause {
+  background-image: url("assets/buffering.png");
+  -webkit-animation: spin 1s infinite linear;
+}
+
+.player[type="video"][state="buffering"][live="true"] .controls-cur-time,
+.player[type="video"][state="buffering"][live="true"] .controls-total-time,
+.player[type="video"][state="buffering"][live="true"] .controls-progress {
+  display: none !important;
+}
+
+.player[type="video"][state="buffering"] video {
+  display: block;
+}
+
+.player[type="video"][state="buffering"] .media-info,
+.player[type="video"][state="buffering"]:not(.seeking) .controls-cur-time,
+.player[type="video"][state="buffering"]:not(.seeking) .controls-total-time,
+.player[type="video"][state="buffering"]:not(.seeking) .controls-progress {
+  display: none;
+}
+
+.player[type="video"][state="buffering"][preview-mode="true"] .preview-mode-info {
+  display: flex;
+}
+
+/* ------------------------------------------------- */
+/* Player - Video - Paused                           */
+/* ------------------------------------------------- */
+
+.player[type="video"][state="paused"] .overlay,
+.player[type="video"][state="paused"] .gradient,
+.player[type="video"][state="paused"] .watermark {
+  display: block;
+  visibility: visible;
+}
+
+.player[type="video"][state="paused"] .controls-play-pause {
+  background-image: url("assets/paused.png");
+}
+
+.player[type="video"][state="paused"] .controls,
+.player[type="video"][state="paused"] .watermark,
+.player[type="video"][state="paused"]:not(.seeking) .controls-cur-time,
+.player[type="video"][state="paused"]:not(.seeking) .controls-total-time,
+.player[type="video"][state="paused"]:not(.seeking) .controls-progress {
+  display: block;
+}
+
+.player[type="video"][state="paused"][live="true"] .controls-cur-time,
+.player[type="video"][state="paused"][live="true"] .controls-total-time,
+.player[type="video"][state="paused"][live="true"] .controls-progress {
+  display: none !important;
+}
+
+.player[type="video"][state="paused"] video {
+  display: block;
+}
+
+.player[type="video"][state="paused"]:not(.seeking) .controls-cur-time,
+.player[type="video"][state="paused"]:not(.seeking) .controls-total-time,
+.player[type="video"][state="paused"]:not(.seeking) .controls-progress {
+  opacity: 1;
+  -webkit-transition: opacity 1s linear 5s;
+}
+
+.player[type="video"][state="paused"] .media-info {
+  opacity: 0;
+  -webkit-transition: opacity 1s linear 5s;
+}
+
+.player[type="video"][state="paused"][preview-mode="true"] .media-info {
+  opacity: 1;
+}
+
+.player[type="video"][state="paused"] .gradient {
+  opacity: 0.1;
+  -webkit-transition: opacity 1s linear 5s;
+}
+
+/* ------------------------------------------------- */
+/* Player - Video - Playing                          */
+/* ------------------------------------------------- */
+
+.player[type="video"][state="playing"] .overlay,
+.player[type="video"][state="playing"] .gradient,
+.player[type="video"][state="playing"] .watermark {
+  display: block;
+  visibility: hidden;
+}
+
+.player[type="video"][state="playing"].seeking .overlay,
+.player[type="video"][state="playing"].seeking .gradient {
+  display: block;
+  visibility: visible;
+}
+
+.player[type="video"][state="playing"].seeking .media-info {
+  display: none;
+}
+
+.player[type="video"][state="playing"].seeking .controls {
+  display: block;
+}
+
+.player[type="video"][state="playing"] .controls-play-pause {
+  background-image: url("assets/buffering.png");
+  -webkit-animation: spin 1s infinite linear;
+}
+
+.player[type="video"][state="playing"]:not(.seeking) .controls-play-pause {
+  display: none;
+}
+
+.player[type="video"][state="playing"]:not(.seeking) .controls-cur-time {
+  margin-left: 0;
+}
+
+.player[type="video"][state="playing"][live="true"] .controls-cur-time,
+.player[type="video"][state="playing"][live="true"] .controls-total-time,
+.player[type="video"][state="playing"][live="true"] .controls-progress {
+  display: none !important;
+}
+
+.player[type="video"][state="playing"] video {
+  display: block;
+}
+
+.player[type="video"][state="playing"][preview-mode="true"] .preview-mode-info {
+  display: flex;
+}
+
+.player[type="video"][state="playing"][preview-mode="true"] .overlay,
+.player[type="video"][state="playing"][preview-mode="true"] .gradient,
+.player[type="video"][state="playing"][preview-mode="true"] .watermark {
+  display: block;
+  visibility: visible;
+}
+
+.player[type="video"][state="playing"][preview-mode="true"] .media-info {
+  display: none;
+}
+
+.player[type="video"][state="playing"][preview-mode="true"].seeking .preview-mode-info {
+  display: flex;
+}
+
+/* ------------------------------------------------- */
+/* Player - Audio                                    */
+/* ------------------------------------------------- */
+
+.player[type="audio"] .media-title {
+  font-size: 22px;
+  font-weight: 400;
+}
+
+.player[type="audio"] .media-artwork {
+  height: 384px;
+  box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.3);
+  width: 384px;
+  max-width: 384px;
+  background-image: url("assets/placeholder-audio.jpg");
+}
+
+.player[type="audio"] .media-text {
+  margin-top: 15px;
+}
+
+.player[type="audio"][live="true"] .media-text {
+  margin-top: 15px !important;
+}
+
+.player[type="audio"] .placeholder-image {
+  display: block;
+}
+
+/* ------------------------------------------------- */
+/* Player - Audio - Launching                        */
+/* ------------------------------------------------- */
+
+.player[type="audio"][state="launching"] .logo {
+  display: block;
+}
+
+/* ------------------------------------------------- */
+/* Player - Audio - Loading/Paused                   */
+/* ------------------------------------------------- */
+
+.player[type="audio"][state="loading"] .overlay,
+.player[type="audio"][state="paused"] .overlay {
+  display: block;
+  margin: 0 !important;
+}
+
+.player[type="audio"][state="loading"] .watermark,
+.player[type="audio"][state="paused"] .watermark {
+  display: block;
+  margin: 0 !important;
+  margin-bottom: 54px !important;
+}
+
+.player[type="audio"][state="loading"] .gradient,
+.player[type="audio"][state="paused"] .gradient {
+  display: block;
+  visibility: visible;
+}
+
+.player[type="audio"][state="paused"] .controls-play-pause {
+  display: block;
+  background-image: url("assets/paused.png");
+}
+
+.player[type="audio"][state="loading"] .controls-play-pause {
+  display: none;
+}
+
+.player[type="audio"][state="loading"] .controls-cur-time,
+.player[type="audio"][state="loading"] .controls-total-time {
+  display: none !important;
+}
+
+.player[type="audio"][state="paused"]:not(.seeking) .controls-cur-time,
+.player[type="audio"][state="paused"]:not(.seeking) .controls-total-time {
+  display: block;
+}
+
+.player[type="audio"][state="loading"] .controls,
+.player[type="audio"][state="paused"] .controls,
+.player[type="audio"][state="loading"]:not(.seeking) .controls-progress,
+.player[type="audio"][state="paused"]:not(.seeking) .controls-progress {
+  display: block;
+}
+
+.player[type="audio"][state="loading"][live="true"] .controls-cur-time,
+.player[type="audio"][state="paused"][live="true"] .controls-cur-time,
+.player[type="audio"][state="loading"][live="true"] .controls-total-time,
+.player[type="audio"][state="paused"][live="true"] .controls-total-time,
+.player[type="audio"][state="loading"][live="true"] .controls-progress,
+.player[type="audio"][state="paused"][live="true"] .controls-progress {
+  display: none !important;
+}
+
+.player[type="audio"][state="loading"] .controls-progress-inner {
+  width: 90% !important;
+  -webkit-animation: loading 2s infinite linear;
+}
+
+.player[type="audio"][state="loading"] .media-artwork,
+.player[type="audio"][state="paused"] .media-artwork {
+  position: absolute;
+  left: 384px;
+  top: -450px;
+}
+
+/* ------------------------------------------------- */
+/* Player - Audio - Buffering/Playing                */
+/* ------------------------------------------------- */
+
+.player[type="audio"][state="buffering"] .overlay,
+.player[type="audio"][state="playing"] .overlay {
+  display: block;
+}
+
+.player[type="audio"][state="buffering"] .media-info,
+.player[type="audio"][state="playing"] .media-info {
+  display: block;
+  padding-bottom: 0;
+}
+
+.player[type="audio"][state="buffering"] .media-text,
+.player[type="audio"][state="playing"] .media-text {
+  float: left;
+  margin-top: 19px;
+}
+
+.player[type="audio"][state="buffering"] .controls,
+.player[type="audio"][state="playing"] .controls {
+  height: 4px;
+  position: absolute;
+  width: 384px;
+  bottom: auto;
+  left: auto;
+  right: auto;
+  top: auto;
+  display: block;
+}
+
+.player[type="audio"][state="buffering"] .controls-progress,
+.player[type="audio"][state="playing"] .controls-progress {
+  height: 4px;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.player[type="audio"][state="buffering"] .controls-cur-time,
+.player[type="audio"][state="buffering"] .controls-total-time,
+.player[type="audio"][state="buffering"] .controls-play-pause,
+.player[type="audio"][state="playing"] .controls-cur-time,
+.player[type="audio"][state="playing"] .controls-total-time,
+.player[type="audio"][state="playing"] .controls-play-pause {
+  display: none;
+}
+
+.player[type="audio"][state="buffering"] .watermark,
+.player[type="audio"][state="playing"] .watermark {
+  display: none;
+  margin-bottom: 0;
+}
+
+.player[type="audio"][state="buffering"] .overlay,
+.player[type="audio"][state="playing"] .overlay {
+  margin-left: 384px;
+  margin-bottom: 116px;
+}
+
+/* ------------------------------------------------- */
+/* Player - Idle                                     */
+/* ------------------------------------------------- */
+
+.player[state="idle"] .overlay {
+  display: none;
+}
+
+.player[state="idle"] .logo {
+  display: block;
+}
+
+.player[state="idle"] .spinner {
+  display: none;
+}
+
+/* ------------------------------------------------- */
+/* Player - Done                                     */
+/* ------------------------------------------------- */
+
+.player[state="done"] .overlay {
+  display: none;
+}
+
+.player[state="done"] {
+  background-image: url('assets/done.png');
+}
+

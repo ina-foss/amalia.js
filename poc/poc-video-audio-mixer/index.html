@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Poc Audio tracks with Amalia.js</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/default.css" rel="stylesheet" type="text/css"/>
+
+    <link href="http://www-player-i.ina.fr/libs/amalia.js/css/amalia.js.min.css" rel="stylesheet">
+    <link href="default.css" rel="stylesheet" type="text/css"/>
+    <!--Utils-->
+    <script src="http://www-player-i.ina.fr/libs/bower_components/jquery/dist/jquery.js"
+            type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/bower_components/jquery-ui/jquery-ui.min.js"
+            type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/bower_components/raphael/raphael-min.js"
+            type="text/javascript"></script>
+    <script src="bower_components/resemblejs/resemble.js" type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js.min.js" type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js-logger.min.js" type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js-plugin-overlay.min.js"
+            type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js-plugin-timeline.min.js"
+            type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js-plugin-text-sync.min.js"
+            type="text/javascript"></script>
+
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="../" class="navbar-brand">Poc Audio Video mixer with Amalia.js</a>
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+            <ul class="nav navbar-nav">
+                <li><a href="index.html">Video</a></li>
+                <li><a href="index-1.html">Radio</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="page-header">
+    </div>
+</div>
+
+<!--Layout video mixer-->
+<div class="container margin-bottom">
+    <div class="row">
+        <!-- Video 1 -->
+        <div class="element-1 col-sm-5 padding-right-none text-center">
+            <div class="video-height">
+                <div id="player-left"></div>
+            </div>
+        </div>
+        <!-- Video option -->
+        <div class="col-sm-2 padding-none text-center background-video video-height">
+            <div class="option-panel">
+                <div class="option-item height-medium">
+                    <div class="parameter">
+                        <div id="ctrl-btn" class="button option-label">
+                            <i class="ajs-icon ajs-icon-controlbar-play"></i>
+                        </div>
+                    </div>
+                    <div class="parameter tc-button">
+                        <span class="option-label">TC</span>
+                        <div id="tc-play-btn" class="round-shape-outline button"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Option panel : Current time -->
+            <div class="option-panel">
+                <div class="option-item">
+                    <span class="option-label">Current time</span>
+                    <span>
+                        <input type="number" id="tc-play" value="503" class="form-control option-value" placeholder="Tc Offset">
+                    </span>
+                </div>
+            </div>
+            <!-- Option panel : Set Playback -->
+            <div class="option-panel">
+                <div class="option-item">
+                    <span class="option-label">Set playback rate</span>
+                    <div class="remove-value">-</div>
+                    <span class="option-value space" style="display:inline-block">1.00</span>
+                    <div class="add-value">+</div>
+                </div>
+            </div>
+            <!-- Option panel : Offset on channel left and right -->
+            <div class="option-panel">
+                <div class="option-item">
+                    <span class="option-label">OFFSET</span>
+                    <div class="parameter half-width divider-vertical">
+                        <p class="round-shape">L</p>
+                        <p class="option-value">
+                            <input type="number" id="left-tc-offset" value="0" class="form-control option-value" placeholder="Left Tc Offset">
+                        </p>
+                    </div>
+                    <div class="parameter half-width">
+                        <p class="round-shape">R</p>
+                        <p class="option-value">
+                            <input type="number" id="right-tc-offset" value="23.7" class="form-control option-value" placeholder="Right Tc Offset">
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Video 2 -->
+        <div class="element-2 col-sm-5 padding-left-none text-center">
+            <div class="video-height">
+                <div id="player-right"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Layout screenshot-->
+<div class="container margin-bottom screenshot-panel cp-comparator">
+    <div class="row">
+        <div class="col-sm-5 text-center">
+            <!-- Image stack -->
+            <div class="row">
+                <div class="col-sm-12 padding-right-none">
+                    <div class="col-sm-6 background-video padding-none text-center">
+                        <p class="round-shape overlay">L</p>
+                        <img id="cp-left" style="width: 100%;"/>
+                    </div>
+                    <div class="col-sm-6 background-video padding-none text-center">
+                        <p class="round-shape overlay">R</p>
+                        <img id="cp-right" style="width: 100%;"/>
+                    </div>
+                </div>
+            </div>
+            <!-- Information stack -->
+            <div class="row info-panel margin-left-none">
+                <div class="col-sm-12 padding-none info-item border">
+                    <div class="col-sm-6 padding-right-none divider-vertical">
+                        <span class="title">Analysis time</span>
+                        <div id="analysis-time" class="round-shape outline big"></div>
+                    </div>
+                    <div class="col-sm-6">
+                        <span class="title">Dimension difference</span>
+                        <div class="col-sm-6">
+                            <span class="sub-title">Width</span>
+                            <div id="dimension-difference-width" class="round-shape outline small unit-px">1</div>
+                        </div>
+                        <div class="col-sm-6">
+                            <span class="sub-title">Height</span>
+                            <div id="dimension-difference-height" class="round-shape outline small unit-px"></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Action and information value stack -->
+        <div class="col-sm-2 padding-none background-video bottom video-height text-center">
+            <div class="option-panel">
+                <div class="option-item">
+                    <div class="arrow-left"></div>
+                    <div class="capture btn button round-shape big">Capture<br> image</div>
+                </div>
+            </div>
+            <div class="option-panel">
+                <div class="option-item tab-panel keywords text-center">
+                    <div class="tab-item">
+                        <span class="keywords-value"></span>
+                        <span class="keywords-text">de différence</span>
+                        <div class="arrow-right"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Preview the captured image with the difference  -->
+        <div class="col-sm-5 img-analysed padding-left-none text-center">
+            <div class="background-video">
+                <img id="cp-diff" class="width-full"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12"><a href="http://www.institut-national-audiovisuel.fr/en/home">Institut
+                National de l'Audiovisuel - INA</a> © 2015
+            </div>
+        </div>
+    </div>
+    <script src="comparator.js" type="text/javascript"></script>
+</body>
+</html>

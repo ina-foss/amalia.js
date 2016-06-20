@@ -1,0 +1,85 @@
+<!-- DOCUMENTATION -->
+<div id="documentation" class="documentation">
+    <h1 class="title">Documentation</h1>
+
+    <div class="quick-start" id="quick-start">
+        <h3 class="title">Quick start</h3>
+        <p>
+            The easiest way to integrate the amalia.js player in your application is to use the fully packaged version.
+            All the third party libraries are provided along with the player code in two simple
+            files for javascript and css parts. You will find the amalia.js libraries in the <code>build</code>
+            directory and the dependencies in the <code>bower_components</code> directory.
+            You can also have a look at the <code>samples</code> directory that has a simple example file for each
+            plugin.
+        </p>
+
+        <p>
+            If you start your HTML page from scratch, add the following lines in the <code>&lt;header&gt;</code> section
+            of your HTML page :
+        </p>
+        <pre class="smallpre">
+&lt;script type="text/javascript" src="bower_components/jquery/dist/jquery.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="bower_components/jquery-ui/jquery-ui.min.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="bower_components/raphael/raphael.js"&gt;&lt;/script&gt;        
+&lt;link href="build/css/amalia.js.min.css" type="text/css" rel="stylesheet" /&gt;
+&lt;script src="build/js/amalia.js.min.js" type="text/javascript"&gt;&lt;/script&gt; </pre>
+        <p>
+            The default language is french. If you need an english version, you have to add the translation javascript
+            file in your <code>&lt;header&gt;</code> section :
+        </p>
+        <pre class="smallpre">
+&lt;script type="text/javascript" src="build/js/player-message-en.js"&gt;&lt;/script&gt;
+        </pre>
+
+        <p>
+            In the
+            <code>&lt;body&gt;</code>
+            section of your HTML page, you need a
+            <code>&lt;div&gt;</code>
+            that will be used to instantiate the player. The only requirement for that div is to have an id. In our
+            example, we choose to limit the global height of the player.
+        </p>
+        <pre class="smallpre">
+&lt;div style="height: 350px;"&gt;
+    &lt;div id="myplayer"&gt;&lt;/div&gt;
+&lt;/div&gt;</pre>
+        <p>
+            Once this container is there, we can call the javascript function that will create the player. The only
+            mandatory parameter is the multimedia stream that will be played. You can use any
+            media format that is compatible with the targeted browsers of your application. Typically, for videos, you
+            have to encode your files with h.264 and use mp4 container. For a complete list
+            of initialization parameters of amalia.js, see the <a href="#doc-player-options" class="scroll-to">documentation
+            below</a>.
+        </p>
+        <pre class="smallpre">
+&lt;script&gt;        
+$("#myplayer").mediaPlayer({
+        autoplay : false,
+        src : "samples-data/examples/vid/amalia01.mp4",
+});
+&lt;/script&gt;</pre>
+        <p>For testing purposes, we generate a demonstration video with all types of metadata attached to it. You can
+            find the corresponding files in the <code>samples-data</code> directory.We will use this video along all the
+            examples in this documentation. Here is the
+            result of the three previous steps, providing a simple player :</p>
+
+        <div style="height: 350px;">
+            <div id="myplayer"></div>
+        </div>
+        <!-- Tutorial - simple player -->
+        <script type="text/javascript">
+            $(function () {
+                $("#myplayer").mediaPlayer({
+                    autoplay: false,
+                    src: "samples-data/examples/vid/amalia01.mp4"
+                });
+            });
+        </script>
+
+        <h3 class="title">Install via package manager</h3>
+        <h4>Bower</h4>
+        <pre class="smallpre">$ bower install amalia.js --save</pre>
+
+    </div>
+
+</div>

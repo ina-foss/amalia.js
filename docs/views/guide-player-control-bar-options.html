@@ -1,0 +1,280 @@
+<div class='doc-controlbar-options' id="doc-controlbar-options">
+    <h3 class="title">Control bar options</h3>
+
+    <p>The control bar is generic. It can embed several widgets used to interact with the player. There are
+        two main
+        configurations of this bar : wide with autohide property or small and
+        sticky.</p>
+
+    <div style="height: 300px;">
+        <div id="player"></div>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            $("#player").mediaPlayer({
+                autoplay: false,
+                src: "samples-data/examples/vid/amalia01.mp4",
+                controlBarClassName: "fr.ina.amalia.player.plugins.CustomControlBarPlugin",
+                controlBar: {
+                    sticky: true,
+                    height: 80,
+                    autohide: false,
+                    widgets: {
+                        left: {
+                            'playWidget': 'fr.ina.amalia.player.plugins.controlBar.widgets.PlayButton',
+                            'pauseWidget': 'fr.ina.amalia.player.plugins.controlBar.widgets.PauseButton'
+                        },
+                        mid: {
+                            'playWidget': 'fr.ina.amalia.player.plugins.controlBar.widgets.JogShuttleButton'
+                        },
+                        right: {
+                            'full': 'fr.ina.amalia.player.plugins.controlBar.widgets.FullscreenButton',
+                            'volume': 'fr.ina.amalia.player.plugins.controlBar.widgets.VolumeControlBar'
+                        },
+                        settings: {
+                            timelabelWidget: {
+                                timeFormat: 's',
+                                framerate: 20
+                            },
+                            sample: {
+                                style: 'ajs-icon ajs-icon-eye-on',
+                                callback: 'myCallback'
+                            }
+                        }
+                    }
+                }
+            });
+
+        });
+    </script>
+    <style>
+        .ajs .plugin-custom-controlbar.sticky .player-play-button, .ajs .plugin-custom-controlbar.sticky .player-pause-button {
+            display: inline-block;
+        }
+
+        .ajs .plugin-custom-controlbar.sticky .ajs-row .ajs-container {
+            height: 70px;
+            line-height: 70px;
+        }
+
+        .ajs .plugin-custom-controlbar.sticky .player-fullscreen-button {
+            line-height: 70px;
+            margin-top: 1px;
+        }
+
+        .ajs .plugin-custom-controlbar.sticky .player-volume-control .volume-control-btn {
+            line-height: 70px;
+            margin-top: 15px;
+        }
+
+        .ajs .plugin-custom-controlbar.sticky .ajs-row .ajs-container.middle-container {
+            text-align: center;
+            line-height: 50px;
+        }
+
+        .ajs .plugin-custom-controlbar .player-jog-shuttle-button {
+            display: inline-block;
+            float: none;
+        }
+
+    </style>
+
+
+    <p>The main parameters are :</p>
+
+    <div id="player-options" class="panel panel-default">
+        <div class="panel-body">
+            <table class="table table-striped table-hover ">
+                <thead>
+                <th>Options</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th></th>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>sticky</td>
+                    <td>boolean</td>
+                    <td>URL to a video or audio file</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>height</td>
+                    <td>String</td>
+                    <td>height of the sticky control bar, in pixel</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>autoHide</td>
+                    <td>Boolean</td>
+                    <td>Automatically start playing the video on page load</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>hideDuration</td>
+                    <td>Number</td>
+                    <td> time in ms, default value is 1000</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>timeFormat</td>
+                    <td>String</td>
+                    <td>Time format strings
+                    </td>
+                    <td>
+                        'h': for display hour<br/>
+                        'm': for display hour and minute<br/>
+                        's': for display hour,minute and second<br/>
+                        'mms': for display hour,minute and second with four digit<br/>
+                        'ms' : for display hour,minute and second with two digit<br/>
+                        'f' : for display hour,minute and frame<br/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>framerate</td>
+                    <td>Number</td>
+                    <td>Default value is 25</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>widgets</td>
+                    <td>Object</td>
+                    <td>Configure the widgets</td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+            </dl>
+        </div>
+    </div>
+
+    <div>
+        <h4>Widgets:</h4>
+
+        <p>Below you will find a list of widgets:</p>
+
+        <table class="table table-striped table-hover ">
+            <thead>
+            <th>Class name</th>
+            <th>Description</th>
+            <th></th>
+            <th></th>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Label</td>
+                <td>To display label</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>TimeLabel</td>
+                <td>To display current time and duration</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>BaseButton</td>
+                <td>Simple button with callback</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>PauseButton</td>
+                <td>Pause button</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>PlayButton</td>
+                <td>Play button</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>ProgressBar</td>
+                <td>Progress bar</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>FullscreenButton</td>
+                <td>Full screen button</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>VolumeControlBar</td>
+                <td>Volume Control Widget</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>ChannelVolumeControlBar</td>
+                <td>Multi channel volume widget with web audio API</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>JogShuttleButton</td>
+                <td>Widget to control playback speed</td>
+                <td></td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div>
+    <h4 class="title">Example</h4>
+
+    <div class="example">
+
+                <pre class="smallpre">
+$("#container").mediaPlayer({
+    src: "samples-data/examples/vid/amalia01.mp4",
+    controlBar:
+            {
+                sticky: true,
+                autohide: false,
+                enableProgressBar: false,
+                height: 75,
+                widgets:
+                        {
+                            left: {
+                                'timelabelWidget': 'fr.ina.amalia.player.plugins.controlBar.widgets.TimeLabel',
+                                'playWidget': 'fr.ina.amalia.player.plugins.controlBar.widgets.PlayButton',
+                                'pauseWidget': 'fr.ina.amalia.player.plugins.controlBar.widgets.PauseButton'
+                            },
+                            mid: {
+                                'JogShuttle': 'fr.ina.amalia.player.plugins.controlBar.widgets.JogShuttleButton'
+                            },
+                            right: {
+                                'volume': 'fr.ina.amalia.player.plugins.controlBar.widgets.ChannelVolumeControlBar',
+                                'full': 'fr.ina.amalia.player.plugins.controlBar.widgets.FullscreenButton'
+                            },
+                            settings: {
+                                timelabelWidget: {
+                                    timeFormat: 's',
+                                    framerate: 20
+                                },
+                                sample: {
+                                    style: 'fa fa-eye fa-2x',
+                                    callback: 'myCallback'
+                                },
+                                secNext: {
+                                    style: 'ajs-icon ajs-icon-control-forward',
+                                    callback: 'myCallbackControl',
+                                    action: 'next'
+                                },
+                                volume: {
+                                    channelMerger: false
+                                }
+                            }
+                        }
+            }
+
+});
+                </pre>
+    </div>
+</div>

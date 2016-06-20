@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Showcases Amalia.js</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/default.css" rel="stylesheet" type="text/css"/>
+    <link href="http://www-player-i.ina.fr/libs/bower_components/jquery-ui/themes/base/all.css" rel="stylesheet"/>
+    <link href="http://www-player-i.ina.fr/libs/amalia.js/css/amalia.js.min.css" rel="stylesheet">
+    <!--Utils-->
+    <script src="http://www-player-i.ina.fr/libs/bower_components/jquery/dist/jquery.js"
+            type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/bower_components/jquery-ui/jquery-ui.min.js"
+            type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/bower_components/raphael/raphael-min.js"
+            type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js.min.js" type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js-plugin-overlay.min.js"
+            type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js-plugin-timeline.min.js"
+            type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js-plugin-text-sync.min.js"
+            type="text/javascript"></script>
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="../" class="navbar-brand">Showcases Amalia.js</a>
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="page-header">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <h1 class="title">Media players with Mpeg dash multi periods.   </h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Document: VDV12025485</h3>
+                </div>
+                <div class="panel-body">
+                    <div style="height: 250px;"  >
+                        <div id="multi-period-totem-document"></div>
+                    </div>
+                    <h4>Illustration</h4>
+                    <div>
+                        <img src="http://www-player-i.ina.fr/medias/demo/showcases/assets/virtual-content/segment.png" width="100%">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="list-group">
+                <p class="list-group-item alert alert-dismissible alert-success">VDV12025485</p>
+                <a target="_blank" class="list-group-item" href="http://app01-player-i.ina.fr:9080/medias/vod/GALAXIE3/S3S1P025_mR9uE78$/MGCPG0000001_VIS_01.MP4">MGCPG0000001_VIS_01</a>
+                <a target="_blank" class="list-group-item" href="http://app01-player-i.ina.fr:9080/medias/vod/GALAXIE3/S3S1P025_mR9uE78$/MGCPG0000001_VIS_02.MP4">MGCPG0000001_VIS_02</a>
+                <a target="_blank" class="list-group-item" href="http://app01-player-i.ina.fr:9080/medias/vod/GALAXIE3/S3S1P025_mR9uE78$/MGCPG0000001_VIS_03.MP4">MGCPG0000001_VIS_03</a>
+                <a target="_blank" class="list-group-item" href="http://tomcat-player-i.ina.fr/dmps/document/VDV12025485.mpd">MPD</a>
+                <a target="_blank" class="list-group-item" href="http://tomcat-player-i.ina.fr/dmps/document/VDV12025485">JSON</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12"><a href="http://www.institut-national-audiovisuel.fr/en/home">Institut
+            National de l'Audiovisuel - INA</a> © 2015
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+                $("#multi-period-totem-document").mediaPlayer({
+                    mediaType: 'mpd',
+                    src: "http://tomcat-player-i.ina.fr/dmps/document/VDV12025485.mpd",
+                    controlBar:
+                            {
+                                sticky: true,
+                                height: 45
+                            }
+                });
+    });
+</script>
+
+</body>
+</html>

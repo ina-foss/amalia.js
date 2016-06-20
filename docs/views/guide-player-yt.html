@@ -1,0 +1,84 @@
+<h3 class="title">YouTube Video Embed</h3>
+
+<p>Amalia.js with official iFrame player API from YouTube to play a video inside of Amalia.js.</p>
+
+<div id="myplayer-yt-container">
+    <div style="height: 350px;">
+        <div id="myplayer-yt"></div>
+    </div>
+    <div id="myplayer-yt-timeline" style="height: 265px;"></div>
+</div>
+
+<h4>Embedding Step-by-Step</h4>
+
+<p>Step 1 : Add youtube IFrame Player API </p>
+<pre class="smallpre">
+<span>&lt;script </span><span>src=</span><span>"https://www.youtube.com/iframe_api"</span><span>&gt;&lt;/script&gt;</span>
+</pre>
+
+<p>Step 2 : Add amalia.js and third party libraries</p>
+<pre class="smallpre">
+<span>&lt;script </span><span>type=</span><span>"text/javascript" </span><span>src=</span><span>"bower_components/jquery/dist/jquery.js"</span><span>&gt;&lt;/script&gt;<br/></span><span>&lt;script </span><span>type=</span><span>"text/javascript" </span><span>src=</span><span>"bower_components/jquery-ui/jquery-ui.min.js"</span><span>&gt;&lt;/script&gt;<br/></span><span>&lt;script </span><span>type=</span><span>"text/javascript" </span><span>src=</span><span>"bower_components/raphael/raphael.js"</span><span>&gt;&lt;/script&gt;<br/></span><span>&lt;link </span><span>href=</span><span>"build/css/amalia.js.min.css" </span><span>type=</span><span>"text/css" </span><span>rel=</span><span>"stylesheet"</span><span>/&gt;<br/></span><span>&lt;script </span><span>src=</span><span>"build/js/amalia.js.min.js" </span><span>type=</span><span>"text/javascript"</span><span>&gt;&lt;/script&gt;</span>
+</pre>
+<p>Step 3 : Add youtube plugin</p>
+<pre class="smallpre">
+<span>&lt;script </span><span>type=</span><span>"text/javascript" </span><span>src=</span><span>"build/js/amalia.js-yt-player.min.js"</span><span>&gt;&lt;/script&gt;</span>
+</pre>
+
+<p>Step 4 : Create a container for amalia.js player with specified id</p>
+<pre class="smallpre">
+   <span>&lt;div </span><span>id=</span><span>"my-player-yt"</span><span>&gt;&lt;/div&gt;</span>
+</pre>
+
+<p>Step 5 : Instantiate the player </p>
+<pre class="smallpre">
+    $("#my-player-yt").mediaPlayer({
+        player: "fr.ina.amalia.player.YtPlayer",
+        src: 'NU8pS5rHmWM', // Youtube video ID
+    });
+</pre>
+
+<script type="text/javascript">
+    $(function () {
+        $("#myplayer-yt").mediaPlayer({
+            src: 'HAdfsdusQrY',
+            debug: true,
+            autoplay: false,
+            player: "fr.ina.amalia.player.YtPlayer",
+            controlBar: {
+                hide: true
+            },
+            plugins: {
+                dataServices: [
+                    'samples-data/examples/json/amalia01-events.json',
+                    'samples-data/examples/json/amalia01-kf.json',
+                    'samples-data/examples/json/amalia01-ball.json'
+                ],
+                list: [{
+                    'className': 'fr.ina.amalia.player.plugins.TimelinePlugin',
+                    'container': '#myplayer-yt-timeline',
+                    'parameters': {
+                        listOfLines: [{
+                            title: 'Events',
+                            type: 'cuepoint',
+                            metadataId: 'events-amalia01',
+                            color: '#3CF',
+                            pointNav: true
+                        }, {
+                            title: 'Ball moving up',
+                            type: 'segment',
+                            metadataId: 'ball-amalia01',
+                            color: '#F00'
+                        }, {
+                            title: 'Keyframes every 2s',
+                            type: 'image',
+                            metadataId: 'kf-amalia01',
+                            pointNav: true
+                        }]
+                    }
+                }]
+            }
+
+        });
+    });
+</script>

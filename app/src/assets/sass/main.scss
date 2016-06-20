@@ -1,0 +1,65 @@
+/**
+ * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ *
+ * This file is part of amalia.js
+ *
+ * Amalia.js is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version
+ *
+ * Redistributions of source code, javascript and css minified versions must
+ * retain the above copyright notice, this list of conditions and the following
+ * disclaimer
+ *
+ * Neither the name of the copyright holder nor the names of its contributors
+ * may be used to endorse or promote products derived from this software without
+ * specific prior written permission
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * amalia.js. If not, see <http://www.gnu.org/licenses/>
+ *
+ * Amalia.js is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details
+ */
+/**************************************************
+****************** *****VARIABLES *****************
+**************************************************/
+/***** FONTS ****/
+$fontMain: Arial, Helvetica, sans-serif;
+/***** COLORS ****/
+$BtToolContColor : #6c6c6c;
+
+/**************************************************
+****************** THEMES PROJETS *****************
+**************************************************/
+/***** PLAYER PROJET GEN ****/
+$mainColor: #0CF;
+$primaryColor: #0d8bc7;
+$secondaryColor: #4cd1d5;
+$mainBackgroundColor: rgba(19, 231, 240, 0.68);
+$mainGradient: linear-gradient(to right, #13e7f0, #0c7abf);
+$inverseBackgroundColor: rgba(51, 51, 51, 0.68);
+
+$backgroundColor : #2e2e2e;
+$primaryBackgroundColor : #292929;
+$secondaryBackgroundColor : #393939;
+
+// Devices width
+$screen-xx-min: 320px;
+$screen-xs-min: 480px;
+$screen-sm-min: 768px;
+$screen-md-min: 992px;
+$screen-lg-min: 1200px;
+
+
+@import "_ajs-animations";
+@import "_ajs-mixins";
+@import "_ajs-webfont";
+@import "_default-style";
+
+@import "_player";
+@import "_plugin";
+
+// test

@@ -1,0 +1,70 @@
+.header {
+    margin-top: 80px;
+    text-align: center;
+}
+
+.page-footer {
+    margin-bottom: 0px;
+    padding: 20px;
+    margin-top: 40px
+}
+
+h1.title {
+    margin-top: 25px;
+    padding: 0px;
+    padding-bottom: 0px;
+    font-weight: bold;
+    font-size: 40px;
+    border-bottom: 1px solid #eaeaea;
+}
+
+h3.title {
+    margin-top: 40px;
+    margin-bottom: 20px;
+    font-weight: 500;
+    border-bottom: #eee solid 1px;
+    padding-bottom: 10px;
+    margin-left: 10px;
+}
+
+h4.title {
+
+}
+
+.smallpre {
+    font-size: 12px;
+}
+
+.navbar .nav>li>a {
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.navbar-brand {
+    font-size: 24px;
+}
+
+.contact h1.title {
+    margin-top: 0px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    font-weight: bold;
+}
+
+.navbar-header .navbar-brand {
+    background-image: url(images/amalia_Logo-unique-white-mini.png);
+    background-repeat: no-repeat;
+    padding-left: 55px;
+    background-position: center left;
+}
+
+.docssidebar {
+    top: 100px;
+}
+.download-version-text
+{
+    min-height: 120px;
+}
+

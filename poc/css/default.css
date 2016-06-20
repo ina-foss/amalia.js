@@ -1,0 +1,17 @@
+.container.header
+{
+    margin-top: 75px;
+}
+#banner {
+    text-align: center;
+    color:white;
+    background-image: url(../images/amalie_bg-visuel-wide_1170x360.png);
+    padding-top: 30px;
+    margin-top: 10px
+}
+
+#banner h1.title 
+{
+    text-align: center;
+    color:white; 
+}

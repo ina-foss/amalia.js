@@ -1,0 +1,35 @@
+{
+    "localisation": [
+        {
+            "sublocalisations": {
+                "localisation": [
+                    {
+                        "tcin": "00:00:01.6800",
+                        "tcout": "00:00:03.3600",
+                        "tclevel": 1
+                    },
+                    {
+                        "tcin": "00:00:05.0400",
+                        "tcout": "00:00:06.7200",
+                        "tclevel": 1
+                    },
+                    {
+                        "tcin": "00:00:08.4000",
+                        "tcout": "00:00:10.0800",
+                        "tclevel": 1
+                    }
+                ]
+            },
+            "type": "segments",
+            "tcin": "00:00:00.0000",
+            "tcout": "00:00:15.0000",
+            "tclevel": 0
+        }
+    ],
+    "id": "ball-amalia01",
+    "type": "segments",
+    "algorithm": "demo-video-generator",
+    "processor": "Ina Research Department - N. HERVE",
+    "processed": 1421141589286,
+    "version": 1
+}

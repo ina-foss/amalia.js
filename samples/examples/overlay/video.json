@@ -1,0 +1,65 @@
+[
+    {
+        "localisation": [
+            {
+                "sublocalisations": {
+                    "localisation": [
+                        {
+                            "shape": {
+                                "t": "rectangle",
+                                "c": {
+                                    "x": 0.6493813398689232,
+                                    "y": 0.4202724108414674
+                                },
+                                "rx": 0.06402428757527423,
+                                "ry": 0.12985509776674528,
+                                "o": 0.0
+                            },
+                            "tc": "00:00:05.4000",
+                            "tclevel": 1
+                        },
+                        {
+                            "shape": {
+                                "t": "rectangle",
+                                "c": {
+                                    "x": 0.6493813398689232,
+                                    "y": 0.4202724108414674
+                                },
+                                "rx": 0.08751044672393471,
+                                "ry": 0.10505970214200441,
+                                "o": 0.0
+                            },
+                            "tc": "00:00:09.6400",
+                            "tclevel": 1
+                        },
+                        {
+                            "shape": {
+                                "t": "rectangle",
+                                "c": {
+                                    "x": 0.6329691424613839,
+                                    "y": 0.40855157574019063
+                                },
+                                "rx": 0.08751044672393471,
+                                "ry": 0.10505970214200441,
+                                "o": 0.0
+                            },
+                            "tc": "00:00:13.8800",
+                            "tclevel": 1
+                        }
+                    ]
+                },
+                "label": "Rectangle-1",
+                "tcin": "00:00:05.4000",
+                "tcout": "00:00:13.8800",
+                "tclevel": 0
+            }
+        ],
+        "id": "track-video200-1",
+        "type": "visual_tracking",
+        "algorithm": "demo-video-generator",
+        "processor": "Ina Research Department - N. HERVE",
+        "processed": 1426516281029,
+        "version": 1
+    }
+
+]

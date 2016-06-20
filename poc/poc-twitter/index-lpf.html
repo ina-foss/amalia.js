@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Poc Audio tracks with Amalia.js</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/default.css" rel="stylesheet" type="text/css"/>
+    <link href="css/default.css" rel="stylesheet" type="text/css"/>
+
+    <link href="http://www-player-i.ina.fr/libs/amalia.js/css/amalia.js.min.css" rel="stylesheet">
+    <link href="css/default.css" rel="stylesheet" type="text/css"/>
+    <!--Utils-->
+    <script src="http://www-player-i.ina.fr/libs/bower_components/jquery/dist/jquery.js"
+            type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/bower_components/jquery-ui/jquery-ui.min.js"
+            type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/bower_components/raphael/raphael-min.js"
+            type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js.min.js" type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js-logger.min.js" type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js-plugin-overlay.min.js"
+            type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js-plugin-timeline.min.js"
+            type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js-plugin-text-sync.min.js"
+            type="text/javascript"></script>
+
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="../" class="navbar-brand">Poc Twitter with Amalia.js</a>
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="page-header">
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Le Petit Journal du 11/10/2015</h3>
+                </div>
+                <div class="panel-body">
+                    <div style="height: 350px;">
+                        <div id="player"></div>
+                    </div>
+                    <div id="plugin-timeline" style="height: 450px;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Info</h3>
+                </div>
+                <div class="panel-body">
+                    <div id="plugin-tsync" style="height: 850px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12"><a href="http://www.institut-national-audiovisuel.fr/en/home">Institut
+            National de l'Audiovisuel - INA</a> © 2015
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $("#player").mediaPlayer({
+            autoplay: false,
+            src: "http://www-player-i.ina.fr/medias/demo/twitter/151110C+_20002100.MP4",
+            debug: false,
+            crossorigin: 'Anonymous',
+            controlBar: {
+                sticky: true
+            },
+            plugins: {
+                dataServices: [
+                    {
+                        protocol: "http",
+                        url: 'data/LPF-2015-11-10.json',
+                        parameters: {
+                            mainLevel: false
+                        }
+                    }
+                ],
+                list: [
+                    {
+                        'className': 'fr.ina.amalia.player.plugins.TextSyncPlugin',
+                        'container': '#plugin-tsync',
+                        'parameters': {
+                            metadataId: 'tweets',
+                            title: 'Tweets',
+                            description: '#SRFCTFC',
+                            level: 1,
+                            displayLevel: 1,
+                            autoScroll: true
+                        }
+                    },
+
+                    {
+                        'className': 'fr.ina.amalia.player.plugins.TimelinePlugin',
+                        'container': '#plugin-timeline',
+                        'debug': true,
+                        'parameters': {
+                            displayLines: 1,
+                            //timeaxe: false,
+                            displayState: 'lg',
+                            resizable: true,
+                            listOfLines: [
+
+                                {
+                                    title: 'Tweets',
+                                    type: 'histogram',
+                                    metadataId: 'histo',
+                                    //pointNav: true,
+                                    color: '#3CF',
+                                    // focusable: true
+
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

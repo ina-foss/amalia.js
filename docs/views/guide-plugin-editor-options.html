@@ -1,0 +1,255 @@
+<div class="plugin-editor">
+	<h3 class="title">Editor plugin (in progress)</h3>
+
+	<p>The purpose of this plugin is to annotate media. this plugin is composed of tree parts:</p>
+	<ul>
+		<li>ListEditor: In charge to delete or duplicate metadata.</li>
+		<li>BlockEditor: In charge to edit metadata block.</li>
+		<li>ItemsEditor: In charge to edit selected items.</li>
+	</ul>
+	<p>A server side toy application to load ans save metadata blocks will soon be available in the <a href="//github.com/ina-foss/amalia-tools">amalia-tools project</a> for demonstration purposes. Below left you will find the plugins for edit metadata and on right the plugin timeline to view the changes.</p>
+
+	<div class="demo">
+		<div class="col-md-6">
+			<div id='player-list-editor-plugin'></div>
+			<div class="clearfix"></div>
+			<div id='player-block-editor-plugin'></div>
+			<div class="clearfix"></div>
+			<div id='player-items-editor-plugin'></div>
+		</div>
+		<div class="col-md-6">
+			<div style="background-color:#000">
+				<div style="height: 350px;">
+					<div id="player"></div>
+				</div>
+				<div id='player_timeline-plugin' style="height: 450px;"></div>
+			</div>
+			<br/>
+
+			<div>
+				<button class="btn btn-info" onclick="loadData()">Load data</button>
+				<button class="btn btn-success" onclick="saveData()">Save data</button>
+				<button class="btn btn-danger" onclick="clearData()">Clear data</button>
+			</div>
+		</div>
+	</div>
+	<div class="clearfix"></div>
+	<br/>
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">MetadataListEditorPlugin</h3>
+		</div>
+		<div class="panel-body">
+			<table class="table table-striped table-hover">
+				<thead>
+				<th>Options</th>
+				<th>Type</th>
+				<th>Description</th>
+				<th></th>
+				</thead>
+				<tbody>
+				<tr>
+					<td>defaultDataType</td>
+					<td>String</td>
+					<td>Set default data type.</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>defaultAuthor</td>
+					<td>String</td>
+					<td>Set default author.</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>defaultColor</td>
+					<td>String</td>
+					<td>Set default color.</td>
+					<td>Default value:#2196f3</td>
+				</tr>
+				<tr>
+					<td>defaultShape</td>
+					<td>String</td>
+					<td>Default value:circle</td>
+					<td></td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">MetadataBlockEditorPlugin</h3>
+		</div>
+		<div class="panel-body">
+			<table class="table table-striped table-hover">
+				<thead>
+				<th>Options</th>
+				<th>Type</th>
+				<th>Description</th>
+				<th></th>
+				</thead>
+				<tbody>
+				<tr>
+					<td>shapesListOfElements</td>
+					<td>String</td>
+					<td>Set list of shapes.</td>
+					<td>default[
+						'legal',
+						'facetime',
+						'circle'
+						]
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">MetadataItemsEditorPlugin</h3>
+		</div>
+		<div class="panel-body">
+			<table class="table table-striped table-hover">
+				<thead>
+				<th>Options</th>
+				<th>Type</th>
+				<th>Description</th>
+				<th></th>
+				</thead>
+				<tbody>
+				<tr>
+					<td>defaultPercentWidth</td>
+					<td>Number</td>
+					<td>Set default percent of segment.</td>
+					<td>Default value: 0.1</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+
+<script>
+	var LOCALSTORAGE_AMALIA_JS_DEMO_KEY = "amalia-js-demo-annotation";
+	$(function () {
+		$("#player").mediaPlayer({
+			autoplay  : false,
+			src       : "samples-data/examples/vid/amalia01.mp4",
+			controlBar: {
+				sticky: true
+			},
+			plugins   : {
+				dataServices: [
+					'samples-data/examples/json/amalia01-events.json'
+				],
+				list        : [
+					{
+						'className' : 'fr.ina.amalia.player.plugins.MetadataListEditorPlugin',
+						'container' : '#player-list-editor-plugin',
+						'debug'     : true,
+						'parameters': {
+							//defaultDataType : fr.ina.amalia.player.PluginBindingManager.dataTypes.DETECTION
+							defaultAuthor: 'Amalia.js',
+							defaultColor : '#2196f3',
+							defaultShape : 'circle'
+						}
+					},
+					{
+						'className' : 'fr.ina.amalia.player.plugins.MetadataBlockEditorPlugin',
+						'container' : '#player-block-editor-plugin',
+						'debug'     : true,
+						'parameters': {}
+					},
+					{
+						'className' : 'fr.ina.amalia.player.plugins.MetadataItemsEditorPlugin',
+						'container' : '#player-items-editor-plugin',
+						'debug'     : true,
+						'parameters': {}
+					},
+					{
+						'className' : 'fr.ina.amalia.player.plugins.TimelinePlugin',
+						'container' : '#player_timeline-plugin',
+						'debug'     : false,
+						'parameters': {
+							debug            : true,
+							timeaxeExpandable: false,
+							resizable        : true,
+							displayLines     : 3,
+							editingMode      : true,
+							lineDisplayMode  : fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.METADATA_DISPLAY_TYPE.STATIC_DYNAMIC,
+							listOfLines      : [
+								{
+									title     : 'Events',
+									type      : 'cuepoint',
+									metadataId: 'events-amalia01',
+									color     : '#3CF',
+									pointNav  : true
+								}
+							]
+						}
+					}
+				]
+
+			}
+		});
+
+	});
+
+	/**
+	 * load
+	 * @method loadData
+	 */
+	function loadData() {
+		if (typeof localStorage !== 'undefined') {
+			try {
+				var listMetadatas = JSON.parse(localStorage.getItem(LOCALSTORAGE_AMALIA_JS_DEMO_KEY));
+				if (typeof listMetadatas === "object") {
+					for (var metadata in listMetadatas) {
+						$("#player").data("fr.ina.amalia.player").getPlayer().updateBlockMetadata(metadata, listMetadatas[metadata]);
+					}
+				}
+			}
+			catch (error) {
+				if (typeof console !== 'undefined') {
+					console.log("Error to load data");
+				}
+			}
+		}
+		else {
+			if (typeof console !== 'undefined') {
+				console.log("Error to load data");
+			}
+		}
+	}
+
+	/**
+	 * Save metadata
+	 * @method saveData
+	 */
+	function saveData() {
+		var listMetadatas = $("#player").data("fr.ina.amalia.player").getPlayer().getBlocksMetadata();
+		if (typeof listMetadatas === "object" && typeof localStorage !== 'undefined') {
+			localStorage.setItem(LOCALSTORAGE_AMALIA_JS_DEMO_KEY, JSON.stringify($("#player").data("fr.ina.amalia.player").getPlayer().getBlocksMetadata('amalia-simple01')));
+		}
+		else {
+			if (typeof console !== 'undefined') {
+				console.log("Error to save data");
+			}
+		}
+	}
+
+	/**
+	 * Clear all data
+	 * @method clear
+	 */
+	function clearData() {
+		if (typeof localStorage !== 'undefined') {
+			localStorage.removeItem(LOCALSTORAGE_AMALIA_JS_DEMO_KEY);
+			location.reload();
+		}
+	}
+</script>
+
+

@@ -1,179 +1,152 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta http-equiv="Content-Language" content="en-us"/>
-    <link rel="icon" href="static/img/favicon.ico"/>
-    <meta name="description"
-          content="amalia.js is a new extensible and versatile HTML5 multimedia player that allows you to view any type of metadata along with your video or audio streams"/>
-    <meta name="keywords"
-          content="amalia.js, ina, research, amalia, video, audio, multimedia, player, metadata, plugin, javascript, html5, timeline, keyframe, analysis, extraction, visualization, content, indexing, json, dataviz"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="images/favicon.ico">
+    <link href="../app/samples/css/default.css" rel="stylesheet">
+    <script src="../app/bower_components/jquery/dist/jquery.js"></script>
+    <script src="../app/bower_components/jquery-ui/jquery-ui.min.js"></script>
+    <script src="../app/bower_components/raphael/raphael.js"></script>
+    <link href="../app/bower_components/jquery-ui/themes/base/jquery-ui.min.css" rel="stylesheet">
+    <link href="../app/build/css/amalia.js.min.css" rel="stylesheet">
+    <!-- script-player -->
+    <script type="text/javascript">
+        _PlayerAmaliaVersion_ = 'Amalia.js © INA';
+        _PlayerAmaliaHomepage_ = 'http://ina-foss.github.io/amalia.js';
+    </script>
 
-    <!-- This web site stuff -->
-    <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-    <link href="http://maxcdn.bootstrapcdn.com/bootswatch/3.3.1/yeti/bootstrap.min.css" rel="stylesheet"/>
-    <link type="text/css" rel="stylesheet" href="css/amalia-js-demo.css"/>
+    <!--Utils-->
+    <script src="../app/src/utils/jquery-class.js" type="text/javascript"></script>
+    <script src="../app/src/utils/jquery-knob.js" type="text/javascript"></script>
+    <script src="../app/src/utils/raphael_free_transform.js" type="text/javascript"></script>
+    <script src="../app/src/utils/jquery.hotkeys.js" type="text/javascript"></script>
+    <script src="../app/src/utils/dash.min.js" type="text/javascript"></script>
+    <script src="../app/src/utils/jquery-debouncedresize.js" type="text/javascript"></script>
 
-    <!-- amalia.js dependencies -->
-    <script src="../bower_components/jquery/dist/jquery.js"></script>
-    <script src="../bower_components/jquery-ui/jquery-ui.min.js"></script>
-    <script src="../bower_components/raphael/raphael.js"></script>
+    <!--Log-->
+    <script src="../app/src/log/log-handler.js" type="text/javascript"></script>
+    <!--Helper-->
+    <script src="../app/src/helpers/browser-feature-detection.js" type="text/javascript"></script>
+    <script src="../app/src/helpers/html5-helper.js" type="text/javascript"></script>
+    <script src="../app/src/helpers/utilities-helper.js" type="text/javascript"></script>
+    <!--Constants-->
+    <script src="../app/src/player/constants/player-error-code.js" type="text/javascript"></script>
+    <script src="../app/src/player/constants/player-event-type.js" type="text/javascript"></script>
+    <script src="../app/src/player/constants/player-message.js" type="text/javascript"></script>
+    <!--Loader-->
+    <script src="../app/src/player/loader/base-loader.js" type="text/javascript"></script>
+    <script src="../app/src/player/loader/http-loader.js" type="text/javascript"></script>
+    <script src="../app/src/player/loader/ws-loader.js" type="text/javascript"></script>
+    <!--Player-->
+    <script src="../app/src/player/metadata/metadata-manager.js" type="text/javascript"></script>
+    <script src="../app/src/player/metadata/localisation-manager.js" type="text/javascript"></script>
+    <script src="../app/src/player/parsers/base-parser-metadata.js" type="text/javascript"></script>
 
-    <!-- amalia.js player stuff -->
-    <link type="text/css" rel="stylesheet" href="../build/css/amalia.js.min.css"/>
-    <script src="../build/js/amalia.js.min.js"></script>
-    <!-- // -->
-    <!-- See at the end od this file for other Javascript stuff  -->
-    <title>amalia.js - Metadata enriched HTML5 video player</title>
+    <!--Widget-->
+    <script src="../app/src/player/widgets/widget-base.js" type="text/javascript"></script>
+    <script src="../app/src/player/widgets/base-button.js" type="text/javascript"></script>
+    <script src="../app/src/player/widgets/time-label.js" type="text/javascript"></script>
+    <script src="../app/src/player/widgets/play-button.js" type="text/javascript"></script>
+    <script src="../app/src/player/widgets/pause-button.js" type="text/javascript"></script>
+    <script src="../app/src/player/widgets/fullscreen-button.js" type="text/javascript"></script>
+    <script src="../app/src/player/widgets/volume-control-bar.js" type="text/javascript"></script>
+    <script src="../app/src/player/widgets/progress-bar.js" type="text/javascript"></script>
+    <script src="../app/src/player/widgets/label.js" type="text/javascript"></script>
+    <script src="../app/src/player/widgets/jog-shuttle-button.js" type="text/javascript"></script>
+    <script src="../app/src/player/widgets/channel-volume-control-bar.js" type="text/javascript"></script>
+
+    <!--Plugin-->
+    <script src="../app/src/player/plugins/plugin-binding-manager.js" type="text/javascript"></script>
+    <script src="../app/src/player/plugins/plugin-base.js" type="text/javascript"></script>
+    <script src="../app/src/player/plugins/plugin-base-multi-blocks.js" type="text/javascript"></script>
+    <script src="../app/src/player/plugins/plugin-base-simple-block.js" type="text/javascript"></script>
+    <script src="../app/src/player/plugins/plugin-manager.js" type="text/javascript"></script>
+    <script src="../app/src/player/plugins/context-menu-plugin.js" type="text/javascript"></script>
+    <script src="../app/src/player/plugins/custom-control-bar.js" type="text/javascript"></script>
+
+    <!--Media Type-->
+    <script src="../app/src/player/media-type-manager.js" type="text/javascript"></script>
+    <script src="../app/src/player/media-type-dash-mpeg.js" type="text/javascript"></script>
+    <script src="../app/src/player/media-factory.js" type="text/javascript"></script>
+
+    <script src="../app/src/player/shortcuts-manager.js" type="text/javascript"></script>
+    <script src="../app/src/player/local-storage-manager.js" type="text/javascript"></script>
+    <script src="../app/src/player/base-player.js" type="text/javascript"></script>
+    <script src="../app/src/player/player-html5.js" type="text/javascript"></script>
+    <script src="../app/src/ina-player.js" type="text/javascript"></script>
+    <!-- /script-player -->
+    <!-- script-player -->
+    <script src="../app/src/player/plugins/captions-base.js" type="text/javascript"></script>
+    <!--Plugins Text Sync-->
+    <script src="../app/src/plugins/text-sync/component.js" type="text/javascript"></script>
+    <script src="../app/src/plugins/text-sync/text-sync.js" type="text/javascript"></script>
+    <!--Plugins Caption-->
+    <script src="../app/src/plugins/captions/captions.js" type="text/javascript"></script>
+    <!--Plugins Editor-->
+    <script src="../app/src/plugins/timeline/default-configuration.js" type="text/javascript"></script>
+    <script src="../app/src/plugins/timeline/base-component.js" type="text/javascript"></script>
+    <script src="../app/src/plugins/timeline/focus-component.js" type="text/javascript"></script>
+    <script src="../app/src/plugins/timeline/tic-component.js" type="text/javascript"></script>
+    <script src="../app/src/plugins/timeline/zoom-component.js" type="text/javascript"></script>
+    <script src="../app/src/plugins/timeline/time-axis-component.js" type="text/javascript"></script>
+    <script src="../app/src/plugins/timeline/cuepoints-component.js" type="text/javascript"></script>
+    <script src="../app/src/plugins/timeline/images-component.js" type="text/javascript"></script>
+    <script src="../app/src/plugins/timeline/segments-component.js" type="text/javascript"></script>
+    <script src="../app/src/plugins/timeline/visual-component.js" type="text/javascript"></script>
+    <script src="../app/src/plugins/timeline/histogram-component.js.js" type="text/javascript"></script>
+    <script src="../app/src/plugins/timeline/timeline.js" type="text/javascript"></script>
+
+    <script src="../app/src/plugins/overlay/spatials-data-parser.js" type="text/javascript"></script>
+    <script src="../app/src/plugins/overlay/draw-base.js" type="text/javascript"></script>
+    <script src="../app/src/plugins/overlay/draw-rect.js" type="text/javascript"></script>
+    <script src="../app/src/plugins/overlay/draw-ellipse.js" type="text/javascript"></script>
+    <script src="../app/src/plugins/overlay/overlay.js" type="text/javascript"></script>
+
+    <script src="../app/src/plugins/editor/plugin-metadata-list-editor.js" type="text/javascript"></script>
+    <script src="../app/src/plugins/editor/plugin-metadata-block-editor.js" type="text/javascript"></script>
+    <script src="../app/src/plugins/editor/plugin-metadata-items-editor.js" type="text/javascript"></script>
+
 </head>
 <body>
 <div class="container">
-    <!-- NAVBAR -->
-    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">amalia.js</a>
-            </div>
-            <div id="navbar" class="collapse navbar-collapse">
-                <ul class="nav navbar-nav pull-right">
-                    <li><a class="scroll-to" href="#download">Download</a></li>
-                    <li><a class="scroll-to" href="#documentation">Documentation</a></li>
-                    <li><a class="scroll-to" href="#examples">Examples</a></li>
-                    <li><a class="scroll-to" href="#about">About</a></li>
-                    <li><a class="scroll-to" href="#contact">Contact</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
     <div class="header">
-        <h2 class="title">Player</h2>
-
-        <p class="lead"></p>
+        <h1>Samples Player</h1>
     </div>
     <div class="content">
+
         <div class="demo">
             <div style="height: 350px;">
-                <div id="defaultPlayer"></div>
+                <div id="confPlayer" allowfullscreen ></div>
             </div>
             <script>
                 $(function () {
-                    $("#defaultPlayer").mediaPlayer({
-                        autoplay: false,
-                        src: "../samples-data/examples/vid/amalia01.mp4",
+                    $("#confPlayer").mediaPlayer({
+                        autoplay: true,
+                        debug: true,
+                        mediaType:'video/mp4',
+                        duration: null,
+                        src: "http://www-player-i.ina.fr/medias/demo/audi.mp4",
                         controlBar: {
-                            autohide: false
+                            autohide: false,
+                            sticky: true
                         }
                     });
                 });
             </script>
+            <pre class="config">
+                $("#confPlayer").mediaPlayer({
+                    src : "http://www-player-i.ina.fr/medias/demo/audi.mp4"
+                });
+            </pre>
         </div>
-        <div class="doc">
-            <h1>Player options</h1>
-            <!-- Player Options-->
-            <ul class="nav nav-tabs">
-                <li class="active"><a href="#player-options" data-toggle="tab" aria-expanded="false">Doc</a></li>
-                <li class=""><a href="#player-options-example" data-toggle="tab" aria-expanded="true">example</a></li>
-            </ul>
-            <div class="tab-content">
-                <div id="player-options" class="panel panel-default">
-                    <div class="panel-body">
-                        <dl class="dl-horizontal">
-                            <dt>src</dt>
-                            <dd>URL to a video or audio file</dd>
-
-                            <dt>poster</dt>
-                            <dd>URL to a poster image to display before playback starts</dd>
-
-                            <dt>autoplay</dt>
-                            <dd>boolean, automatically start playing the video on page load</dd>
-
-                            <dt>defaultVolume</dt>
-                            <dd>75 by default. This value is overloaded by the volume set by the user which is kept in a
-                                cookie
-                            </dd>
-
-                            <dt>controlBar</dt>
-                            <dd>parameters for the control buttons (see below)</dd>
-
-                            <dt>plugins</dt>
-                            <dd>plugins configuration list (see below)</dd>
-
-                            <dt>framerate</dt>
-                            <dd></dd>
-
-                            <dt>controlBarClassName</dt>
-                            <dd></dd>
-
-                            <dt>controlBar</dt>
-                            <dd></dd>
-
-                            <dt>tcOffset</dt>
-                            <dd></dd>
-
-                            <dt>mediaType</dt>
-                            <dd></dd>
-
-                            <dt>thumbRootDirectory</dt>
-                            <dd></dd>
-
-                            <dt>crossorigin</dt>
-                            <dd></dd>
-
-                            <dt>shortcuts</dt>
-                            <dd></dd>
-                        </dl>
-                    </div>
-                </div>
-                <div id="player-options-example">
-                <pre>
-$("#container").mediaPlayer({
-    autoplay: true,
-    src: "http://www-player-i.ina.fr/medias/demo/audi.mp4"
-});
-                </pre>
-                </div>
-            </div>
-            <!-- END: Player Options-->
-
-            <div class="control-bar panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Control bar options</h3>
-                </div>
-                <div class="panel-body">
-                    <dl class="dl-horizontal">
-                        <dt>...</dt>
-                        <dd>...</dd>
-                    </dl>
-                </div>
-            </div>
-            <div class="plugin panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Plugin options</h3>
-                </div>
-                <div class="panel-body">
-                    <dl class="dl-horizontal">
-                        <dt>...</dt>
-                        <dd>...</dd>
-                    </dl>
-                </div>
-            </div>
-        </div>
-
     </div>
-</div>
-<!-- FOOTER -->
-<div class="page-footer  breadcrumb">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">Last updated : <%= updateDate %></div>
-            <div class="col-md-6 text-right">
-                <a href="http://www.institut-national-audiovisuel.fr/en/home"><img class="logo-ina"
-                                                                                   src="img/logo_ina.jpg"
-                                                                                   style=" margin-right:10px; width: 32x; height: 32px"/>
-                    Institut National de l'Audiovisuel - INA</a> ©<%= updateYear %>
-            </div>
-        </div>
+    <div class="footer">
+        <p>
+            <a href="http://www.institut-national-audiovisuel.fr/en/home"><img class="logo-ina" src="../app/samples/images/logo_ina.jpg" style=" margin-right:10px; width: 32x; height: 32px"/>Institut
+                National de l'Audiovisuel - INA</a>© 2015
+        </p>
     </div>
 </div>
 </body>

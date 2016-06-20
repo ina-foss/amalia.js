@@ -1,0 +1,19 @@
+{
+  "name": "Flot",
+  "version": "0.8.1",
+  "main": "jquery.flot.js",
+  "dependencies": {
+    "jquery": ">= 1.2.6"
+  },
+  "homepage": "https://github.com/AMKohn/flot",
+  "_release": "0.8.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.8.1",
+    "commit": "7f5f90384ed6d6c30b232580d358c84e355919ab"
+  },
+  "_source": "https://github.com/AMKohn/flot.git",
+  "_target": "~0.8.1",
+  "_originalSource": "flotcharts",
+  "_direct": true
+}

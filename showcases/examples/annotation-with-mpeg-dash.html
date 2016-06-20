@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Showcases Amalia.js</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/default.css" rel="stylesheet" type="text/css"/>
+
+    <script src="http://www-player-i.ina.fr/libs/bower_components/jquery/dist/jquery.js"
+            type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/bower_components/jquery-ui/jquery-ui.min.js"
+            type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/bower_components/raphael/raphael-min.js"
+            type="text/javascript"></script>
+    <link href="http://www-player-i.ina.fr/libs/bower_components/jquery-ui/themes/base/all.css" rel="stylesheet"/>
+    <link href="http://www-player-i.ina.fr/libs/amalia.js/css/amalia.js.min.css" rel="stylesheet">
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js.min.js" type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js-logger.min.js" type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js-plugin-overlay.min.js"
+            type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js-plugin-timeline.min.js"
+            type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js-plugin-captions.min.js"
+            type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js-plugin-watermark.min.js"
+            type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js-plugin-progress-bar.min.js"
+            type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js-plugin-text-sync.min.js"
+            type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js-plugin-editor.min.js"
+            type="text/javascript"></script>
+    <style type="text/css">
+        .ajs-plugin.editor.plugin-items-editor .body ul.listOfSelectedItems
+        {
+            height: 591px;
+        }
+    </style>
+
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="../" class="navbar-brand">Showcases Amalia.js</a>
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="page-header">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <h2 class="title">Media player with annotation plugin and mepg-dash</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div id='player-list-editor-plugin'></div>
+            <div class="clearfix"></div>
+            <div id='player-block-editor-plugin'></div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="col-md-6">
+
+            <div style="background-color:#000">
+                <div style="height: 350px;">
+                    <div id="player"></div>
+                </div>
+                <div id='player_timeline-plugin' style="height: 450px;"></div>
+            </div>
+            <br/>
+
+            <div>
+                <button class="btn btn-info" onclick="loadData()">Load data</button>
+                <button class="btn btn-success" onclick="saveData()">Save data</button>
+                <button class="btn btn-danger" onclick="clearData()">Clear data</button>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div id='player-items-editor-plugin'></div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12"><a href="http://www.institut-national-audiovisuel.fr/en/home">Institut
+            National de l'Audiovisuel - INA</a> © 2015
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var LOCALSTORAGE_AMALIA_JS_DEMO_KEY = "amalia-js-demo-annotation-fft-mpeg-dash";
+    $(function () {
+        $("#player").mediaPlayer({
+            autoplay: false,
+            debug: true,
+            mediaType: 'mpd',
+            src: "http://www-player-i.ina.fr/medias/demo/mpeg-dash/multi-period/FPVDB11060304_VIS.mpd",
+            crossorigin: 'Anonymous',
+            'tcOffset': 64526.46,
+            controlBar: {
+                sticky: true
+            },
+            plugins: {
+                dataServices: [
+                    'http://www-player-i.ina.fr/medias/demo/fft/data/poc-fft-incident.json',
+                    'http://www-player-i.ina.fr/medias/demo/fft/data/poc-fft-jeu.json',
+                    'http://www-player-i.ina.fr/medias/demo/fft/data/poc-fft-personne-physique.json',
+                    'http://www-player-i.ina.fr/medias/demo/fft/data/poc-fft-point-exceptionnel.json',
+                    'http://www-player-i.ina.fr/medias/demo/fft/data/poc-fft-service.json'
+                ],
+                list: [
+                    {
+                        'className': 'fr.ina.amalia.player.plugins.MetadataListEditorPlugin',
+                        'container': '#player-list-editor-plugin',
+                        'debug': true,
+                        'parameters': {
+                            //defaultDataType : fr.ina.amalia.player.PluginBindingManager.dataTypes.DETECTION
+                            //defaultAuthor : 'Amalia.js',
+                            //defaultColor : '#2196f3',
+                            //defaultShape : 'car'
+                        }
+                    },
+                    {
+                        'className': 'fr.ina.amalia.player.plugins.MetadataBlockEditorPlugin',
+                        'container': '#player-block-editor-plugin',
+                        'debug': true,
+                        'parameters': {}
+                    },
+                    {
+                        'className': 'fr.ina.amalia.player.plugins.MetadataItemsEditorPlugin',
+                        'container': '#player-items-editor-plugin',
+                        'debug': true,
+                        'parameters': {}
+                    },
+                    {
+                        'className': 'fr.ina.amalia.player.plugins.TimelinePlugin',
+                        'container': '#player_timeline-plugin',
+                        'debug': false,
+                        'parameters': {
+                            debug: true,
+                            timeaxeExpandable: true,
+                            resizable: true,
+                            displayLines: 2,
+                            editingMode: true,
+                            lineDisplayMode: fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.METADATA_DISPLAY_TYPE.STATIC_DYNAMIC,
+                            listOfLines: [
+                                {
+                                    title: 'Jeu',
+                                    type: 'cuepoint',
+                                    metadataId: 'poc-fft-jeu',
+                                    color: '#3CF',
+                                    focusable: true,
+                                    editable: true,
+
+                                },
+
+                                {
+                                    title: 'Personne physique',
+                                    type: 'cuepoint',
+                                    metadataId: 'poc-fft-personne-physique',
+                                    pointNav: true,
+                                    color: '#00BCD4',
+                                    focusable: true
+
+                                },
+                                {
+                                    title: 'Point exceptionnel',
+                                    type: 'cuepoint',
+                                    metadataId: 'poc-fft-point-exceptionnel',
+                                    color: '#009688',
+                                    pointNav: true,
+                                    focusable: true
+
+                                },
+                                {
+                                    title: 'Service',
+                                    type: 'segment',
+                                    metadataId: 'poc-fft-service',
+                                    color: '#3F51B5',
+                                    pointNav: true,
+                                    focusable: true
+                                },
+                                {
+                                    title: 'Incident',
+                                    type: 'cuepoint',
+                                    metadataId: 'poc-fft-incident',
+                                    color: '#CDDC39',
+                                    pointNav: true,
+                                    focusable: true
+                                }
+                            ]
+                        }
+                    }
+                ]
+
+            }
+        });
+
+        $("#defaultPlayer").on("fr.ina.amalia.player.PlayerEventType.SELECTED_METADATA_CHANGE", function (event, data) {
+
+        });
+
+    });
+
+    /**
+     * load
+     * @method loadData
+     */
+    function loadData() {
+        if (typeof localStorage !== 'undefined') {
+            try {
+                var listMetadatas = JSON.parse(localStorage.getItem(LOCALSTORAGE_AMALIA_JS_DEMO_KEY));
+                if (typeof listMetadatas === "object") {
+                    for (var metadata in listMetadatas) {
+                        $("#player").data("fr.ina.amalia.player").getPlayer().updateBlockMetadata(metadata, listMetadatas[metadata]);
+                    }
+                }
+            }
+            catch (error) {
+                if (typeof console !== 'undefined') {
+                    console.log("Error to load data");
+                }
+            }
+        }
+        else {
+            if (typeof console !== 'undefined') {
+                console.log("Error to load data");
+            }
+        }
+    }
+
+    /**
+     * Save metadata
+     * @method saveData
+     */
+    function saveData() {
+        var listMetadatas = $("#player").data("fr.ina.amalia.player").getPlayer().getBlocksMetadata();
+        if (typeof listMetadatas === "object" && typeof localStorage !== 'undefined') {
+            localStorage.setItem(LOCALSTORAGE_AMALIA_JS_DEMO_KEY, JSON.stringify($("#player").data("fr.ina.amalia.player").getPlayer().getBlocksMetadata('amalia-simple01')));
+        }
+        else {
+            if (typeof console !== 'undefined') {
+                console.log("Error to save data");
+            }
+        }
+    }
+
+    /**
+     * Clear all data
+     * @method clear
+     */
+    function clearData() {
+        if (typeof localStorage !== 'undefined') {
+            localStorage.removeItem(LOCALSTORAGE_AMALIA_JS_DEMO_KEY);
+            location.reload();
+        }
+    }
+</script>
+
+
+</body>
+</html>

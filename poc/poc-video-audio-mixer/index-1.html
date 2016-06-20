@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Poc Audio tracks with Amalia.js</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/default.css" rel="stylesheet" type="text/css"/>
+
+    <link href="http://www-player-i.ina.fr/libs/amalia.js/css/amalia.js.min.css" rel="stylesheet">
+    <link href="default.css" rel="stylesheet" type="text/css"/>
+    <!--Utils-->
+    <script src="http://www-player-i.ina.fr/libs/bower_components/jquery/dist/jquery.js"
+            type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/bower_components/jquery-ui/jquery-ui.min.js"
+            type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/bower_components/raphael/raphael-min.js"
+            type="text/javascript"></script>
+    <script src="bower_components/resemblejs/resemble.js" type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js.min.js" type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js-logger.min.js" type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js-plugin-overlay.min.js"
+            type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js-plugin-timeline.min.js"
+            type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js-plugin-text-sync.min.js"
+            type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js-plugin-watermark.min.js"
+            type="text/javascript"></script>
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="../" class="navbar-brand">Poc Audio Video mixer with Amalia.js (Nadine Morano)</a>
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            </li>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+            <ul class="nav navbar-nav">
+                <li><a href="index.html">Video</a></li>
+                <li><a href="index-1.html">Radio</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="page-header">
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">05086058</h3>
+                </div>
+                <div class="panel-body">
+                    <div style="height: 350px;">
+                        <div id="player-left"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">VDY14043023</h3>
+                </div>
+                <div class="panel-body">
+                    <div style="height: 350px;">
+                        <div id="player-right"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="panel panel-primary">
+                <!--<div class="panel-heading">-->
+                <!--<h3 class="panel-title">&nbsp;</h3>-->
+                <!--</div>-->
+                <div class="panel-body">
+
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <label class="control-label" for="disabledInput">Left Tc Offset</label>
+                                <input type="number" id="left-tc-offset" value="0" class="form-control"
+                                       placeholder="Left Tc Offset">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label" for="disabledInput">Right Tc Offset</label>
+                                <input type="number" id="right-tc-offset" value="0" class="form-control"
+                                       placeholder="Right Tc Offset">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="disabledInput">Current time</label>
+                                <input type="number" id="tc-play" value="0" class="form-control"
+                                       placeholder="Tc Offset">
+                            </div>
+                        </div>
+                        <div class="col-lg-4" style="text-align: center;">
+                            <div class="btn-group-vertical" role="group">
+                                <button id="tc-play-btn" type="button" class="btn btn-success">Play with TC</button>
+                                <button id="play-btn" type="button" class="btn btn-success">Play</button>
+                                <button id="pause-btn" type="button" class="btn btn-info">Pause</button>
+                                <button id="stop-btn" type="button" class="btn btn-warning">Stop</button>
+                            </div>
+                            <br/>
+                            <p><b>Set playback rate</b></p>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="playbackrate btn btn-default">0.5</button>
+                                <button type="button" class="playbackrate btn btn-default">0.75</button>
+                                <button type="button" class="playbackrate btn btn-default">1</button>
+                                <button type="button" class="playbackrate btn btn-default">1.5</button>
+                                <button type="button" class="playbackrate btn btn-default">2</button>
+                                <button type="button" class="playbackrate btn btn-default">4</button>
+                            </div>
+                        </div>
+                        <!--<div class="col-lg-6" style="text-align: center;">-->
+                        <!--<p><b>Capture Image</b></p>-->
+                        <!--<div class="col-lg-12">-->
+                        <!--<div class="btn-group" role="group">-->
+                        <!--<button type="button" class="capture btn btn-danger">Capture</button>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-6">-->
+                        <!--<p> Left capture</p>-->
+                        <!--<span class="cp">-->
+                        <!--<img id="cp-left" style="width: 100%;"/>-->
+                        <!--</span>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-6">-->
+                        <!--<p> Right capture</p>-->
+                        <!--<span class="cp">-->
+                        <!--<img id="cp-right" style="width: 100%;"/>-->
+                        <!--</span>-->
+                        <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-12 cp-comparator ">-->
+                        <!--<h4>-->
+                        <!--Comparator-->
+                        <!--</h4>-->
+                        <!--<hr/>-->
+                        <!--<ul class="list-group">-->
+                        <!--<li class="list-group-item">-->
+                        <!--<p>Difference :</p>-->
+
+                        <!--<div class="progress">-->
+                        <!--<div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>-->
+                        <!--</div>-->
+                        <!--</li>-->
+                        <!--<li class="list-group-item">-->
+                        <!--<p>Image diff :</p>-->
+                        <!--<span class="cp cp-diff">-->
+                        <!--<img id="cp-diff" style="width: 100%;"/>-->
+                        <!--</span>-->
+
+                        <!--</li>-->
+                        <!--<li class="list-group-item ">Analysis time: <span id="analysis-time"></span></li>-->
+                        <!--<li class="list-group-item"><p>Dimension difference:</p> Width: <p id="dimension-difference-width"></p> Height: <p id="dimension-difference-height"></p></li>-->
+                        <!--</ul>-->
+                        <!--</div>-->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12"><a href="http://www.institut-national-audiovisuel.fr/en/home">Institut
+            National de l'Audiovisuel - INA</a> © 2015
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var video = null;
+    var playerLeft = null;
+    var playerRight = null;
+    var playerLeftSeek, playerRightSeek = false;
+    $(function () {
+        var config = {
+            autoplay: false,
+            crossorigin: 'Anonymous',
+            controlBar: {
+                sticky: true,
+                height: 45,
+                autohide: false,
+                widgets: {
+                    left: {
+                        'timelabelWidget': 'fr.ina.amalia.player.plugins.controlBar.widgets.TimeLabel'
+                    },
+                    mid: {
+
+                        'playWidget': 'fr.ina.amalia.player.plugins.controlBar.widgets.PlayButton',
+                        'pauseWidget': 'fr.ina.amalia.player.plugins.controlBar.widgets.PauseButton',
+
+                    },
+                    right: {
+                        'full': 'fr.ina.amalia.player.plugins.controlBar.widgets.FullscreenButton',
+                        'volume': 'fr.ina.amalia.player.plugins.controlBar.widgets.ChannelVolumeControlBar'
+                    },
+                    settings: {
+                        timelabelWidget: {
+                            timeFormat: 's',
+                            framerate: 20
+                        },
+                        volume: {
+                            channelMerger: false,
+                            channelMergerNode: 'l',
+                        }
+                    }
+                },
+                callbacks: {}
+            }
+        };
+
+        var leftConf = $.extend(true, {
+            src: 'http://www-player-i.ina.fr/medias/demo/showcases/assets/mixer/2012F10815S0004_01.MP3',
+            callbacks: {
+                onReady: 'onLeftPlayerReady'
+            }
+        }, config);
+
+        leftConf.controlBar.widgets.settings.volume.channelMergerNode = 'l';
+        leftConf.plugins = {
+            list: [
+                {
+                    'className': 'fr.ina.amalia.player.plugins.WatermarkPlugin',
+                    'parameters': {
+                        backgroundImageUrl: "http://www-player-i.ina.fr/medias/demo/showcases/assets/logo-radio/FIT.png",
+                        ratio: 100,
+                        placement: 'c',
+                        imageWidth: 640,
+                        imageHeight: 360,
+                        topOffet: 75
+                    }
+                }
+            ]
+        };
+
+        $("#player-left").mediaPlayer(leftConf);
+
+        var rightConf = $.extend(true, {
+            src: 'http://www-player-i.ina.fr/medias/demo/showcases/assets/mixer/FMVDY0006144_VIS_01.MP4',
+            callbacks: {
+                onReady: 'onRightPlayerReady'
+            }
+        }, config);
+        rightConf.controlBar.widgets.settings.volume.channelMergerNode = 'r';
+        $("#player-right").mediaPlayer(rightConf);
+
+        ///set control events
+        $("#play-btn").on('click', play);
+        $("#pause-btn").on('click', pause);
+        $("#stop-btn").on('click', stop);
+        $("#tc-play-btn").on('click', playTc);
+        $(".playbackrate.btn").on('click', setPlaybackrate);
+        $(".capture.btn").on('click', getCapture);
+
+    });
+    function onLeftPlayerReady() {
+        playerLeft = $('#player-left').data('fr.ina.amalia.player').getPlayer();
+        if (playerLeft !== null && playerRight !== null) {
+            playTc();
+            getCapture();
+        }
+
+
+        $('#player-left').on(fr.ina.amalia.player.PlayerEventType.IMAGE_CAPTURE, function (event, data) {
+            $('#cp-left').attr('src', data.captureImage).attr('captureTc', data.captureTc);
+            resembleControl();
+        });
+        $('#player-left').on(fr.ina.amalia.player.PlayerEventType.SEEK, function (event, data) {
+            var rightTcOffset = parseFloat($('#right-tc-offset').val());
+            var leftTcOffset = parseFloat($('#left-tc-offset').val());
+            playerLeftSeek = parseInt(data.currentTime - leftTcOffset);
+            if (parseInt(playerRightSeek + rightTcOffset) != playerLeftSeek) {
+                playerRight.setCurrentTime(playerLeftSeek + rightTcOffset);
+            }
+        })
+    }
+
+    function onRightPlayerReady() {
+        playerRight = $('#player-right').data('fr.ina.amalia.player').getPlayer();
+        if (playerLeft !== null && playerRight !== null) {
+            playTc();
+            getCapture();
+        }
+        $('#player-right').on(fr.ina.amalia.player.PlayerEventType.IMAGE_CAPTURE, function (event, data) {
+            $('#cp-right').attr('src', data.captureImage).attr('captureTc', data.captureTc);
+            resembleControl();
+        });
+        $('#player-right').on(fr.ina.amalia.player.PlayerEventType.SEEK, function (event, data) {
+            var leftTcOffset = parseFloat($('#left-tc-offset').val());
+            var rightTcOffset = parseFloat($('#right-tc-offset').val());
+            playerRightSeek = parseInt(data.currentTime - rightTcOffset);
+
+            if (playerRightSeek != parseInt(playerLeftSeek + leftTcOffset)) {
+                playerLeft.setCurrentTime(playerRightSeek + leftTcOffset);
+            }
+        });
+
+    }
+
+
+    function play() {
+        if (playerLeft !== null && playerRight !== null) {
+            playerLeft.play();
+            playerRight.play();
+        }
+    }
+    function playTc() {
+        if (playerLeft !== null && playerRight !== null) {
+            var leftTcOffset = parseFloat($('#left-tc-offset').val());
+            var rightTcOffset = parseFloat($('#right-tc-offset').val());
+            var playTc = parseFloat($('#tc-play').val());
+            playerLeft.setCurrentTime(leftTcOffset + playTc);
+            playerRight.setCurrentTime(rightTcOffset + playTc);
+            playerLeft.play();
+            playerRight.play();
+        }
+    }
+
+    function pause() {
+        if (playerLeft !== null && playerRight !== null) {
+            playerLeft.pause();
+            playerRight.pause();
+        }
+    }
+
+    function stop() {
+        if (playerLeft !== null && playerRight !== null) {
+            playerLeft.stop();
+            playerRight.stop();
+        }
+    }
+    function setPlaybackrate(e) {
+        var cT = $(event.currentTarget);
+        if (playerLeft !== null && playerRight !== null) {
+            playerLeft.setPlaybackrate(parseFloat(cT.html()));
+            playerRight.setPlaybackrate(parseFloat(cT.html()));
+        }
+    }
+    function getCapture() {
+        if (playerLeft !== null && playerRight !== null) {
+            playerLeft.getTcImage('compare', playerLeft.getCurrentTime());
+            $('#cp-left').attr('src', '');
+            playerRight.getTcImage('compare', playerRight.getCurrentTime());
+            $('#cp-right').attr('src', '');
+            $('#cp-diff').attr('src', '');
+        }
+    }
+
+
+    function resembleControl() {
+        var leftCaptureSrc = $('#cp-left').attr('src');
+        var rightCaptureSrc = $('#cp-right').attr('src');
+        if (leftCaptureSrc !== '' && rightCaptureSrc !== '') {
+            resemble(leftCaptureSrc).compareTo(rightCaptureSrc).ignoreAntialiasing().onComplete(function (data) {
+                if (typeof data !== 'undefined') {
+                    updateComparator(data.misMatchPercentage, data.getImageDataUrl(), data.dimensionDifference, data.analysisTime);
+
+                } else {
+                    updateComparator(0);
+                }
+                console.log(data);
+                return data;
+            });
+        }
+
+    }
+
+    function updateComparator(misMatchPercentage, imageDataUrl, dimensionDifference, analysisTime) {
+        var container = $('.cp-comparator');
+        if (misMatchPercentage !== "" && imageDataUrl !== "" && dimensionDifference && analysisTime) {
+            container.find('.progress-bar').css('width', misMatchPercentage + '%').html(misMatchPercentage + '%');
+            container.find('#cp-diff').attr('src', imageDataUrl);
+            container.find('#analysis-time').html(analysisTime + ' ms');
+            container.find('#dimension-difference-width').html(dimensionDifference.width);
+            container.find('#dimension-difference-height').html(dimensionDifference.height);
+        } else {
+            container.find('.progress-bar').css('width', '0%').html('0%');
+        }
+    }
+
+
+</script>
+
+</body>
+</html>

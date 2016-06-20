@@ -1,0 +1,896 @@
+/**
+ * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ *
+ * This file is part of amalia.js
+ *
+ * Amalia.js is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version
+ *
+ * Redistributions of source code, javascript and css minified versions must
+ * retain the above copyright notice, this list of conditions and the following
+ * disclaimer
+ *
+ * Neither the name of the copyright holder nor the names of its contributors
+ * may be used to endorse or promote products derived from this software without
+ * specific prior written permission
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * amalia.js. If not, see <http://www.gnu.org/licenses/>
+ *
+ * Amalia.js is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details
+ */
+/**
+* Plugin custom control bar
+*/
+
+// Add option control layer on display
+.ajs-control-layer {
+  .ajs-icon {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    text-align: center;
+    z-index: 9999;
+    margin-top: -80px;
+
+    &.ajs-icon-controlbar-play,
+    &.ajs-icon-controlbar-pause {
+      color: white;
+      font-size: 90px;
+      opacity: .5;
+      @include transform-scale(1);
+      @include transition(all, 0.5s, ease-out);
+    }
+  }
+  // Transformation with scale up
+  &.scale-up {
+    .ajs-icon-controlbar-play,
+    .ajs-icon-controlbar-pause {
+      @include transform-scale(2);
+      @include transition(all, 0.5s, ease-out);
+    }
+  }
+}
+
+.ajs {
+  .plugin-custom-controlbar {
+    width: 100%;
+    background-color: #1d1d1d;
+    background-image: -webkit-gradient(linear, 100% 0, 0 100%, from(#232323), to(#1d1d1d));
+    background-image: -webkit-linear-gradient(top, #232323 0%, #1d1d1d 100%);
+    background-image: -moz-linear-gradient(top, #232323 0%, #1d1d1d 100%);
+    background-image: -o-linear-gradient(top, #232323 0%, #1d1d1d 100%);
+    background-image: linear-gradient(#232323, #1d1d1d);
+    overflow: visible;
+    margin: 0;
+    padding: 0;
+    z-index: 900;
+    opacity: .9;
+    position: relative;
+
+    .ajs-time-indicator {
+      bottom: 25px;
+      position: absolute;
+      width: 50px;
+      height: 20px;
+      border: none;
+      background-color: rgba(108, 108, 108, .5);
+      left: 50%;
+      margin-left: -25px;
+      font-size: 9px;
+      line-height: 20px;
+      text-align: center;
+      display: none;
+      border-radius: 5px;
+      padding: 0px 5px 0px 5px;
+      z-index: 1000;
+      .ajs-tooltip-text {
+        font-size: 9px;
+        line-height: 20px;
+        text-align: center;
+        color: white;
+      }
+    }
+    .ajs-row {
+      margin: 0;
+
+      .ajs-container {
+
+        display: block;
+        float: left;
+        width: 33.33333333%;
+        min-height: 70px;
+        height: 70px;
+        position: relative;
+        padding: 0;
+        margin: 0;
+        z-index: 0;
+        &.left-container {
+        }
+        &.middle-container {
+          text-align: center;
+        }
+        &.right-container {
+        }
+      }
+    }
+    .player {
+      top: 0;
+    }
+
+    .player-base-button {
+      background: none;
+      margin: 0 auto;
+      text-align: center;
+      width: 35px;
+      color: #fff;
+      display: inline-block;
+      cursor: pointer;
+
+      // Prev and Next base button
+      .ajs-icon-control-fast-rewind,
+      .ajs-icon-control-fast-forward {
+        font-size: 1.5em;
+        position: relative;
+        top: 15px;
+      }
+    }
+    .player-play-button,
+    .player-pause-button {
+      background: none;
+      cursor: pointer;
+      display: inline-block;
+      line-height: 0;
+      margin: 0 auto;
+      position: relative;
+      text-align: center;
+      width: 35px;
+      color: #fff;
+      font-size: 35px;
+      position: relative;
+      top: 18px;
+
+      &.on {
+        display: inline-block;
+      }
+      &.off {
+        display: none;
+      }
+      span.button-container {
+        position: relative;
+      }
+    }
+    .player-label {
+      display: inline-block;
+      width: 160px;
+      line-height: 30px;
+      margin-left: 3px;
+      margin-right: 3px;
+      height: 28px;
+      background: none;
+    }
+    .player-timelabel.time-display {
+      display: inline-block;
+      line-height: 18px;
+      padding-left: 15px;
+      height: 35px;
+      position: relative;
+      top: 26px;
+      min-width: 80px;
+      .time-current {
+        color: white;
+        display: inline-block;
+        font-size: 1.2em;
+      }
+      .time-separator {
+        color: white;
+        display: inline-block;
+        padding-left: 5px;
+        padding-right: 5px;
+        position: relative;
+        font-size: 1.2em;
+        top: 0;
+        &:before {
+          content: "/";
+        }
+      }
+      .time-duration {
+        color: white;
+        display: inline-block;
+        font-size: 1.2em;
+        position: relative;
+        top: 0;
+      }
+      // Disabled TC
+      &.off {
+        .time-separator {
+          display: none;
+        }
+      }
+    }
+    .player-fullscreen-button {
+      width: 35px;
+      color: #fff;
+      margin: 15px 0 0 20px;
+      cursor: pointer;
+      margin-right: 10px;
+      font-size: 35px;
+      position: absolute;
+      right: 0;
+    }
+
+    .player-volume-control {
+      vertical-align: middle;
+      font-size: 2em;
+      margin-right: 20px;
+      position: relative;
+      top: -6px;
+      height: 35px;
+      width: 50px;
+      padding-top: 0;
+      cursor: pointer;
+      float: right;
+      line-height: 35px;
+
+      canvas {
+        display: none;
+      }
+      .volume-control-btn {
+        top: 16px;
+        margin: 0;
+        padding: 0;
+        display: inline-block;
+        position: relative;
+        vertical-align: middle;
+        line-height: 35px;
+        width: 50px;
+        height: 35px;
+        right: 60px;
+
+        font-size: 1.4em;
+        text-align: center;
+        color: white;
+
+        span.ajs-icon {
+          position: absolute;
+          z-index: 90;
+          display: block;
+          line-height: 50px;
+          text-align: left;
+          width: inherit;
+          height: 35px;
+          vertical-align: middle;
+          text-align: left;
+        }
+        span.ajs-icon.ajs-icon-volume-on:before,
+        span.ajs-icon.ajs-icon-volume-off:before,
+        span.ajs-icon.ajs-icon-volume-up:before,
+        span.ajs-icon.ajs-icon-volume-down:before {
+          display: block;
+          width: 50px;
+          height: inherit;
+          text-align: left;
+        }
+        span.ajs-icon.ajs-icon-volume-off:before {
+          margin-left: -7px;
+        }
+        span.ajs-icon.ajs-icon-volume-up:before {
+          margin-left: 0;
+        }
+        span.ajs-icon.ajs-icon-volume-down:before {
+          margin-left: -4px;
+        }
+
+        /* Slider container : control volume using ui-handler */
+        .volume-slider-ctn {
+          display: block;
+          position: absolute;
+          z-index: 100;
+          background-color: $primaryBackgroundColor;
+          width: 70px;
+          height: 190px;
+          bottom: -70px;
+          margin-left: -15px;
+          &.on {
+            opacity: 1;
+            bottom: -20px;
+            @include transition(all, 0.5s, ease-out);
+          }
+          &.off {
+            opacity: 0;
+            bottom: -250px;
+            @include transition(all, 0.5s, ease-out);
+          }
+          .slider-volume {
+            // Background progress volume
+            &.ui-slider {
+              position: relative;
+
+              border: none;
+              border-radius: 0;
+              margin: 0 20px;
+            }
+            .ui-slider-range {
+              background: none;
+              background-color: $mainColor;
+              background-position: 0% 0%;
+              border-bottom-color: rgb(51, 51, 51);
+              border-radius: none;
+              bottom: 0;
+              color: rgb(51, 51, 51);
+              height: 140px;
+              left: 0;
+              line-height: 30px;
+              position: absolute;
+              text-align: left;
+              width: 5px;
+              z-index: 1;
+            }
+            &.ui-slider-vertical {
+              background-color: $primaryBackgroundColor;
+              height: 140px;
+              top: 25px;
+              width: 5px;
+              left: 10px;
+            }
+            &.ui-widget-content {
+              background: none;
+              background-color: black;
+              border: none;
+              margin-left: 20px;
+              outline: none;
+            }
+            .ui-slider-handle.ui-state-default.ui-corner-all {
+              position: absolute;
+              z-index: 2;
+              border: solid 1px lighten($secondaryBackgroundColor, 50%);
+              background: none;
+              background-color: $secondaryBackgroundColor;
+              background-repeat: no-repeat;
+              box-shadow: none;
+              border-radius: 50px;
+              cursor: pointer;
+              display: block;
+              height: 15px;
+              width: 16px;
+              left: -5px;
+              right: 25px;
+              margin-bottom: -8px;
+              outline: none;
+              filter: none;
+            }
+          }
+        }
+      }
+    }
+
+    //Media queries on element only
+    .xs .player-volume-control {
+      display: none;
+    }
+    .player-progress-bar {
+      height: 10px;
+      margin-bottom: 0;
+      overflow: hidden;
+      background-color: #6a6969;
+      border-radius: 0;
+      clear: both;
+      position: relative;
+      text-align: left;
+      color: #404040;
+      z-index: 50;
+
+      .buffer-bar {
+        display: block;
+        height: 100%;
+        background-color: #555;
+        position: relative;
+        top: 0;
+        box-sizing: border-box;
+        width: 0;
+      }
+      .ui-slider-range {
+        float: left;
+        width: 0;
+        height: 100%;
+        font-size: 12px;
+        line-height: 20px;
+        color: #fff;
+        text-align: center;
+        background-color: #58c8b0;
+        position: absolute;
+        z-index: 1;
+        display: block;
+        border: 0;
+        background-position: 0 0;
+      }
+
+      .ui-slider-handle {
+        background-color: #fff;
+        border-radius: 0%;
+        cursor: pointer;
+        float: right;
+        height: 10px;
+        right: 0;
+        width: 10px;
+        z-index: 2;
+        text-shadow: none;
+        margin-left: -.6em;
+        position: absolute;
+        background-repeat: no-repeat;
+        background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), color-stop(25%, #ffffff), to(#e6e6e6));
+        background-image: -webkit-linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);
+        background-image: -moz-linear-gradient(top, #ffffff, #ffffff 25%, #e6e6e6);
+        background-image: -ms-linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);
+        background-image: -o-linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);
+        background-image: linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#e6e6e6', GradientType=0);
+        color: #333;
+        font-size: 13px;
+        line-height: normal;
+        border: 1px solid #ccc;
+        border-bottom-color: #bbb;
+        -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+        -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+        -webkit-transition: 0.1s linear background-image;
+        -moz-transition: 0.1s linear background-image;
+        -ms-transition: 0.1s linear background-image;
+        -o-transition: 0.1s linear background-image;
+        transition: 0.1s linear background-image;
+        overflow: visible;
+        top: -2px;
+      }
+      &.ui-slider .ui-slider-range {
+        background: $mainGradient;
+        float: left;
+        width: 0;
+        height: 100%;
+        font-size: 12px;
+        line-height: 20px;
+        color: #fff;
+        text-align: center;
+        left: 0;
+        top: 0;
+        position: absolute;
+        z-index: 1;
+        display: block;
+        border: 0;
+        background-position: 0 0;
+        color: #ffffff;
+        background-color: #0064cd;
+        background-repeat: repeat-x;
+        text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        border-radius: 0;;
+        border-color: #0064cd #0064cd #003f81;
+        border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+      }
+      &.ui-widget-content {
+        background: #6c6c6c;
+        border: none;
+        outline: none;
+      }
+    }
+    .player-channel-volume-control-position {
+      display: none;
+      position: relative;
+      width: 125px;
+      margin: 0 auto;
+
+      @media (min-width: $screen-md-min) {
+        display: block;
+      }
+
+      .player-channel-volume-control {
+        padding-top: 0;
+        cursor: pointer;
+        height: 35px;
+        width: 35px;
+        line-height: 30px;
+        color: #fff;
+
+        .volume-control-btn {
+          vertical-align: middle;
+          padding-top: 15px;
+          top: 0;
+          margin-left: 54px;
+          margin-top: 8px;
+          height: 35px;
+          line-height: 30px;
+          display: block;
+          font-size: 40px;
+        }
+        // Channel 2 canal volume
+        .channel-volume-sliders {
+          position: absolute;
+          bottom: -252px;
+          padding-left: 0;
+          height: 225px;
+          background-repeat: no-repeat;
+          left: 24px;
+          display: block;
+          background: linear-gradient(90deg, $backgroundColor 50%, $secondaryBackgroundColor 50%);
+          opacity: 0;
+          @include transition(all, 0.5s, ease-in);
+          &.on {
+            bottom: -28px;
+            display: block;
+            opacity: 1;
+            @include transition(all, 0.5s, ease-out);
+          }
+          .channel-volume-info {
+            display: block;
+            position: relative;
+            padding-left: 5px;
+            top: 2px;
+            .channel-volume-info-left,
+            .channel-volume-info-right {
+              width: 38px;
+              height: 40px;
+              color: #fff;
+              float: left;
+              text-align: center;
+              margin-left: 0;
+              font-size: 25px;
+              padding-left: 2px;
+              position: relative;
+              top: 8px;
+            }
+
+            .channel-volume-info-left {
+              text-align: left;
+            }
+            .channel-volume-info-right {
+              text-align: center;
+            }
+            .channel-volume-info-mid {
+              width: 12px;
+              height: 40px;
+              color: #fff;
+              float: left;
+              text-align: center;
+              padding-top: 10px;
+              left: 30px;
+              margin-left: 0;
+              .unify {
+                color: #EEE;
+                font-size: 23px;
+                font-weight: bold;
+                position: relative;
+                left: -8px;
+                &.on {
+                  color: cadetblue;
+                }
+                // Adjust position unlink
+                &.ajs-icon-sound-link-on {
+                  top: 6px;
+                }
+                &.ajs-icon-sound-link-off {
+                  top: 3px;
+                }
+              }
+            }
+          }
+          .channel-volume-control {
+            display: block;
+            margin: 0;
+            top: 10px;
+            position: relative;
+
+            .channel-volume-control-left,
+            .channel-volume-control-right {
+              height: 145px;
+              color: #fff;
+              float: left;
+              width: 30px;
+              margin-left: 19px;
+
+              .ui-state-focus,
+              .ui-state-hover {
+
+              }
+              .ui-slider .ui-slider-handle {
+                position: absolute;
+                z-index: 2;
+                width: 16px;
+                height: 16px;
+                cursor: default;
+                -ms-touch-action: none;
+                touch-action: none;
+                border-radius: 100%;
+              }
+              // Cursor volume
+              .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+                border: 1px solid lighten($secondaryBackgroundColor, 45%);
+                background: none;
+                background: $mainBackgroundColor;
+                font-weight: normal;
+                color: #454545;
+                cursor: pointer;
+                outline: none;
+              }
+              .ui-slider-vertical {
+                width: 4px;
+                height: 140px;
+              }
+              // Progress volume
+              .ui-widget-content {
+                border: 2px solid lighten(black, 10%);
+                background: none;
+                background-color: lighten(black, 15%);
+                cursor: pointer;
+                outline: none;
+                position: relative;
+              }
+              .ui-slider-vertical .ui-slider-handle {
+                left: -8px;
+                margin-left: 0;
+                margin-bottom: -.6em;
+              }
+            }
+            .channel-volume-control-mid {
+              width: 35px;
+              height: 3px;
+              background-color: $secondaryColor;
+              clear: both;
+              cursor: default;
+              background-repeat: no-repeat;
+              margin-left: 5px;
+              position: absolute;
+              visibility: hidden;
+              left: 24px;
+              top: 39px;
+              &.on {
+                visibility: visible;
+                top: 39px;
+              }
+            }
+          }
+        }
+      }
+    }
+    .player-jog-shuttle-button {
+      line-height: 30px;
+      color: #fff;
+      display: inline-block;
+      width: 240px;
+      position: relative;
+      border: 1px solid #cacaca;
+      border-radius: 20px;
+      height: 38px;
+      top: 18px;
+      margin: 0 30px 0 30px;
+      @media(min-width: 50px) and (max-width: 1058px) {
+        display: none;
+      }
+
+      span.button-container {
+        border: none;
+        border-radius: 0%;
+        display: inline-block;
+        height: 32px;
+        line-height: 40px;
+        font-size: 35px;
+        width: 100%;
+        position: relative;
+        top: 2px;
+
+        .jog-shuttle-separator {
+          display: inline-block;
+          width: 2px;
+          background-color: #eee;
+          height: 32px;
+          position: absolute;
+          right: 50%;
+        }
+        .backward-container,
+        .forward-container {
+          height: 32px;
+          display: inline-block;
+          line-height: 30px;
+          float: none;
+          color: rgba(238, 238, 238, 0.25);
+          margin-top: 5px;
+          padding-right: 5px;
+          padding-left: 5px;
+          span {
+            height: 32px;
+            padding-left: 10px;
+            padding-right: 10px;
+            position: absolute;
+            color: #66cc99;
+            top: 100px;
+
+            &.ajs-icon-jogs-forward-0x,
+            &.ajs-icon-jogs-backward-0x {
+              visibility: hidden;
+            }
+            &.ajs-icon-jogs-backward-1x,
+            &.ajs-icon-jogs-backward-2x,
+            &.ajs-icon-jogs-backward-3x,
+            &.ajs-icon-jogs-backward-4x,
+            &.ajs-icon-jogs-fast-backward {
+              left: 0;
+            }
+
+            &.ajs-icon-jogs-forward-1x,
+            &.ajs-icon-jogs-forward-2x,
+            &.ajs-icon-jogs-forward-3x,
+            &.ajs-icon-jogs-forward-4x,
+            &.ajs-icon-jogs-fast-forward {
+              color: #66cc99;
+              right: -5px;
+              top: 2px;
+            }
+            &.ajs-icon-jogs-backward-1x,
+            &.ajs-icon-jogs-backward-2x,
+            &.ajs-icon-jogs-backward-3x,
+            &.ajs-icon-jogs-backward-4x,
+            &.ajs-icon-jogs-fast-backward {
+              color: #66cc99;
+              left: -5px;
+              top: 2px;
+            }
+          }
+        }
+        .backward-container {
+          float: left;
+          text-align: left;
+          border: none;
+          width: 74px;
+        }
+        .forward-container {
+          float: right;
+          text-align: right;
+          width: 74px;
+        }
+        .jog-shuttle {
+          background-color: transparent;
+          border-radius: 20px;
+          position: absolute;
+          width: 151px;
+          top: 0;
+          height: 32px;
+          margin-left: 43px;
+          -webkit-transition: opacity 0.5s ease-in;
+          -moz-transition: opacity 0.5s ease-in;
+          -o-transition: opacity 0.5s ease-in;
+          -ms-transition: opacity 0.5s ease-in;
+          transition: opacity 0.5s ease-in;
+          display: block;
+          border: none;
+          &.on {
+            display: block;
+          }
+          span.ui-slider-handle {
+            border: 1px solid;
+            top: -8px;
+            margin: 0;
+            position: absolute;
+            z-index: 2;
+            cursor: pointer;
+            padding: 0;
+            border-radius: 100%;
+            background-color: #1D1D1D;
+            height: 48px;
+            width: 50px;
+            line-height: 30px;
+            margin-left: -25px;
+            font-size: 48px;
+            color: #eee;
+            font-weight: normal;
+            outline: none;
+          }
+        }
+      }
+    }
+  }
+
+  //Media queries for extra extra small <=320px container element only
+  &.xxs {
+    // Time display
+    .player-timelabel.time-display {
+      display: inline-block;
+      line-height: 18px;
+      padding-left: 15px;
+      height: 35px;
+      position: relative;
+      top: 18px;
+      min-width: 80px;
+
+      .time-current {
+        display: block;
+        font-size: 1.2em;
+      }
+      .time-separator {
+        display: inline-block;
+        font-size: 0.8em;
+      }
+      .time-duration {
+        font-size: 0.8em;
+      }
+    }
+    // Volume control
+    .player-volume-control,
+    .player-channel-volume-control-position {
+      display: none;
+    }
+  }
+
+  //Media queries for extra small container element only
+  &.xs {
+    // Time display
+    .player-timelabel.time-display {
+      display: inline-block;
+      line-height: 18px;
+      padding-left: 15px;
+      height: 35px;
+      position: relative;
+      top: 18px;
+      min-width: 80px;
+
+      .time-current {
+        display: block;
+        font-size: 1.2em;
+      }
+      .time-separator {
+        display: inline-block;
+        font-size: 0.8em;
+      }
+      .time-duration {
+        font-size: 0.8em;
+      }
+    }
+    // Volume control
+    .player-volume-control,
+    .player-channel-volume-control-position {
+      display: none;
+    }
+    // Jog Shuttle
+    .player-jog-shuttle-button {
+      display: none;
+    }
+  }
+
+  //Media queries for small container element only
+  &.sm {
+    // Time display
+    .player-timelabel.time-display {
+      top: 18px;
+      .time-current {
+        display: block;
+        font-size: 1.2em;
+      }
+      .time-separator {
+        display: inline-block;
+        font-size: 0.8em;
+      }
+      .time-duration {
+        font-size: 0.8em;
+      }
+
+      .player-volume-control-position,
+      .player-channel-volume-control {
+        display: none;
+      }
+    }
+
+    // Jog Shuttle
+    .player-jog-shuttle-button {
+      display: none;
+    }
+
+    // Volume position
+    .player-channel-volume-control-position {
+      margin-right: 40px;
+    }
+
+  }
+
+}

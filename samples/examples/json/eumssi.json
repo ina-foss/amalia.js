@@ -1,0 +1,37 @@
+[
+    {
+        "localisation": [{
+                "tcout": "00:31:09.9200",
+                "tclevel": 0,
+                "type": "visual_tracking",
+                "tcin": "00:00:00.0000",
+                "sublocalisations": {
+                    "localisation": [{
+                            "tclevel": 1,
+                            "shape": {
+                                "c": {
+                                    "y": 0.3637152777777778,
+                                    "x": 0.4722222222222222
+                                },
+                                "rx": 0.1484375,
+                                "t": "rectangle",
+                                "o": 0,
+                                "ry": 0.2621527777777778
+                            },
+                            "data": {
+                                "text": ["C000"]
+                            },
+                            "tc": "00:11:33.0800"
+                        }
+                    ]
+                }
+            }
+        ],
+        "id": "track-video205-33",
+        "type": "visual_detection",
+        "algorithm": "demo-video-generator",
+        "processor": "Ina Research Department - N. HERVE",
+        "processed": 1426516287184,
+        "version": 1
+    }
+]

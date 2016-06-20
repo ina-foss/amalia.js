@@ -1,0 +1,617 @@
+<h3 class="title">JavaScript API (In progress)</h3>
+
+<p>Amalia.js embeds API for control the player using JavaScript. Below you will find details of events and api
+    functions.</p>
+
+<h4>Getting started</h4>
+<hr/>
+
+<p>The sample HTML page below creates an embedded player that will load a video with button outside player to playback
+    video.playback.</p>
+<pre class="smallpre">
+&lt;html&gt;
+&lt;head&gt;
+    <b style="color: #008cba">&lt;!-- 0. Add dependences --&gt;</b>
+    &lt;script type=&quot;text/javascript&quot; src=&quot;bower_components/jquery/dist/jquery.js&quot;&gt;&lt;/script&gt;
+    &lt;script type=&quot;text/javascript&quot; src=&quot;bower_components/jquery-ui/jquery-ui.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script type=&quot;text/javascript&quot; src=&quot;bower_components/raphael/raphael.js&quot;&gt;&lt;/script&gt;
+    &lt;link href=&quot;build/css/amalia.js.min.css&quot; type=&quot;text/css&quot; rel=&quot;stylesheet&quot;/&gt;
+    &lt;script src=&quot;build/js/amalia.js.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+<b style="color: #008cba">&lt;!-- 1. The &lt;div&gt; tag will contains the player. --&gt;</b>
+&lt;div id=&quot;player&quot;&gt;&lt;/div&gt;
+&lt;button onclick=&quot;playVideo()&quot;&gt;Play&lt;/button&gt;
+&lt;script&gt;
+    var player = null;
+    <b style="color: #008cba">// 2. Function to execute when the DOM is fully loaded</b>
+    $(document).ready(function () {
+       <b style="color: #008cba"> // 3. Init player with default parameters</b>
+        $("#player").mediaPlayer({
+            src: "samples-data/examples/vid/amalia01.mp4",
+            callbacks: {
+                onReady: 'onReady'
+            }
+        });
+
+    });
+    <b style="color: #008cba">// 4. The API will call this function when the video player is ready.</b>
+    function onReady() {
+        player = $('#player').data('fr.ina.amalia.player').getPlayer();
+        // Set event listener on time change.
+        $('#player').on('fr.ina.amalia.player.PlayerEventType.TIME_CHANGE', onTimeChange);
+
+    }
+    <b style="color: #008cba">// 5. Function will call on click to button play</b>
+    function playVideo() {
+        if (player !== null) {
+            player.play();
+        }
+    }
+    <b style="color: #008cba">// 6. Function will call on time change event</b>
+    function onTimeChange(event, data) {
+
+    }
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+<br/>
+<h4>Events</h4>
+<hr/>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <table class="table table-striped table-hover doc-js-api">
+            <thead>
+            <th>Event Name</th>
+            <th>Description</th>
+            <th style="text-align: center;">Data</th>
+            </thead>
+            <tbody>
+            <tr>
+                <td>fr.ina.amalia.player.PlayerEventType.INIT</td>
+                <td>When the player has initialized</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>fr.ina.amalia.player.PlayerEventType.STARTED</td>
+                <td>Fired when the player has started with duration</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>fr.ina.amalia.player.PlayerEventType.PLAYING</td>
+                <td>Fires when playing event.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>fr.ina.amalia.player.PlayerEventType.PAUSED</td>
+                <td>Fires the paused/resumed</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>fr.ina.amalia.player.PlayerEventType.ENDED</td>
+                <td>Ended event should fire when a video is completely.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>fr.ina.amalia.player.PlayerEventType.MUTE</td>
+                <td>Fired when the player has gone into mutes.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>fr.ina.amalia.player.PlayerEventType.UN_MUTE</td>
+                <td>Fired when the player has gone into unmutes.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>fr.ina.amalia.player.PlayerEventType.VOLUME_CHANGE</td>
+                <td>Fired when the player volume was changed</td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>volume</dt>
+                        <dd>Volume percentage</dd>
+                    </dl>
+                </td>
+            </tr>
+            <tr>
+                <td>fr.ina.amalia.player.PlayerEventType.TIME_CHANGE</td>
+                <td>This event is fired as the playback position gets updated.</td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>currentTime</dt>
+                        <dd>Playback position in seconds</dd>
+                        <dt>percentage</dt>
+                        <dd>Playback percentage</dd>
+                    </dl>
+                </td>
+            </tr>
+            <tr>
+                <td>fr.ina.amalia.player.PlayerEventType.FULLSCREEN_CHANGE</td>
+                <td>This fires when full-screen mode change</td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>inFullScreen</dt>
+                        <dd></dd>
+                    </dl>
+                </td>
+            </tr>
+            <tr>
+                <td>fr.ina.amalia.player.PlayerEventType.SEEK</td>
+                <td>Fired when the seeks.</td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>currentTime</dt>
+                        <dd>Playback position in seconds</dd>
+                    </dl>
+                </td>
+            </tr>
+            <tr>
+                <td>fr.ina.amalia.player.PlayerEventType.ERROR</td>
+                <td>Fired when a media error has occurred.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>fr.ina.amalia.player.PlayerEventType.PLUGIN_READY</td>
+                <td>Fired when the plugin has initialized.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>fr.ina.amalia.player.PlayerEventType.PLUGIN_ERROR</td>
+                <td>Fired when a plugin error has occurred.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>fr.ina.amalia.player.PlayerEventType.DATA_CHANGE</td>
+                <td>Fired when data change</td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>id</dt>
+                        <dd>Metadata block id.</dd>
+                    </dl>
+                </td>
+            </tr>
+            <tr>
+                <td>fr.ina.amalia.player.PlayerEventType.BEGIN_DATA_CHANGE</td>
+                <td>Fired when data change</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>fr.ina.amalia.player.PlayerEventType.END_DATA_CHANGE</td>
+                <td>fired at the beginning of data change</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>fr.ina.amalia.player.PlayerEventType.IMAGE_CAPTURE</td>
+                <td>Fired end of data change</td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>captureTc</dt>
+                        <dd>Capture position in seconds</dd>
+                        <dt>captureId</dt>
+                        <dd>Capture Id</dd>
+                        <dt>captureImage</dt>
+                        <dd>Image base 64</dd>
+                    </dl>
+                </td>
+            </tr>
+            <tr>
+                <td>fr.ina.amalia.player.PlayerEventType.ZOOM_RANGE_CHANGE</td>
+                <td>Fired end of data change</td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>zTcin</dt>
+                        <dd>Zoom Tc in</dd>
+                        <dt>zTcout</dt>
+                        <dd>Zoom Tc out</dd>
+                    </dl>
+                </td>
+            </tr>
+            <tr>
+                <td>fr.ina.amalia.player.PlayerEventType.SELECTED_METADATA_CHANGE</td>
+                <td>Fired on zoom range change</td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>id</dt>
+                        <dd>Metadata block id.</dd>
+                    </dl>
+                </td>
+            </tr>
+            <tr>
+                <td>fr.ina.amalia.player.PlayerEventType.SELECTED_ITEMS_CHANGE</td>
+                <td>Fired on select item</td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>item</dt>
+                        <dd>Selected Metadata block item</dd>
+                    </dl>
+                </td>
+            </tr>
+            <tr>
+                <td>fr.ina.amalia.player.PlayerEventType.PLAYBACK_RATE_CHANGE</td>
+                <td>Fired on playback rate change item</td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>rate</dt>
+                        <dd>Playback rate</dd>
+                    </dl>
+                </td>
+            </tr>
+            <tr>
+                <td>fr.ina.amalia.player.PlayerEventType.START_SEEKING</td>
+                <td>Fired when start seeking.</td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>percentage</dt>
+                        <dd>Percent seek</dd>
+                    </dl>
+                </td>
+            </tr>
+            <tr>
+                <td>fr.ina.amalia.player.PlayerEventType.STOP_SEEKING</td>
+                <td>Fired when stop seeking.</td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>percentage</dt>
+                        <dd>Percent seek</dd>
+                    </dl>
+                </td>
+            </tr>
+            <tr>
+                <td>fr.ina.amalia.player.PlayerEventType.STOP_SEEKING</td>
+                <td>Fired when seeking.</td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>percentage</dt>
+                        <dd>Percent seek</dd>
+                    </dl>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<h4>Functions</h4>
+<hr/>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <table class="table table-striped table-hover doc-js-api">
+            <thead>
+            <th>Name</th>
+            <th>Description</th>
+            <th style="text-align: center;">Parameters</th>
+            </thead>
+            <tbody>
+            <tr>
+                <td>play()</td>
+                <td>Plays the currently video.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>pause()</td>
+                <td>Pauses the currently playing video.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>isPaused()</td>
+                <td>Returns true if the player is paused.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>stop()</td>
+                <td>Stops and cancels loading of the current video.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>seek(time)</td>
+                <td>Seek</td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>time</dt>
+                        <dd>Specified time in the video.</dd>
+                    </dl>
+                </td>
+            </tr>
+            <tr>
+                <td>mute()</td>
+                <td>Mutes the player.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>unmute()</td>
+                <td>Unmutes the player.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>isMute()</td>
+                <td>Returns true if the player is muted.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>getTcOffset()</td>
+                <td>Returns time offset.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>getDuration()</td>
+                <td>Returns the video duration.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>getVolume()</td>
+                <td>Returns the player's current volume, an integer between 0 and 100.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>setVolume(value)</td>
+                <td>Sets the volume.</td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>value</dt>
+                        <dd>The volume value, accepts an integer between 0 and 100.</dd>
+                    </dl>
+                </td>
+            </tr>
+            <tr>
+                <td>rangePlay(tcin, tcout, autoplay)</td>
+                <td>Playback ths specified time range.</td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>tcin</dt>
+                        <dd>Start Time</dd>
+                        <dt>tcout</dt>
+                        <dd>End Time</dd>
+                        <dt>autoplay</dt>
+                        <dd></dd>
+                    </dl>
+                </td>
+            </tr>
+            <tr>
+                <td>getCurrentTime()</td>
+                <td>Returns the current position with tcOffset.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>setCurrentTime(value)</td>
+                <td>Set the specified position</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>getPlaybackrate()</td>
+                <td>This function retrieves the playback rate of the currently playing video.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>setPlaybackrate(value)</td>
+                <td>This function sets the suggested playback rate for the current video.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>upPlaybackrate()</td>
+                <td>Up the playback rate</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>downPlaybackrate()</td>
+                <td>Down the playback rate</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>getFullscreen()</td>
+                <td>Returns the current fullscreen state (true or false).</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>toggleFullScreen()</td>
+                <td>Toogle the fullscreen state (true or false).</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>getCurrentImage()</td>
+                <td>Return the current image of the video.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>getTcImage()</td>
+                <td>Return the specified position image of the video.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>moveNextFrame()</td>
+                <td>Move the next frame of the video.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>movePrevFrame()</td>
+                <td>Move the prev frame of the video.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>addMenuItemWithLink(title, link, className)</td>
+                <td>To Add the context menu item.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>getBlockMetadata(id)</td>
+                <td>Return the block of metadata.</td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>id</dt>
+                        <dd>Metadata block id.</dd>
+                    </dl>
+                </td>
+            </tr>
+            <tr>
+                <td>getBlocksMetadata()</td>
+                <td>Return all block of metadata.</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>updateBlockMetadata(id, data, action)</td>
+                <td>Update the block metadata with the specified data.</td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>id</dt>
+                        <dd>Metadata block id.</dd>
+                        <dt>data</dt>
+                        <dd>parsed data</dd>
+                        <dt>action</dt>
+                        <dd></dd>
+                    </dl>
+                </td>
+            </tr>
+            <tr>
+                <td>removeBlockMetadata(id)</td>
+                <td>Remove the block metadata with specified id.</td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>id</dt>
+                        <dd>Metadata block id.</dd>
+                    </dl>
+                </td>
+            </tr>
+            <tr>
+                <td>addAllMetadata(parsedData)</td>
+                <td>Add metadata</td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>id</dt>
+                        <dd>Metadata block id.</dd>
+                    </dl>
+                </td>
+            </tr>
+            <tr>
+                <td>addMetadataById(id, parsedData)</td>
+                <td>Return the metadata for the specified id.</td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>id</dt>
+                        <dd>Metadata block id.</dd>
+                    </dl>
+                </td>
+            </tr>
+            <tr>
+                <td>replaceAllMetadataById(id, parsedData)</td>
+                <td>Replace metadata for the specified id.</td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>id</dt>
+                        <dd>Metadata block id.</dd>
+                        <dt>parsedData</dt>
+                        <dd>The metadata of a media stream.</dd>
+                    </dl>
+                </td>
+            </tr>
+            <tr>
+                <td>deleteAllMetadataById(id)</td>
+                <td>Delete the specified metadata.</td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>id</dt>
+                        <dd>Metadata block id.</dd>
+                    </dl>
+                </td>
+            </tr>
+            <tr>
+                <td>getMetadataById(id)</td>
+                <td>Return metadata for the specified id</td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>id</dt>
+                        <dd>Metadata block id.</dd>
+                    </dl>
+                </td>
+            </tr>
+            <tr>
+                <td>setMetadataById(id, data)</td>
+                <td>Set metadata by id</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>removeMetadataById(id)</td>
+                <td>Remove metadata for the specified id</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>getMetadataWithRange(id, tcin, tcout)</td>
+                <td>Return a metadata by specified time code.</td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>id</dt>
+                        <dd>Metadata block id.</dd>
+                        <dt>tcin</dt>
+                        <dd>Start time</dd>
+                        <dt>tcout</dt>
+                        <dd>End time</dd>
+                    </dl>
+                </td>
+            </tr>
+            <tr>
+                <td>getSelectedMetadataId()</td>
+                <td>Return selected metadata id.</td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>id</dt>
+                        <dd>Metadata block id.</dd>
+                    </dl>
+                </td>
+            </tr>
+            <tr>
+                <td>setSelectedMetadataId(id)</td>
+                <td>Set selected metadata id</td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>id</dt>
+                        <dd>Metadata block id.</dd>
+                    </dl>
+                </td>
+            </tr>
+            <tr>
+                <td>addMetadataItem(metadataId, data)</td>
+                <td>Add metadata item</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>getSelectedItems()</td>
+                <td>Return selected items</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>addSelectedItem(item)</td>
+                <td>Add selected item</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>removeAllSelectedItems()</td>
+                <td>Remove all selected items</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>getTcin()</td>
+                <td>Return tcin with tc offset</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>getTcout()</td>
+                <td>Return Tcout with tcoffset and media duration</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>setZoomTc(zTcin, zTcout, eventTag)</td>
+                <td>In charge to set zoom tc</td>
+                <td>
+                    <dl class="dl-horizontal">
+                        <dt>zTcin</dt>
+                        <dd>Zoom tc in</dd>
+                        <dt>zTcout</dt>
+                        <dd>Zoom tc out</dd>
+                        <dt>eventTag</dt>
+                        <dd>Tag name</dd>
+                    </dl>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

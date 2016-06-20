@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Poc Audio tracks with Amalia.js</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/default.css" rel="stylesheet" type="text/css"/>
+
+    <link href="http://www-player-i.ina.fr/libs/amalia.js/css/amalia.js.min.css" rel="stylesheet">
+    <link href="default.css" rel="stylesheet" type="text/css"/>
+    <!--<script type="text/javascript" src="libs/jwplayer/jwplayer.js"></script>-->
+    <!--<script type="text/javascript" src="http://content.jwplatform.com/libraries/dyY3oIAy.js"></script>-->
+
+    <script type="text/javascript" src="libs/jwplayer-7.2.2/jwplayer.js"></script>
+    <script type="text/javascript">jwplayer.key = "dq90fdD1AgCWVRs/UShl0Bm61KPyUwDUn9A38A==";</script>
+    <!--Utils-->
+    <script src="http://www-player-i.ina.fr/libs/bower_components/jquery/dist/jquery.js" type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/bower_components/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/bower_components/raphael/raphael-min.js" type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js.min.js" type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js-logger.min.js" type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js-plugin-overlay.min.js" type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js-plugin-timeline.min.js" type="text/javascript"></script>
+    <script src="http://www-player-i.ina.fr/libs/amalia.js/js/amalia.js-plugin-text-sync.min.js" type="text/javascript"></script>
+    <script src="libs/dist/ajs-plugin.jwplayer.js" type="text/javascript"></script>
+
+    <style type="text/css">
+        .ajs .plugin-custom-controlbar .player-channel-volume-control .volume-control-btn {
+            padding-top: 0px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="../" class="navbar-brand">JW player with Amalia.js</a>
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="page-header">
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">With control bar amalia.js</h3>
+                </div>
+                <div class="panel-body">
+                    <div style="height: 350px;">
+                        <div id="player-left"></div>
+                    </div>
+                    <div id="player-yt_timeline-plugin-left" style="height: 450px;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">With control bar youtube</h3>
+                </div>
+                <div class="panel-body">
+                    <div style="height: 350px;">
+                        <div id="player-right"></div>
+                    </div>
+                    <div id="player-yt_timeline-plugin-right" style="height: 450px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12"><a href="http://www.institut-national-audiovisuel.fr/en/home">Institut National de l'Audiovisuel - INA</a> © 2015</div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(function () {
+        $("#player-left").mediaPlayer({
+            autoplay: false,
+            src: "http://www-player-i.ina.fr/medias/demo/audi.mp4",
+            debug: true,
+            crossorigin: 'Anonymous',
+            player: "fr.ina.amalia.player.JwPlayer7",
+            controlBar: {
+                hide: false,
+                sticky: false,
+                autohide: false,
+                enableProgressBar: true,
+                //height: 45,
+                widgets: {
+                    left: {
+                        'timelabelWidget': 'fr.ina.amalia.player.plugins.controlBar.widgets.TimeLabel'
+                    },
+                    mid: {
+                        'playWidget': 'fr.ina.amalia.player.plugins.controlBar.widgets.PlayButton',
+                        'pauseWidget': 'fr.ina.amalia.player.plugins.controlBar.widgets.PauseButton'
+                    },
+                    right: {
+                        'full': 'fr.ina.amalia.player.plugins.controlBar.widgets.FullscreenButton',
+                        'volume': 'fr.ina.amalia.player.plugins.controlBar.widgets.VolumeControlBar'
+                    },
+                    settings: {
+                        timelabelWidget: {
+                            timeFormat: 's',
+                            framerate: 25
+                        },
+                        volume: {
+                            channelMerger: false,
+                            channelMergerNode: 'r'
+                        }
+                    }
+                }
+            },
+            plugins: {
+                dataServices: [
+                    'http://www-player-i.ina.fr/medias/demo/data/json/keyframes_zoom.json',
+                ],
+                list: [
+                    {
+                        'className': 'fr.ina.amalia.player.plugins.TimelinePlugin',
+                        'container': '#player-yt_timeline-plugin-left',
+                        debug: true,
+                        'parameters': {
+                            displayLines: 3,
+                            nbZoomLevel: 5,
+                            zoomProperty: 'tclevel',
+                            listOfLines: [
+                                {
+                                    title: 'Cue point',
+                                    type: 'cuepoint',
+                                    metadataId: 'keyframes-2305843779355017216',
+                                    color: '#3399FF',
+                                    icon: 'circle',
+                                    pointNav: true
+                                },
+                                {
+                                    title: 'Images',
+                                    type: 'image',
+                                    metadataId: "keyframes-2305843779355017216",
+                                    color: '#55C4BE',
+                                    offset: 25,
+                                    pointTogglePercentHeight: 15,
+                                    pointNav: true
+                                },
+                                {
+                                    title: 'Segment',
+                                    type: 'segment',
+                                    color: '#55C4BE',
+                                    metadataId: 'keyframes-2305843779355017216'
+
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        });
+        $("#player-right").mediaPlayer({
+            autoplay: false,
+            src: "http://www-player-i.ina.fr/medias/demo/audi.mp4",
+            debug: true,
+            crossorigin: 'Anonymous',
+            player: "fr.ina.amalia.player.JwPlayer7",
+            controlBar: {
+                hide: true
+            },
+            plugins: {
+                dataServices: [
+                    'http://www-player-i.ina.fr/medias/demo/data/json/keyframes_zoom.json',
+                ],
+                list: [
+                    {
+                        'className': 'fr.ina.amalia.player.plugins.TimelinePlugin',
+                        'container': '#player-yt_timeline-plugin-right',
+                        debug: true,
+                        'parameters': {
+                            displayLines: 3,
+                            nbZoomLevel: 5,
+                            zoomProperty: 'tclevel',
+                            listOfLines: [
+                                {
+                                    title: 'Cue point',
+                                    type: 'cuepoint',
+                                    metadataId: 'keyframes-2305843779355017216',
+                                    color: '#3399FF',
+                                    icon: 'circle',
+                                    pointNav: true
+                                },
+                                {
+                                    title: 'Images',
+                                    type: 'image',
+                                    metadataId: "keyframes-2305843779355017216",
+                                    color: '#55C4BE',
+                                    offset: 25,
+                                    pointTogglePercentHeight: 15,
+                                    pointNav: true
+                                },
+                                {
+                                    title: 'Segment',
+                                    type: 'segment',
+                                    color: '#55C4BE',
+                                    metadataId: 'keyframes-2305843779355017216'
+
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        });
+    });
+
+</script>
+
+</body>
+</html>
