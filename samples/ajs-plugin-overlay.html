@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Amalia.js</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="images/favicon.ico">
+        <link href="css/default.css" rel="stylesheet">
+        <script src="../bower_components/jquery/dist/jquery.js"></script>
+        <script src="../bower_components/jquery-ui/jquery-ui.min.js"></script>        
+        <script src="../bower_components/raphael/raphael.js"></script>
+        <!-- style-player -->        
+        <link href="../build/css/amalia.js.min.css" rel="stylesheet">
+        <!-- /style-player -->        
+        <!-- script-player -->        
+        <script src="../build/js/amalia.js.min.js"></script>
+        <script src="../build/js/amalia.js-plugin-overlay.min.js"></script>
+        <!-- /script-player -->
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>Plugin Overlay</h1>  
+            </div>
+            <div class="content">           
+                <div class="demo">
+                    <div style="height: 350px;">
+                        <div id="defaultPlayer"></div>
+                    </div>
+                    <script>
+                        $( function () {
+                            $( "#defaultPlayer" ).mediaPlayer( {
+                                autoplay : false,
+                                src : "../samples-data/examples/vid/amalia01.mp4",
+                                plugins : {
+                                    dataServices : [
+                                        {
+		                                    protocol : "http",
+        		                            url : '../samples-data/examples/json/amalia01-overlay.json',
+                		                    // format : 'json',
+                        		            parameters : {
+                                		    	mainLevel : true
+                                    		},
+                                		}
+                                    ],
+                                    list : [
+                                        {
+                                            'className' : 'fr.ina.amalia.player.plugins.OverlayPlugin',
+//                                             'metadataId' : 'tracks-amalia01-1',
+                                            'parameters' : {
+                                            	editable:false,
+                                                style : {
+                                                    'fill' : '#000',
+                                                    'strokeWidth' : 1,
+                                                    'stroke' : '#000',
+                                                    'fillOpacity' : 0,
+                                                    'strokeDasharray' : '- '
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            } );
+                        } );
+                    </script>
+                    <div>
+                        <pre class="config">
+                        {
+                            'className' : 'fr.ina.amalia.player.plugins.OverlayPlugin',
+                            'metadataId' : 'tracks-amalia01-1',
+                            'parameters' : {
+                                style : {
+                                    'fill' : '#000',
+                                    'strokeWidth' : 1,
+                                    'stroke' : '#000',
+                                    'fillOpacity' : 0,
+                                    'strokeDasharray' : '- '
+                                }
+                            }
+                        }                 
+                        </pre>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <p>
+                    <a href="http://www.institut-national-audiovisuel.fr/en/home"><img class="logo-ina" src="images/logo_ina.jpg" style=" margin-right:10px; width: 32x; height: 32px" />Institut National de l'Audiovisuel - INA</a>© 2015
+                </p>
+            </div>
+        </div>
+    </body>
+</html>

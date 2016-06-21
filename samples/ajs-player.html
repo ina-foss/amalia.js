@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Language" content="en-us"/>
+    <link rel="icon" href="static/img/favicon.ico"/>
+    <meta name="description"
+          content="amalia.js is a new extensible and versatile HTML5 multimedia player that allows you to view any type of metadata along with your video or audio streams"/>
+    <meta name="keywords"
+          content="amalia.js, ina, research, amalia, video, audio, multimedia, player, metadata, plugin, javascript, html5, timeline, keyframe, analysis, extraction, visualization, content, indexing, json, dataviz"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <!-- This web site stuff -->
+    <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <link href="http://maxcdn.bootstrapcdn.com/bootswatch/3.3.1/yeti/bootstrap.min.css" rel="stylesheet"/>
+    <link type="text/css" rel="stylesheet" href="css/amalia-js-demo.css"/>
+
+    <!-- amalia.js dependencies -->
+    <script src="../bower_components/jquery/dist/jquery.js"></script>
+    <script src="../bower_components/jquery-ui/jquery-ui.min.js"></script>
+    <script src="../bower_components/raphael/raphael.js"></script>
+
+    <!-- amalia.js player stuff -->
+    <link type="text/css" rel="stylesheet" href="../build/css/amalia.js.min.css"/>
+    <script src="../build/js/amalia.js.min.js"></script>
+    <!-- // -->
+    <!-- See at the end od this file for other Javascript stuff  -->
+    <title>amalia.js - Metadata enriched HTML5 video player</title>
+</head>
+<body>
+<div class="container">
+    <!-- NAVBAR -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">amalia.js</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav pull-right">
+                    <li><a class="scroll-to" href="#download">Download</a></li>
+                    <li><a class="scroll-to" href="#documentation">Documentation</a></li>
+                    <li><a class="scroll-to" href="#examples">Examples</a></li>
+                    <li><a class="scroll-to" href="#about">About</a></li>
+                    <li><a class="scroll-to" href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="header">
+        <h2 class="title">Player</h2>
+
+        <p class="lead"></p>
+    </div>
+    <div class="content">
+        <div class="demo">
+            <div style="height: 350px;">
+                <div id="defaultPlayer"></div>
+            </div>
+            <script>
+                $(function () {
+                    $("#defaultPlayer").mediaPlayer({
+                        autoplay: false,
+                        src: "../samples-data/examples/vid/amalia01.mp4",
+                        controlBar: {
+                            autohide: false
+                        }
+                    });
+                });
+            </script>
+        </div>
+        <div class="doc">
+            <h1>Player options</h1>
+            <!-- Player Options-->
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#player-options" data-toggle="tab" aria-expanded="false">Doc</a></li>
+                <li class=""><a href="#player-options-example" data-toggle="tab" aria-expanded="true">example</a></li>
+            </ul>
+            <div class="tab-content">
+                <div id="player-options" class="panel panel-default">
+                    <div class="panel-body">
+                        <dl class="dl-horizontal">
+                            <dt>src</dt>
+                            <dd>URL to a video or audio file</dd>
+
+                            <dt>poster</dt>
+                            <dd>URL to a poster image to display before playback starts</dd>
+
+                            <dt>autoplay</dt>
+                            <dd>boolean, automatically start playing the video on page load</dd>
+
+                            <dt>defaultVolume</dt>
+                            <dd>75 by default. This value is overloaded by the volume set by the user which is kept in a
+                                cookie
+                            </dd>
+
+                            <dt>controlBar</dt>
+                            <dd>parameters for the control buttons (see below)</dd>
+
+                            <dt>plugins</dt>
+                            <dd>plugins configuration list (see below)</dd>
+
+                            <dt>framerate</dt>
+                            <dd></dd>
+
+                            <dt>controlBarClassName</dt>
+                            <dd></dd>
+
+                            <dt>controlBar</dt>
+                            <dd></dd>
+
+                            <dt>tcOffset</dt>
+                            <dd></dd>
+
+                            <dt>mediaType</dt>
+                            <dd></dd>
+
+                            <dt>thumbRootDirectory</dt>
+                            <dd></dd>
+
+                            <dt>crossorigin</dt>
+                            <dd></dd>
+
+                            <dt>shortcuts</dt>
+                            <dd></dd>
+                        </dl>
+                    </div>
+                </div>
+                <div id="player-options-example">
+                <pre>
+$("#container").mediaPlayer({
+    autoplay: true,
+    src: "http://www-player-i.ina.fr/medias/demo/audi.mp4"
+});
+                </pre>
+                </div>
+            </div>
+            <!-- END: Player Options-->
+
+            <div class="control-bar panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Control bar options</h3>
+                </div>
+                <div class="panel-body">
+                    <dl class="dl-horizontal">
+                        <dt>...</dt>
+                        <dd>...</dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="plugin panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Plugin options</h3>
+                </div>
+                <div class="panel-body">
+                    <dl class="dl-horizontal">
+                        <dt>...</dt>
+                        <dd>...</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- FOOTER -->
+<div class="page-footer  breadcrumb">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">Last updated : <%= updateDate %></div>
+            <div class="col-md-6 text-right">
+                <a href="http://www.institut-national-audiovisuel.fr/en/home"><img class="logo-ina"
+                                                                                   src="img/logo_ina.jpg"
+                                                                                   style=" margin-right:10px; width: 32x; height: 32px"/>
+                    Institut National de l'Audiovisuel - INA</a> ©<%= updateYear %>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

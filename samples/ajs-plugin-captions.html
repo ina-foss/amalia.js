@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Amalia.js</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="images/favicon.ico">
+        <link href="css/default.css" rel="stylesheet">
+        <script src="../bower_components/jquery/dist/jquery.js"></script>
+        <script src="../bower_components/jquery-ui/jquery-ui.min.js"></script>        
+        <script src="../bower_components/raphael/raphael.js"></script>
+        <!-- style-player -->        
+        <link href="../build/css/amalia.js.min.css" rel="stylesheet">
+        <!-- /style-player -->        
+        <!-- script-player -->        
+        <script src="../build/js/amalia.js.min.js"></script>
+        <script src="../build/js/amalia.js-plugin-captions.min.js"></script>        
+        <!-- /script-player -->
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>Samples</h1>  
+            </div>
+            <div class="content">
+                <div class="demo">
+                    <div style="height: 350px;">
+                        <div id="defaultPlayer"></div>
+                    </div>
+                    <script>
+                        $( function () {
+                            $( "#defaultPlayer" ).mediaPlayer( {
+                                autoplay : false,
+                                src : "../samples-data/examples/vid/amalia01.mp4",
+                                controlBar :
+                                    {
+                                        sticky : true
+                                    },
+                                plugins : {
+                                    dataServices :
+                                        [
+                                            '../samples-data/examples/json/amalia01-text.json'
+                                        ],
+                                    list :
+                                        [
+                                            {
+                                                'className' : 'fr.ina.amalia.player.plugins.CaptionsPlugin',
+                                                'parameters' : {
+                                                    metadataId : 'text-amalia01',
+                                                    level : 1
+                                                }
+                                            }
+                                        ]
+                                }
+                            } );
+                        } );
+                    </script>
+                    <div>
+                        <pre class="config">
+                        dataServices :
+                            [
+                                '../samples-data/examples/json/amalia01-text.json'
+                            ],
+                        list :
+                            [
+                                {
+                                    'className' : 'fr.ina.amalia.player.plugins.CaptionsPlugin',
+                                    'parameters' : {
+                                        metadataId : 'text-amalia01',
+                                        level : 1
+                                    }
+                                }
+                            ]                      
+                        </pre>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <p>
+                    <a href="http://www.institut-national-audiovisuel.fr/en/home"><img class="logo-ina" src="images/logo_ina.jpg" style=" margin-right:10px; width: 32x; height: 32px" />Institut National de l'Audiovisuel - INA</a>© 2015
+                </p>
+            </div>
+        </div>
+    </body>
+</html>
