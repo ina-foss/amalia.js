@@ -1,0 +1,3433 @@
+/**
+ * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ *
+ * This file is part of amalia.js
+ *
+ * Amalia.js is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version
+ *
+ * Redistributions of source code, javascript and css minified versions must
+ * retain the above copyright notice, this list of conditions and the following
+ * disclaimer
+ *
+ * Neither the name of the copyright holder nor the names of its contributors
+ * may be used to endorse or promote products derived from this software without
+ * specific prior written permission
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * amalia.js. If not, see <http://www.gnu.org/licenses/>
+ *
+ * Amalia.js is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details
+ */
+/**************************************************
+****************** *****VARIABLES *****************
+**************************************************/
+/***** FONTS ****/
+/***** COLORS ****/
+/**************************************************
+****************** THEMES PROJETS *****************
+**************************************************/
+/***** PLAYER PROJET GEN ****/
+/**
+ * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ *
+ * This file is part of amalia.js
+ *
+ * Amalia.js is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version
+ *
+ * Redistributions of source code, javascript and css minified versions must
+ * retain the above copyright notice, this list of conditions and the following
+ * disclaimer
+ *
+ * Neither the name of the copyright holder nor the names of its contributors
+ * may be used to endorse or promote products derived from this software without
+ * specific prior written permission
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * amalia.js. If not, see <http://www.gnu.org/licenses/>
+ *
+ * Amalia.js is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details
+ */
+@keyframes ajs-hatch {
+  0% {
+    transform: rotate(0deg) scaleY(0.6); }
+  20% {
+    transform: rotate(-2deg) scaleY(1.05); }
+  35% {
+    transform: rotate(2deg) scaleY(1); }
+  50% {
+    transform: rotate(-2deg); }
+  65% {
+    transform: rotate(1deg); }
+  80% {
+    transform: rotate(-1deg); }
+  100% {
+    transform: rotate(0deg); } }
+
+@webkit-keyframes ajs-hatch {
+  0% {
+    -webkit-transform: rotate(0deg) scaleY(0.6); }
+  20% {
+    -webkit-transform: rotate(-2deg) scaleY(1.05); }
+  35% {
+    -webkit-transform: rotate(2deg) scaleY(1); }
+  50% {
+    -webkit-transform: rotate(-2deg); }
+  65% {
+    -webkit-transform: rotate(1deg); }
+  80% {
+    -webkit-transform: rotate(-1deg); }
+  100% {
+    -webkit-transform: rotate(0deg); } }
+
+@keyframes ajs-bounce {
+  0% {
+    transform: translateY(0%) scaleY(0.6); }
+  60% {
+    transform: translateY(-100%) scaleY(1.1); }
+  70% {
+    transform: translateY(0%) scaleY(0.95) scaleX(1.05); }
+  80% {
+    transform: translateY(0%) scaleY(1.05) scaleX(1); }
+  90% {
+    transform: translateY(0%) scaleY(0.95) scaleX(1); }
+  100% {
+    transform: translateY(0%) scaleY(1) scaleX(1); } }
+
+@webkit-keyframes ajs-bounce {
+  0% {
+    -webkit-transform: translateY(0%) scaleY(0.6); }
+  60% {
+    -webkit-transform: translateY(-100%) scaleY(1.1); }
+  70% {
+    -webkit-transform: translateY(0%) scaleY(0.95) scaleX(1.05); }
+  80% {
+    -webkit-transform: translateY(0%) scaleY(1.05) scaleX(1); }
+  90% {
+    -webkit-transform: translateY(0%) scaleY(0.95) scaleX(1); }
+  100% {
+    -webkit-transform: translateY(0%) scaleY(1) scaleX(1); } }
+
+@keyframes ajs-pulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.7; }
+  50% {
+    transform: scale(1);
+    opacity: 1; }
+  100% {
+    transform: scale(0.9);
+    opacity: 0.7; } }
+
+@webkit-keyframes ajs-pulse {
+  0% {
+    -webkit-transform: scale(0.95);
+    opacity: 0.7; }
+  50% {
+    -webkit-transform: scale(1);
+    opacity: 1; }
+  100% {
+    -webkit-transform: scale(0.95);
+    opacity: 0.7; } }
+
+@keyframes ajs-spinner {
+  to {
+    transform: rotate(360deg); } }
+
+@webkit-keyframes ajs-spinner {
+  to {
+    -webkit-transform: rotate(360deg); } }
+
+/**
+ * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ *
+ * This file is part of amalia.js
+ *
+ * Amalia.js is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version
+ *
+ * Redistributions of source code, javascript and css minified versions must
+ * retain the above copyright notice, this list of conditions and the following
+ * disclaimer
+ *
+ * Neither the name of the copyright holder nor the names of its contributors
+ * may be used to endorse or promote products derived from this software without
+ * specific prior written permission
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * amalia.js. If not, see <http://www.gnu.org/licenses/>
+ *
+ * Amalia.js is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details
+ */
+/**
+* Plugin custom control bar
+*/
+/**
+ * global animation
+ * $properties transition
+ * $param : Time duration (s), function
+ */
+@font-face {
+  font-family: "ajs-webfont";
+  src: url("../fonts/ajs-webfont.eot?da2b33fb7481b6e5ffca9457ecddfd8e");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: "ajs-webfont";
+  src: url("../fonts/ajs-webfont.eot?da2b33fb7481b6e5ffca9457ecddfd8e");
+  src: url("../fonts/ajs-webfont.eot?#iefix") format("embedded-opentype"), url("data:application/x-font-woff;charset=utf-8;base64,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") format("woff"), url("../fonts/ajs-webfont.ttf?da2b33fb7481b6e5ffca9457ecddfd8e") format("truetype");
+  font-weight: normal;
+  font-style: normal; }
+
+.ajs-icon {
+  font-family: "ajs-webfont";
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1;
+  font-weight: normal;
+  font-style: normal;
+  speak: none;
+  text-decoration: inherit;
+  text-transform: none;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.ajs-icon-account:before {
+  content: "\f101"; }
+
+.ajs-icon-add-whole-segment:before {
+  content: "\f102"; }
+
+.ajs-icon-amalia-js:before {
+  content: "\f103"; }
+
+.ajs-icon-arrows-h:before {
+  content: "\f104"; }
+
+.ajs-icon-arrows-v:before {
+  content: "\f105"; }
+
+.ajs-icon-bell:before {
+  content: "\f106"; }
+
+.ajs-icon-building:before {
+  content: "\f107"; }
+
+.ajs-icon-caret-right:before {
+  content: "\f108"; }
+
+.ajs-icon-cercle:before {
+  content: "\f109"; }
+
+.ajs-icon-check:before {
+  content: "\f10a"; }
+
+.ajs-icon-chevron-circle-down:before {
+  content: "\f10b"; }
+
+.ajs-icon-chevron-circle-left:before {
+  content: "\f10c"; }
+
+.ajs-icon-chevron-circle-right:before {
+  content: "\f10d"; }
+
+.ajs-icon-chevron-circle-up:before {
+  content: "\f10e"; }
+
+.ajs-icon-chevron-down:before {
+  content: "\f10f"; }
+
+.ajs-icon-chevron-left:before {
+  content: "\f110"; }
+
+.ajs-icon-chevron-right:before {
+  content: "\f111"; }
+
+.ajs-icon-chevron-up:before {
+  content: "\f112"; }
+
+.ajs-icon-chromecast-active:before {
+  content: "\f113"; }
+
+.ajs-icon-chromecast:before {
+  content: "\f114"; }
+
+.ajs-icon-circle:before {
+  content: "\f115"; }
+
+.ajs-icon-cog:before {
+  content: "\f116"; }
+
+.ajs-icon-cogs:before {
+  content: "\f117"; }
+
+.ajs-icon-comment:before {
+  content: "\f118"; }
+
+.ajs-icon-compress:before {
+  content: "\f119"; }
+
+.ajs-icon-control-backward:before {
+  content: "\f11a"; }
+
+.ajs-icon-control-fast-forward:before {
+  content: "\f11b"; }
+
+.ajs-icon-control-fast-rewind:before {
+  content: "\f11c"; }
+
+.ajs-icon-control-forward:before {
+  content: "\f11d"; }
+
+.ajs-icon-control-pause:before {
+  content: "\f11e"; }
+
+.ajs-icon-control-play:before {
+  content: "\f11f"; }
+
+.ajs-icon-control-rewind:before {
+  content: "\f120"; }
+
+.ajs-icon-controlbar-compress:before {
+  content: "\f121"; }
+
+.ajs-icon-controlbar-fullscreen:before {
+  content: "\f122"; }
+
+.ajs-icon-controlbar-pause:before {
+  content: "\f123"; }
+
+.ajs-icon-controlbar-play:before {
+  content: "\f124"; }
+
+.ajs-icon-controlbar-settings:before {
+  content: "\f125"; }
+
+.ajs-icon-controlbar-volume-left-off:before {
+  content: "\f126"; }
+
+.ajs-icon-controlbar-volume-left:before {
+  content: "\f127"; }
+
+.ajs-icon-controlbar-volume-min:before {
+  content: "\f128"; }
+
+.ajs-icon-controlbar-volume-off:before {
+  content: "\f129"; }
+
+.ajs-icon-controlbar-volume-right-off:before {
+  content: "\f12a"; }
+
+.ajs-icon-controlbar-volume-right:before {
+  content: "\f12b"; }
+
+.ajs-icon-controlbar-volume_max:before {
+  content: "\f12c"; }
+
+.ajs-icon-controlbar-volume_middle:before {
+  content: "\f12d"; }
+
+.ajs-icon-download:before {
+  content: "\f12e"; }
+
+.ajs-icon-eject:before {
+  content: "\f12f"; }
+
+.ajs-icon-ellipsis-h:before {
+  content: "\f130"; }
+
+.ajs-icon-ellipsis-v:before {
+  content: "\f131"; }
+
+.ajs-icon-eraser:before {
+  content: "\f132"; }
+
+.ajs-icon-expand:before {
+  content: "\f133"; }
+
+.ajs-icon-eye-off:before {
+  content: "\f134"; }
+
+.ajs-icon-eye-on:before {
+  content: "\f135"; }
+
+.ajs-icon-facetime:before {
+  content: "\f136"; }
+
+.ajs-icon-female:before {
+  content: "\f137"; }
+
+.ajs-icon-github:before {
+  content: "\f138"; }
+
+.ajs-icon-information:before {
+  content: "\f139"; }
+
+.ajs-icon-jogs-backward-0x:before {
+  content: "\f13a"; }
+
+.ajs-icon-jogs-backward-1x:before {
+  content: "\f13b"; }
+
+.ajs-icon-jogs-backward-2x:before {
+  content: "\f13c"; }
+
+.ajs-icon-jogs-backward-3x:before {
+  content: "\f13d"; }
+
+.ajs-icon-jogs-backward-4x:before {
+  content: "\f13e"; }
+
+.ajs-icon-jogs-center:before {
+  content: "\f13f"; }
+
+.ajs-icon-jogs-fast-backward:before {
+  content: "\f140"; }
+
+.ajs-icon-jogs-fast-forward:before {
+  content: "\f141"; }
+
+.ajs-icon-jogs-forward-0x:before {
+  content: "\f142"; }
+
+.ajs-icon-jogs-forward-1x:before {
+  content: "\f143"; }
+
+.ajs-icon-jogs-forward-2x:before {
+  content: "\f144"; }
+
+.ajs-icon-jogs-forward-3x:before {
+  content: "\f145"; }
+
+.ajs-icon-jogs-forward-4x:before {
+  content: "\f146"; }
+
+.ajs-icon-key:before {
+  content: "\f147"; }
+
+.ajs-icon-legal:before {
+  content: "\f148"; }
+
+.ajs-icon-list-close:before {
+  content: "\f149"; }
+
+.ajs-icon-list-open:before {
+  content: "\f14a"; }
+
+.ajs-icon-lock-close:before {
+  content: "\f14b"; }
+
+.ajs-icon-lock-open:before {
+  content: "\f14c"; }
+
+.ajs-icon-male:before {
+  content: "\f14d"; }
+
+.ajs-icon-microphone-off:before {
+  content: "\f14e"; }
+
+.ajs-icon-microphone-on:before {
+  content: "\f14f"; }
+
+.ajs-icon-minus:before {
+  content: "\f150"; }
+
+.ajs-icon-music:before {
+  content: "\f151"; }
+
+.ajs-icon-picture:before {
+  content: "\f152"; }
+
+.ajs-icon-plus:before {
+  content: "\f153"; }
+
+.ajs-icon-power:before {
+  content: "\f154"; }
+
+.ajs-icon-refresh:before {
+  content: "\f155"; }
+
+.ajs-icon-remove:before {
+  content: "\f156"; }
+
+.ajs-icon-reorder:before {
+  content: "\f157"; }
+
+.ajs-icon-screenshot:before {
+  content: "\f158"; }
+
+.ajs-icon-scrubber-cursor:before {
+  content: "\f159"; }
+
+.ajs-icon-search:before {
+  content: "\f15a"; }
+
+.ajs-icon-sign-in:before {
+  content: "\f15b"; }
+
+.ajs-icon-sign-out:before {
+  content: "\f15c"; }
+
+.ajs-icon-sort:before {
+  content: "\f15d"; }
+
+.ajs-icon-sound-link-off:before {
+  content: "\f15e"; }
+
+.ajs-icon-sound-link-on:before {
+  content: "\f15f"; }
+
+.ajs-icon-stop:before {
+  content: "\f160"; }
+
+.ajs-icon-transcription:before {
+  content: "\f161"; }
+
+.ajs-icon-volume-down:before {
+  content: "\f162"; }
+
+.ajs-icon-volume-off:before {
+  content: "\f163"; }
+
+.ajs-icon-volume-up:before {
+  content: "\f164"; }
+
+.ajs-icon-zoom-in:before {
+  content: "\f165"; }
+
+.ajs-icon-zoom-out:before {
+  content: "\f166"; }
+
+/**
+ * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ *
+ * This file is part of amalia.js
+ *
+ * Amalia.js is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version
+ *
+ * Redistributions of source code, javascript and css minified versions must
+ * retain the above copyright notice, this list of conditions and the following
+ * disclaimer
+ *
+ * Neither the name of the copyright holder nor the names of its contributors
+ * may be used to endorse or promote products derived from this software without
+ * specific prior written permission
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * amalia.js. If not, see <http://www.gnu.org/licenses/>
+ *
+ * Amalia.js is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details
+ */
+.ajs-tooltip {
+  font-family: Arial, Helvetica, sans-serif;
+  color: #fff;
+  background: #0cf;
+  padding: 10px 5px 10px 5px;
+  max-width: 300px;
+  box-shadow: none;
+  border: none;
+  margin-top: -50px; }
+  .ajs-tooltip:after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: -20px;
+    width: 15px;
+    height: 15px;
+    box-shadow: none;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    tranform: rotate(45deg);
+    border: none;
+    background: #0cf;
+    margin-left: -7.5px; }
+
+.ui-tooltip {
+  padding: 8px;
+  position: absolute;
+  z-index: 9999;
+  max-width: 300px;
+  -webkit-box-shadow: 0 0 5px #aaa;
+  box-shadow: 0 0 5px #aaa; }
+
+.ui-helper-hidden-accessible {
+  display: none; }
+
+.ui-selectable-helper {
+  position: absolute;
+  z-index: 100;
+  border: 1px dotted #eaeaea; }
+
+/**
+ * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ *
+ * This file is part of amalia.js
+ *
+ * Amalia.js is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version
+ *
+ * Redistributions of source code, javascript and css minified versions must
+ * retain the above copyright notice, this list of conditions and the following
+ * disclaimer
+ *
+ * Neither the name of the copyright holder nor the names of its contributors
+ * may be used to endorse or promote products derived from this software without
+ * specific prior written permission
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * amalia.js. If not, see <http://www.gnu.org/licenses/>
+ *
+ * Amalia.js is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details
+ */
+/**
+ * Player
+ */
+/**
+ * Plugin control bar
+ */
+.ajs {
+  overflow: hidden;
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  line-height: 0px;
+  /* Reset background with font Awesome */ }
+  .ajs .ajs-loader {
+    color: white;
+    position: absolute;
+    z-index: 100;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    top: 50%;
+    font-size: 100px;
+    margin-top: -50px; }
+    .ajs .ajs-loader .ajs-icon {
+      animation: ajs-spinner 800ms linear infinite;
+      display: inline-block;
+      -webkit-animation: ajs-spinner 800ms linear infinite;
+      transform-origin: 50% 50%;
+      line-height: 104px;
+      height: 70px; }
+  .ajs .ajs-error {
+    position: absolute;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    color: white;
+    vertical-align: middle;
+    text-align: center;
+    line-height: 20px;
+    top: 0; }
+    .ajs .ajs-error p {
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+      top: 50%;
+      margin-top: -25px; }
+  .ajs .ajs .ui-state-default .ui-icon[class*=" fa-"] {
+    background: none;
+    text-indent: 0; }
+
+/**tooltip**/
+.ui-tooltip {
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 5px 5px;
+  color: white;
+  border: none;
+  box-shadow: none;
+  border: none;
+  box-shadow: none;
+  background: #0CF; }
+  .ui-tooltip p {
+    font-size: 14px;
+    margin: 0; }
+  .ui-tooltip .timeline-images-component {
+    padding: 3px; }
+    .ui-tooltip .timeline-images-component.tooltip-image {
+      width: 200px; }
+  .ui-tooltip .image {
+    max-width: 100%; }
+
+.ajs-arrow {
+  width: 70px;
+  height: 16px;
+  overflow: hidden;
+  position: absolute;
+  left: 50%;
+  margin-left: -35px;
+  bottom: -16px;
+  border: none; }
+  .ajs-arrow:after {
+    content: "";
+    position: absolute;
+    left: 20px;
+    top: -20px;
+    width: 25px;
+    height: 25px;
+    box-shadow: none;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    tranform: rotate(45deg);
+    border: none;
+    background: #0CF; }
+  .ajs-arrow.top {
+    top: -16px;
+    bottom: auto; }
+    .ajs-arrow.top:after {
+      bottom: -20px;
+      top: auto; }
+  .ajs-arrow.left {
+    left: 20%; }
+
+.inalabplayer-ui-resizable-helper {
+  z-index: 9999;
+  border: 1px dashed #6c6c6c !important; }
+
+/**
+ * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ * 
+ * This file is part of amalia.js
+ * 
+ * amalia.js is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version.
+ * 
+ * Redistributions of source code, javascript and css minified versions 
+ * must retain the above copyright notice, this list of conditions and
+ * the following disclaimer.
+ * 
+ * Neither the name of the copyright holder nor the names of its 
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with amalia.js. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * amalia.js is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ */
+/**
+ * Plugin
+ */
+.ajs-plugin {
+  font-family: Arial, Helvetica, sans-serif;
+  color: #FFF;
+  clear: both;
+  overflow: hidden;
+  font-size: 11px;
+  /* Custom de la scrollbar */ }
+  .ajs-plugin .error {
+    text-align: center; }
+  .ajs-plugin .loader {
+    text-align: center;
+    width: 100%;
+    top: 50%;
+    font-size: 3em; }
+  .ajs-plugin::-webkit-scrollbar,
+  .ajs-plugin ::-webkit-scrollbar {
+    width: 10px; }
+  .ajs-plugin::-webkit-scrollbar-thumb,
+  .ajs-plugin ::-webkit-scrollbar-thumb {
+    background: rgba(108, 108, 108, 0.6); }
+
+/**
+ * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ *
+ * This file is part of amalia.js
+ *
+ * Amalia.js is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version
+ *
+ * Redistributions of source code, javascript and css minified versions must
+ * retain the above copyright notice, this list of conditions and the following
+ * disclaimer
+ *
+ * Neither the name of the copyright holder nor the names of its contributors
+ * may be used to endorse or promote products derived from this software without
+ * specific prior written permission
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * amalia.js. If not, see <http://www.gnu.org/licenses/>
+ *
+ * Amalia.js is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details
+ */
+/**
+* Plugin custom control bar
+*/
+.ajs-control-layer .ajs-icon {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  text-align: center;
+  z-index: 9999;
+  margin-top: -80px; }
+  .ajs-control-layer .ajs-icon.ajs-icon-controlbar-play, .ajs-control-layer .ajs-icon.ajs-icon-controlbar-pause {
+    color: white;
+    font-size: 90px;
+    opacity: .5;
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+    transform: scale(1);
+    -webkit-transition: all 0.5s ease-out;
+    -moz-transition: all 0.5s ease-out;
+    -ms-transition: all 0.5s ease-out;
+    -o-transition: all 0.5s ease-out;
+    transition: all 0.5s ease-out; }
+
+.ajs-control-layer.scale-up .ajs-icon-controlbar-play,
+.ajs-control-layer.scale-up .ajs-icon-controlbar-pause {
+  -webkit-transform: scale(2);
+  -ms-transform: scale(2);
+  transform: scale(2);
+  transform: scale(2);
+  -webkit-transition: all 0.5s ease-out;
+  -moz-transition: all 0.5s ease-out;
+  -ms-transition: all 0.5s ease-out;
+  -o-transition: all 0.5s ease-out;
+  transition: all 0.5s ease-out; }
+
+.ajs .plugin-custom-controlbar {
+  width: 100%;
+  background-color: #1d1d1d;
+  background-image: -webkit-gradient(linear, 100% 0, 0 100%, from(#232323), to(#1d1d1d));
+  background-image: -webkit-linear-gradient(top, #232323 0%, #1d1d1d 100%);
+  background-image: -moz-linear-gradient(top, #232323 0%, #1d1d1d 100%);
+  background-image: -o-linear-gradient(top, #232323 0%, #1d1d1d 100%);
+  background-image: linear-gradient(#232323, #1d1d1d);
+  overflow: visible;
+  margin: 0;
+  padding: 0;
+  z-index: 900;
+  opacity: .9;
+  position: relative; }
+  .ajs .plugin-custom-controlbar .ajs-time-indicator {
+    bottom: 25px;
+    position: absolute;
+    width: 50px;
+    height: 20px;
+    border: none;
+    background-color: rgba(108, 108, 108, 0.5);
+    left: 50%;
+    margin-left: -25px;
+    font-size: 9px;
+    line-height: 20px;
+    text-align: center;
+    display: none;
+    border-radius: 5px;
+    padding: 0px 5px 0px 5px;
+    z-index: 1000; }
+    .ajs .plugin-custom-controlbar .ajs-time-indicator .ajs-tooltip-text {
+      font-size: 9px;
+      line-height: 20px;
+      text-align: center;
+      color: white; }
+  .ajs .plugin-custom-controlbar .ajs-row {
+    margin: 0; }
+    .ajs .plugin-custom-controlbar .ajs-row .ajs-container {
+      display: block;
+      float: left;
+      width: 33.33333333%;
+      min-height: 70px;
+      height: 70px;
+      position: relative;
+      padding: 0;
+      margin: 0;
+      z-index: 0; }
+      .ajs .plugin-custom-controlbar .ajs-row .ajs-container.middle-container {
+        text-align: center; }
+  .ajs .plugin-custom-controlbar .player {
+    top: 0; }
+  .ajs .plugin-custom-controlbar .player-base-button {
+    background: none;
+    margin: 0 auto;
+    text-align: center;
+    width: 35px;
+    color: #fff;
+    display: inline-block;
+    cursor: pointer; }
+    .ajs .plugin-custom-controlbar .player-base-button .ajs-icon-control-fast-rewind,
+    .ajs .plugin-custom-controlbar .player-base-button .ajs-icon-control-fast-forward {
+      font-size: 1.5em;
+      position: relative;
+      top: 15px; }
+  .ajs .plugin-custom-controlbar .player-play-button,
+  .ajs .plugin-custom-controlbar .player-pause-button {
+    background: none;
+    cursor: pointer;
+    display: inline-block;
+    line-height: 0;
+    margin: 0 auto;
+    position: relative;
+    text-align: center;
+    width: 35px;
+    color: #fff;
+    font-size: 35px;
+    position: relative;
+    top: 18px; }
+    .ajs .plugin-custom-controlbar .player-play-button.on,
+    .ajs .plugin-custom-controlbar .player-pause-button.on {
+      display: inline-block; }
+    .ajs .plugin-custom-controlbar .player-play-button.off,
+    .ajs .plugin-custom-controlbar .player-pause-button.off {
+      display: none; }
+    .ajs .plugin-custom-controlbar .player-play-button span.button-container,
+    .ajs .plugin-custom-controlbar .player-pause-button span.button-container {
+      position: relative; }
+  .ajs .plugin-custom-controlbar .player-label {
+    display: inline-block;
+    width: 160px;
+    line-height: 30px;
+    margin-left: 3px;
+    margin-right: 3px;
+    height: 28px;
+    background: none; }
+  .ajs .plugin-custom-controlbar .player-timelabel.time-display {
+    display: inline-block;
+    line-height: 18px;
+    padding-left: 15px;
+    height: 35px;
+    position: relative;
+    top: 26px;
+    min-width: 80px; }
+    .ajs .plugin-custom-controlbar .player-timelabel.time-display .time-current {
+      color: white;
+      display: inline-block;
+      font-size: 1.2em; }
+    .ajs .plugin-custom-controlbar .player-timelabel.time-display .time-separator {
+      color: white;
+      display: inline-block;
+      padding-left: 5px;
+      padding-right: 5px;
+      position: relative;
+      font-size: 1.2em;
+      top: 0; }
+      .ajs .plugin-custom-controlbar .player-timelabel.time-display .time-separator:before {
+        content: "/"; }
+    .ajs .plugin-custom-controlbar .player-timelabel.time-display .time-duration {
+      color: white;
+      display: inline-block;
+      font-size: 1.2em;
+      position: relative;
+      top: 0; }
+    .ajs .plugin-custom-controlbar .player-timelabel.time-display.off .time-separator {
+      display: none; }
+  .ajs .plugin-custom-controlbar .player-fullscreen-button {
+    width: 35px;
+    color: #fff;
+    margin: 15px 0 0 20px;
+    cursor: pointer;
+    margin-right: 10px;
+    font-size: 35px;
+    position: absolute;
+    right: 0; }
+  .ajs .plugin-custom-controlbar .player-volume-control {
+    vertical-align: middle;
+    font-size: 2em;
+    margin-right: 20px;
+    position: relative;
+    top: -6px;
+    height: 35px;
+    width: 50px;
+    padding-top: 0;
+    cursor: pointer;
+    float: right;
+    line-height: 35px; }
+    .ajs .plugin-custom-controlbar .player-volume-control canvas {
+      display: none; }
+    .ajs .plugin-custom-controlbar .player-volume-control .volume-control-btn {
+      top: 16px;
+      margin: 0;
+      padding: 0;
+      display: inline-block;
+      position: relative;
+      vertical-align: middle;
+      line-height: 35px;
+      width: 50px;
+      height: 35px;
+      right: 60px;
+      font-size: 1.4em;
+      text-align: center;
+      color: white;
+      /* Slider container : control volume using ui-handler */ }
+      .ajs .plugin-custom-controlbar .player-volume-control .volume-control-btn span.ajs-icon {
+        position: absolute;
+        z-index: 90;
+        display: block;
+        line-height: 50px;
+        text-align: left;
+        width: inherit;
+        height: 35px;
+        vertical-align: middle;
+        text-align: left; }
+      .ajs .plugin-custom-controlbar .player-volume-control .volume-control-btn span.ajs-icon.ajs-icon-volume-on:before,
+      .ajs .plugin-custom-controlbar .player-volume-control .volume-control-btn span.ajs-icon.ajs-icon-volume-off:before,
+      .ajs .plugin-custom-controlbar .player-volume-control .volume-control-btn span.ajs-icon.ajs-icon-volume-up:before,
+      .ajs .plugin-custom-controlbar .player-volume-control .volume-control-btn span.ajs-icon.ajs-icon-volume-down:before {
+        display: block;
+        width: 50px;
+        height: inherit;
+        text-align: left; }
+      .ajs .plugin-custom-controlbar .player-volume-control .volume-control-btn span.ajs-icon.ajs-icon-volume-off:before {
+        margin-left: -7px; }
+      .ajs .plugin-custom-controlbar .player-volume-control .volume-control-btn span.ajs-icon.ajs-icon-volume-up:before {
+        margin-left: 0; }
+      .ajs .plugin-custom-controlbar .player-volume-control .volume-control-btn span.ajs-icon.ajs-icon-volume-down:before {
+        margin-left: -4px; }
+      .ajs .plugin-custom-controlbar .player-volume-control .volume-control-btn .volume-slider-ctn {
+        display: block;
+        position: absolute;
+        z-index: 100;
+        background-color: #292929;
+        width: 70px;
+        height: 190px;
+        bottom: -70px;
+        margin-left: -15px; }
+        .ajs .plugin-custom-controlbar .player-volume-control .volume-control-btn .volume-slider-ctn.on {
+          opacity: 1;
+          bottom: -20px;
+          -webkit-transition: all 0.5s ease-out;
+          -moz-transition: all 0.5s ease-out;
+          -ms-transition: all 0.5s ease-out;
+          -o-transition: all 0.5s ease-out;
+          transition: all 0.5s ease-out; }
+        .ajs .plugin-custom-controlbar .player-volume-control .volume-control-btn .volume-slider-ctn.off {
+          opacity: 0;
+          bottom: -250px;
+          -webkit-transition: all 0.5s ease-out;
+          -moz-transition: all 0.5s ease-out;
+          -ms-transition: all 0.5s ease-out;
+          -o-transition: all 0.5s ease-out;
+          transition: all 0.5s ease-out; }
+        .ajs .plugin-custom-controlbar .player-volume-control .volume-control-btn .volume-slider-ctn .slider-volume.ui-slider {
+          position: relative;
+          border: none;
+          border-radius: 0;
+          margin: 0 20px; }
+        .ajs .plugin-custom-controlbar .player-volume-control .volume-control-btn .volume-slider-ctn .slider-volume .ui-slider-range {
+          background: none;
+          background-color: #0CF;
+          background-position: 0% 0%;
+          border-bottom-color: #333333;
+          border-radius: none;
+          bottom: 0;
+          color: #333333;
+          height: 140px;
+          left: 0;
+          line-height: 30px;
+          position: absolute;
+          text-align: left;
+          width: 5px;
+          z-index: 1; }
+        .ajs .plugin-custom-controlbar .player-volume-control .volume-control-btn .volume-slider-ctn .slider-volume.ui-slider-vertical {
+          background-color: #292929;
+          height: 140px;
+          top: 25px;
+          width: 5px;
+          left: 10px; }
+        .ajs .plugin-custom-controlbar .player-volume-control .volume-control-btn .volume-slider-ctn .slider-volume.ui-widget-content {
+          background: none;
+          background-color: black;
+          border: none;
+          margin-left: 20px;
+          outline: none; }
+        .ajs .plugin-custom-controlbar .player-volume-control .volume-control-btn .volume-slider-ctn .slider-volume .ui-slider-handle.ui-state-default.ui-corner-all {
+          position: absolute;
+          z-index: 2;
+          border: solid 1px #b9b9b9;
+          background: none;
+          background-color: #393939;
+          background-repeat: no-repeat;
+          box-shadow: none;
+          border-radius: 50px;
+          cursor: pointer;
+          display: block;
+          height: 15px;
+          width: 16px;
+          left: -5px;
+          right: 25px;
+          margin-bottom: -8px;
+          outline: none;
+          filter: none; }
+  .ajs .plugin-custom-controlbar .xs .player-volume-control {
+    display: none; }
+  .ajs .plugin-custom-controlbar .player-progress-bar {
+    height: 10px;
+    margin-bottom: 0;
+    overflow: hidden;
+    background-color: #6a6969;
+    border-radius: 0;
+    clear: both;
+    position: relative;
+    text-align: left;
+    color: #404040;
+    z-index: 50; }
+    .ajs .plugin-custom-controlbar .player-progress-bar .buffer-bar {
+      display: block;
+      height: 100%;
+      background-color: #555;
+      position: relative;
+      top: 0;
+      box-sizing: border-box;
+      width: 0; }
+    .ajs .plugin-custom-controlbar .player-progress-bar .ui-slider-range {
+      float: left;
+      width: 0;
+      height: 100%;
+      font-size: 12px;
+      line-height: 20px;
+      color: #fff;
+      text-align: center;
+      background-color: #58c8b0;
+      position: absolute;
+      z-index: 1;
+      display: block;
+      border: 0;
+      background-position: 0 0; }
+    .ajs .plugin-custom-controlbar .player-progress-bar .ui-slider-handle {
+      background-color: #fff;
+      border-radius: 0%;
+      cursor: pointer;
+      float: right;
+      height: 10px;
+      right: 0;
+      width: 10px;
+      z-index: 2;
+      text-shadow: none;
+      margin-left: -.6em;
+      position: absolute;
+      background-repeat: no-repeat;
+      background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), color-stop(25%, #ffffff), to(#e6e6e6));
+      background-image: -webkit-linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);
+      background-image: -moz-linear-gradient(top, #ffffff, #ffffff 25%, #e6e6e6);
+      background-image: -ms-linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);
+      background-image: -o-linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);
+      background-image: linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#e6e6e6', GradientType=0);
+      color: #333;
+      font-size: 13px;
+      line-height: normal;
+      border: 1px solid #ccc;
+      border-bottom-color: #bbb;
+      -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+      -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+      -webkit-transition: 0.1s linear background-image;
+      -moz-transition: 0.1s linear background-image;
+      -ms-transition: 0.1s linear background-image;
+      -o-transition: 0.1s linear background-image;
+      transition: 0.1s linear background-image;
+      overflow: visible;
+      top: -2px; }
+    .ajs .plugin-custom-controlbar .player-progress-bar.ui-slider .ui-slider-range {
+      background: linear-gradient(to right, #13e7f0, #0c7abf);
+      float: left;
+      width: 0;
+      height: 100%;
+      font-size: 12px;
+      line-height: 20px;
+      color: #fff;
+      text-align: center;
+      left: 0;
+      top: 0;
+      position: absolute;
+      z-index: 1;
+      display: block;
+      border: 0;
+      background-position: 0 0;
+      color: #ffffff;
+      background-color: #0064cd;
+      background-repeat: repeat-x;
+      text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+      -webkit-border-radius: 0;
+      -moz-border-radius: 0;
+      border-radius: 0;
+      border-color: #0064cd #0064cd #003f81;
+      border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25); }
+    .ajs .plugin-custom-controlbar .player-progress-bar.ui-widget-content {
+      background: #6c6c6c;
+      border: none;
+      outline: none; }
+  .ajs .plugin-custom-controlbar .player-channel-volume-control-position {
+    display: none;
+    position: relative;
+    width: 125px;
+    margin: 0 auto; }
+    @media (min-width: 992px) {
+      .ajs .plugin-custom-controlbar .player-channel-volume-control-position {
+        display: block; } }
+    .ajs .plugin-custom-controlbar .player-channel-volume-control-position .player-channel-volume-control {
+      padding-top: 0;
+      cursor: pointer;
+      height: 35px;
+      width: 35px;
+      line-height: 30px;
+      color: #fff; }
+      .ajs .plugin-custom-controlbar .player-channel-volume-control-position .player-channel-volume-control .volume-control-btn {
+        vertical-align: middle;
+        padding-top: 15px;
+        top: 0;
+        margin-left: 54px;
+        margin-top: 8px;
+        height: 35px;
+        line-height: 30px;
+        display: block;
+        font-size: 40px; }
+      .ajs .plugin-custom-controlbar .player-channel-volume-control-position .player-channel-volume-control .channel-volume-sliders {
+        position: absolute;
+        bottom: -252px;
+        padding-left: 0;
+        height: 225px;
+        background-repeat: no-repeat;
+        left: 24px;
+        display: block;
+        background: linear-gradient(90deg, #2e2e2e 50%, #393939 50%);
+        opacity: 0;
+        -webkit-transition: all 0.5s ease-in;
+        -moz-transition: all 0.5s ease-in;
+        -ms-transition: all 0.5s ease-in;
+        -o-transition: all 0.5s ease-in;
+        transition: all 0.5s ease-in; }
+        .ajs .plugin-custom-controlbar .player-channel-volume-control-position .player-channel-volume-control .channel-volume-sliders.on {
+          bottom: -28px;
+          display: block;
+          opacity: 1;
+          -webkit-transition: all 0.5s ease-out;
+          -moz-transition: all 0.5s ease-out;
+          -ms-transition: all 0.5s ease-out;
+          -o-transition: all 0.5s ease-out;
+          transition: all 0.5s ease-out; }
+        .ajs .plugin-custom-controlbar .player-channel-volume-control-position .player-channel-volume-control .channel-volume-sliders .channel-volume-info {
+          display: block;
+          position: relative;
+          padding-left: 5px;
+          top: 2px; }
+          .ajs .plugin-custom-controlbar .player-channel-volume-control-position .player-channel-volume-control .channel-volume-sliders .channel-volume-info .channel-volume-info-left,
+          .ajs .plugin-custom-controlbar .player-channel-volume-control-position .player-channel-volume-control .channel-volume-sliders .channel-volume-info .channel-volume-info-right {
+            width: 38px;
+            height: 40px;
+            color: #fff;
+            float: left;
+            text-align: center;
+            margin-left: 0;
+            font-size: 25px;
+            padding-left: 2px;
+            position: relative;
+            top: 8px; }
+          .ajs .plugin-custom-controlbar .player-channel-volume-control-position .player-channel-volume-control .channel-volume-sliders .channel-volume-info .channel-volume-info-left {
+            text-align: left; }
+          .ajs .plugin-custom-controlbar .player-channel-volume-control-position .player-channel-volume-control .channel-volume-sliders .channel-volume-info .channel-volume-info-right {
+            text-align: center; }
+          .ajs .plugin-custom-controlbar .player-channel-volume-control-position .player-channel-volume-control .channel-volume-sliders .channel-volume-info .channel-volume-info-mid {
+            width: 12px;
+            height: 40px;
+            color: #fff;
+            float: left;
+            text-align: center;
+            padding-top: 10px;
+            left: 30px;
+            margin-left: 0; }
+            .ajs .plugin-custom-controlbar .player-channel-volume-control-position .player-channel-volume-control .channel-volume-sliders .channel-volume-info .channel-volume-info-mid .unify {
+              color: #EEE;
+              font-size: 23px;
+              font-weight: bold;
+              position: relative;
+              left: -8px; }
+              .ajs .plugin-custom-controlbar .player-channel-volume-control-position .player-channel-volume-control .channel-volume-sliders .channel-volume-info .channel-volume-info-mid .unify.on {
+                color: cadetblue; }
+              .ajs .plugin-custom-controlbar .player-channel-volume-control-position .player-channel-volume-control .channel-volume-sliders .channel-volume-info .channel-volume-info-mid .unify.ajs-icon-sound-link-on {
+                top: 6px; }
+              .ajs .plugin-custom-controlbar .player-channel-volume-control-position .player-channel-volume-control .channel-volume-sliders .channel-volume-info .channel-volume-info-mid .unify.ajs-icon-sound-link-off {
+                top: 3px; }
+        .ajs .plugin-custom-controlbar .player-channel-volume-control-position .player-channel-volume-control .channel-volume-sliders .channel-volume-control {
+          display: block;
+          margin: 0;
+          top: 10px;
+          position: relative; }
+          .ajs .plugin-custom-controlbar .player-channel-volume-control-position .player-channel-volume-control .channel-volume-sliders .channel-volume-control .channel-volume-control-left,
+          .ajs .plugin-custom-controlbar .player-channel-volume-control-position .player-channel-volume-control .channel-volume-sliders .channel-volume-control .channel-volume-control-right {
+            height: 145px;
+            color: #fff;
+            float: left;
+            width: 30px;
+            margin-left: 19px; }
+            .ajs .plugin-custom-controlbar .player-channel-volume-control-position .player-channel-volume-control .channel-volume-sliders .channel-volume-control .channel-volume-control-left .ui-slider .ui-slider-handle,
+            .ajs .plugin-custom-controlbar .player-channel-volume-control-position .player-channel-volume-control .channel-volume-sliders .channel-volume-control .channel-volume-control-right .ui-slider .ui-slider-handle {
+              position: absolute;
+              z-index: 2;
+              width: 16px;
+              height: 16px;
+              cursor: default;
+              -ms-touch-action: none;
+              touch-action: none;
+              border-radius: 100%; }
+            .ajs .plugin-custom-controlbar .player-channel-volume-control-position .player-channel-volume-control .channel-volume-sliders .channel-volume-control .channel-volume-control-left .ui-state-default, .ajs .plugin-custom-controlbar .player-channel-volume-control-position .player-channel-volume-control .channel-volume-sliders .channel-volume-control .channel-volume-control-left .ui-widget-content .ui-state-default, .ajs .plugin-custom-controlbar .player-channel-volume-control-position .player-channel-volume-control .channel-volume-sliders .channel-volume-control .channel-volume-control-left .ui-widget-header .ui-state-default,
+            .ajs .plugin-custom-controlbar .player-channel-volume-control-position .player-channel-volume-control .channel-volume-sliders .channel-volume-control .channel-volume-control-right .ui-state-default,
+            .ajs .plugin-custom-controlbar .player-channel-volume-control-position .player-channel-volume-control .channel-volume-sliders .channel-volume-control .channel-volume-control-right .ui-widget-content .ui-state-default,
+            .ajs .plugin-custom-controlbar .player-channel-volume-control-position .player-channel-volume-control .channel-volume-sliders .channel-volume-control .channel-volume-control-right .ui-widget-header .ui-state-default {
+              border: 1px solid #acacac;
+              background: none;
+              background: rgba(19, 231, 240, 0.68);
+              font-weight: normal;
+              color: #454545;
+              cursor: pointer;
+              outline: none; }
+            .ajs .plugin-custom-controlbar .player-channel-volume-control-position .player-channel-volume-control .channel-volume-sliders .channel-volume-control .channel-volume-control-left .ui-slider-vertical,
+            .ajs .plugin-custom-controlbar .player-channel-volume-control-position .player-channel-volume-control .channel-volume-sliders .channel-volume-control .channel-volume-control-right .ui-slider-vertical {
+              width: 4px;
+              height: 140px; }
+            .ajs .plugin-custom-controlbar .player-channel-volume-control-position .player-channel-volume-control .channel-volume-sliders .channel-volume-control .channel-volume-control-left .ui-widget-content,
+            .ajs .plugin-custom-controlbar .player-channel-volume-control-position .player-channel-volume-control .channel-volume-sliders .channel-volume-control .channel-volume-control-right .ui-widget-content {
+              border: 2px solid #1a1a1a;
+              background: none;
+              background-color: #262626;
+              cursor: pointer;
+              outline: none;
+              position: relative; }
+            .ajs .plugin-custom-controlbar .player-channel-volume-control-position .player-channel-volume-control .channel-volume-sliders .channel-volume-control .channel-volume-control-left .ui-slider-vertical .ui-slider-handle,
+            .ajs .plugin-custom-controlbar .player-channel-volume-control-position .player-channel-volume-control .channel-volume-sliders .channel-volume-control .channel-volume-control-right .ui-slider-vertical .ui-slider-handle {
+              left: -8px;
+              margin-left: 0;
+              margin-bottom: -.6em; }
+          .ajs .plugin-custom-controlbar .player-channel-volume-control-position .player-channel-volume-control .channel-volume-sliders .channel-volume-control .channel-volume-control-mid {
+            width: 35px;
+            height: 3px;
+            background-color: #4cd1d5;
+            clear: both;
+            cursor: default;
+            background-repeat: no-repeat;
+            margin-left: 5px;
+            position: absolute;
+            visibility: hidden;
+            left: 24px;
+            top: 39px; }
+            .ajs .plugin-custom-controlbar .player-channel-volume-control-position .player-channel-volume-control .channel-volume-sliders .channel-volume-control .channel-volume-control-mid.on {
+              visibility: visible;
+              top: 39px; }
+  .ajs .plugin-custom-controlbar .player-jog-shuttle-button {
+    line-height: 30px;
+    color: #fff;
+    display: inline-block;
+    width: 240px;
+    position: relative;
+    border: 1px solid #cacaca;
+    border-radius: 20px;
+    height: 38px;
+    top: 18px;
+    margin: 0 30px 0 30px; }
+    @media (min-width: 50px) and (max-width: 1058px) {
+      .ajs .plugin-custom-controlbar .player-jog-shuttle-button {
+        display: none; } }
+    .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container {
+      border: none;
+      border-radius: 0%;
+      display: inline-block;
+      height: 32px;
+      line-height: 40px;
+      font-size: 35px;
+      width: 100%;
+      position: relative;
+      top: 2px; }
+      .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .jog-shuttle-separator {
+        display: inline-block;
+        width: 2px;
+        background-color: #eee;
+        height: 32px;
+        position: absolute;
+        right: 50%; }
+      .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .backward-container,
+      .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .forward-container {
+        height: 32px;
+        display: inline-block;
+        line-height: 30px;
+        float: none;
+        color: rgba(238, 238, 238, 0.25);
+        margin-top: 5px;
+        padding-right: 5px;
+        padding-left: 5px; }
+        .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .backward-container span,
+        .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .forward-container span {
+          height: 32px;
+          padding-left: 10px;
+          padding-right: 10px;
+          position: absolute;
+          color: #66cc99;
+          top: 100px; }
+          .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .backward-container span.ajs-icon-jogs-forward-0x, .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .backward-container span.ajs-icon-jogs-backward-0x,
+          .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .forward-container span.ajs-icon-jogs-forward-0x,
+          .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .forward-container span.ajs-icon-jogs-backward-0x {
+            visibility: hidden; }
+          .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .backward-container span.ajs-icon-jogs-backward-1x, .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .backward-container span.ajs-icon-jogs-backward-2x, .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .backward-container span.ajs-icon-jogs-backward-3x, .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .backward-container span.ajs-icon-jogs-backward-4x, .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .backward-container span.ajs-icon-jogs-fast-backward,
+          .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .forward-container span.ajs-icon-jogs-backward-1x,
+          .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .forward-container span.ajs-icon-jogs-backward-2x,
+          .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .forward-container span.ajs-icon-jogs-backward-3x,
+          .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .forward-container span.ajs-icon-jogs-backward-4x,
+          .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .forward-container span.ajs-icon-jogs-fast-backward {
+            left: 0; }
+          .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .backward-container span.ajs-icon-jogs-forward-1x, .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .backward-container span.ajs-icon-jogs-forward-2x, .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .backward-container span.ajs-icon-jogs-forward-3x, .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .backward-container span.ajs-icon-jogs-forward-4x, .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .backward-container span.ajs-icon-jogs-fast-forward,
+          .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .forward-container span.ajs-icon-jogs-forward-1x,
+          .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .forward-container span.ajs-icon-jogs-forward-2x,
+          .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .forward-container span.ajs-icon-jogs-forward-3x,
+          .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .forward-container span.ajs-icon-jogs-forward-4x,
+          .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .forward-container span.ajs-icon-jogs-fast-forward {
+            color: #66cc99;
+            right: -5px;
+            top: 2px; }
+          .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .backward-container span.ajs-icon-jogs-backward-1x, .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .backward-container span.ajs-icon-jogs-backward-2x, .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .backward-container span.ajs-icon-jogs-backward-3x, .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .backward-container span.ajs-icon-jogs-backward-4x, .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .backward-container span.ajs-icon-jogs-fast-backward,
+          .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .forward-container span.ajs-icon-jogs-backward-1x,
+          .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .forward-container span.ajs-icon-jogs-backward-2x,
+          .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .forward-container span.ajs-icon-jogs-backward-3x,
+          .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .forward-container span.ajs-icon-jogs-backward-4x,
+          .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .forward-container span.ajs-icon-jogs-fast-backward {
+            color: #66cc99;
+            left: -5px;
+            top: 2px; }
+      .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .backward-container {
+        float: left;
+        text-align: left;
+        border: none;
+        width: 74px; }
+      .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .forward-container {
+        float: right;
+        text-align: right;
+        width: 74px; }
+      .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .jog-shuttle {
+        background-color: transparent;
+        border-radius: 20px;
+        position: absolute;
+        width: 151px;
+        top: 0;
+        height: 32px;
+        margin-left: 43px;
+        -webkit-transition: opacity 0.5s ease-in;
+        -moz-transition: opacity 0.5s ease-in;
+        -o-transition: opacity 0.5s ease-in;
+        -ms-transition: opacity 0.5s ease-in;
+        transition: opacity 0.5s ease-in;
+        display: block;
+        border: none; }
+        .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .jog-shuttle.on {
+          display: block; }
+        .ajs .plugin-custom-controlbar .player-jog-shuttle-button span.button-container .jog-shuttle span.ui-slider-handle {
+          border: 1px solid;
+          top: -8px;
+          margin: 0;
+          position: absolute;
+          z-index: 2;
+          cursor: pointer;
+          padding: 0;
+          border-radius: 100%;
+          background-color: #1D1D1D;
+          height: 48px;
+          width: 50px;
+          line-height: 30px;
+          margin-left: -25px;
+          font-size: 48px;
+          color: #eee;
+          font-weight: normal;
+          outline: none; }
+
+.ajs.xxs .player-timelabel.time-display {
+  display: inline-block;
+  line-height: 18px;
+  padding-left: 15px;
+  height: 35px;
+  position: relative;
+  top: 18px;
+  min-width: 80px; }
+  .ajs.xxs .player-timelabel.time-display .time-current {
+    display: block;
+    font-size: 1.2em; }
+  .ajs.xxs .player-timelabel.time-display .time-separator {
+    display: inline-block;
+    font-size: 0.8em; }
+  .ajs.xxs .player-timelabel.time-display .time-duration {
+    font-size: 0.8em; }
+
+.ajs.xxs .player-volume-control,
+.ajs.xxs .player-channel-volume-control-position {
+  display: none; }
+
+.ajs.xs .player-timelabel.time-display {
+  display: inline-block;
+  line-height: 18px;
+  padding-left: 15px;
+  height: 35px;
+  position: relative;
+  top: 18px;
+  min-width: 80px; }
+  .ajs.xs .player-timelabel.time-display .time-current {
+    display: block;
+    font-size: 1.2em; }
+  .ajs.xs .player-timelabel.time-display .time-separator {
+    display: inline-block;
+    font-size: 0.8em; }
+  .ajs.xs .player-timelabel.time-display .time-duration {
+    font-size: 0.8em; }
+
+.ajs.xs .player-volume-control,
+.ajs.xs .player-channel-volume-control-position {
+  display: none; }
+
+.ajs.xs .player-jog-shuttle-button {
+  display: none; }
+
+.ajs.sm .player-timelabel.time-display {
+  top: 18px; }
+  .ajs.sm .player-timelabel.time-display .time-current {
+    display: block;
+    font-size: 1.2em; }
+  .ajs.sm .player-timelabel.time-display .time-separator {
+    display: inline-block;
+    font-size: 0.8em; }
+  .ajs.sm .player-timelabel.time-display .time-duration {
+    font-size: 0.8em; }
+  .ajs.sm .player-timelabel.time-display .player-volume-control-position,
+  .ajs.sm .player-timelabel.time-display .player-channel-volume-control {
+    display: none; }
+
+.ajs.sm .player-jog-shuttle-button {
+  display: none; }
+
+.ajs.sm .player-channel-volume-control-position {
+  margin-right: 40px; }
+
+/**
+ * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ * 
+ * This file is part of amalia.js
+ * 
+ * amalia.js is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version.
+ * 
+ * Redistributions of source code, javascript and css minified versions 
+ * must retain the above copyright notice, this list of conditions and
+ * the following disclaimer.
+ * 
+ * Neither the name of the copyright holder nor the names of its 
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with amalia.js. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * amalia.js is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ */
+/**
+* Plugin time line
+*/
+.ajs-plugin.plugin-timeline {
+  position: relative;
+  background-color: #000;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  /**Composants du timeline**/
+  /**Bar de controle**/
+  /**resizeable component**/ }
+  .ajs-plugin.plugin-timeline .timeline-cursor {
+    border-left: 1px solid #0CF;
+    display: block;
+    height: 100%;
+    width: 1px;
+    left: 0%;
+    position: absolute;
+    z-index: 100;
+    bottom: 30px; }
+  .ajs-plugin.plugin-timeline .timeline-progress-container {
+    position: absolute;
+    width: 100%;
+    height: 102px;
+    background-color: rgba(19, 231, 240, 0.68);
+    z-index: 90;
+    right: 100%; }
+  .ajs-plugin.plugin-timeline .timeaxis {
+    /* tools bar */
+    /**Module TimeAxe**/ }
+    .ajs-plugin.plugin-timeline .timeaxis .toolsbar {
+      background-color: #3f3f3f;
+      padding: 5px 10px 0 10px;
+      height: 40px; }
+      .ajs-plugin.plugin-timeline .timeaxis .toolsbar .ajs-row .ajs-col {
+        float: left;
+        position: relative;
+        min-height: 1px;
+        padding: 0px;
+        margin: 0px; }
+        .ajs-plugin.plugin-timeline .timeaxis .toolsbar .ajs-row .ajs-col:after {
+          clear: both; }
+      .ajs-plugin.plugin-timeline .timeaxis .toolsbar .ajs-row .leftContainer {
+        width: 16.66666667%;
+        text-align: left; }
+      .ajs-plugin.plugin-timeline .timeaxis .toolsbar .ajs-row .middleContainer {
+        width: 66.66666667%;
+        text-align: center; }
+      .ajs-plugin.plugin-timeline .timeaxis .toolsbar .ajs-row .rightContainer {
+        width: 16.66666667%;
+        text-align: right; }
+      .ajs-plugin.plugin-timeline .timeaxis .toolsbar button.ajs-icon {
+        display: inline-block;
+        color: white;
+        background-color: #333;
+        border-radius: 50%;
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        width: 30px;
+        height: 30px;
+        padding: 0 2px 0 1px;
+        line-height: 36px;
+        font-size: 20px; }
+        .ajs-plugin.plugin-timeline .timeaxis .toolsbar button.ajs-icon:hover {
+          background-color: #0CF; }
+    .ajs-plugin.plugin-timeline .timeaxis .module-timeaxis {
+      position: relative;
+      background-color: #333;
+      height: 100px;
+      margin-top: 2px; }
+      .ajs-plugin.plugin-timeline .timeaxis .module-timeaxis .line {
+        height: 20px;
+        position: absolute;
+        top: 30px;
+        width: 100%;
+        margin-top: 5px;
+        z-index: 99;
+        border-bottom: 1px solid white; }
+      .ajs-plugin.plugin-timeline .timeaxis .module-timeaxis .line-content {
+        text-align: center;
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        height: auto;
+        z-index: 99; }
+      .ajs-plugin.plugin-timeline .timeaxis .module-timeaxis .time-grid {
+        height: 10px;
+        width: 1px;
+        padding-top: 2px;
+        display: block;
+        position: absolute;
+        border-right: 1px solid #FFF; }
+      .ajs-plugin.plugin-timeline .timeaxis .module-timeaxis .time-grid span.time {
+        display: block;
+        width: 55px;
+        font-size: 12px;
+        position: relative;
+        top: -20px;
+        line-height: 15px;
+        left: 50%;
+        margin-left: -27px;
+        cursor: pointer; }
+    .ajs-plugin.plugin-timeline .timeaxis .timeaxis-label {
+      display: none; }
+    .ajs-plugin.plugin-timeline .timeaxis .toolbar-container {
+      position: absolute;
+      top: 0;
+      right: 20px; }
+      .ajs-plugin.plugin-timeline .timeaxis .toolbar-container .plugin-btn {
+        border: none;
+        box-shadow: none;
+        background: none;
+        color: #6c6c6c;
+        font-size: 17px;
+        line-height: 25px; }
+    .ajs-plugin.plugin-timeline .timeaxis.off {
+      height: 25px;
+      background-color: #333; }
+      .ajs-plugin.plugin-timeline .timeaxis.off .toolsbar {
+        display: none; }
+      .ajs-plugin.plugin-timeline .timeaxis.off .module-timeaxis {
+        display: none; }
+      .ajs-plugin.plugin-timeline .timeaxis.off .timeaxis-label {
+        position: absolute;
+        top: 0;
+        display: block; }
+        .ajs-plugin.plugin-timeline .timeaxis.off .timeaxis-label .label {
+          font-size: 11px;
+          padding: 0px 0px 0px 5px;
+          margin: 0; }
+  .ajs-plugin.plugin-timeline .components {
+    display: block;
+    position: relative;
+    width: 100%;
+    overflow: hidden; }
+    .ajs-plugin.plugin-timeline .components .cuepoints-component,
+    .ajs-plugin.plugin-timeline .components .segments-component,
+    .ajs-plugin.plugin-timeline .components .images-component,
+    .ajs-plugin.plugin-timeline .components .histogram-component,
+    .ajs-plugin.plugin-timeline .components .visual-component {
+      position: relative;
+      cursor: pointer; }
+    .ajs-plugin.plugin-timeline .components .cuepoints-component .module-cuepoints,
+    .ajs-plugin.plugin-timeline .components .segments-component .module-segments,
+    .ajs-plugin.plugin-timeline .components .images-component .module-images,
+    .ajs-plugin.plugin-timeline .components .histogram-component .module-histogram,
+    .ajs-plugin.plugin-timeline .components .visual-component .module-visual {
+      position: relative;
+      background-color: #333;
+      height: 100px;
+      margin-top: 2px;
+      text-align: left; }
+    .ajs-plugin.plugin-timeline .components .cuepoints-component.activated .module-cuepoints,
+    .ajs-plugin.plugin-timeline .components .segments-component.activated .module-segments,
+    .ajs-plugin.plugin-timeline .components .images-component.activated .module-images,
+    .ajs-plugin.plugin-timeline .components .histogram-component.activated .module-histogram,
+    .ajs-plugin.plugin-timeline .components .visual-component.activated .module-visual {
+      background-color: #3f3f3f; }
+    .ajs-plugin.plugin-timeline .components .cuepoints-component .module-cuepoints .line-content,
+    .ajs-plugin.plugin-timeline .components .segments-component .module-segments .line-content,
+    .ajs-plugin.plugin-timeline .components .images-component .module-images .line-content,
+    .ajs-plugin.plugin-timeline .components .visual-component .module-visual .line-content {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      height: auto;
+      z-index: 99; }
+    .ajs-plugin.plugin-timeline .components .component.cuepoints-component.lg .module-cuepoints,
+    .ajs-plugin.plugin-timeline .components .component.segments-component.lg .module-segments,
+    .ajs-plugin.plugin-timeline .components .component.images-component.lg .module-images,
+    .ajs-plugin.plugin-timeline .components .component.histogram-component.lg .module-histogram,
+    .ajs-plugin.plugin-timeline .components .component.visual-component.lg .module-visual {
+      height: 110px; }
+    .ajs-plugin.plugin-timeline .components .sizeName .focus-container .ui-resizable-handle {
+      height: 110px; }
+    .ajs-plugin.plugin-timeline .components .component.cuepoints-component.md .module-cuepoints,
+    .ajs-plugin.plugin-timeline .components .component.segments-component.md .module-segments,
+    .ajs-plugin.plugin-timeline .components .component.images-component.md .module-images,
+    .ajs-plugin.plugin-timeline .components .component.histogram-component.md .module-histogram,
+    .ajs-plugin.plugin-timeline .components .component.visual-component.md .module-visual {
+      height: 80px; }
+    .ajs-plugin.plugin-timeline .components .sizeName .focus-container .ui-resizable-handle {
+      height: 80px; }
+    .ajs-plugin.plugin-timeline .components .component.cuepoints-component.sm .module-cuepoints,
+    .ajs-plugin.plugin-timeline .components .component.segments-component.sm .module-segments,
+    .ajs-plugin.plugin-timeline .components .component.images-component.sm .module-images,
+    .ajs-plugin.plugin-timeline .components .component.histogram-component.sm .module-histogram,
+    .ajs-plugin.plugin-timeline .components .component.visual-component.sm .module-visual {
+      height: 60px; }
+    .ajs-plugin.plugin-timeline .components .sizeName .focus-container .ui-resizable-handle {
+      height: 60px; }
+    .ajs-plugin.plugin-timeline .components .component.cuepoints-component.xs .module-cuepoints,
+    .ajs-plugin.plugin-timeline .components .component.segments-component.xs .module-segments,
+    .ajs-plugin.plugin-timeline .components .component.images-component.xs .module-images,
+    .ajs-plugin.plugin-timeline .components .component.histogram-component.xs .module-histogram,
+    .ajs-plugin.plugin-timeline .components .component.visual-component.xs .module-visual {
+      height: 25px; }
+    .ajs-plugin.plugin-timeline .components .sizeName .focus-container .ui-resizable-handle {
+      height: 25px; }
+    .ajs-plugin.plugin-timeline .components .cuepoints-component.xs .module-cuepoints .line-content,
+    .ajs-plugin.plugin-timeline .components .segments-component.xs .module-segments .line-content,
+    .ajs-plugin.plugin-timeline .components .images-component.xs .module-images .line-content,
+    .ajs-plugin.plugin-timeline .components .histogram-component.xs .module-histogram .line-content,
+    .ajs-plugin.plugin-timeline .components .visual-component.xs .module-visual .line-content {
+      display: none; }
+    .ajs-plugin.plugin-timeline .components .component.xs .sub,
+    .ajs-plugin.plugin-timeline .components .component.xs .bottom-toolbar-container,
+    .ajs-plugin.plugin-timeline .components .component.xs .focus-container {
+      display: none; }
+    .ajs-plugin.plugin-timeline .components .cuepoints-component .module-cuepoints .line,
+    .ajs-plugin.plugin-timeline .components .segments-component .module-segments .line,
+    .ajs-plugin.plugin-timeline .components .images-component .module-images .line,
+    .ajs-plugin.plugin-timeline .components .histogram-component .module-images .line,
+    .ajs-plugin.plugin-timeline .components .visual-component .module-visual .line {
+      background-color: #fff;
+      height: 1px;
+      position: absolute;
+      z-index: 98;
+      top: 2px;
+      width: 100%; }
+    .ajs-plugin.plugin-timeline .components .cuepoints-component .module-cuepoints .cuepoint {
+      position: absolute;
+      vertical-align: middle;
+      cursor: pointer;
+      font-size: 20px;
+      line-height: 13px;
+      z-index: 98;
+      margin-left: -10px; }
+      .ajs-plugin.plugin-timeline .components .cuepoints-component .module-cuepoints .cuepoint.selected {
+        animation-name: ajs-bounce;
+        -webkit-animation-name: ajs-bounce;
+        animation-duration: 1.6s;
+        -webkit-animation-duration: 1.6s;
+        animation-timing-function: ease;
+        -webkit-animation-timing-function: ease;
+        transform-origin: 50% 100%;
+        -ms-transform-origin: 50% 100%;
+        -webkit-transform-origin: 50% 100%;
+        animation-iteration-count: infinite;
+        -webkit-animation-iteration-count: infinite; }
+    .ajs-plugin.plugin-timeline .components .segments-component .module-segments .segment {
+      position: absolute;
+      height: 7px;
+      width: 1px;
+      float: left;
+      z-index: 99;
+      background-color: #0CF;
+      cursor: pointer;
+      border: none;
+      margin: 0;
+      padding: 0; }
+      .ajs-plugin.plugin-timeline .components .segments-component .module-segments .segment .ui-resizable-e {
+        cursor: e-resize;
+        width: 7px;
+        right: -5px;
+        top: 0;
+        height: 100%; }
+      .ajs-plugin.plugin-timeline .components .segments-component .module-segments .segment .ui-resizable-w {
+        cursor: w-resize;
+        width: 7px;
+        left: -5px;
+        top: 0;
+        height: 100%; }
+      .ajs-plugin.plugin-timeline .components .segments-component .module-segments .segment .ui-resizable-handle {
+        position: absolute;
+        font-size: .1px;
+        z-index: 99999;
+        display: block; }
+      .ajs-plugin.plugin-timeline .components .segments-component .module-segments .segment.selected {
+        /**hatch**/
+        animation-name: ajs-pulse;
+        -webkit-animation-name: ajs-pulse;
+        animation-duration: 2s;
+        -webkit-animation-duration: 2s;
+        animation-timing-function: ease-in-out;
+        -webkit-animation-timing-function: ease-in-out;
+        transform-origin: 50% 100%;
+        -ms-transform-origin: 50% 100%;
+        -webkit-transform-origin: 50% 100%;
+        animation-iteration-count: infinite;
+        -webkit-animation-iteration-count: infinite;
+        visibility: visible !important; }
+      .ajs-plugin.plugin-timeline .components .segments-component .module-segments .segment.marker {
+        height: 2px;
+        margin: 0px;
+        padding: 0px;
+        top: 2px; }
+        .ajs-plugin.plugin-timeline .components .segments-component .module-segments .segment.marker .ui-resizable-w {
+          cursor: w-resize;
+          width: 7px;
+          left: -5px;
+          top: -3px;
+          height: 8px;
+          background-color: inherit; }
+        .ajs-plugin.plugin-timeline .components .segments-component .module-segments .segment.marker .ui-resizable-e {
+          cursor: e-resize;
+          width: 7px;
+          right: -5px;
+          top: -3px;
+          height: 8px;
+          background-color: inherit; }
+    .ajs-plugin.plugin-timeline .components .visual-component .module-visual .cuepoint {
+      position: absolute;
+      vertical-align: middle;
+      cursor: pointer;
+      font-size: 20px;
+      line-height: 13px;
+      z-index: 98;
+      margin-left: -10px;
+      top: -2px; }
+      .ajs-plugin.plugin-timeline .components .visual-component .module-visual .cuepoint.selected {
+        animation-name: ajs-bounce;
+        -webkit-animation-name: ajs-bounce;
+        animation-duration: 1.6s;
+        -webkit-animation-duration: 1.6s;
+        animation-timing-function: ease;
+        -webkit-animation-timing-function: ease;
+        transform-origin: 50% 100%;
+        -ms-transform-origin: 50% 100%;
+        -webkit-transform-origin: 50% 100%;
+        animation-iteration-count: infinite;
+        -webkit-animation-iteration-count: infinite; }
+    .ajs-plugin.plugin-timeline .components .visual-component .module-visual .segment {
+      position: absolute;
+      height: 7px;
+      width: 1px;
+      float: left;
+      z-index: 99;
+      background-color: #0CF;
+      cursor: pointer; }
+      .ajs-plugin.plugin-timeline .components .visual-component .module-visual .segment .cuepoint {
+        top: -7px;
+        margin-right: -10px; }
+      .ajs-plugin.plugin-timeline .components .visual-component .module-visual .segment.selected {
+        /**hatch**/
+        animation-name: ajs-hatch;
+        -webkit-animation-name: ajs-hatch;
+        animation-duration: 2s;
+        -webkit-animation-duration: 2s;
+        animation-timing-function: ease-in-out;
+        -webkit-animation-timing-function: ease-in-out;
+        transform-origin: 50% 100%;
+        -ms-transform-origin: 50% 100%;
+        -webkit-transform-origin: 50% 100%;
+        animation-iteration-count: infinite;
+        -webkit-animation-iteration-count: infinite;
+        visibility: visible !important; }
+      .ajs-plugin.plugin-timeline .components .visual-component .module-visual .segment.marker {
+        height: 2px;
+        margin: 0px;
+        padding: 0px;
+        top: 2px; }
+        .ajs-plugin.plugin-timeline .components .visual-component .module-visual .segment.marker .ui-resizable-w {
+          cursor: w-resize;
+          width: 15px;
+          left: 0px;
+          top: -6px;
+          height: 15px;
+          background-color: inherit;
+          position: absolute; }
+        .ajs-plugin.plugin-timeline .components .visual-component .module-visual .segment.marker .ui-resizable-e {
+          cursor: e-resize;
+          width: 15px;
+          right: 0px;
+          top: -6px;
+          height: 15px;
+          background-color: inherit;
+          position: absolute; }
+    .ajs-plugin.plugin-timeline .components .images-component .module-images .image {
+      position: absolute;
+      float: left;
+      z-index: 99;
+      background-color: none;
+      height: 50px;
+      top: -25px;
+      background-repeat: no-repeat;
+      line-height: 50px;
+      cursor: pointer; }
+      .ajs-plugin.plugin-timeline .components .images-component .module-images .image.on {
+        z-index: 100; }
+        .ajs-plugin.plugin-timeline .components .images-component .module-images .image.on.segment {
+          z-index: 100;
+          border: solid 1px #0CF;
+          margin-top: -1px; }
+          .ajs-plugin.plugin-timeline .components .images-component .module-images .image.on.segment .content {
+            /*height: 45px;*/ }
+      .ajs-plugin.plugin-timeline .components .images-component .module-images .image .content {
+        height: 30px;
+        z-index: 1;
+        position: absolute;
+        top: 15px; }
+      .ajs-plugin.plugin-timeline .components .images-component .module-images .image hr.flow {
+        border-color: #FFF;
+        color: #FFF;
+        display: block;
+        margin: 0;
+        padding: 0;
+        position: relative;
+        height: 0px;
+        top: 28px;
+        z-index: 0;
+        border-style: double;
+        border-width: 1px;
+        width: 100%; }
+        .ajs-plugin.plugin-timeline .components .images-component .module-images .image hr.flow:after, .ajs-plugin.plugin-timeline .components .images-component .module-images .image hr.flow:before {
+          display: inline-block;
+          font-family: FontAwesome;
+          font-size: 1.1em;
+          position: absolute;
+          top: -25px; }
+        .ajs-plugin.plugin-timeline .components .images-component .module-images .image hr.flow:after {
+          right: -6px;
+          content: "\f111"; }
+        .ajs-plugin.plugin-timeline .components .images-component .module-images .image hr.flow:before {
+          left: -3px;
+          content: "\f142"; }
+    .ajs-plugin.plugin-timeline .components .histogram-component .module-histogram .cuepoint {
+      position: absolute;
+      vertical-align: middle;
+      cursor: pointer;
+      font-size: 16px;
+      line-height: 8px;
+      z-index: 98;
+      margin-left: -5px; }
+    .ajs-plugin.plugin-timeline .components .histogram-component .module-histogram .label {
+      display: block;
+      position: absolute;
+      top: 0px; }
+    .ajs-plugin.plugin-timeline .components .histogram-component .module-histogram .line-content {
+      position: relative;
+      height: 100%; }
+    .ajs-plugin.plugin-timeline .components .cuepoints-component .module-cuepoints .label,
+    .ajs-plugin.plugin-timeline .components .segments-component .module-segments .label,
+    .ajs-plugin.plugin-timeline .components .images-component .module-images .label,
+    .ajs-plugin.plugin-timeline .components .histogram-component .module-histogram .label,
+    .ajs-plugin.plugin-timeline .components .visual-component .module-visual .label {
+      background-color: transparent;
+      -webkit-touch-callout: text;
+      -webkit-user-select: text;
+      -khtml-user-select: text;
+      -moz-user-select: text;
+      -ms-user-select: text;
+      user-select: text;
+      padding: 0px 0px 0px 5px;
+      margin: 0;
+      display: inline-block; }
+    .ajs-plugin.plugin-timeline .components .cuepoints-component .module-cuepoints .callback,
+    .ajs-plugin.plugin-timeline .components .segments-component .module-segments .callback,
+    .ajs-plugin.plugin-timeline .components .images-component .module-images .callback,
+    .ajs-plugin.plugin-timeline .components .histogram-component .module-histogram .callback,
+    .ajs-plugin.plugin-timeline .components .visual-component .module-visual .callback {
+      background-color: transparent;
+      -webkit-touch-callout: text;
+      -webkit-user-select: text;
+      -khtml-user-select: text;
+      -moz-user-select: text;
+      -ms-user-select: text;
+      user-select: text;
+      padding: 0px 0px 0px 5px;
+      margin: 0;
+      display: inline-block; }
+    .ajs-plugin.plugin-timeline .components .sub.cuepoints-component .module-cuepoints,
+    .ajs-plugin.plugin-timeline .components .sub.segments-component .module-segments,
+    .ajs-plugin.plugin-timeline .components .sub.images-component .module-images,
+    .ajs-plugin.plugin-timeline .components .sub.images-histogram .module-histogram,
+    .ajs-plugin.plugin-timeline .components .sub.visual-histogram .module-visual {
+      background-color: rgba(100, 100, 100, 0.68); }
+    .ajs-plugin.plugin-timeline .components .focus-container {
+      left: 0%;
+      width: 222px;
+      display: block;
+      background-color: rgba(100, 100, 100, 0.68);
+      height: 50%;
+      border: 0px solid #333;
+      box-shadow: none;
+      position: absolute;
+      top: 0px;
+      display: block;
+      z-index: 100;
+      min-width: 41px; }
+      .ajs-plugin.plugin-timeline .components .focus-container.zoom {
+        background-color: rgba(19, 231, 240, 0.68);
+        height: 100%; }
+      .ajs-plugin.plugin-timeline .components .focus-container .ui-resizable-handle {
+        background-color: #6c6c6c;
+        width: 20px;
+        height: 100%;
+        text-align: center;
+        vertical-align: middle;
+        display: inline-block;
+        margin-left: 0px;
+        margin-right: 0px; }
+        .ajs-plugin.plugin-timeline .components .focus-container .ui-resizable-handle.ui-resizable-w {
+          float: left;
+          font-size: 20px;
+          position: relative; }
+          .ajs-plugin.plugin-timeline .components .focus-container .ui-resizable-handle.ui-resizable-w:before {
+            -webkit-transform: translateX(-50%) translateY(-50%) rotate(-90deg);
+            -ms-transform: translateX(-50%) translateY(-50%) rotate(-90deg);
+            transform: translateX(-50%) translateY(-50%) rotate(-90deg);
+            display: block;
+            width: 20px;
+            height: 20px;
+            margin: 2px 0px 0px 12px;
+            padding: 0px;
+            position: absolute;
+            top: 50%; }
+        .ajs-plugin.plugin-timeline .components .focus-container .ui-resizable-handle.ui-resizable-e {
+          float: right;
+          font-size: 20px; }
+          .ajs-plugin.plugin-timeline .components .focus-container .ui-resizable-handle.ui-resizable-e:before {
+            -webkit-transform: translateX(-50%) translateY(-50%) rotate(-90deg);
+            -ms-transform: translateX(-50%) translateY(-50%) rotate(-90deg);
+            transform: translateX(-50%) translateY(-50%) rotate(-90deg);
+            display: block;
+            width: 20px;
+            height: 20px;
+            margin: 2px 0px 0px 12px;
+            padding: 0px;
+            position: absolute;
+            top: 50%; }
+    .ajs-plugin.plugin-timeline .components .bottom-toolbar-container {
+      position: absolute;
+      bottom: 5px;
+      left: 5px;
+      display: block; }
+      .ajs-plugin.plugin-timeline .components .bottom-toolbar-container .focus-btn {
+        background-color: transparent;
+        border: none;
+        color: white;
+        font-size: 20px;
+        line-height: 20px; }
+    .ajs-plugin.plugin-timeline .components .component.focus-off .focus-container {
+      display: none; }
+    .ajs-plugin.plugin-timeline .components .component.focus-off .bottom-toolbar-container {
+      display: block; }
+    .ajs-plugin.plugin-timeline .components .component.focus-off .sub {
+      display: none; }
+    .ajs-plugin.plugin-timeline .components .component.focus-on .focus-container {
+      display: block; }
+    .ajs-plugin.plugin-timeline .components .component.focus-on .bottom-toolbar-container {
+      display: none; }
+    .ajs-plugin.plugin-timeline .components .component.focus-on .sub {
+      display: block; }
+    .ajs-plugin.plugin-timeline .components .timecursor {
+      left: 0%;
+      position: absolute;
+      top: 0px;
+      width: 1px;
+      border-left: 1px solid #0CF;
+      height: 100%; }
+    .ajs-plugin.plugin-timeline .components .toolbar-container {
+      position: absolute;
+      top: 0;
+      right: 20px; }
+      .ajs-plugin.plugin-timeline .components .toolbar-container .plugin-btn {
+        border: none;
+        box-shadow: none;
+        background: none;
+        color: #6c6c6c;
+        font-size: 17px;
+        line-height: 25px; }
+      .ajs-plugin.plugin-timeline .components .toolbar-container .close-btn,
+      .ajs-plugin.plugin-timeline .components .toolbar-container .sort-btn,
+      .ajs-plugin.plugin-timeline .components .toolbar-container .expand-btn {
+        color: #6c6c6c;
+        height: 28px;
+        line-height: 28px;
+        text-align: center;
+        width: 28px;
+        cursor: pointer;
+        border: none;
+        background: transparent;
+        font-size: 20px; }
+      .ajs-plugin.plugin-timeline .components .toolbar-container .nav-controls {
+        color: #6c6c6c;
+        display: inline-block;
+        float: left;
+        line-height: 28px;
+        margin-right: 15px;
+        text-align: center;
+        vertical-align: middle;
+        font-size: 20px;
+        padding: 0; }
+        .ajs-plugin.plugin-timeline .components .toolbar-container .nav-controls .prev-control {
+          cursor: pointer;
+          border: none;
+          background: transparent;
+          color: #6c6c6c;
+          font-size: 20px;
+          padding: 0; }
+        .ajs-plugin.plugin-timeline .components .toolbar-container .nav-controls .next-control {
+          cursor: pointer;
+          border: none;
+          background: transparent;
+          color: #6c6c6c;
+          font-size: 20px;
+          padding: 0; }
+  .ajs-plugin.plugin-timeline .module-nav-bar-container .info {
+    padding-left: 15px;
+    line-height: 30px; }
+  .ajs-plugin.plugin-timeline .module-nav-bar-container .toolsbar {
+    height: 30px;
+    padding: 0px;
+    background-color: #3f3f3f; }
+    .ajs-plugin.plugin-timeline .module-nav-bar-container .toolsbar button.ajs-icon {
+      border-radius: 0%;
+      width: 30px;
+      line-height: 25px;
+      border: none;
+      background-color: transparent;
+      color: white; }
+  .ajs-plugin.plugin-timeline .module-nav-bar-container .leftContainer {
+    text-align: left;
+    border: none;
+    background-color: transparent;
+    float: left;
+    width: 16.66666667%; }
+  .ajs-plugin.plugin-timeline .module-nav-bar-container .middleContainer {
+    text-align: center;
+    border: none;
+    background-color: transparent;
+    float: left;
+    width: 66.66666667%; }
+  .ajs-plugin.plugin-timeline .module-nav-bar-container .rightContainer {
+    text-align: right;
+    border: none;
+    background-color: transparent;
+    float: right;
+    width: 16.66666667%; }
+    .ajs-plugin.plugin-timeline .module-nav-bar-container .rightContainer .config-menu {
+      padding-right: 30px; }
+      .ajs-plugin.plugin-timeline .module-nav-bar-container .rightContainer .config-menu .config-btn {
+        width: 30px;
+        line-height: 29px;
+        cursor: pointer;
+        font-size: 2.4em; }
+    .ajs-plugin.plugin-timeline .module-nav-bar-container .rightContainer .config-menu-list {
+      background: #FFF;
+      border: none;
+      box-shadow: none;
+      margin: 0px;
+      position: absolute;
+      bottom: 30px;
+      border-radius: 0px;
+      right: 1px;
+      width: 200px;
+      list-style: none;
+      padding: 5px 0px 5px 5px; }
+      .ajs-plugin.plugin-timeline .module-nav-bar-container .rightContainer .config-menu-list li {
+        padding-left: 5px;
+        color: #000;
+        cursor: pointer;
+        text-align: left; }
+  .ajs-plugin.plugin-timeline .module-nav-bar-container:after {
+    clear: both; }
+  .ajs-plugin.plugin-timeline .ui-resizable-s {
+    display: block;
+    height: 30px;
+    width: 30px;
+    font-size: 30px;
+    position: absolute;
+    left: 100%;
+    bottom: 0;
+    margin-left: -45px;
+    padding-left: 15px;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 40px;
+    font-weight: normal;
+    font-style: normal;
+    cursor: s-resize; }
+
+/**
+ * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ * 
+ * This file is part of amalia.js
+ * 
+ * amalia.js is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version.
+ * 
+ * Redistributions of source code, javascript and css minified versions 
+ * must retain the above copyright notice, this list of conditions and
+ * the following disclaimer.
+ * 
+ * Neither the name of the copyright holder nor the names of its 
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with amalia.js. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * amalia.js is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ */
+/**
+ * Plugin text sync
+ */
+.ajs-plugin.plugin-text-sync {
+  background: #e6e6e6;
+  margin: 0;
+  padding: 0;
+  color: black; }
+  .ajs-plugin.plugin-text-sync .header {
+    overflow: hidden;
+    zoom: 1;
+    display: block;
+    margin: 0;
+    padding: 0; }
+    .ajs-plugin.plugin-text-sync .header .resume {
+      background: #555;
+      color: white;
+      padding: 15px;
+      text-align: left;
+      font-size: 14px;
+      overflow: hidden;
+      zoom: 1; }
+      .ajs-plugin.plugin-text-sync .header .resume .heading {
+        font-size: 24px;
+        font-weight: 100;
+        color: white;
+        line-height: 1.1;
+        padding: 0;
+        margin: 0; }
+  .ajs-plugin.plugin-text-sync .line-component {
+    padding: 10px;
+    overflow-y: auto;
+    height: 100%;
+    margin: 0; }
+    .ajs-plugin.plugin-text-sync .line-component .line {
+      box-sizing: border-box;
+      color: black;
+      display: list-item;
+      font-size: 14px;
+      list-style-image: none;
+      list-style-position: outside;
+      list-style-type: none;
+      margin: 0;
+      overflow-x: hidden;
+      overflow-y: hidden;
+      text-align: left;
+      padding: 10px; }
+      .ajs-plugin.plugin-text-sync .line-component .line .info {
+        box-sizing: border-box;
+        color: black;
+        display: block;
+        float: left;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 14px;
+        margin-right: 10px;
+        text-align: left; }
+        .ajs-plugin.plugin-text-sync .line-component .line .info .thumb {
+          background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6Q0IwMTkyREMwMTAwMTFFNDk0QTM5OTI4MzY1OEFGQUEiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6Q0IwMTkyREQwMTAwMTFFNDk0QTM5OTI4MzY1OEFGQUEiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpDQjAxOTJEQTAxMDAxMUU0OTRBMzk5MjgzNjU4QUZBQSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpDQjAxOTJEQjAxMDAxMUU0OTRBMzk5MjgzNjU4QUZBQSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Ph56Pv8AAAJASURBVHja7JnLiupAEIY1BlG8492gK1HceseFD+0juNAHcCG6GlBBBVHEG15wfk5ARDj2JHYn00zVqglN1/91qquqE2en03HIbIpDciMAAiAAAiAAApDa1J9M0jStWCz6fD4rle33+9FoNJvNPgWA+nK5bP3WYr90v+8Z2CFUKBRsjBCmdzaA3++3EYDpXTW64vF4XK1W9/tdhFyn0xmNRr1eL+dD/Hywut3u9XoVmFVUtd1u/zxhGEuj8/lcqHoY1ocXUXXgdrtZEPeGvKgOWy2fz2cyGZyrwWBwOp1EFTJBlk6nS6USBqFQCKHf7/clayXC4fBjDAb5eqH1ev0YbzYbgb2QIEO2QejjDBwOh+FwKB8A7OufUTvNyVwuVzabVRRlMplcLhfJAKC+0Wigk8E4l8v1er3z+SzNjQzq6/W6rh4WCARarZbb7ZYDQFcfi8WeH74weDyeSqWCV2Q634sCQMTXarUX9S8MUI8B0mUikcAgEon8FgCor1ar8Xj8fxN0BtijPUbL0Gw2OTIoH6pPJpPvp4Hhpbnny2AeADHNVP/m1sKLwTxAKpX68ObFhcHOSsyFwTwAl7ulzvDcV1sHMJ1Oeb0H1IdgMGh1K4FOeLlc8vreiGS13W6t7oUWi4Xt3aixEDL0ycm0GfJiDEDTNNzEUcJEbaeiYH14ERVCevX9VRca+kNDAARAAAQgGGC329moj+mdDTAej20EYHpnV2L9N63EP7p1BuZCdIgJgAAIgAAIgAD+IsC3AAMAzUKl+/tbh2cAAAAASUVORK5CYII=");
+          cursor: pointer;
+          width: 64px;
+          background-size: cover;
+          height: 64px; }
+        .ajs-plugin.plugin-text-sync .line-component .line .info .badge {
+          border-radius: 10px;
+          border: none;
+          cursor: pointer;
+          display: inline-block;
+          min-width: 10px;
+          padding: 3px 7px;
+          font-size: 12px;
+          font-weight: 700;
+          color: #fff;
+          line-height: 1;
+          vertical-align: baseline;
+          white-space: nowrap;
+          text-align: center;
+          background-color: #999; }
+          .ajs-plugin.plugin-text-sync .line-component .line .info .badge.tcin {
+            margin: 4px 0; }
+          .ajs-plugin.plugin-text-sync .line-component .line .info .badge.tcout {
+            margin: 0 0 4px 0; }
+          .ajs-plugin.plugin-text-sync .line-component .line .info .badge.tcin, .ajs-plugin.plugin-text-sync .line-component .line .info .badge.tcout {
+            clear: both;
+            float: left;
+            border-radius: 3px; }
+      .ajs-plugin.plugin-text-sync .line-component .line.on {
+        background-color: #d8d8d8; }
+        .ajs-plugin.plugin-text-sync .line-component .line.on .content .ajs-progress .ajs-progress-bar {
+          background-color: #0CF; }
+      .ajs-plugin.plugin-text-sync .line-component .line.on .info .badge.tcin,
+      .ajs-plugin.plugin-text-sync .line-component .line.on .info .badge.tcout {
+        background-color: #0CF;
+        cursor: pointer; }
+      .ajs-plugin.plugin-text-sync .line-component .line .content {
+        overflow: hidden;
+        zoom: 1;
+        text-align: left;
+        font-size: 14px; }
+        .ajs-plugin.plugin-text-sync .line-component .line .content .heading {
+          text-align: left;
+          font-size: 14px; }
+        .ajs-plugin.plugin-text-sync .line-component .line .content .text {
+          text-align: left;
+          font-size: 14px; }
+          .ajs-plugin.plugin-text-sync .line-component .line .content .text .word {
+            cursor: pointer; }
+            .ajs-plugin.plugin-text-sync .line-component .line .content .text .word.on {
+              font-weight: bold; }
+        .ajs-plugin.plugin-text-sync .line-component .line .content .ajs-progress {
+          border-radius: 3px;
+          width: 100%;
+          height: 2px; }
+          .ajs-plugin.plugin-text-sync .line-component .line .content .ajs-progress .ajs-progress-bar {
+            background-color: #d8d8d8;
+            height: 1px; }
+
+/**
+ * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ *
+ * This file is part of amalia.js
+ *
+ * Amalia.js is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version
+ *
+ * Redistributions of source code, javascript and css minified versions must
+ * retain the above copyright notice, this list of conditions and the following
+ * disclaimer
+ *
+ * Neither the name of the copyright holder nor the names of its contributors
+ * may be used to endorse or promote products derived from this software without
+ * specific prior written permission
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * amalia.js. If not, see <http://www.gnu.org/licenses/>
+ *
+ * Amalia.js is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details
+ */
+/**
+ * Plugin caption
+ */
+.ajs-plugin.plugin-caption {
+  display: block;
+  color: #FFF;
+  position: absolute;
+  bottom: 100px;
+  line-height: 20px;
+  text-align: center;
+  width: 100%;
+  background-color: rgba(51, 51, 51, 0.68);
+  min-height: 20px;
+  z-index: 98;
+  padding-left: 0;
+  padding-right: 0;
+  font-size: 1.4em; }
+  .ajs-plugin.plugin-caption.fullScreenOn {
+    font-size: 3em;
+    line-height: 45px; }
+  .ajs-plugin.plugin-caption.fullScreenOff {
+    font-size: 1.4em; }
+
+/**
+ * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ *
+ * This file is part of amalia.js
+ *
+ * Amalia.js is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version
+ *
+ * Redistributions of source code, javascript and css minified versions must
+ * retain the above copyright notice, this list of conditions and the following
+ * disclaimer
+ *
+ * Neither the name of the copyright holder nor the names of its contributors
+ * may be used to endorse or promote products derived from this software without
+ * specific prior written permission
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * amalia.js. If not, see <http://www.gnu.org/licenses/>
+ *
+ * Amalia.js is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details
+ */
+/**
+ * Plugin overlay
+ */
+.ajs-plugin.plugin-overlay {
+  display: block;
+  color: #FFF;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 98;
+  top: 0; }
+  .ajs-plugin.plugin-overlay.eraser {
+    cursor: pointer; }
+  .ajs-plugin.plugin-overlay .overlay-canvas {
+    /*border: 1px solid red;*/ }
+  .ajs-plugin.plugin-overlay .error {
+    position: absolute;
+    top: 9px;
+    left: 0;
+    width: 100%;
+    line-height: 20px;
+    color: white;
+    font-size: 20px;
+    background-color: red;
+    font-weight: bold; }
+  .ajs-plugin.plugin-overlay.draw {
+    cursor: crosshair; }
+  .ajs-plugin.plugin-overlay .toolbox {
+    width: 100px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: move;
+    opacity: 0.9; }
+    .ajs-plugin.plugin-overlay .toolbox .add .add-ctrl,
+    .ajs-plugin.plugin-overlay .toolbox .add .close-box,
+    .ajs-plugin.plugin-overlay .toolbox .add .add-shape-msg,
+    .ajs-plugin.plugin-overlay .toolbox .add .add-shape-rectangle,
+    .ajs-plugin.plugin-overlay .toolbox .add .add-shape-ellipse {
+      height: 65px;
+      width: 101px;
+      background-color: #616161;
+      color: white;
+      font-size: 12px;
+      line-height: 20px;
+      text-align: center;
+      box-shadow: 1px 1px 0px #797979; }
+      .ajs-plugin.plugin-overlay .toolbox .add .add-ctrl.on,
+      .ajs-plugin.plugin-overlay .toolbox .add .close-box.on,
+      .ajs-plugin.plugin-overlay .toolbox .add .add-shape-msg.on,
+      .ajs-plugin.plugin-overlay .toolbox .add .add-shape-rectangle.on,
+      .ajs-plugin.plugin-overlay .toolbox .add .add-shape-ellipse.on {
+        background-color: #99CC00; }
+    .ajs-plugin.plugin-overlay .toolbox .add .add-shape-rectangle,
+    .ajs-plugin.plugin-overlay .toolbox .add .add-shape-ellipse {
+      font-size: 50px;
+      line-height: 75px; }
+    .ajs-plugin.plugin-overlay .toolbox .add .add-ctrl {
+      background-color: #616161; }
+      .ajs-plugin.plugin-overlay .toolbox .add .add-ctrl .ctrl {
+        background-color: #3cf; }
+    .ajs-plugin.plugin-overlay .toolbox .add .close-box {
+      background-color: #616161; }
+      .ajs-plugin.plugin-overlay .toolbox .add .close-box .ctrl {
+        background-color: transparent;
+        border: 3px solid white; }
+    .ajs-plugin.plugin-overlay .toolbox .erase-box {
+      height: 65px;
+      width: 101px;
+      background-color: rgba(49, 49, 49, 0.7);
+      color: white;
+      font-size: 12px;
+      line-height: 20px;
+      text-align: center;
+      box-shadow: 1px 1px 0px #797979; }
+      .ajs-plugin.plugin-overlay .toolbox .erase-box.on {
+        background-color: #99CC00; }
+      .ajs-plugin.plugin-overlay .toolbox .erase-box .ctrl {
+        background-color: #E57373; }
+    .ajs-plugin.plugin-overlay .toolbox .nav-box {
+      background-color: rgba(121, 121, 121, 0.7); }
+      .ajs-plugin.plugin-overlay .toolbox .nav-box .nav-left-box,
+      .ajs-plugin.plugin-overlay .toolbox .nav-box .nav-right-box {
+        display: inline-block;
+        text-align: center;
+        width: 50px;
+        height: 50px;
+        margin: 0;
+        padding: 0;
+        line-height: 50px; }
+        .ajs-plugin.plugin-overlay .toolbox .nav-box .nav-left-box .ctrl,
+        .ajs-plugin.plugin-overlay .toolbox .nav-box .nav-right-box .ctrl {
+          margin: 0;
+          padding: 0; }
+          .ajs-plugin.plugin-overlay .toolbox .nav-box .nav-left-box .ctrl:hover,
+          .ajs-plugin.plugin-overlay .toolbox .nav-box .nav-right-box .ctrl:hover {
+            background-color: rgba(153, 204, 0, 0.7); }
+    .ajs-plugin.plugin-overlay .toolbox .ctrl {
+      height: 35px;
+      width: 35px;
+      display: inline-block;
+      padding: 0px;
+      font-size: 28px;
+      color: #fff;
+      text-align: center;
+      white-space: nowrap;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      margin: auto;
+      position: relative;
+      vertical-align: middle;
+      box-shadow: none;
+      line-height: 46px;
+      margin: 10px 0px 0px 0px;
+      border: 3px solid transparent; }
+      .ajs-plugin.plugin-overlay .toolbox .ctrl.on {
+        border: 3px solid #99cc00; }
+    .ajs-plugin.plugin-overlay .toolbox .add-shapebox {
+      background-color: rgba(49, 49, 49, 0.7); }
+
+/**
+ * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ * 
+ * This file is part of amalia.js
+ * 
+ * amalia.js is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or 
+ * (at your option) any later version.
+ * 
+ * Redistributions of source code, javascript and css minified versions 
+ * must retain the above copyright notice, this list of conditions and
+ * the following disclaimer.
+ * 
+ * Neither the name of the copyright holder nor the names of its 
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with amalia.js. If not, see <http://www.gnu.org/licenses/>
+ * 
+ * amalia.js is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ */
+.ajs-plugin.plugin-watermark {
+  display: block;
+  color: #FFF;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 98;
+  top: 0; }
+  .ajs-plugin.plugin-watermark .watermark {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    position: absolute; }
+
+/**
+ * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ *
+ * This file is part of amalia.js
+ *
+ * Amalia.js is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version
+ *
+ * Redistributions of source code, javascript and css minified versions must
+ * retain the above copyright notice, this list of conditions and the following
+ * disclaimer
+ *
+ * Neither the name of the copyright holder nor the names of its contributors
+ * may be used to endorse or promote products derived from this software without
+ * specific prior written permission
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * amalia.js. If not, see <http://www.gnu.org/licenses/>
+ *
+ * Amalia.js is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details
+ */
+/** Plugin menu contextuel**/
+.ajs .plugin-context-menu.dropdown-menu {
+  width: 300px;
+  padding: 0px 0px 0px 10px;
+  margin: 0;
+  text-align: left;
+  list-style: none;
+  background-color: #fff;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  z-index: 1000; }
+  .ajs .plugin-context-menu.dropdown-menu:before {
+    bottom: -14px;
+    border-top: 7px solid #555; }
+  .ajs .plugin-context-menu.dropdown-menu:before, .ajs .plugin-context-menu.dropdown-menu:after, .ajs .plugin-context-menu.dropdown-menu li:first-child:after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 15px;
+    width: 0;
+    height: 0;
+    border: 7px outset transparent; }
+  .ajs .plugin-context-menu.dropdown-menu li {
+    color: #838ca2;
+    text-shadow: none;
+    margin: 0;
+    padding: 0px 0px 0px 25px;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: middle;
+    height: 30px;
+    list-style: none;
+    line-height: 30px;
+    display: block;
+    position: relative; }
+    .ajs .plugin-context-menu.dropdown-menu li .ajs-icon {
+      position: absolute;
+      left: 0px;
+      top: 3px;
+      font-size: 24px;
+      line-height: 28px; }
+    .ajs .plugin-context-menu.dropdown-menu li.disabled a {
+      cursor: default; }
+
+/**
+ * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ *
+ * This file is part of amalia.js
+ *
+ * Amalia.js is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version
+ *
+ * Redistributions of source code, javascript and css minified versions must
+ * retain the above copyright notice, this list of conditions and the following
+ * disclaimer
+ *
+ * Neither the name of the copyright holder nor the names of its contributors
+ * may be used to endorse or promote products derived from this software without
+ * specific prior written permission
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * amalia.js. If not, see <http://www.gnu.org/licenses/>
+ *
+ * Amalia.js is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details
+ */
+.ajs-plugin.editor {
+  position: relative;
+  /**
+   * Plugin list editor
+   */
+  /**
+   * Plugin block editor
+   */
+  /**
+   * Plugin items editor
+   */ }
+  .ajs-plugin.editor .loader {
+    position: absolute;
+    top: 110px;
+    z-index: 100;
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 0; }
+  .ajs-plugin.editor.plugin-list-editor {
+    color: #666; }
+    .ajs-plugin.editor.plugin-list-editor .heading {
+      height: 30px;
+      border: none;
+      line-height: 25px;
+      background-color: #616161;
+      color: #CCC; }
+      .ajs-plugin.editor.plugin-list-editor .heading .title {
+        text-align: left;
+        padding-left: 10px;
+        margin: 0;
+        color: #FFF;
+        line-height: 30px;
+        font-size: 14px; }
+    .ajs-plugin.editor.plugin-list-editor .body ul.listOfmetadata {
+      box-sizing: border-box;
+      color: #cacaca;
+      display: block;
+      font-size: 14px;
+      line-height: 20px;
+      list-style-type: disc;
+      margin-bottom: 0px;
+      margin-top: 0px;
+      padding-left: 0px;
+      height: 90px;
+      overflow-y: overlay; }
+      .ajs-plugin.editor.plugin-list-editor .body ul.listOfmetadata li.item {
+        position: relative;
+        display: block;
+        padding: 5px 15px;
+        margin: 0;
+        background-color: #eceff1;
+        border: none;
+        color: #000;
+        font-size: 11px; }
+        .ajs-plugin.editor.plugin-list-editor .body ul.listOfmetadata li.item.selected {
+          background-color: #546e7a;
+          color: rgba(255, 255, 255, 0.87); }
+        .ajs-plugin.editor.plugin-list-editor .body ul.listOfmetadata li.item span.delete {
+          float: right;
+          padding: 0px;
+          font-size: 10px;
+          color: #fff;
+          text-align: center;
+          white-space: nowrap;
+          background-color: #E57373;
+          border: none;
+          border-radius: 50%;
+          cursor: pointer;
+          display: inline-block;
+          height: 20px;
+          width: 20px;
+          margin: auto;
+          position: relative;
+          vertical-align: middle;
+          box-shadow: none;
+          line-height: 23px;
+          margin-left: 5px; }
+          .ajs-plugin.editor.plugin-list-editor .body ul.listOfmetadata li.item span.delete:before {
+            margin-left: -1px; }
+        .ajs-plugin.editor.plugin-list-editor .body ul.listOfmetadata li.item span.duplicate {
+          float: right;
+          padding: 0px;
+          font-size: 10px;
+          color: #fff;
+          text-align: center;
+          white-space: nowrap;
+          background-color: #3cf;
+          border: none;
+          border-radius: 50%;
+          cursor: pointer;
+          display: inline-block;
+          height: 20px;
+          width: 20px;
+          margin: auto;
+          position: relative;
+          vertical-align: middle;
+          box-shadow: none;
+          line-height: 23px; }
+          .ajs-plugin.editor.plugin-list-editor .body ul.listOfmetadata li.item span.duplicate:before {
+            margin-left: -1px; }
+    .ajs-plugin.editor.plugin-list-editor .footer {
+      height: 25px;
+      border: none;
+      line-height: 25px;
+      background-color: #616161;
+      color: #CCC;
+      text-align: center; }
+      .ajs-plugin.editor.plugin-list-editor .footer .add-metadata {
+        min-width: 10px;
+        font-size: 25px;
+        font-weight: normal;
+        color: #fff;
+        text-align: center;
+        white-space: nowrap;
+        background-color: #00CC99;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        display: inline-block;
+        height: 35px;
+        width: 35px;
+        margin: auto;
+        position: relative;
+        vertical-align: middle;
+        margin-top: -25px;
+        box-shadow: none;
+        line-height: 40px;
+        text-align: left; }
+        .ajs-plugin.editor.plugin-list-editor .footer .add-metadata:before {
+          margin-left: -1px; }
+  .ajs-plugin.editor.plugin-block-editor {
+    color: #666; }
+    .ajs-plugin.editor.plugin-block-editor .heading {
+      height: 30px;
+      border: none;
+      line-height: 25px;
+      background-color: #616161;
+      color: #CCC; }
+      .ajs-plugin.editor.plugin-block-editor .heading .title {
+        text-align: left;
+        padding-left: 10px;
+        margin: 0;
+        color: #FFF;
+        line-height: 30px;
+        font-size: 14px; }
+    .ajs-plugin.editor.plugin-block-editor .body {
+      padding: 5px 5px 15px 5px; }
+      .ajs-plugin.editor.plugin-block-editor .body form.formMetadataBlock .form-item {
+        padding: 0px;
+        margin: 0px;
+        box-shadow: none;
+        font-size: 12px; }
+        .ajs-plugin.editor.plugin-block-editor .body form.formMetadataBlock .form-item .input {
+          width: 100%;
+          border: none;
+          box-shadow: none;
+          background-color: #eaeaea;
+          color: #000;
+          height: 25px;
+          padding-left: 5px;
+          border-radius: 0px;
+          font-size: 12px; }
+        .ajs-plugin.editor.plugin-block-editor .body form.formMetadataBlock .form-item .text-area {
+          width: 100%;
+          height: 50px;
+          border-radius: 3px;
+          border: 1px solid #ccc;
+          display: inline-block;
+          padding: 4px;
+          font-size: 12px; }
+        .ajs-plugin.editor.plugin-block-editor .body form.formMetadataBlock .form-item .select {
+          width: 100%;
+          border: none;
+          box-shadow: none;
+          background-color: #eaeaea;
+          color: #000;
+          height: 25px;
+          padding-left: 5px;
+          border-radius: 0px;
+          font-size: 12px; }
+        .ajs-plugin.editor.plugin-block-editor .body form.formMetadataBlock .form-item .shape.ajs-icon {
+          font-size: 20px; }
+      .ajs-plugin.editor.plugin-block-editor .body .messages-container {
+        padding: 0px;
+        margin-bottom: 0px;
+        border: none;
+        border-radius: 4px;
+        background-color: #E1F5FE;
+        margin-top: 0px;
+        text-align: center; }
+        .ajs-plugin.editor.plugin-block-editor .body .messages-container.type-info {
+          background-color: #E1F5FE; }
+        .ajs-plugin.editor.plugin-block-editor .body .messages-container.type-error {
+          background-color: #EF9A9A; }
+        .ajs-plugin.editor.plugin-block-editor .body .messages-container p.info {
+          padding: 0px;
+          margin: 0px; }
+        .ajs-plugin.editor.plugin-block-editor .body .messages-container p.error {
+          padding: 0px;
+          margin: 0px; }
+    .ajs-plugin.editor.plugin-block-editor .footer {
+      height: 25px;
+      border: none;
+      line-height: 25px;
+      background-color: #616161;
+      color: #CCC;
+      text-align: center; }
+      .ajs-plugin.editor.plugin-block-editor .footer .save-metadata {
+        min-width: 10px;
+        padding: 0;
+        font-size: 25px;
+        font-weight: normal;
+        color: #fff;
+        text-align: center;
+        white-space: nowrap;
+        background-color: #03A9F4;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        display: inline-block;
+        height: 35px;
+        width: 35px;
+        margin: auto;
+        position: relative;
+        vertical-align: middle;
+        margin-top: -25px;
+        box-shadow: none;
+        line-height: 40px; }
+        .ajs-plugin.editor.plugin-block-editor .footer .save-metadata:before {
+          margin-left: -1px; }
+  .ajs-plugin.editor.plugin-items-editor {
+    color: #616161; }
+    .ajs-plugin.editor.plugin-items-editor .heading {
+      height: 30px;
+      border: none;
+      line-height: 25px;
+      background-color: #616161;
+      color: #CCC; }
+      .ajs-plugin.editor.plugin-items-editor .heading .title {
+        text-align: left;
+        padding-left: 10px;
+        margin: 0;
+        color: #FFF;
+        line-height: 30px;
+        font-size: 14px; }
+    .ajs-plugin.editor.plugin-items-editor .body .messages-container {
+      padding: 5px 0px 5px 0px;
+      margin-bottom: 11px;
+      border: none;
+      border-radius: 4px;
+      background-color: #E1F5FE;
+      margin-top: 10px;
+      text-align: center;
+      min-height: 25px; }
+      .ajs-plugin.editor.plugin-items-editor .body .messages-container.type-info {
+        background-color: #E1F5FE; }
+      .ajs-plugin.editor.plugin-items-editor .body .messages-container.type-error {
+        background-color: #EF9A9A; }
+      .ajs-plugin.editor.plugin-items-editor .body .messages-container p.info {
+        padding: 0px;
+        margin: 0px; }
+      .ajs-plugin.editor.plugin-items-editor .body .messages-container p.error {
+        padding: 0px;
+        margin: 0px; }
+    .ajs-plugin.editor.plugin-items-editor .body ul.listOfSelectedItems {
+      box-sizing: border-box;
+      color: #cacaca;
+      display: block;
+      font-size: 14px;
+      line-height: 20px;
+      list-style-type: disc;
+      margin-bottom: 0px;
+      margin-top: 0px;
+      padding-left: 0px;
+      height: 285px;
+      overflow-y: overlay; }
+      .ajs-plugin.editor.plugin-items-editor .body ul.listOfSelectedItems li.item {
+        position: relative;
+        display: block;
+        padding: 0px;
+        margin-bottom: 0;
+        background-color: transparent;
+        border: none;
+        color: #000;
+        box-shadow: none;
+        font-size: 12px; }
+        .ajs-plugin.editor.plugin-items-editor .body ul.listOfSelectedItems li.item.error {
+          border: 1px solid red;
+          text-align: left; }
+        .ajs-plugin.editor.plugin-items-editor .body ul.listOfSelectedItems li.item .form-data {
+          padding: 25px 0px 10px 0px;
+          border: none;
+          background-color: #eceff1;
+          margin-right: 0;
+          min-height: 56px;
+          box-shadow: none;
+          margin: 1px 0px 0px 0px; }
+          .ajs-plugin.editor.plugin-items-editor .body ul.listOfSelectedItems li.item .form-data .form-input {
+            margin: 0px 5px;
+            box-shadow: none;
+            min-height: 25px; }
+            .ajs-plugin.editor.plugin-items-editor .body ul.listOfSelectedItems li.item .form-data .form-input .input {
+              width: 100%;
+              border: none;
+              box-shadow: none;
+              background-color: #eaeaea;
+              color: #000;
+              height: 25px;
+              padding-left: 5px;
+              border-radius: 5px;
+              font-size: 12px; }
+          .ajs-plugin.editor.plugin-items-editor .body ul.listOfSelectedItems li.item .form-data .form-controls {
+            position: absolute;
+            width: auto;
+            height: 25px;
+            top: 5px;
+            right: 10px;
+            padding: 0px; }
+            .ajs-plugin.editor.plugin-items-editor .body ul.listOfSelectedItems li.item .form-data .form-controls span.button {
+              padding: 0px;
+              font-size: 12px;
+              font-weight: normal;
+              text-align: center;
+              white-space: nowrap;
+              border: none;
+              border-radius: 50%;
+              cursor: pointer;
+              display: inline-block;
+              height: 20px;
+              width: 20px;
+              margin: 0px 0px 0px 5px;
+              position: relative;
+              vertical-align: middle;
+              padding-top: 0px;
+              margin-top: 0;
+              top: 0px;
+              right: 0px;
+              color: white;
+              box-shadow: none;
+              line-height: 23px;
+              opacity: 1;
+              filter: none;
+              float: none; }
+              .ajs-plugin.editor.plugin-items-editor .body ul.listOfSelectedItems li.item .form-data .form-controls span.button:before {
+                margin-left: -1px; }
+              .ajs-plugin.editor.plugin-items-editor .body ul.listOfSelectedItems li.item .form-data .form-controls span.button.valid {
+                background-color: #CACACA;
+                visibility: hidden; }
+                .ajs-plugin.editor.plugin-items-editor .body ul.listOfSelectedItems li.item .form-data .form-controls span.button.valid.valid.on {
+                  visibility: visible;
+                  background-color: #03A9F4; }
+              .ajs-plugin.editor.plugin-items-editor .body ul.listOfSelectedItems li.item .form-data .form-controls span.button.remove {
+                background-color: #FFC107; }
+              .ajs-plugin.editor.plugin-items-editor .body ul.listOfSelectedItems li.item .form-data .form-controls span.button.close {
+                background-color: #757575; }
+    .ajs-plugin.editor.plugin-items-editor .footer {
+      height: 25px;
+      border: none;
+      line-height: 25px;
+      background-color: #616161;
+      color: #CCC;
+      text-align: center; }
+      .ajs-plugin.editor.plugin-items-editor .footer .button {
+        min-width: 10px;
+        font-size: 25px;
+        font-weight: normal;
+        color: #fff;
+        text-align: center;
+        white-space: nowrap;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        display: inline-block;
+        height: 35px;
+        width: 35px;
+        margin: 5px;
+        position: relative;
+        vertical-align: middle;
+        margin-top: -25px;
+        box-shadow: none;
+        line-height: 40px; }
+        .ajs-plugin.editor.plugin-items-editor .footer .button.add {
+          background-color: #00CC99; }
+          .ajs-plugin.editor.plugin-items-editor .footer .button.add:before {
+            margin-left: -1px; }
+        .ajs-plugin.editor.plugin-items-editor .footer .button.validateAll {
+          background-color: #03A9F4; }
+          .ajs-plugin.editor.plugin-items-editor .footer .button.validateAll:before {
+            margin-left: -1px; }
+        .ajs-plugin.editor.plugin-items-editor .footer .button.clear {
+          background-color: #757575; }
+          .ajs-plugin.editor.plugin-items-editor .footer .button.clear:before {
+            margin-left: -1px; }
+
+/**
+ * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ *
+ * This file is part of amalia.js
+ *
+ * Amalia.js is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version
+ *
+ * Redistributions of source code, javascript and css minified versions must
+ * retain the above copyright notice, this list of conditions and the following
+ * disclaimer
+ *
+ * Neither the name of the copyright holder nor the names of its contributors
+ * may be used to endorse or promote products derived from this software without
+ * specific prior written permission
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * amalia.js. If not, see <http://www.gnu.org/licenses/>
+ *
+ * Amalia.js is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details
+ */
+.ajs-plugin.plugin-selected-item-editor {
+  position: relative; }
+  .ajs-plugin.plugin-selected-item-editor .auto-fill-up-form {
+    display: none;
+    height: 60px;
+    width: 700px;
+    color: #000;
+    background-color: #797979;
+    position: absolute;
+    bottom: 5px;
+    z-index: 900; }
+    .ajs-plugin.plugin-selected-item-editor .auto-fill-up-form .message,
+    .ajs-plugin.plugin-selected-item-editor .auto-fill-up-form .form-item {
+      float: left; }
+    .ajs-plugin.plugin-selected-item-editor .auto-fill-up-form .message {
+      width: 520px;
+      color: white;
+      font-size: 16px;
+      padding: 21px 0px 0px 18px; }
+    .ajs-plugin.plugin-selected-item-editor .auto-fill-up-form.on {
+      display: block; }
+    .ajs-plugin.plugin-selected-item-editor .auto-fill-up-form:after {
+      clear: both; }
+    .ajs-plugin.plugin-selected-item-editor .auto-fill-up-form .form-item .form-ctrl-item-yes {
+      height: 60px;
+      width: 90px;
+      background-color: #1485cc;
+      border: none;
+      color: white;
+      font-size: 16px;
+      font-weight: bold; }
+    .ajs-plugin.plugin-selected-item-editor .auto-fill-up-form .form-item .form-ctrl-item-no {
+      height: 60px;
+      width: 90px;
+      background-color: #0b486c;
+      border: none;
+      color: white;
+      font-size: 16px;
+      font-weight: bold; }
+  .ajs-plugin.plugin-selected-item-editor .form {
+    height: 50px;
+    width: 100%;
+    color: #000; }
+    .ajs-plugin.plugin-selected-item-editor .form .form-item {
+      float: left; }
+      .ajs-plugin.plugin-selected-item-editor .form .form-item .form-item-label {
+        height: 60px;
+        background-color: #f2f2f2;
+        width: 170px;
+        border: none;
+        color: #666666;
+        font-size: 16px;
+        text-align: center;
+        font-weight: normal; }
+      .ajs-plugin.plugin-selected-item-editor .form .form-item .form-item-tcin,
+      .ajs-plugin.plugin-selected-item-editor .form .form-item .form-item-tcout {
+        height: 60px;
+        width: 100px;
+        border: none;
+        color: #666666;
+        font-size: 16px;
+        text-align: center; }
+        .ajs-plugin.plugin-selected-item-editor .form .form-item .form-item-tcin.error,
+        .ajs-plugin.plugin-selected-item-editor .form .form-item .form-item-tcout.error {
+          background-color: #ba6868; }
+      .ajs-plugin.plugin-selected-item-editor .form .form-item .form-ctrl-item-tcin,
+      .ajs-plugin.plugin-selected-item-editor .form .form-item .form-ctrl-item-tcout {
+        background-color: #1485cc;
+        border-radius: 0;
+        color: #FFFFFF;
+        display: block;
+        font-size: 16px;
+        height: 60px;
+        line-height: 20px;
+        padding: 10px;
+        text-transform: uppercase;
+        outline: none;
+        width: 70px;
+        border: none;
+        padding: 0px; }
+      .ajs-plugin.plugin-selected-item-editor .form .form-item .form-ctrl-item-valid {
+        background-color: #797979;
+        height: 60px;
+        border: none;
+        color: white;
+        font-size: 16px; }
+        .ajs-plugin.plugin-selected-item-editor .form .form-item .form-ctrl-item-valid.valid {
+          background-color: #1485cc; }
+        .ajs-plugin.plugin-selected-item-editor .form .form-item .form-ctrl-item-valid:hover {
+          background-color: #6ab6e8; }
+      .ajs-plugin.plugin-selected-item-editor .form .form-item .form-ctrl-item-delete {
+        background-color: #B71C1C;
+        height: 60px;
+        border: none;
+        color: white;
+        font-size: 16px;
+        display: none; }
+        .ajs-plugin.plugin-selected-item-editor .form .form-item .form-ctrl-item-delete.on {
+          display: block; }
+        .ajs-plugin.plugin-selected-item-editor .form .form-item .form-ctrl-item-delete:hover {
+          background-color: #C62828; }
+      .ajs-plugin.plugin-selected-item-editor .form .form-item .form-ctrl-item-close-item {
+        background-color: #B71C1C;
+        height: 60px;
+        border: none;
+        color: white;
+        font-size: 16px;
+        display: none; }
+        .ajs-plugin.plugin-selected-item-editor .form .form-item .form-ctrl-item-close-item.on {
+          display: block; }
+        .ajs-plugin.plugin-selected-item-editor .form .form-item .form-ctrl-item-close-item:hover {
+          background-color: #C62828; }
+      .ajs-plugin.plugin-selected-item-editor .form .form-item .form-ctrl-item-auto-fill-up {
+        background-color: #a1a1a1;
+        width: 60px;
+        height: 60px;
+        border: none;
+        font-size: 52px;
+        font-weight: 100;
+        padding-top: 10px;
+        color: white; }
+        .ajs-plugin.plugin-selected-item-editor .form .form-item .form-ctrl-item-auto-fill-up:hover {
+          background-color: #6ab6e8; }
+      .ajs-plugin.plugin-selected-item-editor .form .form-item.delete {
+        display: none; }
+        .ajs-plugin.plugin-selected-item-editor .form .form-item.delete.on {
+          display: block; }
+        .ajs-plugin.plugin-selected-item-editor .form .form-item.delete .form-ctrl-item-delete {
+          background-color: #22baa0; }
+      .ajs-plugin.plugin-selected-item-editor .form .form-item.label {
+        background-color: #f2f2f2;
+        padding: 0px;
+        border: medium none;
+        border-radius: 0;
+        box-shadow: none;
+        display: inline-block;
+        margin: 0;
+        border: none; }
+  .ajs-plugin.plugin-selected-item-editor.ajs-plugin {
+    overflow: visible !important; }
+
+/**
+ * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ *
+ * This file is part of amalia.js
+ *
+ * amalia.js is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Redistributions of source code, javascript and css minified versions
+ * must retain the above copyright notice, this list of conditions and
+ * the following disclaimer.
+ *
+ * Neither the name of the copyright holder nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with amalia.js. If not, see <http://www.gnu.org/licenses/>
+ *
+ * amalia.js is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ */
+.ajs-plugin.plugin-storyboard {
+  display: none;
+  color: #FFF;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 98;
+  top: 0; }
+  .ajs-plugin.plugin-storyboard .thumbnail {
+    height: 90px;
+    width: 160px;
+    background-color: #313131;
+    background-position: 0px -90px;
+    background-repeat: no-repeat;
+    position: absolute;
+    bottom: 45px;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 3px;
+    left: 50%;
+    border-radius: 2px;
+    border: solid #000 2px;
+    z-index: 90; }
+  .ajs-plugin.plugin-storyboard .filmstrip {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    opacity: 0.7;
+    z-index: 90;
+    -webkit-filter: grayscale(0.3);
+    -moz-filter: grayscale(0.3);
+    -ms-filter: grayscale(0.3);
+    -o-filter: grayscale(0.3); }
+    .ajs-plugin.plugin-storyboard .filmstrip .storyboard-thumbnail {
+      background-color: #313131;
+      background-position: 0px -90px;
+      background-repeat: no-repeat;
+      position: absolute;
+      margin-top: 0px;
+      margin-right: 0px;
+      margin-bottom: 3px;
+      border-radius: 2px;
+      border: solid #000 2px; }
+  .ajs-plugin.plugin-storyboard .preview-storyboard {
+    text-align: center;
+    display: block;
+    position: absolute;
+    margin: 0px;
+    padding: 0px; }
+    .ajs-plugin.plugin-storyboard .preview-storyboard .thumbnail-overlay {
+      height: 100%;
+      width: 100%;
+      position: relative;
+      border: solid #000 2px;
+      visibility: visible;
+      z-index: 80;
+      filter: blur(5px);
+      -webkit-filter: blur(3px) grayscale(0.8);
+      -moz-filter: blur(3px) grayscale(0.8);
+      -ms-filter: blur(3px) grayscale(0.8);
+      -o-filter: blur(3px) grayscale(0.8); }
+
+.ajs-plugin .plugin-db3-js-chart {
+  border-top: solid 2px rgba(19, 231, 240, 0.68);
+  margin-top: -13px; }
+  .ajs-plugin .plugin-db3-js-chart .components .component {
+    position: relative; }
+    .ajs-plugin .plugin-db3-js-chart .components .component .timeline-cursor {
+      left: 0px;
+      width: 1px;
+      height: 100%;
+      display: block;
+      background-color: #0CF;
+      position: absolute;
+      z-index: 100;
+      bottom: 25px;
+      margin-left: -3px; }
+    .ajs-plugin .plugin-db3-js-chart .components .component .module-chart {
+      background-color: #2e2e2e;
+      display: block;
+      width: 100%;
+      height: 200px; }
+    .ajs-plugin .plugin-db3-js-chart .components .component .line {
+      background-color: rgba(51, 51, 51, 0.68);
+      display: block;
+      width: 100%;
+      height: 3px;
+      top: 12px;
+      position: relative; }
+    .ajs-plugin .plugin-db3-js-chart .components .component .focus-container {
+      display: block;
+      width: 100%;
+      height: 25px;
+      background-color: #535353;
+      margin-top: -3px; }
+      .ajs-plugin .plugin-db3-js-chart .components .component .focus-container .focus-component {
+        background-color: #0CF;
+        cursor: e-resize;
+        display: block;
+        height: 3px;
+        position: relative;
+        top: 12px; }
+        .ajs-plugin .plugin-db3-js-chart .components .component .focus-container .focus-component .ui-resizable-handle.ui-resizable-w.ajs-icon,
+        .ajs-plugin .plugin-db3-js-chart .components .component .focus-container .focus-component .ui-resizable-handle.ui-resizable-e.ajs-icon {
+          border-radius: 30%;
+          cursor: pointer;
+          height: 15px;
+          width: 15px;
+          display: block;
+          background-color: white;
+          top: -7px; }
+          .ajs-plugin .plugin-db3-js-chart .components .component .focus-container .focus-component .ui-resizable-handle.ui-resizable-w.ajs-icon:before,
+          .ajs-plugin .plugin-db3-js-chart .components .component .focus-container .focus-component .ui-resizable-handle.ui-resizable-e.ajs-icon:before {
+            content: "";
+            display: block;
+            border-left: dashed 1px #0CF;
+            height: 173px;
+            position: absolute;
+            top: -175px;
+            left: 7px; }
+    .ajs-plugin .plugin-db3-js-chart .components .component svg.nvd3-svg .tick {
+      opacity: .6; }
+      .ajs-plugin .plugin-db3-js-chart .components .component svg.nvd3-svg .tick text {
+        fill: white; }
+    .ajs-plugin .plugin-db3-js-chart .components .component svg.nvd3-svg .nv-legend-text {
+      fill: white;
+      font-size: 14px; }
