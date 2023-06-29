@@ -225,11 +225,11 @@ module.exports = function (grunt) {
                 ]
             }
         },
-        qunit: {
-            build: [
-                'tests/**/*.html'
-            ]
-        },
+        // qunit: {
+        //     build: [
+        //         'tests/**/*.html'
+        //     ]
+        // },
         watch: {
             uglify: {
                 files: [

@@ -1,4 +1,6 @@
 # Release notes
+## 1.3.3
+- License changed to MIT
 ## 1.3.2
  - Fix ENDEN/ENDED
  - Change player html5 class with base class
