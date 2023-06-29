@@ -56,16 +56,11 @@
             </div>
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav pull-right">
-                    <li><a class="scroll-to" href="index.html#download">Download</a>
-                    </li>
-                    <li><a class="scroll-to" href="index.html#documentation">Documentation</a>
-                    </li>
-                    <li><a class="scroll-to" href="index.html#examples">Examples</a>
-                    </li>
-                    <li><a class="scroll-to" href="index.html#about">About</a>
-                    </li>
-                    <li><a class="scroll-to" href="index.html#contact">Contact</a>
-                    </li>
+                    <li><a class="scroll-to" href="index.html#download">Download</a></li>
+                    <li><a class="scroll-to" href="index.html#documentation">Documentation</a></li>
+                    <li><a class="scroll-to" href="index.html#examples">Examples</a></li>
+                    <li><a class="scroll-to" href="index.html#about">About</a></li>
+                    <li><a class="scroll-to" href="index.html#contact">Contact</a></li>
                 </ul>
             </div>
         </div>
@@ -84,8 +79,7 @@
                         <li>BlockEditor: In charge to edit metadata block.</li>
                         <li>ItemsEditor: In charge to edit selected items.</li>
                     </ul>
-                    <p>A server side toy application to load ans save metadata blocks will soon be available in the <a href="//github.com/ina-foss/amalia-tools">amalia-tools project</a> for demonstration purposes. Below left you will find the plugins for edit
-                        metadata and on right the plugin timeline to view the changes.</p>
+                    <p>A server side toy application to load ans save metadata blocks will soon be available in the <a href="//github.com/ina-foss/amalia-tools">amalia-tools project</a> for demonstration purposes. Below left you will find the plugins for edit metadata and on right the plugin timeline to view the changes.</p>
 
                     <div class="demo">
                         <div class="col-md-6">
@@ -102,7 +96,7 @@
                                 </div>
                                 <div id='player_timeline-plugin' style="height: 450px;"></div>
                             </div>
-                            <br/>
+                            <br />
 
                             <div>
                                 <button class="btn btn-info" onclick="loadData()">Load data</button>
@@ -112,7 +106,7 @@
                         </div>
                     </div>
                     <div class="clearfix"></div>
-                    <br/>
+                    <br />
 
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -172,7 +166,11 @@
                                         <td>shapesListOfElements</td>
                                         <td>String</td>
                                         <td>Set list of shapes.</td>
-                                        <td>default[ 'legal', 'facetime', 'circle' ]
+                                        <td>default[
+                                            'legal',
+                                            'facetime',
+                                            'circle'
+                                            ]
                                         </td>
                                     </tr>
                                 </tbody>
@@ -219,45 +217,49 @@
                                     'samples-data/examples/json/amalia01-events.json'
                                 ],
                                 list: [{
-                                    'className': 'fr.ina.amalia.player.plugins.MetadataListEditorPlugin',
-                                    'container': '#player-list-editor-plugin',
-                                    'debug': true,
-                                    'parameters': {
-                                        //defaultDataType : fr.ina.amalia.player.PluginBindingManager.dataTypes.DETECTION
-                                        defaultAuthor: 'Amalia.js',
-                                        defaultColor: '#2196f3',
-                                        defaultShape: 'circle'
+                                        'className': 'fr.ina.amalia.player.plugins.MetadataListEditorPlugin',
+                                        'container': '#player-list-editor-plugin',
+                                        'debug': true,
+                                        'parameters': {
+                                            //defaultDataType : fr.ina.amalia.player.PluginBindingManager.dataTypes.DETECTION
+                                            defaultAuthor: 'Amalia.js',
+                                            defaultColor: '#2196f3',
+                                            defaultShape: 'circle'
+                                        }
+                                    },
+                                    {
+                                        'className': 'fr.ina.amalia.player.plugins.MetadataBlockEditorPlugin',
+                                        'container': '#player-block-editor-plugin',
+                                        'debug': true,
+                                        'parameters': {}
+                                    },
+                                    {
+                                        'className': 'fr.ina.amalia.player.plugins.MetadataItemsEditorPlugin',
+                                        'container': '#player-items-editor-plugin',
+                                        'debug': true,
+                                        'parameters': {}
+                                    },
+                                    {
+                                        'className': 'fr.ina.amalia.player.plugins.TimelinePlugin',
+                                        'container': '#player_timeline-plugin',
+                                        'debug': false,
+                                        'parameters': {
+                                            debug: true,
+                                            timeaxeExpandable: false,
+                                            resizable: true,
+                                            displayLines: 3,
+                                            editingMode: true,
+                                            lineDisplayMode: fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.METADATA_DISPLAY_TYPE.STATIC_DYNAMIC,
+                                            listOfLines: [{
+                                                title: 'Events',
+                                                type: 'cuepoint',
+                                                metadataId: 'events-amalia01',
+                                                color: '#3CF',
+                                                pointNav: true
+                                            }]
+                                        }
                                     }
-                                }, {
-                                    'className': 'fr.ina.amalia.player.plugins.MetadataBlockEditorPlugin',
-                                    'container': '#player-block-editor-plugin',
-                                    'debug': true,
-                                    'parameters': {}
-                                }, {
-                                    'className': 'fr.ina.amalia.player.plugins.MetadataItemsEditorPlugin',
-                                    'container': '#player-items-editor-plugin',
-                                    'debug': true,
-                                    'parameters': {}
-                                }, {
-                                    'className': 'fr.ina.amalia.player.plugins.TimelinePlugin',
-                                    'container': '#player_timeline-plugin',
-                                    'debug': false,
-                                    'parameters': {
-                                        debug: true,
-                                        timeaxeExpandable: false,
-                                        resizable: true,
-                                        displayLines: 3,
-                                        editingMode: true,
-                                        lineDisplayMode: fr.ina.amalia.player.plugins.PluginBaseMultiBlocks.METADATA_DISPLAY_TYPE.STATIC_DYNAMIC,
-                                        listOfLines: [{
-                                            title: 'Events',
-                                            type: 'cuepoint',
-                                            metadataId: 'events-amalia01',
-                                            color: '#3CF',
-                                            pointNav: true
-                                        }]
-                                    }
-                                }]
+                                ]
 
                             }
                         });
@@ -337,36 +339,21 @@
                 <div>
                     <h4 class="scroll-to" href="#documentation">Documentation</h4>
                     <ul class="nav nav-pills nav-stacked">
-                        <li><a class="scroll-to" href="index.html#quick-start">Quick start</a>
-                        </li>
-                        <li><a href="guide-setup.html">Building the source code</a>
-                        </li>
-                        <li><a href="guide-global-architecture.html">Global architecture / Metadata</a>
-                        </li>
-                        <li><a href="guide-player-options.html">Player options</a>
-                        </li>
-                        <li><a href="guide-player-control-bar-options.html">Control bar options</a>
-                        </li>
-                        <li><a href="guide-plugins-options.html">Plugins and data</a>
-                        </li>
-                        <li><a href="guide-plugin-timeline-options.html">Timeline plugin</a>
-                        </li>
-                        <li><a href="guide-plugin-caption-options.html">Caption plugin</a>
-                        </li>
-                        <li><a href="guide-plugin-text-sync-options.html">Text synchronization plugin</a>
-                        </li>
-                        <li><a href="guide-plugin-overlay-options.html">Overlay plugin</a>
-                        </li>
-                        <li><a href="guide-plugin-editor-options.html">Editor plugin</a>
-                        </li>
-                        <li><a href="guide-metadata-java-library.html">Metadata Java library</a>
-                        </li>
-                        <li><a href="guide-player-api.html">JavaScript API</a>
-                        </li>
-                        <li><a href="guide-player-yt.html">YouTube Video Embed</a>
-                        </li>
-                        <li><a href="release-notes.html">Release notes</a>
-                        </li>
+                        <li><a class="scroll-to" href="index.html#quick-start">Quick start</a></li>
+                        <li><a href="guide-setup.html">Building the source code</a></li>
+                        <li><a href="guide-global-architecture.html">Global architecture / Metadata</a></li>
+                        <li><a href="guide-player-options.html">Player options</a></li>
+                        <li><a href="guide-player-control-bar-options.html">Control bar options</a></li>
+                        <li><a href="guide-plugins-options.html">Plugins and data</a></li>
+                        <li><a href="guide-plugin-timeline-options.html">Timeline plugin</a></li>
+                        <li><a href="guide-plugin-caption-options.html">Caption plugin</a></li>
+                        <li><a href="guide-plugin-text-sync-options.html">Text synchronization plugin</a></li>
+                        <li><a href="guide-plugin-overlay-options.html">Overlay plugin</a></li>
+                        <li><a href="guide-plugin-editor-options.html">Editor plugin</a></li>
+                        <li><a href="guide-metadata-libraries.html">Metadata libraries (Java / PHP)</a></li>
+                        <li><a href="guide-player-api.html">JavaScript API</a></li>
+                        <li><a href="guide-player-yt.html">YouTube Video Embed</a></li>
+                        <li><a href="release-notes.html">Release notes</a></li>
                     </ul>
                 </div>
 
@@ -380,10 +367,10 @@
         <div class="container">
             <div class="row" style="vertical-align: middle">
 
-                <div class="col-md-6">Last updated : 2016-06-20</div>
+                <div class="col-md-6">Last updated : 2023-06-29</div>
                 <div class="col-md-6 text-right">
-                    <a href="http://www.institut-national-audiovisuel.fr/en/home">
-                        <img class="logo-ina" src="img/logo_ina.jpg" style=" margin-right:10px; width: 32x; height: 32px" />Institut National de l'Audiovisuel - INA</a>©2016
+                    <a href="http://www.institut-national-audiovisuel.fr/en/home"><img class="logo-ina" src="img/logo_ina.jpg" style=" margin-right:10px; width: 32x; height: 32px" />
+                        Institut National de l'Audiovisuel - INA</a> ©2023
                 </div>
 
             </div>
@@ -392,11 +379,11 @@
 
     <script type="text/javascript">
         $(function() {
-            $('.latestversion-filename').html('amalia.js-1.3.2');
-            $('.latestversion').html('Last stable version - v1.3.2');
-            $('.download-link-alone').attr('href', 'download/1.3.2/amalia.js-1.3.2.zip');
-            $('.download-link-full').attr('href', 'download/1.3.2/amalia.js-full-1.3.2.zip');
-            $('.download-link-source').attr('href', 'https://github.com/ina-foss/amalia.js/releases/tag/1.3.2');
+            $('.latestversion-filename').html('amalia.js-1.3.3');
+            $('.latestversion').html('Last stable version - v1.3.3');
+            $('.download-link-alone').attr('href', 'download/1.3.3/amalia.js-1.3.3.zip');
+            $('.download-link-full').attr('href', 'download/1.3.3/amalia.js-full-1.3.3.zip');
+            $('.download-link-source').attr('href', 'https://github.com/ina-foss/amalia.js/releases/tag/1.3.3');
         });
     </script>
 

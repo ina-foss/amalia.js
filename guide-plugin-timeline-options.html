@@ -56,16 +56,11 @@
             </div>
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav pull-right">
-                    <li><a class="scroll-to" href="index.html#download">Download</a>
-                    </li>
-                    <li><a class="scroll-to" href="index.html#documentation">Documentation</a>
-                    </li>
-                    <li><a class="scroll-to" href="index.html#examples">Examples</a>
-                    </li>
-                    <li><a class="scroll-to" href="index.html#about">About</a>
-                    </li>
-                    <li><a class="scroll-to" href="index.html#contact">Contact</a>
-                    </li>
+                    <li><a class="scroll-to" href="index.html#download">Download</a></li>
+                    <li><a class="scroll-to" href="index.html#documentation">Documentation</a></li>
+                    <li><a class="scroll-to" href="index.html#examples">Examples</a></li>
+                    <li><a class="scroll-to" href="index.html#about">About</a></li>
+                    <li><a class="scroll-to" href="index.html#contact">Contact</a></li>
                 </ul>
             </div>
         </div>
@@ -87,49 +82,52 @@
                         <div style="clear: both;"></div>
                     </div>
 
-                    <p>The purpose of this plugin is to represent all the timecoded metadata on a timeline. This plugin is composed of two parts. At the top, the time axis where you can navigate and zoom in the timeline. You may use either the appropriate
+                    <p>The purpose of this plugin is to represent all the timecoded metadata on a timeline. This plugin is
+                        composed of two parts. At the top, the time axis where you can navigate and zoom in the timeline.
+                        You may use either the appropriate
                         buttons or the mouse</p>
 
-                    <p>Below the time axis, all the timelines are displayed. For a given media, we can display as many timelines as desired, each of which may be linked to a different source of metadata displayed with a specific type of line. For the moment,
+                    <p>Below the time axis, all the timelines are displayed. For a given media, we can display as many
+                        timelines as desired, each of which may be linked to a different source of metadata displayed with a
+                        specific type of line. For the moment,
                         we have three type of lines :</p>
                     <ul>
                         <li><strong>cuepoint</strong>: to visualize simple temporal points (<code>localisation</code> with a
-                            <code>tc</code>field)
+                            <code>tc</code>
+                            field)
                         </li>
                         <li><strong>segment</strong>: to visualize temporal segment (<code>localisation</code> with
                             <code>tcin</code> and <code>tcout</code> fields)
                         </li>
-                        <li><strong>image</strong>: to visualize simple temporal points with images (
-                            <code>localisation</code> with
+                        <li><strong>image</strong>: to visualize simple temporal points with images
+                            (<code>localisation</code> with
                             <code>tc</code> and <code>thumb</code> fields)
                         </li>
                     </ul>
-                    <p>The timeline is synchronized with the player, a progress bar indicates the current position in the media and a click on any object represented in the timeline will seek in the media at the correct timecode.
-                    </p>
+                    <p>The timeline is synchronized with the player, a progress bar indicates the current position in the
+                        media and a click on any object represented in the timeline will seek in the media at the correct
+                        timecode.</p>
 
                     <p>
                         The player and the timeline plugin are in two separate
-                        <code>div</code>in your HTML. Again, each of these
-                        <code>div</code>must have an
-                        <code>id</code>that will be referenced in the player initialization javascript code. Below is a simple example. The timeline plugin is not necessarily just below the player. It's up to you to set the
-                        <code>div</code>at the correct place.
+                        <code>div</code>
+                        in your HTML. Again, each of these
+                        <code>div</code>
+                        must have an
+                        <code>id</code>
+                        that will be referenced in the player initialization javascript code. Below is a simple example. The
+                        timeline plugin is not necessarily just below the player. It's up to you to set the
+                        <code>div</code>
+                        at the correct place.
                     </p>
                     <pre class="smallpre">
-
 &lt;div id="myplayer-timeline-container"&gt;
-
         &lt;div style="height: 350px;"&gt;
-
                 &lt;div id="myplayer-timeline"&gt;&lt;/div&gt;
-
         &lt;/div&gt;
-
         &lt;div id="myplayer-timeline-timeline" style="height: 265px;"&gt;&lt;/div&gt;
-
         &lt;div style="clear: both;"&gt;&lt;/div&gt;
-
 &lt;/div&gt;
-
         </pre>
                     <h4>Timeline control buttons</h4>
 
@@ -148,8 +146,8 @@
                             <td>zoom in and out (same as mouse scroll), change the timelines height</td>
                         </tr>
                     </table>
-                    <p>On each line, depending on the initialization parameters, you may find the following control buttons :
-                    </p>
+                    <p>On each line, depending on the initialization parameters, you may find the following control buttons
+                        :</p>
                     <table style="margin: 10px">
                         <tr>
                             <td style="padding: 2px; width: 140px">
@@ -161,12 +159,15 @@
                             <td style="padding: 2px; width: 140px">
                                 <img src="img/timeline_ctrl.png" />
                             </td>
-                            <td>collapse / expand the line, change the line order in the list (click and drag to move the line up or down)
+                            <td>collapse / expand the line, change the line order in the list (click and drag to move the
+                                line up or down)
                             </td>
                         </tr>
                     </table>
 
-                    <p>In the following example, we create a player and load metadata blocks from three different sources. We add the timeline plugin with three lines. Each one of these lines is bound to a different metadata block of a specific type.</p>
+                    <p>In the following example, we create a player and load metadata blocks from three different sources.
+                        We add the timeline plugin with three lines. Each one of these lines is bound to a different
+                        metadata block of a specific type.</p>
 
                     <h4>Timeline plugin options:</h4>
 
@@ -201,7 +202,8 @@
                                     <tr>
                                         <td>resizable</td>
                                         <td>Number</td>
-                                        <td>allow the user to resize the timeline and collapse/expand the time axis (default : false)
+                                        <td>allow the user to resize the timeline and collapse/expand the time axis (default :
+                                            false)
                                         </td>
                                         <td></td>
                                     </tr>
@@ -226,7 +228,7 @@
                                     <tr>
                                         <td>zoomProperty</td>
                                         <td>Array</td>
-                                        <td>(default : tclevel)</td>
+                                        <td> (default : tclevel)</td>
                                         <td></td>
                                     </tr>
                                     <tr>
@@ -238,25 +240,25 @@
                                     <tr>
                                         <td>viewZoomSync</td>
                                         <td>Boolean</td>
-                                        <td>(default : tclevel)</td>
+                                        <td> (default : tclevel)</td>
                                         <td></td>
                                     </tr>
                                     <tr>
                                         <td>viewZoomSyncOffset</td>
                                         <td>Number</td>
-                                        <td>(default : tclevel)</td>
+                                        <td> (default : tclevel)</td>
                                         <td></td>
                                     </tr>
                                     <tr>
                                         <td>timeaxisExpandable</td>
                                         <td>Boolean</td>
-                                        <td>(default : false)</td>
+                                        <td> (default : false)</td>
                                         <td></td>
                                     </tr>
                                     <tr>
                                         <td>editingMode</td>
                                         <td>Boolean</td>
-                                        <td>(default : false)</td>
+                                        <td> (default : false)</td>
                                         <td></td>
                                     </tr>
                                     <tr>
@@ -275,11 +277,10 @@
                                     <tr>
                                         <td>lineDisplayMode</td>
                                         <td>String</td>
-                                        <td>Line display mode:
-                                            <br/>- STATIC : use for line configuration with parameters.
-                                            <br/>- DYNAMIC : use for line configuration with dynamic binding data type (see metadata data type).
-                                            <br/>- STATIC_DYNAMIC : use for line configuration with parameters and binding with data type.
-                                            <br/>
+                                        <td>Line display mode:<br />
+                                            - STATIC : use for line configuration with parameters.<br />
+                                            - DYNAMIC : use for line configuration with dynamic binding data type (see metadata data type).<br />
+                                            - STATIC_DYNAMIC : use for line configuration with parameters and binding with data type.<br />
                                         </td>
                                         <td>Default value: STATIC</td>
                                     </tr>
@@ -422,88 +423,46 @@
                         <div class="example">
                             <pre class="smallpre">
 
-
-
 $("#myplayer-timeline").mediaPlayer({
-
     autoplay : false,
-
     src : "samples-data/examples/vid/amalia01.mp4",
-
     plugins: {
-
         dataServices: [
-
             'samples-data/examples/json/amalia01-events.json',
-
             'samples-data/examples/json/amalia01-kf.json',
-
             'samples-data/examples/json/amalia01-ball.json'
-
         ],
-
         list: [
-
             {
-
                 'className': 'fr.ina.amalia.player.plugins.TimelinePlugin',
-
                 'container': '#myplayer-timeline-timeline',
-
                 'parameters': {
-
                     listOfLines: [
-
                         {
-
                             title: 'Events',
-
                             type: 'cuepoint',
-
                             metadataId: 'events-amalia01',
-
                             color: '#3CF',
-
                             pointNav: true
-
                         },
-
                         {
-
                             title: 'Ball moving up',
-
                             type: 'segment',
-
                             metadataId: 'ball-amalia01',
-
                             color: '#F00'
-
                         },
-
                         {
-
                             title: 'Keyframes every 2s',
-
                             type: 'image',
-
                             metadataId: 'kf-amalia01',
-
                             pointNav: true
-
                         },
-
                     ]
-
                 }
-
             }
-
         ]
-
     }
-
 });
-
         </pre>
                         </div>
                     </div>
@@ -568,36 +527,21 @@ $("#myplayer-timeline").mediaPlayer({
                 <div>
                     <h4 class="scroll-to" href="#documentation">Documentation</h4>
                     <ul class="nav nav-pills nav-stacked">
-                        <li><a class="scroll-to" href="index.html#quick-start">Quick start</a>
-                        </li>
-                        <li><a href="guide-setup.html">Building the source code</a>
-                        </li>
-                        <li><a href="guide-global-architecture.html">Global architecture / Metadata</a>
-                        </li>
-                        <li><a href="guide-player-options.html">Player options</a>
-                        </li>
-                        <li><a href="guide-player-control-bar-options.html">Control bar options</a>
-                        </li>
-                        <li><a href="guide-plugins-options.html">Plugins and data</a>
-                        </li>
-                        <li><a href="guide-plugin-timeline-options.html">Timeline plugin</a>
-                        </li>
-                        <li><a href="guide-plugin-caption-options.html">Caption plugin</a>
-                        </li>
-                        <li><a href="guide-plugin-text-sync-options.html">Text synchronization plugin</a>
-                        </li>
-                        <li><a href="guide-plugin-overlay-options.html">Overlay plugin</a>
-                        </li>
-                        <li><a href="guide-plugin-editor-options.html">Editor plugin</a>
-                        </li>
-                        <li><a href="guide-metadata-java-library.html">Metadata Java library</a>
-                        </li>
-                        <li><a href="guide-player-api.html">JavaScript API</a>
-                        </li>
-                        <li><a href="guide-player-yt.html">YouTube Video Embed</a>
-                        </li>
-                        <li><a href="release-notes.html">Release notes</a>
-                        </li>
+                        <li><a class="scroll-to" href="index.html#quick-start">Quick start</a></li>
+                        <li><a href="guide-setup.html">Building the source code</a></li>
+                        <li><a href="guide-global-architecture.html">Global architecture / Metadata</a></li>
+                        <li><a href="guide-player-options.html">Player options</a></li>
+                        <li><a href="guide-player-control-bar-options.html">Control bar options</a></li>
+                        <li><a href="guide-plugins-options.html">Plugins and data</a></li>
+                        <li><a href="guide-plugin-timeline-options.html">Timeline plugin</a></li>
+                        <li><a href="guide-plugin-caption-options.html">Caption plugin</a></li>
+                        <li><a href="guide-plugin-text-sync-options.html">Text synchronization plugin</a></li>
+                        <li><a href="guide-plugin-overlay-options.html">Overlay plugin</a></li>
+                        <li><a href="guide-plugin-editor-options.html">Editor plugin</a></li>
+                        <li><a href="guide-metadata-libraries.html">Metadata libraries (Java / PHP)</a></li>
+                        <li><a href="guide-player-api.html">JavaScript API</a></li>
+                        <li><a href="guide-player-yt.html">YouTube Video Embed</a></li>
+                        <li><a href="release-notes.html">Release notes</a></li>
                     </ul>
                 </div>
 
@@ -611,10 +555,10 @@ $("#myplayer-timeline").mediaPlayer({
         <div class="container">
             <div class="row" style="vertical-align: middle">
 
-                <div class="col-md-6">Last updated : 2016-06-20</div>
+                <div class="col-md-6">Last updated : 2023-06-29</div>
                 <div class="col-md-6 text-right">
-                    <a href="http://www.institut-national-audiovisuel.fr/en/home">
-                        <img class="logo-ina" src="img/logo_ina.jpg" style=" margin-right:10px; width: 32x; height: 32px" />Institut National de l'Audiovisuel - INA</a>©2016
+                    <a href="http://www.institut-national-audiovisuel.fr/en/home"><img class="logo-ina" src="img/logo_ina.jpg" style=" margin-right:10px; width: 32x; height: 32px" />
+                        Institut National de l'Audiovisuel - INA</a> ©2023
                 </div>
 
             </div>
@@ -623,11 +567,11 @@ $("#myplayer-timeline").mediaPlayer({
 
     <script type="text/javascript">
         $(function() {
-            $('.latestversion-filename').html('amalia.js-1.3.2');
-            $('.latestversion').html('Last stable version - v1.3.2');
-            $('.download-link-alone').attr('href', 'download/1.3.2/amalia.js-1.3.2.zip');
-            $('.download-link-full').attr('href', 'download/1.3.2/amalia.js-full-1.3.2.zip');
-            $('.download-link-source').attr('href', 'https://github.com/ina-foss/amalia.js/releases/tag/1.3.2');
+            $('.latestversion-filename').html('amalia.js-1.3.3');
+            $('.latestversion').html('Last stable version - v1.3.3');
+            $('.download-link-alone').attr('href', 'download/1.3.3/amalia.js-1.3.3.zip');
+            $('.download-link-full').attr('href', 'download/1.3.3/amalia.js-full-1.3.3.zip');
+            $('.download-link-source').attr('href', 'https://github.com/ina-foss/amalia.js/releases/tag/1.3.3');
         });
     </script>
 

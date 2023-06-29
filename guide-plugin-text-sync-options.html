@@ -56,16 +56,11 @@
             </div>
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav pull-right">
-                    <li><a class="scroll-to" href="index.html#download">Download</a>
-                    </li>
-                    <li><a class="scroll-to" href="index.html#documentation">Documentation</a>
-                    </li>
-                    <li><a class="scroll-to" href="index.html#examples">Examples</a>
-                    </li>
-                    <li><a class="scroll-to" href="index.html#about">About</a>
-                    </li>
-                    <li><a class="scroll-to" href="index.html#contact">Contact</a>
-                    </li>
+                    <li><a class="scroll-to" href="index.html#download">Download</a></li>
+                    <li><a class="scroll-to" href="index.html#documentation">Documentation</a></li>
+                    <li><a class="scroll-to" href="index.html#examples">Examples</a></li>
+                    <li><a class="scroll-to" href="index.html#about">About</a></li>
+                    <li><a class="scroll-to" href="index.html#contact">Contact</a></li>
                 </ul>
             </div>
         </div>
@@ -89,10 +84,15 @@
                         </div>
                     </div>
 
-                    <p>This second textual plugin is used to synchronize the media stream with text outside of the player. It is particularly suitable for speech-to-text transcriptions. Indeed, you can have different levels of text representation (as explained
+                    <p>This second textual plugin is used to synchronize the media stream with text outside of the player.
+                        It is particularly suitable for speech-to-text transcriptions. Indeed, you can have different levels of
+                        text
+                        representation (as explained
                         in <a href="#metadata-text" class="scroll-to">our metadata section for textual informations
-
-            representation</a>) and choose to display a broad version of the text, like the sentences, with a dynamic highlight on a finer granularity level. Thus you can have a kind of karaoke effect.
+                            representation</a>) and choose to display a broad
+                        version of the text, like the sentences, with a dynamic highlight on a finer granularity level. Thus you
+                        can
+                        have a kind of karaoke effect.
                     </p>
 
                     <p>These are the specific options for configuring plugin behavior:</p>
@@ -135,7 +135,9 @@
                                     <tr>
                                         <td>displayLevel</td>
                                         <td>String</td>
-                                        <td>which <code>tclevel</code> of textual metadata will be displayed (may be different from the <code>level</code>)
+                                        <td>which <code>tclevel</code> of textual metadata will be displayed (may
+                                            be
+                                            different from the <code>level</code>)
                                         </td>
                                         <td></td>
                                     </tr>
@@ -156,51 +158,28 @@
 
                         <div class="example">
                             <pre class="smallpre">
-
 $("#myplayer-tsync").mediaPlayer({
-
     src : "samples-data/examples/vid/amalia01.mp4",
-
     plugins : {
-
         dataServices : [
-
             'samples-data/examples/json/amalia01-text.json'
-
         ],
-
         list : [
-
             {
-
                 'className' : 'fr.ina.amalia.player.plugins.TextSyncPlugin',
-
                 'container': '#myplayer-tsync-tsync',
-
                 'parameters' : {
-
                     metadataId : 'text-amalia01',
-
                     title: 'My title',
-
                     description: 'A description I may have to put here',
-
                     level : 1,
-
                     displayLevel: 1,
-
                     scrollAuto : true
-
                 }
-
             }
-
         ]
-
     }
-
 });
-
         </pre>
                         </div>
                     </div>
@@ -212,8 +191,7 @@ $("#myplayer-tsync").mediaPlayer({
                                 autoplay: false,
                                 src: "samples-data/examples/vid/amalia01.mp4",
                                 controlBar: {
-                                    sticky: true,
-                                    height: 45
+                                    sticky: true
                                 },
                                 plugins: {
                                     dataServices: [
@@ -258,36 +236,21 @@ $("#myplayer-tsync").mediaPlayer({
                 <div>
                     <h4 class="scroll-to" href="#documentation">Documentation</h4>
                     <ul class="nav nav-pills nav-stacked">
-                        <li><a class="scroll-to" href="index.html#quick-start">Quick start</a>
-                        </li>
-                        <li><a href="guide-setup.html">Building the source code</a>
-                        </li>
-                        <li><a href="guide-global-architecture.html">Global architecture / Metadata</a>
-                        </li>
-                        <li><a href="guide-player-options.html">Player options</a>
-                        </li>
-                        <li><a href="guide-player-control-bar-options.html">Control bar options</a>
-                        </li>
-                        <li><a href="guide-plugins-options.html">Plugins and data</a>
-                        </li>
-                        <li><a href="guide-plugin-timeline-options.html">Timeline plugin</a>
-                        </li>
-                        <li><a href="guide-plugin-caption-options.html">Caption plugin</a>
-                        </li>
-                        <li><a href="guide-plugin-text-sync-options.html">Text synchronization plugin</a>
-                        </li>
-                        <li><a href="guide-plugin-overlay-options.html">Overlay plugin</a>
-                        </li>
-                        <li><a href="guide-plugin-editor-options.html">Editor plugin</a>
-                        </li>
-                        <li><a href="guide-metadata-java-library.html">Metadata Java library</a>
-                        </li>
-                        <li><a href="guide-player-api.html">JavaScript API</a>
-                        </li>
-                        <li><a href="guide-player-yt.html">YouTube Video Embed</a>
-                        </li>
-                        <li><a href="release-notes.html">Release notes</a>
-                        </li>
+                        <li><a class="scroll-to" href="index.html#quick-start">Quick start</a></li>
+                        <li><a href="guide-setup.html">Building the source code</a></li>
+                        <li><a href="guide-global-architecture.html">Global architecture / Metadata</a></li>
+                        <li><a href="guide-player-options.html">Player options</a></li>
+                        <li><a href="guide-player-control-bar-options.html">Control bar options</a></li>
+                        <li><a href="guide-plugins-options.html">Plugins and data</a></li>
+                        <li><a href="guide-plugin-timeline-options.html">Timeline plugin</a></li>
+                        <li><a href="guide-plugin-caption-options.html">Caption plugin</a></li>
+                        <li><a href="guide-plugin-text-sync-options.html">Text synchronization plugin</a></li>
+                        <li><a href="guide-plugin-overlay-options.html">Overlay plugin</a></li>
+                        <li><a href="guide-plugin-editor-options.html">Editor plugin</a></li>
+                        <li><a href="guide-metadata-libraries.html">Metadata libraries (Java / PHP)</a></li>
+                        <li><a href="guide-player-api.html">JavaScript API</a></li>
+                        <li><a href="guide-player-yt.html">YouTube Video Embed</a></li>
+                        <li><a href="release-notes.html">Release notes</a></li>
                     </ul>
                 </div>
 
@@ -301,10 +264,10 @@ $("#myplayer-tsync").mediaPlayer({
         <div class="container">
             <div class="row" style="vertical-align: middle">
 
-                <div class="col-md-6">Last updated : 2016-06-20</div>
+                <div class="col-md-6">Last updated : 2023-06-29</div>
                 <div class="col-md-6 text-right">
-                    <a href="http://www.institut-national-audiovisuel.fr/en/home">
-                        <img class="logo-ina" src="img/logo_ina.jpg" style=" margin-right:10px; width: 32x; height: 32px" />Institut National de l'Audiovisuel - INA</a>©2016
+                    <a href="http://www.institut-national-audiovisuel.fr/en/home"><img class="logo-ina" src="img/logo_ina.jpg" style=" margin-right:10px; width: 32x; height: 32px" />
+                        Institut National de l'Audiovisuel - INA</a> ©2023
                 </div>
 
             </div>
@@ -313,11 +276,11 @@ $("#myplayer-tsync").mediaPlayer({
 
     <script type="text/javascript">
         $(function() {
-            $('.latestversion-filename').html('amalia.js-1.3.2');
-            $('.latestversion').html('Last stable version - v1.3.2');
-            $('.download-link-alone').attr('href', 'download/1.3.2/amalia.js-1.3.2.zip');
-            $('.download-link-full').attr('href', 'download/1.3.2/amalia.js-full-1.3.2.zip');
-            $('.download-link-source').attr('href', 'https://github.com/ina-foss/amalia.js/releases/tag/1.3.2');
+            $('.latestversion-filename').html('amalia.js-1.3.3');
+            $('.latestversion').html('Last stable version - v1.3.3');
+            $('.download-link-alone').attr('href', 'download/1.3.3/amalia.js-1.3.3.zip');
+            $('.download-link-full').attr('href', 'download/1.3.3/amalia.js-full-1.3.3.zip');
+            $('.download-link-source').attr('href', 'https://github.com/ina-foss/amalia.js/releases/tag/1.3.3');
         });
     </script>
 

@@ -1,12 +1,10 @@
 /**
- * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ * Copyright (c) 2015-2023 Institut National de l'Audiovisuel, INA
  *
  * This file is part of amalia.js
  *
  * Amalia.js is free software: you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version
+ * the terms of the MIT License
  *
  * Redistributions of source code, javascript and css minified versions must
  * retain the above copyright notice, this list of conditions and the following
@@ -16,12 +14,12 @@
  * may be used to endorse or promote products derived from this software without
  * specific prior written permission
  *
- * You should have received a copy of the GNU General Public License along with
- * amalia.js. If not, see <http://www.gnu.org/licenses/>
+ * You should have received a copy of the MIT License along with
+ * amalia.js. If not, see <https://opensource.org/license/mit/>
  *
  * Amalia.js is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE. See the GNU General Public License for more details
+ * A PARTICULAR PURPOSE.
  */
 /**************************************************
 ****************** *****VARIABLES *****************
@@ -33,14 +31,12 @@
 **************************************************/
 /***** PLAYER PROJET GEN ****/
 /**
- * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ * Copyright (c) 2015-2023 Institut National de l'Audiovisuel, INA
  *
  * This file is part of amalia.js
  *
  * Amalia.js is free software: you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version
+ * the terms of the MIT License
  *
  * Redistributions of source code, javascript and css minified versions must
  * retain the above copyright notice, this list of conditions and the following
@@ -50,12 +46,12 @@
  * may be used to endorse or promote products derived from this software without
  * specific prior written permission
  *
- * You should have received a copy of the GNU General Public License along with
- * amalia.js. If not, see <http://www.gnu.org/licenses/>
+ * You should have received a copy of the MIT License along with
+ * amalia.js. If not, see <https://opensource.org/license/mit/>
  *
  * Amalia.js is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE. See the GNU General Public License for more details
+ * A PARTICULAR PURPOSE.
  */
 @keyframes ajs-hatch {
   0% {
@@ -148,14 +144,12 @@
     -webkit-transform: rotate(360deg); } }
 
 /**
- * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ * Copyright (c) 2015-2023 Institut National de l'Audiovisuel, INA
  *
  * This file is part of amalia.js
  *
  * Amalia.js is free software: you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version
+ * the terms of the MIT License
  *
  * Redistributions of source code, javascript and css minified versions must
  * retain the above copyright notice, this list of conditions and the following
@@ -165,12 +159,12 @@
  * may be used to endorse or promote products derived from this software without
  * specific prior written permission
  *
- * You should have received a copy of the GNU General Public License along with
- * amalia.js. If not, see <http://www.gnu.org/licenses/>
+ * You should have received a copy of the MIT License along with
+ * amalia.js. If not, see <https://opensource.org/license/mit/>
  *
  * Amalia.js is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE. See the GNU General Public License for more details
+ * A PARTICULAR PURPOSE.
  */
 /**
 * Plugin custom control bar
@@ -179,6 +173,29 @@
  * global animation
  * $properties transition
  * $param : Time duration (s), function
+ */
+/**
+ * Copyright (c) 2015-2023 Institut National de l'Audiovisuel, INA
+ *
+ * This file is part of amalia.js
+ *
+ * Amalia.js is free software: you can redistribute it and/or modify it under
+ * the terms of the MIT License
+ *
+ * Redistributions of source code, javascript and css minified versions must
+ * retain the above copyright notice, this list of conditions and the following
+ * disclaimer
+ *
+ * Neither the name of the copyright holder nor the names of its contributors
+ * may be used to endorse or promote products derived from this software without
+ * specific prior written permission
+ *
+ * You should have received a copy of the MIT License along with
+ * amalia.js. If not, see <https://opensource.org/license/mit/>
+ *
+ * Amalia.js is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE.
  */
 @font-face {
   font-family: "ajs-webfont";
@@ -514,14 +531,12 @@
   content: "\f166"; }
 
 /**
- * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ * Copyright (c) 2015-2023 Institut National de l'Audiovisuel, INA
  *
  * This file is part of amalia.js
  *
  * Amalia.js is free software: you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version
+ * the terms of the MIT License
  *
  * Redistributions of source code, javascript and css minified versions must
  * retain the above copyright notice, this list of conditions and the following
@@ -531,12 +546,12 @@
  * may be used to endorse or promote products derived from this software without
  * specific prior written permission
  *
- * You should have received a copy of the GNU General Public License along with
- * amalia.js. If not, see <http://www.gnu.org/licenses/>
+ * You should have received a copy of the MIT License along with
+ * amalia.js. If not, see <https://opensource.org/license/mit/>
  *
  * Amalia.js is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE. See the GNU General Public License for more details
+ * A PARTICULAR PURPOSE.
  */
 .ajs-tooltip {
   font-family: Arial, Helvetica, sans-serif;
@@ -581,14 +596,12 @@
   border: 1px dotted #eaeaea; }
 
 /**
- * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ * Copyright (c) 2015-2023 Institut National de l'Audiovisuel, INA
  *
  * This file is part of amalia.js
  *
  * Amalia.js is free software: you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version
+ * the terms of the MIT License
  *
  * Redistributions of source code, javascript and css minified versions must
  * retain the above copyright notice, this list of conditions and the following
@@ -598,12 +611,12 @@
  * may be used to endorse or promote products derived from this software without
  * specific prior written permission
  *
- * You should have received a copy of the GNU General Public License along with
- * amalia.js. If not, see <http://www.gnu.org/licenses/>
+ * You should have received a copy of the MIT License along with
+ * amalia.js. If not, see <https://opensource.org/license/mit/>
  *
  * Amalia.js is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE. See the GNU General Public License for more details
+ * A PARTICULAR PURPOSE.
  */
 /**
  * Player
@@ -718,30 +731,27 @@
   border: 1px dashed #6c6c6c !important; }
 
 /**
- * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
- * 
+ * Copyright (c) 2015-2023 Institut National de l'Audiovisuel, INA
+ *
  * This file is part of amalia.js
- * 
- * amalia.js is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or 
- * (at your option) any later version.
- * 
- * Redistributions of source code, javascript and css minified versions 
- * must retain the above copyright notice, this list of conditions and
- * the following disclaimer.
- * 
- * Neither the name of the copyright holder nor the names of its 
- * contributors may be used to endorse or promote products derived from
- * this software without specific prior written permission.
- * 
- * You should have received a copy of the GNU General Public License
- * along with amalia.js. If not, see <http://www.gnu.org/licenses/>
- * 
- * amalia.js is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ *
+ * Amalia.js is free software: you can redistribute it and/or modify it under
+ * the terms of the MIT License
+ *
+ * Redistributions of source code, javascript and css minified versions must
+ * retain the above copyright notice, this list of conditions and the following
+ * disclaimer
+ *
+ * Neither the name of the copyright holder nor the names of its contributors
+ * may be used to endorse or promote products derived from this software without
+ * specific prior written permission
+ *
+ * You should have received a copy of the MIT License along with
+ * amalia.js. If not, see <https://opensource.org/license/mit/>
+ *
+ * Amalia.js is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE.
  */
 /**
  * Plugin
@@ -768,14 +778,12 @@
     background: rgba(108, 108, 108, 0.6); }
 
 /**
- * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ * Copyright (c) 2015-2023 Institut National de l'Audiovisuel, INA
  *
  * This file is part of amalia.js
  *
  * Amalia.js is free software: you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version
+ * the terms of the MIT License
  *
  * Redistributions of source code, javascript and css minified versions must
  * retain the above copyright notice, this list of conditions and the following
@@ -785,12 +793,12 @@
  * may be used to endorse or promote products derived from this software without
  * specific prior written permission
  *
- * You should have received a copy of the GNU General Public License along with
- * amalia.js. If not, see <http://www.gnu.org/licenses/>
+ * You should have received a copy of the MIT License along with
+ * amalia.js. If not, see <https://opensource.org/license/mit/>
  *
  * Amalia.js is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE. See the GNU General Public License for more details
+ * A PARTICULAR PURPOSE.
  */
 /**
 * Plugin custom control bar
@@ -1534,30 +1542,27 @@
   margin-right: 40px; }
 
 /**
- * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
- * 
+ * Copyright (c) 2015-2023 Institut National de l'Audiovisuel, INA
+ *
  * This file is part of amalia.js
- * 
- * amalia.js is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or 
- * (at your option) any later version.
- * 
- * Redistributions of source code, javascript and css minified versions 
- * must retain the above copyright notice, this list of conditions and
- * the following disclaimer.
- * 
- * Neither the name of the copyright holder nor the names of its 
- * contributors may be used to endorse or promote products derived from
- * this software without specific prior written permission.
- * 
- * You should have received a copy of the GNU General Public License
- * along with amalia.js. If not, see <http://www.gnu.org/licenses/>
- * 
- * amalia.js is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ *
+ * Amalia.js is free software: you can redistribute it and/or modify it under
+ * the terms of the MIT License
+ *
+ * Redistributions of source code, javascript and css minified versions must
+ * retain the above copyright notice, this list of conditions and the following
+ * disclaimer
+ *
+ * Neither the name of the copyright holder nor the names of its contributors
+ * may be used to endorse or promote products derived from this software without
+ * specific prior written permission
+ *
+ * You should have received a copy of the MIT License along with
+ * amalia.js. If not, see <https://opensource.org/license/mit/>
+ *
+ * Amalia.js is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE.
  */
 /**
 * Plugin time line
@@ -2238,30 +2243,27 @@
     cursor: s-resize; }
 
 /**
- * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
- * 
+ * Copyright (c) 2015-2023 Institut National de l'Audiovisuel, INA
+ *
  * This file is part of amalia.js
- * 
- * amalia.js is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or 
- * (at your option) any later version.
- * 
- * Redistributions of source code, javascript and css minified versions 
- * must retain the above copyright notice, this list of conditions and
- * the following disclaimer.
- * 
- * Neither the name of the copyright holder nor the names of its 
- * contributors may be used to endorse or promote products derived from
- * this software without specific prior written permission.
- * 
- * You should have received a copy of the GNU General Public License
- * along with amalia.js. If not, see <http://www.gnu.org/licenses/>
- * 
- * amalia.js is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ *
+ * Amalia.js is free software: you can redistribute it and/or modify it under
+ * the terms of the MIT License
+ *
+ * Redistributions of source code, javascript and css minified versions must
+ * retain the above copyright notice, this list of conditions and the following
+ * disclaimer
+ *
+ * Neither the name of the copyright holder nor the names of its contributors
+ * may be used to endorse or promote products derived from this software without
+ * specific prior written permission
+ *
+ * You should have received a copy of the MIT License along with
+ * amalia.js. If not, see <https://opensource.org/license/mit/>
+ *
+ * Amalia.js is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE.
  */
 /**
  * Plugin text sync
@@ -2380,14 +2382,12 @@
             height: 1px; }
 
 /**
- * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ * Copyright (c) 2015-2023 Institut National de l'Audiovisuel, INA
  *
  * This file is part of amalia.js
  *
  * Amalia.js is free software: you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version
+ * the terms of the MIT License
  *
  * Redistributions of source code, javascript and css minified versions must
  * retain the above copyright notice, this list of conditions and the following
@@ -2397,12 +2397,12 @@
  * may be used to endorse or promote products derived from this software without
  * specific prior written permission
  *
- * You should have received a copy of the GNU General Public License along with
- * amalia.js. If not, see <http://www.gnu.org/licenses/>
+ * You should have received a copy of the MIT License along with
+ * amalia.js. If not, see <https://opensource.org/license/mit/>
  *
  * Amalia.js is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE. See the GNU General Public License for more details
+ * A PARTICULAR PURPOSE.
  */
 /**
  * Plugin caption
@@ -2428,14 +2428,12 @@
     font-size: 1.4em; }
 
 /**
- * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ * Copyright (c) 2015-2023 Institut National de l'Audiovisuel, INA
  *
  * This file is part of amalia.js
  *
  * Amalia.js is free software: you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version
+ * the terms of the MIT License
  *
  * Redistributions of source code, javascript and css minified versions must
  * retain the above copyright notice, this list of conditions and the following
@@ -2445,12 +2443,12 @@
  * may be used to endorse or promote products derived from this software without
  * specific prior written permission
  *
- * You should have received a copy of the GNU General Public License along with
- * amalia.js. If not, see <http://www.gnu.org/licenses/>
+ * You should have received a copy of the MIT License along with
+ * amalia.js. If not, see <https://opensource.org/license/mit/>
  *
  * Amalia.js is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE. See the GNU General Public License for more details
+ * A PARTICULAR PURPOSE.
  */
 /**
  * Plugin overlay
@@ -2577,30 +2575,27 @@
       background-color: rgba(49, 49, 49, 0.7); }
 
 /**
- * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
- * 
+ * Copyright (c) 2015-2023 Institut National de l'Audiovisuel, INA
+ *
  * This file is part of amalia.js
- * 
- * amalia.js is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or 
- * (at your option) any later version.
- * 
- * Redistributions of source code, javascript and css minified versions 
- * must retain the above copyright notice, this list of conditions and
- * the following disclaimer.
- * 
- * Neither the name of the copyright holder nor the names of its 
- * contributors may be used to endorse or promote products derived from
- * this software without specific prior written permission.
- * 
- * You should have received a copy of the GNU General Public License
- * along with amalia.js. If not, see <http://www.gnu.org/licenses/>
- * 
- * amalia.js is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ *
+ * Amalia.js is free software: you can redistribute it and/or modify it under
+ * the terms of the MIT License
+ *
+ * Redistributions of source code, javascript and css minified versions must
+ * retain the above copyright notice, this list of conditions and the following
+ * disclaimer
+ *
+ * Neither the name of the copyright holder nor the names of its contributors
+ * may be used to endorse or promote products derived from this software without
+ * specific prior written permission
+ *
+ * You should have received a copy of the MIT License along with
+ * amalia.js. If not, see <https://opensource.org/license/mit/>
+ *
+ * Amalia.js is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE.
  */
 .ajs-plugin.plugin-watermark {
   display: block;
@@ -2616,14 +2611,12 @@
     position: absolute; }
 
 /**
- * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ * Copyright (c) 2015-2023 Institut National de l'Audiovisuel, INA
  *
  * This file is part of amalia.js
  *
  * Amalia.js is free software: you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version
+ * the terms of the MIT License
  *
  * Redistributions of source code, javascript and css minified versions must
  * retain the above copyright notice, this list of conditions and the following
@@ -2633,12 +2626,12 @@
  * may be used to endorse or promote products derived from this software without
  * specific prior written permission
  *
- * You should have received a copy of the GNU General Public License along with
- * amalia.js. If not, see <http://www.gnu.org/licenses/>
+ * You should have received a copy of the MIT License along with
+ * amalia.js. If not, see <https://opensource.org/license/mit/>
  *
  * Amalia.js is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE. See the GNU General Public License for more details
+ * A PARTICULAR PURPOSE.
  */
 /** Plugin menu contextuel**/
 .ajs .plugin-context-menu.dropdown-menu {
@@ -2691,14 +2684,12 @@
       cursor: default; }
 
 /**
- * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ * Copyright (c) 2015-2023 Institut National de l'Audiovisuel, INA
  *
  * This file is part of amalia.js
  *
  * Amalia.js is free software: you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version
+ * the terms of the MIT License
  *
  * Redistributions of source code, javascript and css minified versions must
  * retain the above copyright notice, this list of conditions and the following
@@ -2708,12 +2699,12 @@
  * may be used to endorse or promote products derived from this software without
  * specific prior written permission
  *
- * You should have received a copy of the GNU General Public License along with
- * amalia.js. If not, see <http://www.gnu.org/licenses/>
+ * You should have received a copy of the MIT License along with
+ * amalia.js. If not, see <https://opensource.org/license/mit/>
  *
  * Amalia.js is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE. See the GNU General Public License for more details
+ * A PARTICULAR PURPOSE.
  */
 .ajs-plugin.editor {
   position: relative;
@@ -3111,14 +3102,12 @@
             margin-left: -1px; }
 
 /**
- * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ * Copyright (c) 2015-2023 Institut National de l'Audiovisuel, INA
  *
  * This file is part of amalia.js
  *
  * Amalia.js is free software: you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version
+ * the terms of the MIT License
  *
  * Redistributions of source code, javascript and css minified versions must
  * retain the above copyright notice, this list of conditions and the following
@@ -3128,12 +3117,12 @@
  * may be used to endorse or promote products derived from this software without
  * specific prior written permission
  *
- * You should have received a copy of the GNU General Public License along with
- * amalia.js. If not, see <http://www.gnu.org/licenses/>
+ * You should have received a copy of the MIT License along with
+ * amalia.js. If not, see <https://opensource.org/license/mit/>
  *
  * Amalia.js is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE. See the GNU General Public License for more details
+ * A PARTICULAR PURPOSE.
  */
 .ajs-plugin.plugin-selected-item-editor {
   position: relative; }
@@ -3277,30 +3266,27 @@
     overflow: visible !important; }
 
 /**
- * Copyright (c) 2015 Institut National de l'Audiovisuel, INA
+ * Copyright (c) 2015-2023 Institut National de l'Audiovisuel, INA
  *
  * This file is part of amalia.js
  *
- * amalia.js is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Amalia.js is free software: you can redistribute it and/or modify it under
+ * the terms of the MIT License
  *
- * Redistributions of source code, javascript and css minified versions
- * must retain the above copyright notice, this list of conditions and
- * the following disclaimer.
+ * Redistributions of source code, javascript and css minified versions must
+ * retain the above copyright notice, this list of conditions and the following
+ * disclaimer
  *
- * Neither the name of the copyright holder nor the names of its
- * contributors may be used to endorse or promote products derived from
- * this software without specific prior written permission.
+ * Neither the name of the copyright holder nor the names of its contributors
+ * may be used to endorse or promote products derived from this software without
+ * specific prior written permission
  *
- * You should have received a copy of the GNU General Public License
- * along with amalia.js. If not, see <http://www.gnu.org/licenses/>
+ * You should have received a copy of the MIT License along with
+ * amalia.js. If not, see <https://opensource.org/license/mit/>
  *
- * amalia.js is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
+ * Amalia.js is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE.
  */
 .ajs-plugin.plugin-storyboard {
   display: none;
@@ -3366,6 +3352,29 @@
       -ms-filter: blur(3px) grayscale(0.8);
       -o-filter: blur(3px) grayscale(0.8); }
 
+/**
+ * Copyright (c) 2015-2023 Institut National de l'Audiovisuel, INA
+ *
+ * This file is part of amalia.js
+ *
+ * Amalia.js is free software: you can redistribute it and/or modify it under
+ * the terms of the MIT License
+ *
+ * Redistributions of source code, javascript and css minified versions must
+ * retain the above copyright notice, this list of conditions and the following
+ * disclaimer
+ *
+ * Neither the name of the copyright holder nor the names of its contributors
+ * may be used to endorse or promote products derived from this software without
+ * specific prior written permission
+ *
+ * You should have received a copy of the MIT License along with
+ * amalia.js. If not, see <https://opensource.org/license/mit/>
+ *
+ * Amalia.js is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE.
+ */
 .ajs-plugin .plugin-db3-js-chart {
   border-top: solid 2px rgba(19, 231, 240, 0.68);
   margin-top: -13px; }

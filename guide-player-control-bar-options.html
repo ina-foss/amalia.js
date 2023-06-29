@@ -56,16 +56,11 @@
             </div>
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav pull-right">
-                    <li><a class="scroll-to" href="index.html#download">Download</a>
-                    </li>
-                    <li><a class="scroll-to" href="index.html#documentation">Documentation</a>
-                    </li>
-                    <li><a class="scroll-to" href="index.html#examples">Examples</a>
-                    </li>
-                    <li><a class="scroll-to" href="index.html#about">About</a>
-                    </li>
-                    <li><a class="scroll-to" href="index.html#contact">Contact</a>
-                    </li>
+                    <li><a class="scroll-to" href="index.html#download">Download</a></li>
+                    <li><a class="scroll-to" href="index.html#documentation">Documentation</a></li>
+                    <li><a class="scroll-to" href="index.html#examples">Examples</a></li>
+                    <li><a class="scroll-to" href="index.html#about">About</a></li>
+                    <li><a class="scroll-to" href="index.html#contact">Contact</a></li>
                 </ul>
             </div>
         </div>
@@ -78,8 +73,10 @@
                 <div class='doc-controlbar-options' id="doc-controlbar-options">
                     <h3 class="title">Control bar options</h3>
 
-                    <p>The control bar is generic. It can embed several widgets used to interact with the player. There are two main configurations of this bar : wide with autohide property or small and sticky.
-                    </p>
+                    <p>The control bar is generic. It can embed several widgets used to interact with the player. There are
+                        two main
+                        configurations of this bar : wide with autohide property or small and
+                        sticky.</p>
 
                     <div style="height: 300px;">
                         <div id="player"></div>
@@ -127,22 +124,27 @@
                         .ajs .plugin-custom-controlbar.sticky .player-pause-button {
                             display: inline-block;
                         }
+
                         .ajs .plugin-custom-controlbar.sticky .ajs-row .ajs-container {
                             height: 70px;
                             line-height: 70px;
                         }
+
                         .ajs .plugin-custom-controlbar.sticky .player-fullscreen-button {
                             line-height: 70px;
                             margin-top: 1px;
                         }
+
                         .ajs .plugin-custom-controlbar.sticky .player-volume-control .volume-control-btn {
                             line-height: 70px;
                             margin-top: 15px;
                         }
+
                         .ajs .plugin-custom-controlbar.sticky .ajs-row .ajs-container.middle-container {
                             text-align: center;
                             line-height: 50px;
                         }
+
                         .ajs .plugin-custom-controlbar .player-jog-shuttle-button {
                             display: inline-block;
                             float: none;
@@ -183,7 +185,7 @@
                                     <tr>
                                         <td>hideDuration</td>
                                         <td>Number</td>
-                                        <td>time in ms, default value is 1000</td>
+                                        <td> time in ms, default value is 1000</td>
                                         <td></td>
                                     </tr>
                                     <tr>
@@ -192,13 +194,12 @@
                                         <td>Time format strings
                                         </td>
                                         <td>
-                                            'h': for display hour
-                                            <br/>'m': for display hour and minute
-                                            <br/>'s': for display hour,minute and second
-                                            <br/>'mms': for display hour,minute and second with four digit
-                                            <br/>'ms' : for display hour,minute and second with two digit
-                                            <br/>'f' : for display hour,minute and frame
-                                            <br/>
+                                            'h': for display hour<br />
+                                            'm': for display hour and minute<br />
+                                            's': for display hour,minute and second<br />
+                                            'mms': for display hour,minute and second with four digit<br />
+                                            'ms' : for display hour,minute and second with two digit<br />
+                                            'f' : for display hour,minute and frame<br />
                                         </td>
                                     </tr>
                                     <tr>
@@ -302,95 +303,50 @@
                     <div class="example">
 
                         <pre class="smallpre">
-
 $("#container").mediaPlayer({
-
     src: "samples-data/examples/vid/amalia01.mp4",
-
     controlBar:
-
             {
-
                 sticky: true,
-
                 autohide: false,
-
                 enableProgressBar: false,
-
                 height: 75,
-
                 widgets:
-
                         {
-
                             left: {
-
                                 'timelabelWidget': 'fr.ina.amalia.player.plugins.controlBar.widgets.TimeLabel',
-
                                 'playWidget': 'fr.ina.amalia.player.plugins.controlBar.widgets.PlayButton',
-
                                 'pauseWidget': 'fr.ina.amalia.player.plugins.controlBar.widgets.PauseButton'
-
                             },
-
                             mid: {
-
                                 'JogShuttle': 'fr.ina.amalia.player.plugins.controlBar.widgets.JogShuttleButton'
-
                             },
-
                             right: {
-
                                 'volume': 'fr.ina.amalia.player.plugins.controlBar.widgets.ChannelVolumeControlBar',
-
                                 'full': 'fr.ina.amalia.player.plugins.controlBar.widgets.FullscreenButton'
-
                             },
-
                             settings: {
-
                                 timelabelWidget: {
-
                                     timeFormat: 's',
-
                                     framerate: 20
-
                                 },
-
                                 sample: {
-
                                     style: 'fa fa-eye fa-2x',
-
                                     callback: 'myCallback'
-
                                 },
-
                                 secNext: {
-
                                     style: 'ajs-icon ajs-icon-control-forward',
-
                                     callback: 'myCallbackControl',
-
                                     action: 'next'
-
                                 },
-
                                 volume: {
-
                                     channelMerger: false
-
                                 }
-
                             }
-
                         }
-
             }
 
-
-
 });
-
                 </pre>
                     </div>
                 </div>
@@ -413,36 +369,21 @@ $("#container").mediaPlayer({
                 <div>
                     <h4 class="scroll-to" href="#documentation">Documentation</h4>
                     <ul class="nav nav-pills nav-stacked">
-                        <li><a class="scroll-to" href="index.html#quick-start">Quick start</a>
-                        </li>
-                        <li><a href="guide-setup.html">Building the source code</a>
-                        </li>
-                        <li><a href="guide-global-architecture.html">Global architecture / Metadata</a>
-                        </li>
-                        <li><a href="guide-player-options.html">Player options</a>
-                        </li>
-                        <li><a href="guide-player-control-bar-options.html">Control bar options</a>
-                        </li>
-                        <li><a href="guide-plugins-options.html">Plugins and data</a>
-                        </li>
-                        <li><a href="guide-plugin-timeline-options.html">Timeline plugin</a>
-                        </li>
-                        <li><a href="guide-plugin-caption-options.html">Caption plugin</a>
-                        </li>
-                        <li><a href="guide-plugin-text-sync-options.html">Text synchronization plugin</a>
-                        </li>
-                        <li><a href="guide-plugin-overlay-options.html">Overlay plugin</a>
-                        </li>
-                        <li><a href="guide-plugin-editor-options.html">Editor plugin</a>
-                        </li>
-                        <li><a href="guide-metadata-java-library.html">Metadata Java library</a>
-                        </li>
-                        <li><a href="guide-player-api.html">JavaScript API</a>
-                        </li>
-                        <li><a href="guide-player-yt.html">YouTube Video Embed</a>
-                        </li>
-                        <li><a href="release-notes.html">Release notes</a>
-                        </li>
+                        <li><a class="scroll-to" href="index.html#quick-start">Quick start</a></li>
+                        <li><a href="guide-setup.html">Building the source code</a></li>
+                        <li><a href="guide-global-architecture.html">Global architecture / Metadata</a></li>
+                        <li><a href="guide-player-options.html">Player options</a></li>
+                        <li><a href="guide-player-control-bar-options.html">Control bar options</a></li>
+                        <li><a href="guide-plugins-options.html">Plugins and data</a></li>
+                        <li><a href="guide-plugin-timeline-options.html">Timeline plugin</a></li>
+                        <li><a href="guide-plugin-caption-options.html">Caption plugin</a></li>
+                        <li><a href="guide-plugin-text-sync-options.html">Text synchronization plugin</a></li>
+                        <li><a href="guide-plugin-overlay-options.html">Overlay plugin</a></li>
+                        <li><a href="guide-plugin-editor-options.html">Editor plugin</a></li>
+                        <li><a href="guide-metadata-libraries.html">Metadata libraries (Java / PHP)</a></li>
+                        <li><a href="guide-player-api.html">JavaScript API</a></li>
+                        <li><a href="guide-player-yt.html">YouTube Video Embed</a></li>
+                        <li><a href="release-notes.html">Release notes</a></li>
                     </ul>
                 </div>
 
@@ -456,10 +397,10 @@ $("#container").mediaPlayer({
         <div class="container">
             <div class="row" style="vertical-align: middle">
 
-                <div class="col-md-6">Last updated : 2016-06-20</div>
+                <div class="col-md-6">Last updated : 2023-06-29</div>
                 <div class="col-md-6 text-right">
-                    <a href="http://www.institut-national-audiovisuel.fr/en/home">
-                        <img class="logo-ina" src="img/logo_ina.jpg" style=" margin-right:10px; width: 32x; height: 32px" />Institut National de l'Audiovisuel - INA</a>©2016
+                    <a href="http://www.institut-national-audiovisuel.fr/en/home"><img class="logo-ina" src="img/logo_ina.jpg" style=" margin-right:10px; width: 32x; height: 32px" />
+                        Institut National de l'Audiovisuel - INA</a> ©2023
                 </div>
 
             </div>
@@ -468,11 +409,11 @@ $("#container").mediaPlayer({
 
     <script type="text/javascript">
         $(function() {
-            $('.latestversion-filename').html('amalia.js-1.3.2');
-            $('.latestversion').html('Last stable version - v1.3.2');
-            $('.download-link-alone').attr('href', 'download/1.3.2/amalia.js-1.3.2.zip');
-            $('.download-link-full').attr('href', 'download/1.3.2/amalia.js-full-1.3.2.zip');
-            $('.download-link-source').attr('href', 'https://github.com/ina-foss/amalia.js/releases/tag/1.3.2');
+            $('.latestversion-filename').html('amalia.js-1.3.3');
+            $('.latestversion').html('Last stable version - v1.3.3');
+            $('.download-link-alone').attr('href', 'download/1.3.3/amalia.js-1.3.3.zip');
+            $('.download-link-full').attr('href', 'download/1.3.3/amalia.js-full-1.3.3.zip');
+            $('.download-link-source').attr('href', 'https://github.com/ina-foss/amalia.js/releases/tag/1.3.3');
         });
     </script>
 

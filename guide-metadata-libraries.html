@@ -70,55 +70,48 @@
         <div class="row row-centered">
             <div class="col-md-8">
 
-                <div class="doc-build">
-                    <h3 class="title">Building the source code</h3>
-                    <p>
-                        If you want to build the amalia.js library yourself, you will need a fully functionnal <a href="https://www.npmjs.com/">npm</a> / <a href="http://bower.io/">bower</a>/ <a href="http://gruntjs.com/">grunt</a> environment.
-                        If you want to use the trunk directly instead of stable releases, you also need to have <a href="https://git-scm.com/">git</a> installed.
-                        For Ubuntu, you can install everything quite easily :
+                <div class="doc-model-java" id="doc-model-java">
+                    <h3 class="title">Metadata Java library</h3>
+                    In order to generate the Json metadata blocks, we also provide a Java library called <a href="https://github.com/ina-foss/amalia-model">amalia-model</a>.
+                    Some examples are already available, you will find them in the <a href="https://github.com/ina-foss/amalia-model/tree/master/src/test/java/fr/ina/research/amalia/model"><code>test</code></a>
+                    directory.
+                    This library is also <a href="http://search.maven.org/#browse|-378018234">published on Maven central</a>.
+                    The last stable release is <a href="http://search.maven.org/#artifactdetails|fr.ina.research|amalia-model|0.2.6|jar">0.2.6</a>.
+                    Snapshots are also available on <a href="https://oss.sonatype.org/content/repositories/snapshots/fr/ina/research/amalia-model/">Sonatype
+                        repository</a>.
+                    You can use it easily in your own application by adding a dependency
                     <pre class="smallpre">
-sudo apt-get install git
-sudo apt-get install npm
-sudo ln -s /usr/bin/nodejs /usr/bin/node
-sudo npm install -g bower
-sudo npm install -g grunt-cli    	</pre>
-                    If you are behind a proxy, don't forget to configure correctly these tools :
-                    <pre class="smallpre">
-git config --global http.proxy http://proxy.mycompany.fr
-git config --global https.proxy http://proxy.mycompany.fr
-npm config set proxy http://proxy.mycompany.fr
-npm config set https-proxy http://proxy.mycompany.fr
-
-# Create or edit ~/.bowerrc with the following lines
-{
-  "proxy":"http://proxy.mycompany.fr",
-  "https-proxy":"http://proxy.mycompany.fr"
-}    	</pre>
-                    You are now ready to compile amalia.js. First get the source code
-                    <pre class="smallpre">
-git clone https://github.com/ina-foss/amalia.js.git amalia.js</pre>
-                    Then compile
-                    <pre class="smallpre">
-cd amalia.js
-bower install
-npm install
-grunt</pre>
-                    We use PhantomJS to run some unit tests. Unfortunately, this tool has a dependency on FontConfig that is
-                    hidden.
-                    If you have an error while building amalia.js regarding this library, simply install it
-                    <pre class="smallpre">
-sudo apt-get install fontconfig</pre>
-                    Make sure your build directory is available trough a web server. As an example, if you have Apache installed
-                    under Ubuntu
-                    <pre class="smallpre">
-sudo ln -s ~/amalia.js /var/www/html/amalia.js</pre>
-                    You can now acces the sample applications with your freshly build amalia.js at
-                    <pre class="smallpre">
-http://localhost/amalia.js/samples/</pre>
-                    </p>
-
+&lt;dependency&gt;
+    &lt;groupId&gt;fr.ina.research&lt;/groupId&gt;
+    &lt;artifactId&gt;amalia-model&lt;/artifactId&gt;
+    &lt;version&gt;0.2.6&lt;/version&gt;
+&lt;/dependency&gt;
+</pre>
+                    Some tools are also available in a separate project <a href="https://github.com/ina-foss/amalia-tools">amalia-tools</a>. These are mainly small applications to generate json metadata for specific applications.
                 </div>
 
+                <div class="doc-model-php" id="doc-model-php">
+                    <h3 class="title">Metadata PHP library</h3>
+                    In PHP we also provide a library called <a href="https://github.com/ina-foss/amalia-php">amalia-php</a>.
+                    Some examples are already available, you will find them in the <a href="https://github.com/ina-foss/amalia-php/blob/master/tests/"><code>test</code></a>
+                    directory.
+                    This library is also <a href="https://packagist.org/packages/ina/amalia-model">published with composer</a>.
+                    The last stable release is <a href="https://github.com/ina-foss/amalia-php/releases/tag/0.1.0">0.1.0</a>.
+                    There is one recommended way to install amalia-model via Composer:
+                    <pre class="smallpre">
+"require": {
+      ..
+      "goetas/xsd2php":"^2.0",
+      "jms/serializer": "serializer-master-dev as 1.0",
+      "ina/amalia-model":"0.1.0",
+      ..
+  },
+  "repositories": [{
+      "type": "vcs",
+      "url": "https://github.com/goetas/serializer.git"
+  }],
+</pre>
+                </div>
                 <!-- /build -->
             </div>
             <div class="col-md-4">

@@ -1,1 +1,8 @@
-/.project
+.project
+.idea
+bower_components
+build-doc
+build
+node_modules
+npm-debug.log
+package-lock.json
